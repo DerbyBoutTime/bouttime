@@ -40,10 +40,7 @@ gem 'elasticsearch-rails'
 # gem 'bcrypt', '~> 3.1.7'
 
 # Use unicorn as the app server
-# gem 'unicorn'
-
-# Use thin as the app server
-gem 'thin'
+gem 'unicorn'
 
 # Use Capistrano for deployment
 gem 'capistrano', group: :development
