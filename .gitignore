@@ -14,3 +14,11 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+# Packer
+ec2_amazon-ebs.pem
+
+# Puppet
+.librarian
+.tmp
+puppet/modules

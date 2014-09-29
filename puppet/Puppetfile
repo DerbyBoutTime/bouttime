@@ -1,0 +1,9 @@
+forge "https://forgeapi.puppetlabs.com"
+
+mod 'puppetlabs/firewall'
+mod 'puppetlabs/postgresql'
+mod 'elasticsearch/elasticsearch'
+mod 'jdowning/rbenv'
+mod 'puppetlabs/git'
+mod 'puppetlabs/java'
+mod 'jfryman/nginx'
