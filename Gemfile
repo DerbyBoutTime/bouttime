@@ -1,10 +1,12 @@
 source 'https://rubygems.org'
+ruby "2.1.3"
 
-
+# Use Resque for background jobs
+gem "resque", :require => "resque/server"
+# Use Resque for scheduled jobs
+gem 'resque-scheduler'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '4.1.6'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+gem 'rails', '4.1.5'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
@@ -15,7 +17,8 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer',  platforms: :ruby
-
+# Use airbrake to report errors
+gem 'airbrake'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
@@ -24,45 +27,60 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',          group: :doc
-
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
-
-# Use slim templates
-gem 'slim'
-gem 'slim-rails'
-
-# Use elasticsearch index
-gem 'elasticsearch-model'
-gem 'elasticsearch-rails'
-
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
-
+gem 'bcrypt', '~> 3.1.7'
 # Use unicorn as the app server
 gem 'unicorn'
+# Use Foreman to manager server starts/stop/restart
+gem 'foreman'
+# Make our logs prettier
+gem 'colorize'
+gem "lograge"
+gem "scrolls"
 
-# Use Capistrano for deployment
-gem 'capistrano', group: :development
-gem 'capistrano-rails', group: :development
-gem 'capistrano-rbenv', group: :development
-
-# Provision environments with puppet
-gem 'puppet', group: :development
-gem 'librarian-puppet', group: :development
-
-# Debug with pry
-gem 'pry', group: [:development, :test]
-gem 'pry-rails', group: [:development, :test]
-
-# Specs
-group :development, :test do
-  gem 'rspec'
-  gem 'rspec-rails'
-  gem 'factory_girl_rails'
-  gem 'shoulda'
+group :development do
+  # Use Capistrano for deployment
+  gem 'capistrano'
+  gem 'capistrano-rails' #Still rails yo
+  # Use Capistrano RBenv to manage the server ruby environment
+  gem 'capistrano-rbenv'
+  # Annotate your models and tests
+  gem 'annotate'
+  # Use Puppet for server configuration
+  gem 'puppet'
+  # Use Puppet Librian to manage puppet modules
+  gem 'librarian-puppet'
+  # Console debugging of errors in development
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request' # rails panel for chrome
+  # Disappear all of the assets pipeline logging for dev
+  gem 'quiet_assets'
 end
 
-# Use debugger
-# gem 'debugger', group: [:development, :test]
+group :development, :test do
+  # Use factory girl for fixtures
+  gem "factory_girl_rails", "~> 4.0"
+  # Used to ensure a clean state for testing
+  gem 'database_cleaner', '~> 1.3.0'
+  # Use rspec for testing
+  gem 'rspec-rails', '~> 3.0.0'
+  # Pry is better than normal debugging
+  gem 'pry-rails'
+  # Pry as a debugger
+  gem 'pry-byebug'
+  # adds ap command, handy for inspecting objects in test and console
+  gem 'awesome_print'
+  # Levenstein distance for incorrect method calls
+  gem 'did_you_mean'
+end
 
+group :test do
+  # Record and replay for API Tests
+  # gem 'webmock'
+  # gem 'vcr'
+  gem 'rake'
+  gem 'minitest'
+end
