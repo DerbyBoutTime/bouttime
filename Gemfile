@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.1.3"
+ruby "2.1.4"
 
 # Use Resque for background jobs
 gem "resque", :require => "resque/server"
