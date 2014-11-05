@@ -39,6 +39,10 @@ gem 'foreman'
 gem 'colorize'
 gem "lograge"
 gem "scrolls"
+gem "slim-rails"
+gem "bootstrap-sass", "~> 3.3.0"
+gem "autoprefixer-rails"
+
 
 group :development do
   # Use Capistrano for deployment
