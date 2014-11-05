@@ -1,0 +1,11 @@
+app:
+  build: .
+  links:
+    - db
+  environment:
+    PGHOST: db
+    PGUSER: postgres
+db:
+  image: postgres:9.4
+  ports:
+    - "5432"
