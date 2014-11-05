@@ -5,8 +5,7 @@ echo '--- bundling'
 bundle
 
 echo '--- preparing database'
-./bin/rake db:create
-./bin/rake db:schema:load
+./bin/rake db:create db:schema:load RAILS_ENV=test
 
 echo '--- running tests'
 ./bin/rake test
