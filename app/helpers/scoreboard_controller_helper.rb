@@ -1,0 +1,2 @@
+module ScoreboardControllerHelper
+end
