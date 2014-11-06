@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.1.3"
+ruby "2.1.4"
 
 # Use Resque for background jobs
 gem "resque", :require => "resque/server"
@@ -65,12 +65,6 @@ group :development do
 end
 
 group :development, :test do
-  # Use factory girl for fixtures
-  gem "factory_girl_rails", "~> 4.0"
-  # Used to ensure a clean state for testing
-  gem 'database_cleaner', '~> 1.3.0'
-  # Use rspec for testing
-  gem 'rspec-rails', '~> 3.0.0'
   # Pry is better than normal debugging
   gem 'pry-rails'
   # Pry as a debugger
@@ -86,5 +80,5 @@ group :test do
   # gem 'webmock'
   # gem 'vcr'
   gem 'rake'
-  gem 'minitest'
+  gem "minitest-rails"
 end
