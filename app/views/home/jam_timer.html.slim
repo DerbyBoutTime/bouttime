@@ -1,12 +1,11 @@
 #game-clock.row.text-center
-  #timeout-indicator.col-md-2.col-xs-2
+  #timeout-bars.away.col-md-2.col-xs-2
     | score away
-    .list-group
-      p.list-group-item.disabled
-        | 0
-      p.list-group-item.list-group-item-danger>
-      p.list-group-item.list-group-item-danger>
-      p.list-group-item.list-group-item-danger>
+    #bar.disabled
+      | 0
+    #bar
+    #bar
+    #bar
 
   #clocks.col-md-8.col-xs-8
     .row
@@ -22,14 +21,13 @@
           .panel-body
             h4 2:00
 
-  #timeout-indicator.col-md-2.col-xs-2
+  #timeout-bars.home.col-md-2.col-xs-2
     | score home
-    .list-group
-      p.list-group-item.disabled
-        | 0
-      p.list-group-item.list-group-item-info>
-      p.list-group-item.list-group-item-info>
-      p.list-group-item.list-group-item-info>
+    #bar
+      | 0
+    #bar
+    #bar
+    #bar
 
 #status-display.text-center.row
   .col-md-4.col-xs-4
