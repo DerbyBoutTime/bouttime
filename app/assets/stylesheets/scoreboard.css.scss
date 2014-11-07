@@ -1,0 +1,192 @@
+// Place all the styles related to the ScoreboardController controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.team-logo {
+  height: 200px;
+  margin: 25px 50px;
+}
+
+.team-color-bar {
+  height: 18px;
+  background-color: $inactive;
+  border-radius: 4px;
+}
+
+.team-name, .jammer {
+  font-size: 2em;
+  color: $near-black;
+  text-align: center;
+  margin-bottom: 0.125em;
+  margin-top: 0.125em;
+}
+
+.jammer {
+  @include clearfix;
+  .name {
+    float: left !important;
+  }
+  .lead-status {
+    font-size: 1.5em;
+  }
+}
+
+#home-team-jammer {
+  .lead-status {
+    color: $home-team;
+    float: right !important;
+  }
+  .name {
+    float: left !important;
+  }
+}
+#away-team-jammer {
+  .lead-status {
+    color: $away-team;
+    float: left !important;
+  }
+  .name {
+    float: right !important;
+  }
+}
+
+.score {
+  font-size: 12em;
+  color: $near-black;
+  text-align: center;
+  font-weight: bold;
+  line-height: 1.25;
+}
+
+#jam-points {
+  margin-top: 2.5em;
+}
+
+.timeout-bar {
+  width: 80px;
+  height: 20px;
+  display: inline-block;
+  border-radius: 4px;
+  .inactive {
+    background: $inactive;
+  }
+}
+
+.official-review-bar{
+  border-radius: 20px;
+  width: 40px;
+  height: 20px;
+  margin: 0px 0.125em;
+  display: inline-block;
+}
+
+#home-team-timeouts .timeout-bar.active, #home-team-timeouts .official-review-bar {
+  background-color: $home-team;
+}
+#home-team-timeouts {
+  @include clearfix;
+}
+
+#home-team-timeouts .timeout-bar {
+  float: left !important;
+  margin-right: 10px;
+}
+#home-team-timeouts .official-review-bar {
+  float: right !important;
+}
+#away-team-timeouts .timeout-bar {
+  float: right !important;
+  margin-left: 10px;
+}
+#away-team-timeouts .official-review-bar {
+  float: left !important;
+}
+
+#away-team-timeouts .timeout-bar.active, #away-team-timeouts .official-review-bar {
+  background-color: $away-team;
+}
+
+#home-team-color-bar {
+  background-color: $home-team;
+}
+#away-team-color-bar {
+  background-color: $away-team;
+}
+
+#clocks, #jam-points, #period-number, #jam-number {
+  text-align: center;
+}
+
+#clocks {
+  border-radius: 0px 0px 20px 20px;
+  border: 2px solid $muted-gray;
+  border-top: none;
+  padding: 0px 20px;
+}
+
+.scoreboard-label{
+  text-transform: uppercase;
+}
+
+.jam-points {
+  height: 90px;
+  width: 90px;
+  background-color: $inactive;
+  color: $white;
+  text-align: center;
+  font-size: 2em;
+  padding-top: 1em;
+}
+
+#home-team-jam-points {
+  background-color: $home-team;
+}
+
+#away-team-jam-points {
+  background-color: $away-team;
+}
+
+#period-number, #jam-number {
+  font-size: 3em;
+  font-weight: bold;
+}
+
+#period-jam-wrapper {
+  margin: 0px 20px;
+  border-bottom: 2px solid $muted-gray;
+  @include clearfix;
+}
+
+#jam-number-wrapper, #period-number-wrapper {
+  @include make-md-column(6);
+}
+
+#period-number-wrapper{
+  border-right: 2px solid $muted-gray;
+}
+
+
+#period-clock {
+  font-weight: lighter;
+  border-bottom: 2px solid $muted-gray;
+  font-size: 6em;
+  line-height: 1;
+  padding: 0.25em 0;
+}
+
+#jam-clock {
+  font-weight: bolder;
+  color: $near-black;
+  font-size: 9em;
+  line-height: 0.8;
+  margin-bottom: 0.25em;
+}
+
+#score-board-alerts {
+  @include clearfix;
+  .alert-left {
+    float: left !important;
+  }
+  .alert-right {
+    float: right !important;
+  }
+}
