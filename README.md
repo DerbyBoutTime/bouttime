@@ -1,20 +1,18 @@
-bouttime
-===
+## bouttime
 
-'Bout time we got this game started.
+> 'Bout time we got this game started.
 
-Ruby version
----
-2.1.3
+### Dependencies
 
-System dependencies
---
-postgresql 9.3.5
-elasticsearch 1.3.3
+* postgresql ~> 9.3
+* ruby = 2.1.4
 
-Deployment
-===
-Dependencies
----
-- packer 0.7.1
+### Setup
 
+```bash
+bundle install
+```
+
+### Deployment
+
+* packer ~> 0.7
