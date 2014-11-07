@@ -1,4 +1,4 @@
-FROM ubuntu:14.10
+FROM wiserstudios/ruby:2.1.4
 
 RUN apt-get update && apt-get install -y \
   build-essential \
