@@ -1,10 +1,6 @@
 source 'https://rubygems.org'
 ruby "2.1.4"
 
-# Use Resque for background jobs
-gem "resque", :require => "resque/server"
-# Use Resque for scheduled jobs
-gem 'resque-scheduler'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.5'
 # Use postgresql as the database for Active Record
@@ -42,7 +38,6 @@ gem "scrolls"
 gem "slim-rails"
 gem "bootstrap-sass", "~> 3.3.0"
 gem "autoprefixer-rails"
-
 
 group :development do
   # Use Capistrano for deployment
