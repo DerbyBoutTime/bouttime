@@ -76,24 +76,17 @@ GEM
     coffee-script-source (1.8.0)
     colorize (0.7.3)
     columnize (0.8.9)
-    database_cleaner (1.3.0)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
     did_you_mean (0.8.0)
       interception
-    diff-lcs (1.2.5)
     dotenv (0.11.1)
       dotenv-deployment (~> 0.0.2)
     dotenv-deployment (0.0.2)
     erubis (2.7.0)
     execjs (2.2.2)
-    facter (2.2.0)
+    facter (2.3.0)
       CFPropertyList (~> 2.2.6)
-    factory_girl (4.5.0)
-      activesupport (>= 3.0.0)
-    factory_girl_rails (4.5.0)
-      factory_girl (~> 4.5.0)
-      railties (>= 3.0.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     foreman (0.75.0)
@@ -141,6 +134,9 @@ GEM
     method_source (0.8.2)
     mime-types (1.25.1)
     minitest (5.4.2)
+    minitest-rails (2.1.1)
+      minitest (~> 5.4)
+      railties (~> 4.1)
     multi_json (1.10.1)
     multipart-post (2.0.0)
     net-scp (1.2.1)
@@ -157,7 +153,7 @@ GEM
       pry (~> 0.10)
     pry-rails (0.3.2)
       pry (>= 0.9.10)
-    puppet (3.7.2)
+    puppet (3.7.3)
       facter (> 1.6, < 3)
       hiera (~> 1.0)
       json_pure
@@ -166,7 +162,7 @@ GEM
     quiet_assets (1.0.3)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
-    rack-contrib (1.1.0)
+    rack-contrib (1.2.0)
       rack (>= 0.9.1)
     rack-test (0.6.2)
       rack (>= 1.0)
@@ -190,28 +186,12 @@ GEM
     rdoc (4.1.2)
       json (~> 1.4)
     ref (1.0.5)
-    rspec-core (3.0.4)
-      rspec-support (~> 3.0.0)
-    rspec-expectations (3.0.4)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.0.0)
-    rspec-mocks (3.0.4)
-      rspec-support (~> 3.0.0)
-    rspec-rails (3.0.2)
-      actionpack (>= 3.0)
-      activesupport (>= 3.0)
-      railties (>= 3.0)
-      rspec-core (~> 3.0.0)
-      rspec-expectations (~> 3.0.0)
-      rspec-mocks (~> 3.0.0)
-      rspec-support (~> 3.0.0)
-    rspec-support (3.0.4)
     rsync (1.0.9)
     sass (3.2.19)
-    sass-rails (4.0.3)
+    sass-rails (4.0.4)
       railties (>= 4.0.0, < 5.0)
-      sass (~> 3.2.0)
-      sprockets (~> 2.8, <= 2.11.0)
+      sass (~> 3.2.2)
+      sprockets (~> 2.8, < 2.12)
       sprockets-rails (~> 2.0)
     scrolls (0.3.8)
     sdoc (0.4.1)
@@ -227,7 +207,7 @@ GEM
       slim (~> 2.0)
     slop (3.6.0)
     spring (1.1.3)
-    sprockets (2.11.0)
+    sprockets (2.11.3)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -279,16 +259,14 @@ DEPENDENCIES
   capistrano-rbenv
   coffee-rails (~> 4.0.0)
   colorize
-  database_cleaner (~> 1.3.0)
   did_you_mean
-  factory_girl_rails (~> 4.0)
   foreman
   jbuilder (~> 2.0)
   jquery-rails
   librarian-puppet
   lograge
   meta_request
-  minitest
+  minitest-rails
   pg
   pry-byebug
   pry-rails
@@ -296,7 +274,6 @@ DEPENDENCIES
   quiet_assets
   rails (= 4.1.5)
   rake
-  rspec-rails (~> 3.0.0)
   sass-rails (~> 4.0.3)
   scrolls
   sdoc (~> 0.4.0)
