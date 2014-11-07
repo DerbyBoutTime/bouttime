@@ -13,7 +13,7 @@ $home-team: $blue;
 $away-team: $red;
 
 #timeout-bars {
-  #bar{
+  .bar{
     height: 30px;
     min-width: 16px;
     border: 0.8px solid $gray;
@@ -21,22 +21,22 @@ $away-team: $red;
     border-radius: 2px;
   }
   :first-child {
-    border-radius: 6px!important;
+    border-radius: 6px;
     font-weight: bold;
-    height: 19px!important;
+    height: 19px;
   }
 
 }
 
 .away {
-  #bar {
+  .bar {
     color: $white;
     background-color: $away-team;
   }
 }
 
 .home {
-  #bar {
+  .bar {
     color: $white;
     background-color: $home-team;
   }
