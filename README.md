@@ -7,6 +7,12 @@
 * postgresql ~> 9.3
 * ruby = 2.1.4
 
+#### homebrew
+
+```bash
+./bin/homebrew.sh
+```
+
 ### Setup
 
 ```bash
