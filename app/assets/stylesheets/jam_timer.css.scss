@@ -16,7 +16,7 @@ $away-team: $blue;
 
 .margin-top-05 { margin-top: 0.5em; }
 
-#timeout-bars {
+.timeout-bars {
   .bar{
     height: 30px;
     min-width: 16px;
@@ -33,14 +33,14 @@ $away-team: $blue;
 }
 
 .away {
-  .bar {
+  .bar, .btn {
     color: $white;
     background-color: $away-team;
   }
 }
 
 .home {
-  .bar {
+  .bar, .btn {
     color: $white;
     background-color: $home-team;
   }
