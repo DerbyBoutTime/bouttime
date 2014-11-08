@@ -10,12 +10,17 @@
   #clocks.col-md-8.col-xs-8
     .row
       .col-md-12.col-xs-12
-        strong Game Clock
+        strong
+          span.pull-left Period 1
+          span.pull-right Jam 1
+      .col-md-12.col-xs-12
         .game-clock 30:00
-    .row
       .col-md-12.col-xs-12
         strong Jam Clock
-        .jam-clock 2:00
+        .jam-clock
+          | 2:00
+          span.seconds
+            | :00
 
   #timeout-bars.home.col-md-2.col-xs-2
     | HOME
@@ -31,18 +36,18 @@
       .col-md-12.col-xs-12
         button.btn-danger.btn.btn-block TIMEOUT
     .row
-      .col-md-12.col-xs-12
+      .col-md-12.col-xs-12.margin-top-05
         button.btn-danger.btn.btn-block OFF. REVIEW
 
   .col-md-4.col-xs-4
-    .well
-      | official timeout
+    .official-timeout
+      | OFFICIAL TIMEOUT
   .col-md-4.col-xs-4
     .row
       .col-md-12.col-xs-12
         button.btn-primary.btn.btn-block TIMEOUT
     .row
-      .col-md-12.col-xs-12
+      .col-md-12.col-xs-12.margin-top-05
         button.btn-primary.btn.btn-block OFF. REVIEW
 
 #clock-controls.row
@@ -54,6 +59,6 @@
       | UNDO
 
 #jam-clock-controls.row
-  .col-md-12.col-xs-12
-    button.btn.btn-primary.btn-lg.btn-block
+  .col-md-12.col-xs-12.margin-top-05
+    button.btn-start-jam
       | START JAM

@@ -1,3 +1,5 @@
+@import "bootstrap";
+
 //Color names
 $near-black: rgb(48,58,70);
 $white: rgb(255,255,255);
@@ -9,8 +11,10 @@ $red: rgb(245,0,49);
 
 //Purpose names
 $inactive: $gray;
-$home-team: $blue;
-$away-team: $red;
+$home-team: $red;
+$away-team: $blue;
+
+.margin-top-05 { margin-top: 0.5em; }
 
 #timeout-bars {
   .bar{
@@ -40,4 +44,41 @@ $away-team: $red;
     color: $white;
     background-color: $home-team;
   }
+}
+
+.clock {
+  @extend .well-sm;
+  @extend .well;
+  font-size: 3em;
+  padding: 3px;
+  span.seconds{
+    font-size: 0.8em;
+  }
+}
+.game-clock {
+  @extend .clock;
+  background-color: $white;
+}
+
+.jam-clock {
+  @extend .clock;
+  border: none;
+  font-weight: bold;
+}
+
+.official-timeout {
+  @extend .well;
+  border: none;
+  padding: 15px;
+}
+
+.btn-start-jam {
+  background-color: $gray;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 2px;
+  @extend .btn;
+  @extend .btn-lg;
+  @extend .btn-block;
+  font-weight: bold;
 }
