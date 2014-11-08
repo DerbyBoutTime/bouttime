@@ -1,62 +1,63 @@
-.row
-  .col-md-4#home-team
-    #home-team-logo.team-logo=hold_it 260, 200
-    #home-team-name.team-name=@home_team_name
-    #home-team-color-bar.team-color-bar
-    #home-team-score.score=@home_team_points
-    #home-team-jammer.jammer
-      .lead-status
-        span.glyphicon.glyphicon-star
-      .name=@home_team_jammer
-    #home-team-timeouts.timeouts
-      .timeout-bar.active
-      .timeout-bar.active
-      .timeout-bar.active
-      .official-review-bar.active
-  .col-md-4
-    #clocks
-      .row
-        #period-jam-wrapper
-          #period-number-wrapper
-            h3.scoreboard-label Period
-            #period-number 1
-          #jam-number-wrapper
-            h3.scoreboard-label Jam
-            #jam-number 1
-      .row
-        .col-md-12
-          /h3.scoreboard-label Period Clock
-          #period-clock="30:00"
-      .row
-        .col-md-12
-          h3.scoreboard-label Jam Clock
-          #jam-clock="2:00"
-    #jam-points
-      .row
-        .col-md-12
-          h3.scoreboard-label Jam Points
-        .col-md-6
-          .clearfix
-            #home-team-jam-points.jam-points.pull-right 0
-        .col-md-6
-          .clearfix
-            #away-team-jam-points.jam-points.pull-left 0
-      #away-team-jam-points
-  .col-md-4#away-team
-      #away-team-logo.team-logo=hold_it 260, 200
-      #away-team-name.team-name=@away_team_name
-      #away-team-color-bar.team-color-bar
-      #away-team-score.score=@away_team_points
-      #away-team-jammer.jammer
-        .lead-status.lead-jammer
+#scoreboard
+  .row
+    .col-md-4#home-team
+      #home-team-logo.team-logo=hold_it 260, 200
+      #home-team-name.team-name=@home_team_name
+      #home-team-color-bar.team-color-bar
+      #home-team-score.score=@home_team_points
+      #home-team-jammer.jammer
+        .lead-status
           span.glyphicon.glyphicon-star
-        .name=@away_team_jammer
-      #away-team-timeouts.timeouts
+        .name=@home_team_jammer
+      #home-team-timeouts.timeouts
+        .timeout-bar.active
+        .timeout-bar.active
+        .timeout-bar.active
         .official-review-bar.active
-        .timeout-bar.active
-        .timeout-bar.active
-        .timeout-bar.active
-#score-board-alerts
-  div.alert-left
-  div.alert-right
-  div.alert
+    .col-md-4
+      #clocks
+        .row
+          #period-jam-wrapper
+            #period-number-wrapper
+              h3.scoreboard-label Period
+              #period-number 1
+            #jam-number-wrapper
+              h3.scoreboard-label Jam
+              #jam-number 1
+        .row
+          .col-md-12
+            /h3.scoreboard-label Period Clock
+            #period-clock="30:00"
+        .row
+          .col-md-12
+            h3#jam-clock-label.scoreboard-label Jam Clock
+            #jam-clock="2:00"
+      #jam-points
+        .row
+          .col-md-12
+            h3.scoreboard-label Jam Points
+          .col-md-6
+            .clearfix
+              #home-team-jam-points.jam-points.pull-right 0
+          .col-md-6
+            .clearfix
+              #away-team-jam-points.jam-points.pull-left 0
+        #away-team-jam-points
+    .col-md-4#away-team
+        #away-team-logo.team-logo=hold_it 260, 200
+        #away-team-name.team-name=@away_team_name
+        #away-team-color-bar.team-color-bar
+        #away-team-score.score=@away_team_points
+        #away-team-jammer.jammer
+          .lead-status.lead-jammer
+            span.glyphicon.glyphicon-star
+          .name=@away_team_jammer
+        #away-team-timeouts.timeouts
+          .official-review-bar.active
+          .timeout-bar.active
+          .timeout-bar.active
+          .timeout-bar.active
+  .row#score-board-alerts
+    div.alert-left
+    div.alert-right
+    div.alert
