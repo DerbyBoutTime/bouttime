@@ -1,192 +1,342 @@
 // Place all the styles related to the ScoreboardController controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-.team-logo {
-  height: 200px;
-  margin: 25px 50px;
-}
-
-.team-color-bar {
-  height: 18px;
-  background-color: $inactive;
-  border-radius: 4px;
-}
-
-.team-name, .jammer {
-  font-size: 2em;
-  color: $near-black;
-  text-align: center;
-  margin-bottom: 0.125em;
-  margin-top: 0.125em;
-}
-
-.jammer {
-  @include clearfix;
-  .name {
-    float: left !important;
-  }
-  .lead-status {
-    font-size: 1.5em;
-  }
-}
-
-#home-team-jammer {
-  .lead-status {
-    color: $home-team;
-    float: right !important;
-  }
-  .name {
-    float: left !important;
-  }
-}
-#away-team-jammer {
-  .lead-status {
-    color: $away-team;
-    float: left !important;
-  }
-  .name {
-    float: right !important;
-  }
-}
-
-.score {
-  font-size: 12em;
-  color: $near-black;
-  text-align: center;
-  font-weight: bold;
-  line-height: 1.25;
-}
-
-#jam-points {
-  margin-top: 2.5em;
-}
-
-.timeout-bar {
-  width: 80px;
-  height: 20px;
-  display: inline-block;
-  border-radius: 4px;
-  .inactive {
-    background: $inactive;
-  }
-}
-
-.official-review-bar{
-  border-radius: 20px;
-  width: 40px;
-  height: 20px;
-  margin: 0px 0.125em;
-  display: inline-block;
-}
-
-#home-team-timeouts .timeout-bar.active, #home-team-timeouts .official-review-bar {
-  background-color: $home-team;
-}
-#home-team-timeouts {
-  @include clearfix;
-}
-
-#home-team-timeouts .timeout-bar {
-  float: left !important;
-  margin-right: 10px;
-}
-#home-team-timeouts .official-review-bar {
-  float: right !important;
-}
-#away-team-timeouts .timeout-bar {
-  float: right !important;
-  margin-left: 10px;
-}
-#away-team-timeouts .official-review-bar {
-  float: left !important;
-}
-
-#away-team-timeouts .timeout-bar.active, #away-team-timeouts .official-review-bar {
-  background-color: $away-team;
-}
-
-#home-team-color-bar {
-  background-color: $home-team;
-}
-#away-team-color-bar {
-  background-color: $away-team;
-}
-
-#clocks, #jam-points, #period-number, #jam-number {
-  text-align: center;
-}
-
-#clocks {
-  border-radius: 0px 0px 20px 20px;
-  border: 2px solid $muted-gray;
-  border-top: none;
-  padding: 0px 20px;
-}
-
-.scoreboard-label{
+@mixin scoreboard-label(){
   text-transform: uppercase;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  @media (min-width: $screen-sm-min){
+    font-size: 1.55em;
+  }
+  @media (min-width: $screen-md-min){
+    font-size: 1.9em;
+  }
+  @media (min-width: $screen-lg-min){
+    font-size: 2.5em;
+  }
 }
 
-.jam-points {
-  height: 90px;
-  width: 90px;
-  background-color: $inactive;
-  color: $white;
-  text-align: center;
-  font-size: 2em;
-  padding-top: 1em;
-}
+.scoreboard {
+  .scoreboard-label {
+    @include scoreboard-label;
+  }
+  .team, .clocks{
+    @include make-sm-column(4);
+  }
+  .clocks {
+    * {
+      text-align: center;
+    }
+    .clocks-border {
+      border-radius: 0px 0px 20px 20px;
+      border: 2px solid $muted-gray;
+      border-top: none;
+      padding: 0px 20px;
+      > div {
+        @include make-row;
+      }
+    }
+    .jam-points-wrapper {
+      @media (min-width: $screen-sm-min){
+        padding: 2em 1em 0 1em;
+      }
+      @media (min-width: $screen-md-min){
+        padding: 2em 1em 0 1em;
+      }
+      @media (min-width: $screen-lg-min){
+        padding: 2em 1em 0 1em;
+      }
+      @include make-row;
+      .points{
+        @include make-sm-column(6);
+        @media (min-width: $screen-sm-min){
+          font-size: 2em;
+          padding: 0.5em 0;
+        }
+        @media (min-width: $screen-md-min){
+          font-size: 4em;
 
-#home-team-jam-points {
-  background-color: $home-team;
-}
+        }
+        @media (min-width: $screen-lg-min){
+          font-size: 4em;
+          padding: 0.4em 0;
+        }
+        background-color: $inactive-color;
+        color: $near-black;
+        text-align: center;
+      }
+    }
 
-#away-team-jam-points {
-  background-color: $away-team;
-}
+    label {
+      @include scoreboard-label;
+    }
+    .period-jam-counts {
+      margin: 0px 20px;
+      border-bottom: 2px solid $muted-gray;
+      @include clearfix;
+      .jam, .period {
+        @include make-xs-column(6);
+      }
 
-#period-number, #jam-number {
-  font-size: 3em;
-  font-weight: bold;
-}
+      .period{
+        @media (min-width: $screen-sm-min) {
+          border-right: 2px solid $muted-gray;
+          border-bottom: none;
+        }
+      }
+    }
+    .period-clock .clock {
+      font-weight: lighter;
+      border-bottom: 2px solid $muted-gray;
+      @media (min-width: $screen-sm-min) {
+        font-size: 4.25em;
+      }
+      @media (min-width: $screen-md-min) {
+        font-size: 6em;
+      }
+      line-height: 1;
+      padding: 0.25em 0;
+    }
+    .jam-clock .clock {
+      font-weight: bolder;
+      color: $near-black;
+      @media (min-width: $screen-sm-min){
+        font-size: 5em;
+      }
+      @media (min-width: $screen-md-min){
+        font-size: 7em;
+      }
+      @media (min-width: $screen-lg-min){
+        font-size: 9em;
+      }
+      line-height: 0.8;
+      margin-bottom: 0.25em;
+    }
+  }
 
-#period-jam-wrapper {
-  margin: 0px 20px;
-  border-bottom: 2px solid $muted-gray;
-  @include clearfix;
-}
+  > section{
+    @include make-row;
+  }
 
-#jam-number-wrapper, #period-number-wrapper {
-  @include make-md-column(6);
-}
+  .logo {
+    @media (min-width: $screen-sm-min){
+      display: none;
+    }
+    @media (min-width: $screen-sm-min){
+      display: block;
+      height: 146px;
+    }
+    @media (min-width: $screen-md-min){
+      height: 195px;
+    }
+    @media (min-width: $screen-lg-min){
+      height: 240px;
+    }
+    img {
+      max-width: 100%;
+      max-height: 100%;
+    }
+  }
 
-#period-number-wrapper{
-  border-right: 2px solid $muted-gray;
-}
+  .color-bar {
+    height: 18px;
+    background-color: $inactive-color;
+    border-radius: 4px;
+  }
 
+  .jammer {
+      @media (min-width: $screen-sm-min){
+        font-size: 1.625em;
+      }
+      @media (min-width: $screen-md-min){
+        font-size: 2em;
+      }
+      color: $near-black;
+      text-align: center;
+      margin-bottom: 0.125em;
+      margin-top: 0.125em;
+    }
+  .name {
+    min-height: 2em;
+    @media (min-width: $screen-sm-min){
+      font-size: 1.625em;
+    }
+    @media (min-width: $screen-md-min){
+      font-size: 3em;
+    }
+    color: $near-black;
+    text-align: center;
+    margin-bottom: 0.125em;
+    margin-top: 0.125em;
+  }
 
-#period-clock {
-  font-weight: lighter;
-  border-bottom: 2px solid $muted-gray;
-  font-size: 6em;
-  line-height: 1;
-  padding: 0.25em 0;
-}
+  .jammer {
+    @include clearfix;
+    .name {
+      float: left !important;
+      @media (min-width: $screen-sm-min){
+        font-size: 0.80em;
+        margin-top: 0.25em;
+      }
+      @media (min-width: $screen-md-min){
+        margin-top: 0.5;
+      }
+      @media (min-width: $screen-lg-min){
+        font-size: 1em;
+      }
+    }
+    .lead-status {
+      @media (min-width: $screen-sm-min){font-size: 1.25em;}
+      @media (min-width: $screen-md-min){font-size: 1.5em;}
+    }
+  }
 
-#jam-clock {
-  font-weight: bolder;
-  color: $near-black;
-  font-size: 9em;
-  line-height: 0.8;
-  margin-bottom: 0.25em;
-}
+  #home-team-jammer {
+    .lead-status {
+      color: $home-team-bg-color;
+      float: right !important;
+    }
+    .name {
+      float: left !important;
+    }
+  }
+  #away-team-jammer {
+    .lead-status {
+      color: $away-team-bg-color;
+      float: left !important;
+    }
+    .name {
+      float: right !important;
+    }
+  }
 
-#score-board-alerts {
-  @include clearfix;
-  .alert-left {
+  .score {
+    @media (min-width: $screen-sm-min){
+      font-size: 9em;
+    }
+    @media (min-width: $screen-md-min){
+      font-size: 11em;
+    }
+    @media (min-width: $screen-lg-min){
+      font-size: 13em;
+    }
+    color: $near-black;
+    text-align: center;
+    font-weight: bold;
+    line-height: 1.25;
+  }
+
+  .timeout-bar {
+    @media (min-width: $screen-sm-min){
+      width: 50px
+    }
+    @media (min-width: $screen-md-min){
+      width: 65px;
+    }
+    @media (min-width: $screen-lg-min){
+      width: 90px;
+    }
+    height: 20px;
+    display: inline-block;
+    border-radius: 4px;
+    .inactive {
+      background: $inactive-color;
+    }
+  }
+
+  .official-review-bar{
+    border-radius: 20px;
+    @media (min-width: $screen-sm-min){
+      width: 25px
+    }
+    @media (min-width: $screen-md-min){
+      width: 40px;
+    }
+    @media (min-width: $screen-lg-min){
+      width: 45px
+    }
+    height: 20px;
+    margin: 0px 0.125em;
+    display: inline-block;
+  }
+
+  #home-team-timeouts .timeout-bar.active, #home-team-timeouts .official-review-bar {
+    background-color: $home-team-bg-color;
+  }
+  #home-team-timeouts {
+    @include clearfix;
+  }
+
+  #home-team-timeouts .timeout-bar {
+    float: left !important;
+    margin-right: 10px;
+  }
+  #home-team-timeouts .official-review-bar {
+    float: right !important;
+  }
+  #away-team-timeouts .timeout-bar {
+    float: right !important;
+    margin-left: 10px;
+  }
+  #away-team-timeouts .official-review-bar {
     float: left !important;
   }
-  .alert-right {
-    float: right !important;
+
+  #away-team-timeouts .timeout-bar.active, #away-team-timeouts .official-review-bar {
+    background-color: $away-team-bg-color;
+  }
+
+  #home-team-color-bar {
+    background-color: $home-team-bg-color;
+  }
+  #away-team-color-bar {
+    background-color: $away-team-bg-color;
+  }
+
+  #home-team-jam-points {
+    background-color: $home-team-bg-color;
+    color: $home-team-text-color;
+  }
+
+  #away-team-jam-points {
+    background-color: $away-team-bg-color;
+    color: $away-team-text-color;
+  }
+
+  #period-number, #jam-number {
+    margin-top: -10px;
+    @media (min-width: $screen-sm-min) {
+      font-size: 3em;
+    }
+    @media (min-width: $screen-md-min) {
+      font-size: 4em;
+    }
+    font-weight: bold;
+  }
+
+  .alerts {
+    .alert-home, .alert-away, .alert-neutral {
+      margin-top: 15px;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 2.75em;
+      min-height: 0px !important;
+    }
+    .alert-home {
+      float: left !important;
+      background-color: $home-team-bg-color;
+      color: $home-team-text-color;
+      @include make-sm-column(6);
+    }
+    .alert-away {
+      float: right !important;
+      background-color: $away-team-bg-color;
+      @include make-sm-column(6);
+    }
+    .alert-neutral {
+      background-color: $alert-color;
+      color: $near-black;
+      @include make-sm-column(12);
+    }
   }
 }
