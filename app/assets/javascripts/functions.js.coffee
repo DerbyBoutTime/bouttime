@@ -42,6 +42,9 @@ exports.wftda.functions.bindScoreboardKeysCRG = () ->
   #Home Team Timeout
   Mousetrap.bind 't', () ->
     scoreboard.assignTimeoutToHomeTeam()
+  #Home Team Official Review
+  Mousetrap.bind 'r', () ->
+    scoreboard.assignTimeoutToHomeTeamOfficialReview()
   #Away Team Score +
   Mousetrap.bind ';', () ->
     scoreboard.incrementAwayTeamScore()
@@ -57,6 +60,9 @@ exports.wftda.functions.bindScoreboardKeysCRG = () ->
   #Away Team Timeout
   Mousetrap.bind 'y', () ->
     scoreboard.assignTimeoutToAwayTeam()
+  #Away Team Official Review
+  Mousetrap.bind 'u', () ->
+    scoreboard.assignTimeoutToAwayTeamOfficialReview()
   #Official Timeout
   Mousetrap.bind 'o', () ->
     scoreboard.assignTimeoutToOfficials()

@@ -18,6 +18,10 @@ exports.wftda.classes.scoreboard.Team = class Team
     @hasOfficialReview = true
     @officialReviewsRetained = 0
     @jamPoints = 0
+    @isTakingTimeout = false
+    @isTakingOfficialReview = false
+    @isUnofficialFinal = false
+    @isOfficialFinal = false
 
 exports.wftda.classes.scoreboard.TeamDOM = class TeamDOM
   constructor: (@sectionSelector, @jamPointsSelector, @logo, @name, @score, @jammer, @lead, @timeouts, @officialReview) ->
@@ -35,14 +39,22 @@ exports.wftda.classes.scoreboard.TeamDOM = class TeamDOM
 exports.wftda.classes.Scoreboard = class Scoreboard
   constructor: (options = {}) ->
     @id = exports.wftda.functions.uniqueId()
-    @jamClockLabelElement = $("#jam-clock-label")
-    @jamClockElement = $("#jam-clock")
-    @periodClockElement = $("#period-clock")
+    @jamClockLabelElement = $("#scoreboard .jam-clock label")
+    @jamClockElement = $("#scoreboard .jam-clock .clock")
+    @periodClockElement = $("#scoreboard .period-clock .clock")
+    @homeTeamTimeoutElement = $("")
+    @awayTeamTimeoutElement = $("")
+    @homeTeamOfficialReviewElement = $("")
+    @awayTeamOfficialReviewElement = $("")
+    @homeTeamUnOfficialFinalElement = $("")
+    @awayTeamUnOfficialFinalElement = $("")
+    @homeTeamOfficialFinalElement= $("")
+    @awayTeamOfficialFinalElement= $("")
     @home = new exports.wftda.classes.scoreboard.Team()
     @away = new exports.wftda.classes.scoreboard.Team()
-    @homeDOM = new exports.wftda.classes.scoreboard.TeamDOM("#home-team","#home-team-jam-points")
+    @homeDOM = new exports.wftda.classes.scoreboard.TeamDOM("#scoreboard .home-team","#scoreboard .home-team-jam-points")
     @homeDOM.initialize()
-    @awayDOM = new exports.wftda.classes.scoreboard.TeamDOM("#away-team","#away-team-jam-points")
+    @awayDOM = new exports.wftda.classes.scoreboard.TeamDOM("#scoreboard .away-team","#scoreboard .away-team-jam-points")
     @awayDOM.initialize()
   initialize: () ->
     @lastPeriodTick = null
@@ -101,6 +113,7 @@ exports.wftda.classes.Scoreboard = class Scoreboard
     @jamTime = @jamTime - jamDelta
     @jamTime = 0 if @jamTime < 0
   startJam: () ->
+    this.clearTimeouts()
     @jamTime = exports.wftda.constants.JAM_DURATION_IN_MS
     this.startJamClock()
     this.startPeriodClock()
@@ -115,11 +128,6 @@ exports.wftda.classes.Scoreboard = class Scoreboard
   setTimeToDerby: (time = 60*60*1000) ->
     @periodTime = time
     this.startPeriodClock()
-  startTimeout: () ->
-    this.stopClocks()
-    @jamTime = exports.wftda.constants.LINEUP_DURATION_IN_MS
-    this.startJamClock()
-    @jamClockLabel = "Timeout Clock"
   incrementHomeTeamScore: (score = 1) ->
     @home.score = @home.score + score
   decrementHomeTeamScore: (score = 1) ->
@@ -146,28 +154,72 @@ exports.wftda.classes.Scoreboard = class Scoreboard
   setJamNumber: () ->
   setGameClock: () ->
   setjamClockElement: () ->
+  startTimeout: () ->
+    this.stopClocks()
+    @jamTime = exports.wftda.constants.LINEUP_DURATION_IN_MS
+    this.startJamClock()
+    @jamClockLabel = "Timeout Clock"
   assignTimeoutToHomeTeam: () ->
+    this.clearTimeouts()
     @jamClockLabel = "Team Timeout"
+    @home.timeouts = @home.timeouts - 1
+    @home.isTakingTimeout = true
   assignTimeoutToAwayTeam: () ->
+    this.clearTimeouts()
     @jamClockLabel = "Team Timeout"
+    @away.timeouts = @away.timeouts - 1
+    @away.isTakingTimeout = true
   assignTimeoutToOfficials: () ->
+    this.clearTimeouts()
     @jamTime = 0
     this.startJamClock()
     @jamClockLabel = "Official Timeout"
+  assignTimeoutToHomeTeamOfficialReview: () ->
+    this.clearTimeouts()
+    @jamTime = 0
+    this.startJamClock()
+    @home.hasOfficialReview = false
+    @home.isTakingOfficialReview = true
+    @jamClockLabel = "Official Review"
+  assignTimeoutToAwayTeamOfficialReview: () ->
+    this.clearTimeouts()
+    @jamTime = 0
+    this.startJamClock()
+    @away.hasOfficialReview = false
+    @away.isTakingOfficialReview = true
+    @jamClockLabel = "Official Review"
   incrementPeriodTime: () ->
   decrementPeriodTime: () ->
   undo: () ->
 
   updateScore: (homeScore, awayScore)->
+  clearTimeouts: () ->
+    @home.isTakingTimeout = false
+    @away.isTakingTimeout = false
+    @home.isTakingOfficialReview = false
+    @away.isTakingOfficialReview = false
+
   paint: () ->
     @periodClockElement.html(exports.wftda.functions.toClock(@periodTime, 2))
     @jamClockLabelElement.html(@jamClockLabel)
     @jamClockElement.html(exports.wftda.functions.toClock(@jamTime, 2))
     @homeDOM.score.html(@home.score)
     @awayDOM.score.html(@away.score)
-
+    @homeDOM.timeouts.find(".timeout-bar").removeClass("active")
+    @awayDOM.timeouts.find(".timeout-bar").removeClass("active")
+    if @home.isTakingTimeout
+      @homeDOM.timeouts.find(".timeout").eq(@home.timeouts).addClass("active")
+    if @home.isTakingOfficialReview
+      @homeDOM.timeouts.find(".official-review").first().addClass("active")
+    @homeDOM.timeouts.find(".timeout").slice(@home.timeouts).addClass("inactive")
+    if @away.isTakingTimeout
+      @awayDOM.timeouts.find(".timeout").eq(@away.timeouts).addClass("active")
+    if @away.isTakingOfficialReview
+      @awayDOM.timeouts.find(".official-review").first().addClass("active")
+    @awayDOM.timeouts.find(".timeout").slice(@away.timeouts).addClass("inactive")
+    if @away.hasOfficialReview == false
+      @awayDOM.timeouts.find(".official-review").first().addClass("inactive")
+    if @home.hasOfficialReview == false
+      @homeDOM.timeouts.find(".official-review").first().addClass("inactive")
 #$(document).on "page:change", exports.wftda.functions.bindScoreboardKeys
 $(document).on "page:change", exports.wftda.functions.bindScoreboardKeysCRG
-
-jQuery ->
-  $(".scoreboard-alert:first").removeClass("hidden")

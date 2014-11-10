@@ -16,6 +16,12 @@
   }
 }
 
+@keyframes active-animation {
+  0%   { background-color: $inactive-color; }
+  50% { background-color: $alert-color; }
+  100%   { background-color: $inactive-color; }
+}
+
 .scoreboard {
   .scoreboard-label {
     @include scoreboard-label;
@@ -36,6 +42,16 @@
         @include make-row;
       }
     }
+    .period-number, .jam-number {
+      margin-top: -10px;
+      @media (min-width: $screen-sm-min) {
+        font-size: 3em;
+      }
+      @media (min-width: $screen-md-min) {
+        font-size: 4em;
+      }
+      font-weight: bold;
+    }
     .jam-points-wrapper {
       @media (min-width: $screen-sm-min){
         padding: 2em 1em 0 1em;
@@ -48,6 +64,14 @@
       }
       @include make-row;
       .points{
+        &.home-team-jam-points {
+          background-color: $home-team-bg-color;
+          color: $home-team-text-color;
+        }
+        &.away-team-jam-points {
+          background-color: $away-team-bg-color;
+          color: $away-team-text-color;
+        }
         @include make-sm-column(6);
         @media (min-width: $screen-sm-min){
           font-size: 2em;
@@ -142,6 +166,12 @@
     height: 18px;
     background-color: $inactive-color;
     border-radius: 4px;
+    &.home-team-color-bar {
+      background-color: $home-team-bg-color;
+    }
+    &.away-team-color-bar {
+      background-color: $away-team-bg-color;
+    }
   }
 
   .jammer {
@@ -191,7 +221,7 @@
     }
   }
 
-  #home-team-jammer {
+  .home-team-jammer {
     .lead-status {
       color: $home-team-bg-color;
       float: right !important;
@@ -200,7 +230,7 @@
       float: left !important;
     }
   }
-  #away-team-jammer {
+  .away-team-jammer {
     .lead-status {
       color: $away-team-bg-color;
       float: left !important;
@@ -226,92 +256,34 @@
     line-height: 1.25;
   }
 
-  .timeout-bar {
-    @media (min-width: $screen-sm-min){
-      width: 50px
-    }
-    @media (min-width: $screen-md-min){
-      width: 65px;
-    }
-    @media (min-width: $screen-lg-min){
-      width: 90px;
-    }
-    height: 20px;
-    display: inline-block;
-    border-radius: 4px;
-    .inactive {
-      background: $inactive-color;
-    }
-  }
-
-  .official-review-bar{
-    border-radius: 20px;
-    @media (min-width: $screen-sm-min){
-      width: 25px
-    }
-    @media (min-width: $screen-md-min){
-      width: 40px;
-    }
-    @media (min-width: $screen-lg-min){
-      width: 45px
-    }
-    height: 20px;
-    margin: 0px 0.125em;
-    display: inline-block;
-  }
-
-  #home-team-timeouts .timeout-bar.active, #home-team-timeouts .official-review-bar {
-    background-color: $home-team-bg-color;
-  }
-  #home-team-timeouts {
+  .timeouts {
     @include clearfix;
-  }
-
-  #home-team-timeouts .timeout-bar {
-    float: left !important;
-    margin-right: 10px;
-  }
-  #home-team-timeouts .official-review-bar {
-    float: right !important;
-  }
-  #away-team-timeouts .timeout-bar {
-    float: right !important;
-    margin-left: 10px;
-  }
-  #away-team-timeouts .official-review-bar {
-    float: left !important;
-  }
-
-  #away-team-timeouts .timeout-bar.active, #away-team-timeouts .official-review-bar {
-    background-color: $away-team-bg-color;
-  }
-
-  #home-team-color-bar {
-    background-color: $home-team-bg-color;
-  }
-  #away-team-color-bar {
-    background-color: $away-team-bg-color;
-  }
-
-  #home-team-jam-points {
-    background-color: $home-team-bg-color;
-    color: $home-team-text-color;
-  }
-
-  #away-team-jam-points {
-    background-color: $away-team-bg-color;
-    color: $away-team-text-color;
-  }
-
-  #period-number, #jam-number {
-    margin-top: -10px;
-    @media (min-width: $screen-sm-min) {
-      font-size: 3em;
+    @include make-row;
+    &.home-team-timeouts .timeout-bar {
+      float: right !important;
+      background-color: $home-team-bg-color;
     }
-    @media (min-width: $screen-md-min) {
-      font-size: 4em;
+    &.away-team-timeouts .timeout-bar {
+      float: left !important;
+      background-color: $away-team-bg-color;
     }
-    font-weight: bold;
+    .timeout-bar {
+      width: 22%;
+      margin-right: 3%;
+      height: 20px;
+      &.inactive {
+        background-color: $inactive-color;
+      }
+      &.active{
+        animation: active-animation 2s infinite;
+      }
+      &.timeout {
+        border-radius: 4px;
+      }
+      &.official-review{
+        border-radius: 20px;
+      }
+    }
   }
 
   .alerts {
