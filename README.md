@@ -10,8 +10,11 @@
 #### homebrew
 
 ```bash
-./bin/homebrew.sh
+./bin/setup/homebrew.sh
+./bin/setup/rbenv.sh # if you do not manage your own rubbies
 ```
+
+#### Environment Variables
 
 ### Setup
 
@@ -21,4 +24,9 @@ bundle install
 
 ### Deployment
 
-* packer ~> 0.7
+#### Environment Variables
+
+* BOUTTIME_DATABASE_PASSWORD
+* SECRET_KEY_BASE
+
+#### Dependencies
