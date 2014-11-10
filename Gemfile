@@ -47,10 +47,6 @@ group :development do
   gem 'capistrano-rbenv'
   # Annotate your models and tests
   gem 'annotate'
-  # Use Puppet for server configuration
-  gem 'puppet'
-  # Use Puppet Librian to manage puppet modules
-  gem 'librarian-puppet'
   # Console debugging of errors in development
   gem 'better_errors'
   gem 'binding_of_caller'
@@ -71,9 +67,6 @@ group :development, :test do
 end
 
 group :test do
-  # Record and replay for API Tests
-  # gem 'webmock'
-  # gem 'vcr'
   gem 'rake'
   gem "minitest-rails"
 end
