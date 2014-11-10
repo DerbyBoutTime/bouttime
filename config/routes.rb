@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  get 'scoreboard_controller/show'
+  get 'scoreboard/show'
   root "home#index"
 end
