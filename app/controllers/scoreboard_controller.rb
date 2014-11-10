@@ -1,4 +1,4 @@
-class ScoreboardControllerController < ApplicationController
+class ScoreboardController < ApplicationController
   def show
     @home_team_name = "Atlanta Rollergirls"
     @away_team_name = "Gotham Rollergirls"
