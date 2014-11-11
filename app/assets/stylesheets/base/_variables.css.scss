@@ -9,6 +9,9 @@ $border-radius-small: 2px;
 $padding-base-vertical: 5px;
 $padding-base-horizontal: 1px;
 
+// This will prevent navbar getting collapsed for extra small screen sizes:
+$grid-float-breakpoint: 320px;
+
 // Typography
 $font-size-base: 10px;
 
