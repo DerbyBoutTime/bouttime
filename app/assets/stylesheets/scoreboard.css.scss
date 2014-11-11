@@ -262,10 +262,12 @@
     &.home-team-timeouts .timeout-bar {
       float: right !important;
       background-color: $home-team-bg-color;
+      color: $home-team-text-color;
     }
     &.away-team-timeouts .timeout-bar {
       float: left !important;
       background-color: $away-team-bg-color;
+      color: $away-team-text-color;
     }
     .timeout-bar {
       width: 22%;
@@ -303,6 +305,7 @@
     .alert-away {
       float: right !important;
       background-color: $away-team-bg-color;
+      color: $away-team-text-color;
       @include make-sm-column(6);
     }
     .alert-neutral {

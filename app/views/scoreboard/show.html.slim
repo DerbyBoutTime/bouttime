@@ -1,20 +1,20 @@
 #scoreboard.scoreboard
   section.game-display
     section.team.home-team
-      .home-team-logo.logo=hold_it 600, 600
+      .home-team-logo.logo=img_tag @home_team_logo_url
       .home-team-name.name=@home_team_name
       .home-team-color-bar.color-bar
-      .home-team-score.score=@home_team_points
+      .home-team-score.score 0
       .home-team-jammer.jammer
         .lead-status.hidden
           span.glyphicon.glyphicon-star
-        .name=@home_team_jammer
+        .name
       .home-team-timeouts.timeouts
         .timeout-bar.official-review
         .timeout-bar.timeout
         .timeout-bar.timeout
         .timeout-bar.timeout
-    sections.clocks
+    section.clocks
       .clocks-border
         .period-jam-counts
           .period
@@ -36,14 +36,14 @@
         .home-team-jam-points.points 0
         .away-team-jam-points.points 0
     section.team.away-team
-        .away-team-logo.logo=hold_it 600, 600
+        .away-team-logo.logo=image_tag @home_team_logo_url
         .away-team-name.name=@away_team_name
         .away-team-color-bar.color-bar
-        .away-team-score.score=@away_team_points
+        .away-team-score.score 0
         .away-team-jammer.jammer
           .lead-status.hidden
             span.glyphicon.glyphicon-star
-          .name=@away_team_jammer
+          .name
         .away-team-timeouts.timeouts
           .timeout-bar.official-review
           .timeout-bar.timeout

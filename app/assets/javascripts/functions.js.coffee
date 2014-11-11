@@ -22,10 +22,10 @@ exports.wftda.functions.bindScoreboardKeysCRG = () ->
   Mousetrap.bind 'h', () ->
     scoreboard.startTimeout()
   #Period Time Up
-  Mousetrap.bind '<', () ->
+  Mousetrap.bind '>', () ->
     scoreboard.incrementPeriodTime()
   #Period Time Down
-  Mousetrap.bind '>', () ->
+  Mousetrap.bind '<', () ->
     scoreboard.decrementPeriodTime()
   #Home Team Score +
   Mousetrap.bind 'a', () ->
