@@ -6,4 +6,10 @@ class ScoreboardController < ApplicationController
     @away_team_name = params[:away_team_name].to_s || "Gotham Rollergirls"
   end
 
+  private
+
+  def placehold_it(width, height, text = "")
+    "http://placehold.it/#{width}x#{height}&text=#{text}+(#{width}x#{height})"
+  end
+
 end
