@@ -1,6 +1,9 @@
 source "https://rubygems.org"
 
-ruby "2.1.4"
+ruby "2.1.5"
+
+# environment
+gem "dotenv-rails"
 
 # rails
 gem "rails", "4.1.5"
@@ -33,8 +36,8 @@ gem "therubyracer", platforms: [:ruby]
 gem "airbrake"
 
 # server
-gem "foreman"
-gem "unicorn"
+#gem "foreman"
+#gem "unicorn"
 
 # logging
 gem "colorize"
@@ -58,4 +61,3 @@ gem "minitest-rails", group: [:test]
 # deployment
 gem "capistrano", group: [:deployment]
 gem "capistrano-rails", group: [:deployment]
-gem "capistrano-rbenv", group: [:deployment]

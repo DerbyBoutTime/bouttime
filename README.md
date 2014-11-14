@@ -5,7 +5,7 @@
 ### Dependencies
 
 * postgresql ~> 9.3
-* ruby = 2.1.4
+* ruby = 2.1.5
 
 #### homebrew
 
