@@ -1,4 +1,4 @@
-FROM wiserstudios/ruby:2.1.4
+FROM wiserstudios/ruby:2.1.5
 
 WORKDIR /tmp
 ADD Gemfile Gemfile
