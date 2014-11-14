@@ -2,6 +2,72 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 exports = exports ? this
+exports.wftda.functions.bindScoreboardKeys = () ->
+  scoreboard = new wftda.classes.Scoreboard()
+  scoreboard.initialize()
+  exports.wftda.components.scoreboard = scoreboard
+  #TBD
+exports.wftda.functions.bindScoreboardKeysCRG = () ->
+  scoreboard = new wftda.classes.Scoreboard()
+  scoreboard.initialize()
+  exports.wftda.components.scoreboard = scoreboard
+  #Jam Start
+  Mousetrap.bind 'j', () ->
+    scoreboard.startJam()
+  #Jam End
+  Mousetrap.bind 'f', () ->
+    scoreboard.stopJam()
+  #Timeout
+  Mousetrap.bind 'h', () ->
+    scoreboard.startTimeout()
+  #Period Time Up
+  Mousetrap.bind '>', () ->
+    scoreboard.incrementPeriodTime()
+  #Period Time Down
+  Mousetrap.bind '<', () ->
+    scoreboard.decrementPeriodTime()
+  #Home Team Score +
+  Mousetrap.bind 'a', () ->
+    scoreboard.incrementHomeTeamScore()
+  #Home Team Score -
+  Mousetrap.bind 's', () ->
+    scoreboard.decrementHomeTeamScore()
+  #Home Team Lead
+  Mousetrap.bind 'd', () ->
+    scoreboard.setHomeTeamLead()
+  #Home Team Not Lead
+  Mousetrap.bind 'e', () ->
+    scoreboard.setHomeTeamNotLead()
+  #Home Team Timeout
+  Mousetrap.bind 't', () ->
+    scoreboard.assignTimeoutToHomeTeam()
+  #Home Team Official Review
+  Mousetrap.bind 'r', () ->
+    scoreboard.assignTimeoutToHomeTeamOfficialReview()
+  #Away Team Score +
+  Mousetrap.bind ';', () ->
+    scoreboard.incrementAwayTeamScore()
+  #Away Team Score -
+  Mousetrap.bind 'l', () ->
+    scoreboard.decrementAwayTeamScore()
+  #Away Team Lead
+  Mousetrap.bind 'k', () ->
+    scoreboard.setAwayTeamLead()
+  #Away Team Not Lead
+  Mousetrap.bind 'i', () ->
+    scoreboard.setAwayTeamNotLead()
+  #Away Team Timeout
+  Mousetrap.bind 'y', () ->
+    scoreboard.assignTimeoutToAwayTeam()
+  #Away Team Official Review
+  Mousetrap.bind 'u', () ->
+    scoreboard.assignTimeoutToAwayTeamOfficialReview()
+  #Official Timeout
+  Mousetrap.bind 'o', () ->
+    scoreboard.assignTimeoutToOfficials()
+  #Undo
+  Mousetrap.bind 'z', () ->
+    scoreboard.undo()
 exports.wftda.classes.scoreboard = exports.wftda.classes.scoreboards ? {}
 exports.wftda.classes.scoreboard.Jammer = class Jammer
   constructor: () ->
