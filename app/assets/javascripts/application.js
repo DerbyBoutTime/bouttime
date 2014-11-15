@@ -15,7 +15,7 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require mousetrap.min
-//= require namespace_stubs
+//= require namespaces
 //= require constants
 //= require functions
 //= require scoreboard
