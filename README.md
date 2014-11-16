@@ -26,7 +26,17 @@ bundle install
 
 #### Environment Variables
 
-* BOUTTIME_DATABASE_PASSWORD
+* DATABASE_URL
 * SECRET_KEY_BASE
 
 #### Dependencies
+
+* capistrano
+
+#### Make It So!
+
+```bash
+cap <environment> deploy
+```
+
+Where environment can be staging or production.
