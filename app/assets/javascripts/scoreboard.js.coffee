@@ -157,7 +157,9 @@ exports.wftda.classes.Scoreboard = class Scoreboard
     @inOfficialFinal = false
     @period = 1
     @jam = 0
-
+    @lastHeartbeat = null
+  receiveHeartbeat: (evt) ->
+    @lastHeartbeat = evt.timestamp
   startPeriodClock: () ->
     this.stopPeriodClock() #Clear to prevent lost interval function
     @lastPeriodTick = Date.now()
@@ -236,6 +238,10 @@ exports.wftda.classes.Scoreboard = class Scoreboard
     @home.hasOfficialReview = true
   restoreAwayTeamOfficialReview: () ->
     @home.hasOfficialReview = true
+  setHomeTeamName: (name) ->
+    @home.name = name
+  setAwayTeamName: (name) ->
+    @away.name = name
   setHomeTeamJammer: (name) ->
     @home.jammer.name = name
   setAwayTeamJammer: (name) ->
@@ -324,9 +330,19 @@ exports.wftda.classes.Scoreboard = class Scoreboard
     #Period Number
     @periodNumberElement.html(@period)
     #Team Logos
+    if @home.logoUrl?
+      @homeDOM.logo.html """
+      <img src='#{@home.logoUrl}' />
+      """
+      @home.logoUrl == null
+    if @away.logoUrl?
+      @awayDOM.logo.html """
+      <img src='#{@away.logoUrl}' />
+      """
+      @away.logoUrl == null
     #Team Names
-    # @homeDOM.name.html(@home.name)
-    # @awayDOM.name.html(@away.name)
+    @homeDOM.name.html(@home.name)
+    @awayDOM.name.html(@away.name)
     #Team Scores
     @homeDOM.score.html(@home.score)
     @awayDOM.score.html(@away.score)
@@ -393,9 +409,16 @@ exports.wftda.classes.Scoreboard = class Scoreboard
     else if @inOfficialFinal
       @globalOfficialFinalElement.removeClass("hidden")
 
-  updateScore: (homeScore, awayScore)->
+    #Send the post paint event
+    setTimeout(() =>
+      @base.trigger("afterpaint")
+    ,exports.wftda.constants.PAINT_RATE_IN_MS)
+  updateScore: (homeScore, awayScore) ->
     @home.score = parseInt(homeScore)
     @away.score = parseInt(awayScore)
-
+  setHomeTeamLogo: (logoUrl) ->
+    @home.logoUrl = logoUrl
+  setAwayTeamLogo: (logoUrl) ->
+    @away.logoUrl = logoUrl
 #$(document).on "page:change", exports.wftda.functions.bindScoreboardKeys
 $(document).on "page:change", exports.wftda.functions.bindScoreboardKeysCRG

@@ -1,15 +1,27 @@
+exports = exports ? window
 QUnit.module "Scoreboard",
   setup: () ->
+    exports.scoreboard = new wftda.classes.Scoreboard()
+    exports.scoreboard.initialize()
   teardown: () ->
 QUnit.test "Should receive heartbeat", (assert) ->
-  assert.ok false
-QUnit.test "Should set home team name", (assert) ->
-  assert.ok false
-QUnit.test "Should set away team name", (assert) ->
-  assert.ok false
-QUnit.test "Should set home team logo URL", (assert) ->
-  assert.ok false
-QUnit.test "Should set away team logo URL", (assert) ->
+  timestamp = Date.now()
+  exports.scoreboard.receiveHeartbeat
+    timestamp: timestamp
+  assert.ok exports.scoreboard.lastHeartbeat == timestamp
+QUnit.asyncTest "Should set home team name", (assert) ->
+  expect 1
+  exports.scoreboard.setHomeTeamName("foo")
+  scoreboard.base.one 'afterpaint', () ->
+    assert.ok scoreboard.homeDOM.name == "foo"
+    QUnit.start()
+QUnit.asyncTest "Should set away team name", (assert) ->
+  exports.scoreboard.setAwayTeamName("foo")
+  assert.ok exports.scoreboard.away.name == "foo"
+QUnit.asyncTest "Should set home team logo URL", (assert) ->
+  exports.scoreboard.setHomeTeamLogo("//placehold.it/250x250")
+  assert.ok exports.scoreboard.home.logoUrl == "//placehold.it/250x250"
+QUnit.asyncTest "Should set away team logo URL", (assert) ->
   assert.ok false
 QUnit.test "Should increment jam number", (assert) ->
   assert.ok false

@@ -7,3 +7,8 @@ $gray-base: $near-black;
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "scoreboard";
+
+//Hide test DOM
+#UUT {
+  display: none;
+}
