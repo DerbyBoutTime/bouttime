@@ -7,6 +7,7 @@ gem "dotenv-rails"
 
 # rails
 gem "rails", "4.1.5"
+gem "websocket-rails"
 
 # railsish
 gem "bcrypt", "~> 3.1.7"
@@ -36,6 +37,7 @@ gem "therubyracer", platforms: [:ruby]
 gem "airbrake"
 
 # server
+gem "puma"
 #gem "foreman"
 #gem "unicorn"
 
