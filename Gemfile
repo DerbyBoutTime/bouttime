@@ -67,8 +67,6 @@ group :development, :test do
   gem 'pry-byebug'
   # adds ap command, handy for inspecting objects in test and console
   gem 'awesome_print'
-  # Levenstein distance for incorrect method calls
-  gem 'did_you_mean'
 end
 
 group :test do
