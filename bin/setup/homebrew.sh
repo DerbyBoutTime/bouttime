@@ -3,4 +3,3 @@
 brew update
 
 brew install postgresql
-brew install elasticsearch

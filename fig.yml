@@ -6,6 +6,6 @@ app:
     PGHOST: db
     PGUSER: postgres
 db:
-  image: postgres:9.4
+  image: postgres:9.3
   ports:
     - "5432"
