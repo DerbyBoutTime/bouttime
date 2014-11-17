@@ -36,10 +36,9 @@ gem "therubyracer", platforms: [:ruby]
 # error reporting
 gem "airbrake"
 
-# server
+# processes
+gem "foreman"
 gem "puma"
-#gem "foreman"
-#gem "unicorn"
 
 # logging
 gem "colorize"
