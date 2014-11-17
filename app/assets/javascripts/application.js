@@ -20,3 +20,5 @@
 //= require functions
 //= require scoreboard
 
+//= require websocket_rails/main
+
