@@ -19,8 +19,8 @@ ActiveRecord::Schema.define(version: 20141117081526) do
   create_table "jams", force: true do |t|
     t.integer  "period"
     t.integer  "number"
-    t.datetime "started"
-    t.datetime "finished"
+    t.datetime "started_at"
+    t.datetime "finished_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

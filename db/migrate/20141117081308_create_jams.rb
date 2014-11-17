@@ -3,8 +3,8 @@ class CreateJams < ActiveRecord::Migration
     create_table :jams do |t|
       t.integer :period
       t.integer :number
-      t.timestamp :started
-      t.timestamp :finished
+      t.timestamp :started_at
+      t.timestamp :finished_at
 
       t.timestamps
     end
