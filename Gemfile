@@ -48,7 +48,7 @@ gem "scrolls"
 gem "awesome_print", group: [:development, :test]
 gem "better_errors", group: [:development]
 gem "binding_of_caller", group: [:development]
-gem "did_you_mean", group: [:development, :test]
+gem "did_you_mean", "0.9.0", group: [:development, :test]
 gem "meta_request", group: [:development] # rails panel for chrome
 gem "pry-byebug", group: [:development, :test]
 gem "pry-rails", group: [:development, :test]

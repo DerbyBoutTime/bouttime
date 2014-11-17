@@ -71,7 +71,7 @@ GEM
     columnize (0.8.9)
     debug_inspector (0.0.2)
     debugger-linecache (1.2.0)
-    did_you_mean (0.8.0)
+    did_you_mean (0.9.0)
       interception
     dotenv (1.0.2)
     dotenv-rails (1.0.2)
@@ -213,7 +213,7 @@ DEPENDENCIES
   capistrano-rails
   coffee-rails (~> 4.0.0)
   colorize
-  did_you_mean
+  did_you_mean (= 0.9.0)
   dotenv-rails
   jbuilder (~> 2.0)
   jquery-rails
