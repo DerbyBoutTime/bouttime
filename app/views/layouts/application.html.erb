@@ -4,11 +4,12 @@
   <title>WFTDA Boutime</title>
   <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
+  <%= render "layouts/meta_tags" %>
 </head>
 <body>
 
 <div class="container">
+  <%= yield :nav %>
   <%= yield %>
 </div>
 

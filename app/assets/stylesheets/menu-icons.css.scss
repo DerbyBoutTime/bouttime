@@ -1,0 +1,53 @@
+.role {
+    background:image-url("menu-icons.png");
+    background-repeat: no-repeat;
+    display: block;
+}
+
+.role-announce {
+    width: 100px;
+    height: 100px;
+    background-position: -5px -5px;
+}
+
+.role-clock {
+    width: 100px;
+    height: 100px;
+    background-position: -115px -5px;
+}
+
+.role-head-nso {
+    width: 100px;
+    height: 100px;
+    background-position: -5px -115px;
+}
+
+.role-jam-timer {
+    width: 100px;
+    height: 100px;
+    background-position: -115px -115px;
+}
+
+.role-lineup-tracker {
+    width: 100px;
+    height: 100px;
+    background-position: -225px -5px;
+}
+
+.role-penalty-box {
+    width: 100px;
+    height: 100px;
+    background-position: -225px -115px;
+}
+
+.role-penalty-tracker {
+    width: 100px;
+    height: 100px;
+    background-position: -5px -225px;
+}
+
+.role-score-keeper {
+    width: 100px;
+    height: 100px;
+    background-position: -115px -225px;
+}

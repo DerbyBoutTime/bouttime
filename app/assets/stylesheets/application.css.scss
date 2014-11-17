@@ -4,9 +4,11 @@
 $font-family-sans-serif: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $gray-base: $near-black;
 
+@import "base/variables";
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "scoreboard";
+@import "jam-timer";
 
 //Hide test DOM
 #UUT {
