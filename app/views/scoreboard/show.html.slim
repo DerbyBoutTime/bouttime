@@ -1,0 +1,69 @@
+#scoreboard.scoreboard
+  section.game-display
+    section.team.home-team
+      .home-team-logo.logo=image_tag @home_team_logo_url
+      .home-team-name.name=@home_team_name
+      .home-team-color-bar.color-bar
+      .home-team-score.score 0
+      .home-team-jammer.jammer
+        .lead-status.hidden
+          span.glyphicon.glyphicon-star
+        .name
+      .home-team-timeouts.timeouts
+        .timeout-bar.official-review
+        .timeout-bar.timeout
+        .timeout-bar.timeout
+        .timeout-bar.timeout
+    section.clocks
+      .clocks-border
+        .period-jam-counts
+          .period
+            label.hidden-xs.hidden-sm Period
+            label.visible-sm-block Per
+            .number.period-number 1
+          .jam
+            label Jam
+            .number.jam-number 1
+        .period-clock
+          label.hidden Period Clock
+          .clock.period-clock="30:00"
+        .jam-clock
+          label.jam-clock-label Time to Derby
+          .jam-clock.clock="90:00"
+      .jam-points-wrapper
+        / .col-md-12.hidden-sm.hidden-xs
+        /   label Jam Points
+        .home-team-jam-points.points 0
+        .away-team-jam-points.points 0
+    section.team.away-team
+        .away-team-logo.logo=image_tag @home_team_logo_url
+        .away-team-name.name=@away_team_name
+        .away-team-color-bar.color-bar
+        .away-team-score.score 0
+        .away-team-jammer.jammer
+          .lead-status.hidden
+            span.glyphicon.glyphicon-star
+          .name
+        .away-team-timeouts.timeouts
+          .timeout-bar.official-review
+          .timeout-bar.timeout
+          .timeout-bar.timeout
+          .timeout-bar.timeout
+  section.alerts
+    div.alert-home
+      .scoreboard-alert.home-team-timeout.hidden timeout
+      .scoreboard-alert.home-team-official-review.hidden official review
+      .scoreboard-alert.home-team-unofficial-final.hidden unofficial final
+      .scoreboard-alert.home-team-final.hidden final
+    div.alert-away
+      .scoreboard-alert.away-team-timeout.hidden timeout
+      .scoreboard-alert.away-team-official-review.hidden official review
+      .scoreboard-alert.away-team-unofficial-final.hidden final
+      .scoreboard-alert.away-team-final.hidden final
+    div.alert-neutral
+      .scoreboard-alert.generic-timeout.hidden timeout
+      .scoreboard-alert.official-timeout.hidden official timeout
+      .scoreboard-alert.unofficial-final.hidden unofficial final
+      .scoreboard-alert.official-final.hidden final
+  section.ads
+  section.fly-ins

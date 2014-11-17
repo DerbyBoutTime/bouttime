@@ -14,4 +14,11 @@
 //= require bootstrap-sprockets
 //= require jquery_ujs
 //= require turbolinks
-//= require_tree .
+//= require mousetrap.min
+//= require namespaces
+//= require constants
+//= require functions
+//= require scoreboard
+
+//= require websocket_rails/main
+

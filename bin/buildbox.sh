@@ -2,7 +2,7 @@
 set -e
 
 echo '--- bundling'
-bundle
+bundle install --without deployment development doc
 
 echo '--- preparing database'
 ./bin/rake db:create db:schema:load RAILS_ENV=test
