@@ -11,9 +11,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 20141117081526) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "jams", force: true do |t|
+    t.integer  "period"
+    t.integer  "number"
+    t.datetime "started"
+    t.datetime "finished"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "lineups", force: true do |t|
+    t.integer  "jam_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "lineups", ["jam_id"], name: "index_lineups_on_jam_id", using: :btree
+
+  create_table "passes", force: true do |t|
+    t.integer  "jam_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "passes", ["jam_id"], name: "index_passes_on_jam_id", using: :btree
 
 end
