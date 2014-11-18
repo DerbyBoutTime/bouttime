@@ -19,6 +19,5 @@
 //= require constants
 //= require functions
 //= require scoreboard
-
 //= require websocket_rails/main
-
+//= require websocket_events_controller

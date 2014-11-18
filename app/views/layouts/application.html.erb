@@ -6,7 +6,7 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= render "layouts/meta_tags" %>
 </head>
-<body>
+<body data-uri="<%= request.host %>:<%= request.port %>/websocket">
 
 <div class="container">
   <%= yield :nav %>

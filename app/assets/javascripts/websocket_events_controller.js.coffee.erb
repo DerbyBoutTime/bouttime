@@ -1,0 +1,16 @@
+exports = exports ? this
+
+exports.wftda.classes.EventsController = class EventsController
+  constructor: (url) ->
+    @dispatcher = new WebSocketRails(url)
+
+  bindEvents: =>
+    # listen for to new events here and use sendEvent to notify Websocket server
+
+  sendEvent: (event) =>
+    event.preventDefault()
+    @dispatcher.trigger 'new_event', {event: event.serialize}
+
+
+$(document).on "page:load", () ->
+  exports.wftda.eventsController = new EventsController($('body').data('uri'))
