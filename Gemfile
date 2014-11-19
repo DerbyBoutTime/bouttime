@@ -61,4 +61,5 @@ gem "minitest-rails", group: [:test]
 
 # deployment
 gem "capistrano", group: [:deployment]
+gem "capistrano-puma", group: [:deployment]
 gem "capistrano-rails", group: [:deployment]

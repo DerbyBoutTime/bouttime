@@ -56,6 +56,8 @@ GEM
     capistrano-bundler (1.1.3)
       capistrano (~> 3.1)
       sshkit (~> 1.2)
+    capistrano-puma (0.2.3)
+      capistrano (>= 3.0)
     capistrano-rails (1.1.2)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
@@ -240,6 +242,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass (~> 3.3.0)
   capistrano
+  capistrano-puma
   capistrano-rails
   coffee-rails (~> 4.0.0)
   colorize
