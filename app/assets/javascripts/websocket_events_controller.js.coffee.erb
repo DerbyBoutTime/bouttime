@@ -1,0 +1,29 @@
+exports = exports ? this
+
+exports.wftda.classes.EventsController = class EventsController
+  MAX_QUEUE_SIZE: 15
+
+  constructor: (url) ->
+    @eventQueue = []
+    @dispatcher = new WebSocketRails(url)
+    @dispatcher.on_open = @connectOpen
+    @bindEvents()
+
+  bindEvents: =>
+    # listen for to new events here and use sendEvent to notify Websocket server
+    @dispatcher.bind 'generic_event', @newEvent
+    $("#demo-btn").on 'click', @sendEvent
+
+  connectionOpen: (data) =>
+    console.log "Connection has been established: ", data
+
+  newEvent: (event) =>
+    @eventQueue.push event
+    @eventQueue.shift() if @eventQueue.length > MAX_QUEUE_SIZE
+
+  sendEvent: (event) =>
+    event.preventDefault()
+    @dispatcher.trigger 'generic_event', {event: event.serialize}
+
+$(document).on "page:change", () ->
+  exports.wftda.eventsController = new EventsController($('body').data('uri'))
