@@ -1,75 +1,76 @@
 -content_for :nav do
   = render partial: "layouts/nav_bar"
 
-/ game-clock
-.row.text-center
-  / away
-  .timeout-bars.away.col-md-2.col-xs-2
-    | AWAY
-    .bar.disabled
-      | 0
-    .bar
-    .bar
-    .bar
+#jam-timer-view
+  / game-clock
+  .row.text-center
+    / away
+    .timeout-bars.away.col-md-2.col-xs-2
+      | AWAY
+      .bar.disabled
+        | 0
+      .bar
+      .bar
+      .bar
 
-  / clocks
-  .col-md-8.col-xs-8
-    .row
-      .col-md-8.col-xs-8.col-md-offset-2.col-xs-offset-2
-        strong
-          span.pull-left Period 1
-          span.pull-right Jam 1
-      .col-md-12.col-xs-12
-        .game-clock 30:00
-      .col-md-12.col-xs-12
-        strong Jam Clock
-        .jam-clock
-          | 2:00
-          span.seconds
-            | :00
+    / clocks
+    .col-md-8.col-xs-8
+      .row
+        .col-md-8.col-xs-8.col-md-offset-2.col-xs-offset-2
+          strong
+            span.pull-left Period 1
+            span.pull-right Jam 1
+        .col-md-12.col-xs-12
+          .game-clock 30:00
+        .col-md-12.col-xs-12
+          strong Jam Clock
+          .jam-clock
+            | 2:00
+            span.seconds
+              | :00
 
-  / home
-  .timeout-bars.home.col-md-2.col-xs-2
-    | HOME
-    .bar
-      | 0
-    .bar
-    .bar
-    .bar
+    / home
+    .timeout-bars.home.col-md-2.col-xs-2
+      | HOME
+      .bar
+        | 0
+      .bar
+      .bar
+      .bar
 
-/ status-display
-.text-center.row
-  .away.col-md-4.col-xs-4
-    .row
-      .col-md-12.col-xs-12
-        button.btn.btn-block TIMEOUT
-    .row
-      .col-md-12.col-xs-12.margin-top-05
-        button.btn.btn-block OFF. REVIEW
+  / status-display
+  .text-center.row
+    .away.col-md-4.col-xs-4
+      .row
+        .col-md-12.col-xs-12
+          button.btn.btn-block TIMEOUT
+      .row
+        .col-md-12.col-xs-12.margin-top-05
+          button.btn.btn-block OFF. REVIEW
 
-  .col-md-4.col-xs-4
-    .official-timeout
-      | OFFICIAL TIMEOUT
+    .col-md-4.col-xs-4
+      .official-timeout
+        | OFFICIAL TIMEOUT
 
-  .home.col-md-4.col-xs-4
-    .row
-      .col-md-12.col-xs-12
-        button.btn.btn-block TIMEOUT
-    .row
-      .col-md-12.col-xs-12.margin-top-05
-        button.btn.btn-block OFF. REVIEW
+    .home.col-md-4.col-xs-4
+      .row
+        .col-md-12.col-xs-12
+          button.btn.btn-block TIMEOUT
+      .row
+        .col-md-12.col-xs-12.margin-top-05
+          button.btn.btn-block OFF. REVIEW
 
-/ clock-controls
-.row
-  .col-md-6.col-xs-6
-    button.btn.btn-lg.btn-block
-      | STOP CLOCK
-  .col-md-6.col-xs-6
-    button.btn.btn-lg.btn-block
-      | UNDO
+  / clock-controls
+  .row
+    .col-md-6.col-xs-6
+      button.btn.btn-lg.btn-block
+        | STOP CLOCK
+    .col-md-6.col-xs-6
+      button.btn.btn-lg.btn-block
+        | UNDO
 
-/ jam-clock-controls
-.row
-  .col-md-12.col-xs-12.margin-top-05
-    button.btn-start-jam
-      | START JAM
+  / jam-clock-controls
+  .row
+    .col-md-12.col-xs-12.margin-top-05
+      button.btn-start-jam
+        | START JAM

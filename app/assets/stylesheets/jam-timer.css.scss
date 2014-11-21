@@ -2,69 +2,71 @@
 
 .margin-top-05 { margin-top: 0.5em; }
 
-.timeout-bars {
-  .bar {
-    height: 30px;
-    min-width: 16px;
-    border: 0.8px solid $gray;
-    margin: 4px 6px;
-    border-radius: 2px;
+#jam-timer-view {
+  .timeout-bars {
+    .bar {
+      height: 30px;
+      min-width: 16px;
+      border: 0.8px solid $gray;
+      margin: 4px 6px;
+      border-radius: 2px;
+    }
+    :first-child {
+      border-radius: 6px;
+      font-weight: bold;
+      height: 19px;
+    }
+
   }
-  :first-child {
-    border-radius: 6px;
+
+  .away {
+    .bar, .btn {
+      color: $white;
+      background-color: $away-team-bg-color;
+    }
+  }
+
+  .home {
+    .bar, .btn {
+      color: $white;
+      background-color: $home-team-bg-color;
+    }
+  }
+
+  .clock {
+    @extend .well-sm;
+    @extend .well;
+    font-size: 3em;
+    padding: 3px;
+    span.seconds{
+      font-size: 0.8em;
+    }
+  }
+  .game-clock {
+    @extend .clock;
+    background-color: $white;
+  }
+
+  .jam-clock {
+    @extend .clock;
+    border: none;
     font-weight: bold;
-    height: 19px;
   }
 
-}
-
-.away {
-  .bar, .btn {
-    color: $white;
-    background-color: $away-team-bg-color;
+  .official-timeout {
+    @extend .well;
+    border: none;
+    padding: 15px;
   }
-}
 
-.home {
-  .bar, .btn {
-    color: $white;
-    background-color: $home-team-bg-color;
+  .btn-start-jam {
+    background-color: $gray;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-radius: 2px;
+    @extend .btn;
+    @extend .btn-lg;
+    @extend .btn-block;
+    font-weight: bold;
   }
-}
-
-.clock {
-  @extend .well-sm;
-  @extend .well;
-  font-size: 3em;
-  padding: 3px;
-  span.seconds{
-    font-size: 0.8em;
-  }
-}
-.game-clock {
-  @extend .clock;
-  background-color: $white;
-}
-
-.jam-clock {
-  @extend .clock;
-  border: none;
-  font-weight: bold;
-}
-
-.official-timeout {
-  @extend .well;
-  border: none;
-  padding: 15px;
-}
-
-.btn-start-jam {
-  background-color: $gray;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-radius: 2px;
-  @extend .btn;
-  @extend .btn-lg;
-  @extend .btn-block;
-  font-weight: bold;
 }
