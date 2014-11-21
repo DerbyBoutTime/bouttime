@@ -1,0 +1,75 @@
+.margin-top-05 { margin-top: 0.5em; }
+
+#scorekeeper-view {
+  .team-name {
+    height: 30px;
+    min-width: 16px;
+    border: 0.8px solid $gray;
+    margin: 4px 6px;
+    border-radius: 2px;
+
+    &.away {
+      color: $white;
+      background-color: $away-team-bg-color;
+    }
+
+    &.home {
+      color: $white;
+      background-color: $home-team-bg-color;
+    }
+  }
+
+  .current-jam, .game-total {
+    height: 30px;
+    min-width: 16px;
+    border: 0.8px solid $gray;
+    margin: 4px 6px;
+    border-radius: 2px;
+  }
+
+  .jams, .passes {
+    .headers {
+      & > div {
+        margin: 4px 6px;
+      }
+    }
+
+    .columns {
+      & > div {
+        height: 30px;
+        border-radius: 2px;
+        margin: 4px 6px;
+      }
+
+      .jam, .pass {
+        background-color: #000;
+      }
+      .skater {
+        background-color: #000;
+      }
+      .notes {
+        &.injury {
+          background-color: #000;
+        }
+        &.call {
+          background-color: #000;
+        }
+        &.lost {
+          background-color: #000;
+        }
+      }
+      .points {
+        background-color: #000;
+      }
+    }
+  }
+
+  .links {
+    & > div {
+      background-color: #000;
+      border-radius: 2px;
+      height: 30px;
+      margin: 4px 6px;
+    }
+  }
+}

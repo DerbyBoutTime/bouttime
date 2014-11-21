@@ -1,0 +1,83 @@
+- content_for :nav do
+  = render partial: "layouts/nav_bar"
+
+#scorekeeper-view
+  / teams
+  .row.text-center
+    / away
+    .team-name.away.col-md-4.col-xs-4
+      | AWAY
+    .team-name.home.col-md-4.col-xs-4
+      | HOME
+
+  / stats
+  .row.stats.text-center
+    / current jam
+    .stat.current-jam.col-md-4.col-xs-4
+      | CURRENT JAM
+    / game total
+    .stat.game-total.col-md-4.col-xs-4
+      | GAME TOTAL
+
+  / jams
+  .jams
+    .row.headers
+      .col-md-1.col-xs-1
+        | Jam
+      .col-md-3.col-xs-3
+        | Skater
+      .col-md-1.col-xs-1
+      .col-md-1.col-xs-1.text-center
+        | Notes
+      .col-md-1.col-xs-1
+      .col-md-1.col-xs-1.text-center
+        | Points
+    .row.columns
+      .jam.col-md-1.col-xs-1
+        | 1
+      .skater.col-md-3.col-xs-3
+        | 1234
+      .notes.injury.col-md-1.col-xs-1
+        | Injury
+      .notes.call.col-md-1.col-xs-1
+        | Call
+      .notes.lost.col-md-1.col-xs-1
+        | Lost
+      .points.col-md-1.col-xs-1
+        | 10
+
+  / links
+  .row.links.text-center
+    .link.main-menu.col-md-4.col-xs-4
+      | MAIN MENU
+    .link.prev.col-md-2.col-xs-2
+      | PREV
+    .link.next.col-md-2.col-xs-2
+      | NEXT
+
+  / passes
+  .passes
+    .row.headers
+      .col-md-1.col-xs-1
+        | Pass
+      .col-md-3.col-xs-3
+        | Skater
+      .col-md-1.col-xs-1
+      .col-md-1.col-xs-1.text-center
+        | Notes
+      .col-md-1.col-xs-1
+      .col-md-1.col-xs-1.text-center
+        | Points
+    .row.columns
+      .pass.col-md-1.col-xs-1
+        | 1
+      .skater.col-md-3.col-xs-3
+        | 1234
+      .notes.injury.col-md-1.col-xs-1
+        | Injury
+      .notes.call.col-md-1.col-xs-1
+        | Call
+      .notes.lost.col-md-1.col-xs-1
+        | Lost
+      .points.col-md-1.col-xs-1
+        | 10
