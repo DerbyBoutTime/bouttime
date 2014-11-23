@@ -1,75 +1,147 @@
-.margin-top-05 { margin-top: 0.5em; }
-
 #scorekeeper-view {
   .team-name {
+    border: 1px solid $gray;
+    border-radius: 2px;
     height: 30px;
     min-width: 16px;
-    border: 0.8px solid $gray;
-    margin: 4px 6px;
-    border-radius: 2px;
+    color: $white;
 
     &.away {
-      color: $white;
       background-color: $away-team-bg-color;
     }
 
     &.home {
-      color: $white;
       background-color: $home-team-bg-color;
     }
   }
 
+  .stats {
+    margin-top: 4px;
+  }
+
   .current-jam, .game-total {
-    height: 30px;
-    min-width: 16px;
-    border: 0.8px solid $gray;
-    margin: 4px 6px;
+    border: 1px solid $gray;
     border-radius: 2px;
+    height: 30px;
+    color: $near-black;
+    min-width: 16px;
   }
 
   .jams, .passes {
+    margin-top: 4px;
+
     .headers {
       & > div {
-        margin: 4px 6px;
       }
     }
 
     .columns {
-      & > div {
-        height: 30px;
-        border-radius: 2px;
-        margin: 4px 6px;
-      }
+      .col-md-2, .col-xs-2 {
+        & > div {
+          background-color: $gray;
+          border-radius: 2px;
+          color: $near-black;
+          height: 30px;
+        }
 
-      .jam, .pass {
-        background-color: #000;
-      }
-      .skater {
-        background-color: #000;
-      }
-      .notes {
-        &.injury {
-          background-color: #000;
+        .jam, .pass {
+          background-color: $near-black;
+          color: $white;
         }
-        &.call {
-          background-color: #000;
+        .skater {
         }
-        &.lost {
-          background-color: #000;
+        .notes {
+          &.injury {
+          }
+          &.call {
+          }
+          &.lost {
+          }
         }
-      }
-      .points {
-        background-color: #000;
+        .points {
+        }
       }
     }
   }
 
-  .links {
-    & > div {
-      background-color: #000;
-      border-radius: 2px;
+  .jam {
+    color: $near-black;
+    margin-top: 4px;
+
+    & > div:first-child {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    & > div:last-child {
+      padding-left: 0px;
+    }
+
+    .jam-number, .jam-total-score {
+      background-color: $gray;
       height: 30px;
-      margin: 4px 6px;
+      min-width: 16px;
+    }
+
+    .jam-number {
+      padding-left: 15px;
+    }
+
+    .jam-total-score {
+      padding-right: 15px;
+    }
+  }
+
+  .links {
+    margin-top: 4px;
+
+    & > div {
+    }
+
+    .link {
+      background-color: $near-black;
+      border-radius: 2px;
+      color: $white;
+      height: 30px;
+    }
+  }
+
+  .edit-pass {
+    @include border-arrow(95%);
+
+    .row:nth-child(2) {
+      margin-top: 4px;
+    }
+
+    .row {
+      .zero, .one, .two, .three, .four, .five, .six {
+        background-color: $white;
+      }
+    }
+  }
+
+  .edit-pass-number {
+    @include border-arrow(5%);
+
+    .row {
+      .minus, .plus {
+        background-color: $white;
+      }
+    }
+  }
+
+  .edit-pass, .edit-pass-number {
+    .row {
+      & > div > div {
+        background-color: $gray;
+        border-radius: 2px;
+        height: 30px;
+      }
+
+      .cancel, .submit {
+        background-color: $near-black;
+        color: $white;
+      }
     }
   }
 }

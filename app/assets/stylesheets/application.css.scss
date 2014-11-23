@@ -8,6 +8,8 @@ $gray-base: $near-black;
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
+@import "mixins/border-arrow";
+
 @import "jam-timer";
 @import "scoreboard";
 @import "scorekeeper";

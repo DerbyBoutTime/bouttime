@@ -3,81 +3,192 @@
 
 #scorekeeper-view
   / teams
-  .row.text-center
+  .row.teams.text-center
     / away
-    .team-name.away.col-md-4.col-xs-4
-      | AWAY
-    .team-name.home.col-md-4.col-xs-4
-      | HOME
+    .col-md-6.col-xs-6
+      .team-name.away
+        | AWAY
+    .col-md-6.col-xs-6
+      .team-name.home
+        | HOME
 
   / stats
-  .row.stats.text-center
+  .row.stats
     / current jam
-    .stat.current-jam.col-md-4.col-xs-4
-      | CURRENT JAM
+    .col-md-6.col-xs-6
+      .stat.current-jam
+        | CURRENT JAM
     / game total
-    .stat.game-total.col-md-4.col-xs-4
-      | GAME TOTAL
+    .col-md-6.col-xs-6
+      .stat.game-total
+        | GAME TOTAL
 
   / jams
   .jams
     .row.headers
-      .col-md-1.col-xs-1
+      .col-md-2.col-xs-2
         | Jam
-      .col-md-3.col-xs-3
+      .col-md-2.col-xs-2
         | Skater
-      .col-md-1.col-xs-1
-      .col-md-1.col-xs-1.text-center
+      .col-md-2.col-xs-2.col-md-offset-2.col-xs-offset-2.text-center
         | Notes
-      .col-md-1.col-xs-1
-      .col-md-1.col-xs-1.text-center
+      .col-md-2.col-xs-2.col-md-offset-2.col-xs-offset-2.text-center
         | Points
     .row.columns
-      .jam.col-md-1.col-xs-1
-        | 1
-      .skater.col-md-3.col-xs-3
-        | 1234
-      .notes.injury.col-md-1.col-xs-1
-        | Injury
-      .notes.call.col-md-1.col-xs-1
-        | Call
-      .notes.lost.col-md-1.col-xs-1
-        | Lost
-      .points.col-md-1.col-xs-1
-        | 10
+      .col-md-2.col-xs-2
+        .jam
+          | 1
+      .col-md-2.col-xs-2
+        .skater
+          | 1234
+      .col-md-2.col-xs-2
+        .notes.injury
+          | Injury
+      .col-md-2.col-xs-2
+        .notes.call
+          | Call
+      .col-md-2.col-xs-2
+        .notes.lost
+          | Lost
+      .col-md-2.col-xs-2
+        .points
+          | 10
 
   / links
   .row.links.text-center
-    .link.main-menu.col-md-4.col-xs-4
-      | MAIN MENU
-    .link.prev.col-md-2.col-xs-2
-      | PREV
-    .link.next.col-md-2.col-xs-2
-      | NEXT
+    .col-md-6.col-xs-6
+      .link.main-menu
+        | MAIN MENU
+    .col-md-3.col-xs-3
+      .link.prev
+        | PREV
+    .col-md-3.col-xs-3
+      .link.next
+        | NEXT
+
+  .row.jam
+    .col-md-3.col-xs-3.col-md-offset-6.col-xs-offset-6
+      .jam-number
+        | JAM 5
+    .col-md-3.col-xs-3.text-right
+      .jam-total-score
+        | 0
 
   / passes
   .passes
     .row.headers
-      .col-md-1.col-xs-1
+      .col-md-2.col-xs-2
         | Pass
-      .col-md-3.col-xs-3
+      .col-md-2.col-xs-2
         | Skater
-      .col-md-1.col-xs-1
-      .col-md-1.col-xs-1.text-center
+      .col-md-2.col-xs-2
+      .col-md-2.col-xs-2.text-center
         | Notes
-      .col-md-1.col-xs-1
-      .col-md-1.col-xs-1.text-center
+      .col-md-2.col-xs-2
+      .col-md-2.col-xs-2.text-center
         | Points
     .row.columns
-      .pass.col-md-1.col-xs-1
-        | 1
-      .skater.col-md-3.col-xs-3
-        | 1234
-      .notes.injury.col-md-1.col-xs-1
-        | Injury
-      .notes.call.col-md-1.col-xs-1
-        | Call
-      .notes.lost.col-md-1.col-xs-1
-        | Lost
-      .points.col-md-1.col-xs-1
-        | 10
+      .col-md-2.col-xs-2
+        .pass
+          | 1
+      .col-md-2.col-xs-2
+        .skater
+          | 1234
+      .col-md-2.col-xs-2
+        .notes.injury
+          | Injury
+      .col-md-2.col-xs-2
+        .notes.call
+          | Call
+      .col-md-2.col-xs-2
+        .notes.lost
+          | Lost
+      .col-md-2.col-xs-2
+        .points
+          | 10
+
+  / first pass edit
+  .edit-pass.first-pass
+    .row
+      .col-md-2.col-xs-2.col-md-offset-1.col-xs-offset-1
+        .cancel
+          | X
+      .col-md-2.col-xs-2
+        .notes-injury
+          | Injury
+      .col-md-2.col-xs-2
+        .notes-lead
+          | Lead
+      .col-md-2.col-xs-2
+        .notes-call
+          | Call
+      .col-md-2.col-xs-2
+        .submit
+          | X
+    .row
+      .col-md-2.col-xs-2.col-md-offset-3.col-xs-offset-3
+        .zero
+          | 0
+      .col-md-2.col-xs-2
+        .one
+          | 1
+      .col-md-2.col-xs-2
+        .no-pass
+          | No P.
+
+  / second pass edit
+  .edit-pass.second-pass
+    .row
+      .col-md-2.col-xs-2.col-md-offset-1.col-xs-offset-1
+        .cancel
+          | X
+      .col-md-2.col-xs-2
+        .notes-injury
+          | Injury
+      .col-md-2.col-xs-2
+        .notes-lead
+          | Lead
+      .col-md-2.col-xs-2
+        .notes-call
+          | Call
+      .col-md-2.col-xs-2
+        .submit
+          | X
+    .row
+      .col-md-1.col-xs-1.col-md-offset-2.col-xs-offset-2
+        .zero
+          | 0
+      .col-md-1.col-xs-1
+        .one
+          | 1
+      .col-md-1.col-xs-1
+        .two
+          | 2
+      .col-md-1.col-xs-1
+        .three
+          | 3
+      .col-md-1.col-xs-1
+        .four
+          | 4
+      .col-md-1.col-xs-1
+        .five
+          | 5
+      .col-md-1.col-xs-1
+        .six
+          | 6
+
+  / edit pass number
+  .edit-pass-number
+    .row
+      .col-md-1.col-xs-1
+        .cancel
+          | X
+      .col-md-2.col-xs-2
+        .minus
+          | MINUS
+      .col-md-2.col-xs-2
+        .plus
+          | PLUS
+      .col-md-1.col-xs-1
+        .submit
+          | X
