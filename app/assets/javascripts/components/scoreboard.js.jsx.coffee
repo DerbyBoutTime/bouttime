@@ -2,6 +2,64 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 exports = exports ? this
+exports.Scoreboard= = React.createClass
+  getInitialState: () ->
+  render: () ->
+    `<TeamScoreboard/>`
+exports.TeamScoreboard = React.createClass
+  getInitialState: () ->
+  render: () ->
+    `<section class="team">
+      <div class="logo">
+        <img src="{this.prop.logoURI}" />
+      </div>
+      <div class="name">
+        {this.props.teamName}
+      </div>
+      <div class="color-bar" style="background-color:{this.props.color}"></div>
+      <div class="score>{this.props.score}</div>
+      <div class="jammer>
+        <div class="lead-status">
+          <span class="glyphicon glyphicon-star {this.props.jammer.lead ? '' : 'hidden'}"></span>
+        <div class="name">{this.props.jammer.name}</div>
+      </div>
+      <div class="timeouts">
+        <div class="timeout-bar official-review {this.props.hasOfficialReview ? :}">
+        <div class="timeout-bar timeout">
+        <div class="timeout-bar timeout">
+        <div class="timeout-bar timeout">
+      </div>
+    </section>`
+ScoreboardClocks = React.createClass
+  getInitialState: () ->
+  render: () ->
+    `<section class="clocks>
+      <div class="clocks-border">
+        <div class="period-jam-counts">
+          <div class="period">
+            <label class="hidden-xs hidden-sm">Period</label>
+            <label class="visible-sm-block">Per</label>
+            <div class="number period-number"></div>
+          </div>
+          <div class="jam"
+            <label>Jam</label>
+            <div class="number jam-number"></div>
+          </div>
+        </div>
+        <div class="period-clock"
+          <label class="hidden">Period Clock</label
+          <div class="clock period-clock"></div>
+        </div>
+        <div class="jam-clock">
+          <label class="jam-clock-label">Time to Derby</label>
+          <div class="jam-clock clock"></div>
+        </div>
+      </div>
+      <div class="jam-points-wrapper">
+        <div class="home-team-jam-points points"></div>
+        <div class="away-team-jam-points points></div>
+      </div>
+    </section>`
 exports.wftda.functions.bindScoreboardKeys = () ->
   scoreboard = new wftda.classes.Scoreboard()
   scoreboard.initialize()
