@@ -87,108 +87,150 @@
       .col-md-2.col-xs-2
       .col-md-2.col-xs-2.text-center
         | Points
-    .row.columns
-      .col-md-2.col-xs-2
-        .pass
-          | 1
-      .col-md-2.col-xs-2
-        .skater
-          | 1234
-      .col-md-2.col-xs-2
-        .notes.injury
-          | Injury
-      .col-md-2.col-xs-2
-        .notes.call
-          | Call
-      .col-md-2.col-xs-2
-        .notes.lost
-          | Lost
-      .col-md-2.col-xs-2
-        .points
-          | 10
+    #pass-1 aria-multiselectable="true"
+      .row.columns
+        .col-md-2.col-xs-2
+          .pass aria-controls="#edit-pass-number-1" aria-expanded="false" data-parent="#pass-1" data-toggle="collapse" href="#edit-pass-number-1"
+            | 1
+        .col-md-2.col-xs-2
+          .skater
+            | 1234
+        .col-md-2.col-xs-2
+          .notes.injury
+            | Injury
+        .col-md-2.col-xs-2
+          .notes.call
+            | Call
+        .col-md-2.col-xs-2
+          .notes.lost
+            | Lost
+        .col-md-2.col-xs-2
+          .points aria-controls="#edit-pass-1" aria-expanded="false" data-parent="#pass-1" data-toggle="collapse" href="#edit-pass-1"
+            | 10
 
-  / first pass edit
-  .edit-pass.first-pass
-    .row
-      .col-md-2.col-xs-2.col-md-offset-1.col-xs-offset-1
-        .cancel
-          | X
-      .col-md-2.col-xs-2
-        .notes-injury
-          | Injury
-      .col-md-2.col-xs-2
-        .notes-lead
-          | Lead
-      .col-md-2.col-xs-2
-        .notes-call
-          | Call
-      .col-md-2.col-xs-2
-        .submit
-          | X
-    .row
-      .col-md-2.col-xs-2.col-md-offset-3.col-xs-offset-3
-        .zero
-          | 0
-      .col-md-2.col-xs-2
-        .one
-          | 1
-      .col-md-2.col-xs-2
-        .no-pass
-          | No P.
+      / edit pass number
+      .panel
+        #edit-pass-number-1.edit-pass-number.collapse
+          .row
+            .col-md-1.col-xs-1
+              .cancel
+                | X
+            .col-md-2.col-xs-2
+              .minus
+                | MINUS
+            .col-md-2.col-xs-2
+              .plus
+                | PLUS
+            .col-md-1.col-xs-1
+              .submit
+                | X
 
-  / second pass edit
-  .edit-pass.second-pass
-    .row
-      .col-md-2.col-xs-2.col-md-offset-1.col-xs-offset-1
-        .cancel
-          | X
-      .col-md-2.col-xs-2
-        .notes-injury
-          | Injury
-      .col-md-2.col-xs-2
-        .notes-lead
-          | Lead
-      .col-md-2.col-xs-2
-        .notes-call
-          | Call
-      .col-md-2.col-xs-2
-        .submit
-          | X
-    .row
-      .col-md-1.col-xs-1.col-md-offset-2.col-xs-offset-2
-        .zero
-          | 0
-      .col-md-1.col-xs-1
-        .one
-          | 1
-      .col-md-1.col-xs-1
-        .two
-          | 2
-      .col-md-1.col-xs-1
-        .three
-          | 3
-      .col-md-1.col-xs-1
-        .four
-          | 4
-      .col-md-1.col-xs-1
-        .five
-          | 5
-      .col-md-1.col-xs-1
-        .six
-          | 6
+      / first pass edit
+      .panel
+        #edit-pass-1.edit-pass.first-pass.collapse
+          .row
+            .col-md-2.col-xs-2.col-md-offset-1.col-xs-offset-1
+              .cancel
+                | X
+            .col-md-2.col-xs-2
+              .notes-injury
+                | Injury
+            .col-md-2.col-xs-2
+              .notes-lead
+                | Lead
+            .col-md-2.col-xs-2
+              .notes-call
+                | Call
+            .col-md-2.col-xs-2
+              .submit
+                | X
+          .row
+            .col-md-2.col-xs-2.col-md-offset-3.col-xs-offset-3
+              .zero
+                | 0
+            .col-md-2.col-xs-2
+              .one
+                | 1
+            .col-md-2.col-xs-2
+              .no-pass
+                | No P.
 
-  / edit pass number
-  .edit-pass-number
-    .row
-      .col-md-1.col-xs-1
-        .cancel
-          | X
-      .col-md-2.col-xs-2
-        .minus
-          | MINUS
-      .col-md-2.col-xs-2
-        .plus
-          | PLUS
-      .col-md-1.col-xs-1
-        .submit
-          | X
+    #pass-2 aria-multiselectable="true"
+      .row.columns
+        .col-md-2.col-xs-2
+          .pass aria-controls="#edit-pass-number-2" aria-expanded="false" data-parent="#pass-2" data-toggle="collapse" href="#edit-pass-number-2"
+            | 1
+        .col-md-2.col-xs-2
+          .skater
+            | 1234
+        .col-md-2.col-xs-2
+          .notes.injury
+            | Injury
+        .col-md-2.col-xs-2
+          .notes.call
+            | Call
+        .col-md-2.col-xs-2
+          .notes.lost
+            | Lost
+        .col-md-2.col-xs-2
+          .points aria-controls="#edit-pass-2" aria-expanded="false" data-parent="#pass-2" data-toggle="collapse" href="#edit-pass-2"
+            | 5
+
+      / edit pass number
+      .panel
+        #edit-pass-number-2.edit-pass-number.collapse
+          .row
+            .col-md-1.col-xs-1
+              .cancel
+                | X
+            .col-md-2.col-xs-2
+              .minus
+                | MINUS
+            .col-md-2.col-xs-2
+              .plus
+                | PLUS
+            .col-md-1.col-xs-1
+              .submit
+                | X
+
+      / second pass edit
+      .panel
+        #edit-pass-2.edit-pass.second-pass.collapse
+          .row
+            .col-md-2.col-xs-2.col-md-offset-1.col-xs-offset-1
+              .cancel
+                | X
+            .col-md-2.col-xs-2
+              .notes-injury
+                | Injury
+            .col-md-2.col-xs-2
+              .notes-lead
+                | Lead
+            .col-md-2.col-xs-2
+              .notes-call
+                | Call
+            .col-md-2.col-xs-2
+              .submit
+                | X
+          .row
+            .col-md-1.col-xs-1.col-md-offset-2.col-xs-offset-2
+              .zero
+                | 0
+            .col-md-1.col-xs-1
+              .one
+                | 1
+            .col-md-1.col-xs-1
+              .two
+                | 2
+            .col-md-1.col-xs-1
+              .three
+                | 3
+            .col-md-1.col-xs-1
+              .four
+                | 4
+            .col-md-1.col-xs-1
+              .five
+                | 5
+            .col-md-1.col-xs-1
+              .six
+                | 6

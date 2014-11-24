@@ -36,6 +36,8 @@
     }
 
     .columns {
+      margin-top: 4px;
+
       .col-md-2, .col-xs-2 {
         & > div {
           background-color: $gray;
@@ -61,6 +63,14 @@
         .points {
         }
       }
+    }
+
+    // because collapse requires a .panel to work with data-parent,
+    // https://github.com/twbs/bootstrap/blob/a577f1922ee7054a97b455ccfaa16857cb2b79fc/js/collapse.js#L49,
+    // but we don't want the .panel styles.
+    .panel {
+      border: 0;
+      margin-bottom: 0;
     }
   }
 
