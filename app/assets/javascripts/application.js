@@ -10,15 +10,16 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require react
-//= require react_u
 //= require jquery
 //= require bootstrap-sprockets
 //= require jquery_ujs
 //= require turbolinks
+//= require react
+//= require react_ujs
 //= require mousetrap.min
 //= require namespaces
 //= require constants
 //= require functions
 //= require websocket_rails/main
+//= require components/components.js
 React.initializeTouchEvents(true);
