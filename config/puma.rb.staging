@@ -1,7 +1,6 @@
 preload_app!
 
 bind          "unix:///home/bouttime/applications/bouttime/shared/tmp/sockets/puma.socket"
-daemonize
 environment   "staging"
 pidfile       "/home/bouttime/applications/bouttime/shared/tmp/pids/puma.pid"
 rackup        DefaultRackup
