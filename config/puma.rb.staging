@@ -1,11 +1,11 @@
 preload_app!
 
-bind          "unix://./tmp/sockets/puma.socket"
+bind          "unix:///home/bouttime/applications/bouttime/shared/tmp/sockets/puma.socket"
 daemonize
 environment   "staging"
-pidfile       "tmp/pids/puma.pid"
+pidfile       "/home/bouttime/applications/bouttime/shared/tmp/pids/puma.pid"
 rackup        DefaultRackup
-state_path    "tmp/pids/puma.state"
+state_path    "/home/bouttime/applications/bouttime/shared/tmp/pids/puma.state"
 tag           "bouttime"
 threads       1, 16
 workers       3
