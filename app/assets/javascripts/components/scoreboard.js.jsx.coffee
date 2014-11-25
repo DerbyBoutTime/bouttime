@@ -6,15 +6,17 @@ exports.Scoreboard = React.createClass
   getInitialState: () ->
     jamNumber: 1
     periodNumber: 1
-    jamClock: "00:00"
-    periodClock: "00:00"
+    jamClockLabel: "Time To Derby"
+    jamClock: "90:00"
+    periodClock: "30:00"
     team:
       home:
         name: "Atlanta Rollergirls"
-        colorbarStyle:
-          backgroundColor: "#FF0000"
-        logoURI: "http://placehold.it/200x200"
+        colorBarStyle:
+          backgroundColor: "#2082a6"
+        logoURI: "http://placehold.it/350x240"
         points: 0
+        jamPoints: 0
         hasOfficialReview: true
         timeouts: 3
         jammer:
@@ -22,10 +24,11 @@ exports.Scoreboard = React.createClass
           name: "Nattie Long Legs"
       away:
         name: "Gotham Rollergirls"
-        colorbarStyle:
-          backgroundColor: "#FF0000"
-        logoURI: "http://placehold.it/200x200"
+        colorBarStyle:
+          backgroundColor: "#f50031"
+        logoURI: "http://placehold.it/350x240"
         points: 0
+        jamPoints: 0
         hasOfficialReview: true
         timeouts: 3
         jammer:
@@ -38,19 +41,19 @@ exports.Scoreboard = React.createClass
           <img src={this.state.team.home.logoURI} />
         </div>
         <div className="name">{this.state.team.home.name}</div>
-        <div className="color-bar" style={this.state.team.home.colorbarStyle}></div>
-        <div className="score">{this.state.team.home.score}</div>
-        <div className="jammer">
+        <div className="color-bar" style={this.state.team.home.colorBarStyle}></div>
+        <div className="score">{this.state.team.home.points}</div>
+        <div className="jammer home-team-jammer">
           <div className="lead-status">
-            <span className="glyphicon glyphicon-star {this.state.team.home.jammer.lead ? '' : 'hidden'}"></span>
+            <span className="glyphicon glyphicon-star" className={this.state.team.home.jammer.lead ? '' : 'hidden'}></span>
           </div>
           <div className="name">{this.state.team.home.jammer.name}</div>
         </div>
-        <div className="timeouts">
-          <div className="timeout-bar official-review {this.state.team.home.hasOfficialReview ? :}"></div>
-          <div className="timeout-bar timeout"></div>
-          <div className="timeout-bar timeout"></div>
-          <div className="timeout-bar timeout"></div>
+        <div className="timeouts home-team-timeouts">
+          <div style={this.state.team.home.colorBarStyle} className="timeout-bar official-review {this.state.team.home.hasOfficialReview ? :}"></div>
+          <div style={this.state.team.home.colorBarStyle} className="timeout-bar timeout"></div>
+          <div style={this.state.team.home.colorBarStyle} className="timeout-bar timeout"></div>
+          <div style={this.state.team.home.colorBarStyle} className="timeout-bar timeout"></div>
         </div>
       </section>
       <section className="clocks">
@@ -59,45 +62,45 @@ exports.Scoreboard = React.createClass
             <div className="period">
               <label className="hidden-xs hidden-sm">Period</label>
               <label className="visible-sm-block">Per</label>
-              <div className="number period-number"></div>
+              <div className="number period-number">{this.state.periodNumber}</div>
             </div>
             <div className="jam">
               <label>Jam</label>
-              <div className="number jam-number"></div>
+              <div className="number jam-number">{this.state.jamNumber}</div>
             </div>
           </div>
           <div className="period-clock">
             <label className="hidden">Period Clock</label>
-            <div className="clock period-clock"></div>
+            <div className="clock period-clock">{this.state.periodClock}</div>
           </div>
           <div className="jam-clock">
-            <label className="jam-clock-label">Time to Derby</label>
-            <div className="clock"></div>
+            <label className="jam-clock-label">{this.state.jamClockLabel}</label>
+            <div className="clock">{this.state.jamClock}</div>
           </div>
         </div>
         <div className="jam-points-wrapper">
-          <div className="home-team-jam-points points"></div>
-          <div className="away-team-jam-points points"></div>
+          <div className="home-team-jam-points points">{this.state.team.home.jamPoints}</div>
+          <div className="away-team-jam-points points">{this.state.team.away.jamPoints}</div>
         </div>
       </section>
       <section className="team away">
         <div className="logo">
           <img src={this.state.team.away.logoURI} />
         </div>
-        <div className="name">{this.state.team.away.teamName}</div>
-        <div className="color-bar" style={this.state.team.away.colorbarStyle}></div>
-        <div className="score">{this.state.team.away.score}</div>
-        <div className="jammer">
+        <div className="name">{this.state.team.away.name}</div>
+        <div className="color-bar" style={this.state.team.away.colorBarStyle}></div>
+        <div className="score">{this.state.team.away.points}</div>
+        <div className="jammer away-team-jammer">
           <div className="lead-status">
             <span className="glyphicon glyphicon-star {this.state.team.away.jammer.lead ? '' : 'hidden'}"></span>
-            <div className="name">{this.state.team.away.jammer.name}</div>
           </div>
+          <div className="name">{this.state.team.away.jammer.name}</div>
         </div>
-        <div className="timeouts">
-          <div className="timeout-bar official-review {this.state.team.away.hasOfficialReview ? :}"></div>
-          <div className="timeout-bar timeout"></div>
-          <div className="timeout-bar timeout"></div>
-          <div className="timeout-bar timeout"></div>
+        <div className="timeouts away-team-timeouts">
+          <div style={this.state.team.away.colorBarStyle} className="timeout-bar official-review {this.state.team.away.hasOfficialReview ? :}"></div>
+          <div style={this.state.team.away.colorBarStyle} className="timeout-bar timeout"></div>
+          <div style={this.state.team.away.colorBarStyle} className="timeout-bar timeout"></div>
+          <div style={this.state.team.away.colorBarStyle} className="timeout-bar timeout"></div>
         </div>
       </section>
       <section className="alerts">

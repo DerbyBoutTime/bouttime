@@ -138,7 +138,7 @@
     }
   }
 
-  > section{
+  > .alerts, .ads, .fly-ins{
     @include make-row;
   }
 
@@ -227,7 +227,8 @@
       float: right !important;
     }
     .name {
-      float: left !important;
+      float: right !important;
+      margin-right: 1em;
     }
   }
   .away-team-jammer {
@@ -236,7 +237,8 @@
       float: left !important;
     }
     .name {
-      float: right !important;
+      float: left !important;
+      margin-left: 1em;
     }
   }
 
