@@ -21,5 +21,5 @@
 //= require constants
 //= require functions
 //= require websocket_rails/main
-//= require components/components.js
+//= require components/components
 React.initializeTouchEvents(true);
