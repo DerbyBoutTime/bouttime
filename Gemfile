@@ -37,7 +37,7 @@ gem "therubyracer", platforms: [:ruby]
 gem "airbrake"
 
 # processes
-gem "foreman"
+gem "foreman", git: "https://github.com/dylanegan/foreman.git", branch: "tech/update_dotenv"
 gem "puma"
 
 # logging
@@ -61,5 +61,4 @@ gem "minitest-rails", group: [:test]
 
 # deployment
 gem "capistrano", group: [:deployment]
-gem "capistrano-puma", group: [:deployment]
 gem "capistrano-rails", group: [:deployment]
