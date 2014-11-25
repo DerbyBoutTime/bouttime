@@ -2,7 +2,7 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 exports = exports ? this
-exports.Scoreboard= = React.createClass
+exports.Scoreboard = React.createClass
   getInitialState: () ->
   render: () ->
     `<TeamScoreboard/>`
