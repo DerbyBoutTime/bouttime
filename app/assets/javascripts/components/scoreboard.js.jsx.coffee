@@ -21,13 +21,14 @@ exports.TeamScoreboard = React.createClass
       <div class="jammer>
         <div class="lead-status">
           <span class="glyphicon glyphicon-star {this.props.jammer.lead ? '' : 'hidden'}"></span>
+        </div>
         <div class="name">{this.props.jammer.name}</div>
       </div>
       <div class="timeouts">
-        <div class="timeout-bar official-review {this.props.hasOfficialReview ? :}">
-        <div class="timeout-bar timeout">
-        <div class="timeout-bar timeout">
-        <div class="timeout-bar timeout">
+        <div class="timeout-bar official-review {this.props.hasOfficialReview ? :}"></div>
+        <div class="timeout-bar timeout"></div>
+        <div class="timeout-bar timeout"></div>
+        <div class="timeout-bar timeout"></div>
       </div>
     </section>`
 ScoreboardClocks = React.createClass
