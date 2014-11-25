@@ -34,10 +34,8 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 # Default value for keep_releases is 5
 set :keep_releases, 1
 
-set :puma_role, :web
-
-class ForemanRestartRequired < StandardError; end
-class NginxRestartRequired < StandardError; end
+set :puma_pid, "tmp/pids/puma.pid"
+set :puma_state, "tmp/pids/puma.state"
 
 namespace :deploy do
   desc 'Restart application'
@@ -48,82 +46,20 @@ namespace :deploy do
 
   before :publishing, "foreman:export"
   before :publishing, "nginx:export"
+  before :publishing, "puma:copy"
 
   after :publishing, :restart
 
   after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-    end
-  end
-end
-
-namespace :nginx do
-  desc "Export"
-  task :export do
-    on roles(:web) do
-      begin
-        raise NginxRestartRequired unless latest_release = capture(:ls, '-xr', releases_path).split[1]
-        latest_release_path = releases_path.join(latest_release)
-        execute(:diff, '-Naur', release_path.join('config/nginx.conf'), latest_release_path.join('config/nginx.conf')) rescue raise(NginxRestartRequired)
-      rescue NginxRestartRequired
-        set(:nginx_restart_required, true)
-        execute(:cp, release_path.join("config/nginx.conf"), "/etc/nginx/sites-available/bouttime")
-        execute :sudo, "/usr/local/bin/nginx_ensite bouttime"
-      end
-    end
-  end
-
-  desc "Restart"
-  task :restart do
-    on roles(:web) do
-      execute :sudo, "/etc/init.d/nginx reload"
-    end
-  end
-end
-
-namespace :foreman do
-  desc "Export"
-  task :export do
-    on roles(:app) do
-      within release_path do
-        begin
-          raise ForemanRestartRequired unless latest_release = capture(:ls, '-xr', releases_path).split[1]
-          latest_release_path = releases_path.join(latest_release)
-          execute(:diff, '-Naur', release_path.join('Procfile'), latest_release_path.join('Procfile')) rescue raise(ForemanRestartRequired)
-        rescue ForemanRestartRequired
-          set(:foreman_restart_required, true)
-          execute :bundle, "exec foreman export upstart /etc/init/#{fetch(:application)} -a #{fetch(:application)} -u #{host.user} -l #{shared_path.join('log')}"
+    on roles(:app), in: :parallel do
+      within current_path do
+        host.properties.processes.each do |process|
+          if process == "web" && test("[ -f #{shared_path.join(fetch(:puma_pid))} ]") && test("kill -0 $( cat #{shared_path.join(fetch(:puma_pid))} )")
+            execute :bundle, "exec", "pumactl", "-S", shared_path.join(fetch(:puma_state)), "phased-restart"
+          else
+            execute :sudo, "restart bouttime/bouttime-#{process}"
+          end
         end
-      end
-    end
-  end
-
-  task :restart do
-    on roles(:job, :web) do
-      host.roles.each do |role|
-        next unless [:job, :web].include?(role)
-
-        execute :sudo, "start bouttime/bouttime-#{role} || sudo restart bouttime/bouttime-#{role}"
-      end
-    end
-  end
-
-  task :start do
-    on roles(:job, :web) do
-      host.roles.each do |role|
-        next unless [:job, :web].include?(role)
-
-        execute :sudo, "start bouttime/bouttime-#{role}"
-      end
-    end
-  end
-
-  task :stop do
-    on roles(:job, :web) do
-      host.roles.each do |role|
-        next unless [:job, :web].include?(role)
-
-        execute :sudo, "stop bouttime/bouttime-#{role}"
       end
     end
   end
