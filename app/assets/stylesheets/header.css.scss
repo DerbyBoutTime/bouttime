@@ -1,0 +1,33 @@
+header {
+  .container-fluid {
+    padding: 0;
+  }
+
+  .title-bar {
+    background-color: $gray;
+    color: $white;
+  }
+
+  .navbar {
+    background-color: $near-black;
+    min-height: 0;
+  }
+
+  .navbar-nav {
+    li {
+      a {
+        padding: 4px;
+      }
+    }
+  }
+
+  .logo {
+    position: absolute;
+    top: 10px;
+    right: 5%;
+
+    @media (max-width: $screen-xs-max) {
+      top: 15px;
+    }
+  }
+}
