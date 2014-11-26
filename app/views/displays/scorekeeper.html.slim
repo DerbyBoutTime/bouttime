@@ -3,234 +3,264 @@
 
 #scorekeeper-view
   / teams
-  .row.teams.text-center
+  .row.teams.text-center.gutters-xs
     / away
     .col-md-6.col-xs-6
       .team-name.away
-        | AWAY
+        | Atlanta Rollergirls
     .col-md-6.col-xs-6
       .team-name.home
-        | HOME
+        | Gotham Rollergirls
 
   / stats
-  .row.stats
+  .row.stats.gutters-xs
     / current jam
     .col-md-6.col-xs-6
       .stat.current-jam
-        | CURRENT JAM
+        .row.gutters-xs
+          .col-md-8.col-xs-8.col-md-offset-1.col-xs-offset-1
+            strong
+              | Current Jam
+          .col-md-2.col-xs-2.text-right.current-jam-score
+            strong
+              | 0
     / game total
     .col-md-6.col-xs-6
       .stat.game-total
-        | GAME TOTAL
+        .row.gutters-xs
+          .col-md-8.col-xs-8.col-md-offset-1.col-xs-offset-1
+            strong
+              | Game Total
+          .col-md-2.col-xs-2.text-right.game-total-score
+            strong
+              | 0
 
   / jams
   .jams
-    .row.headers
-      .col-md-2.col-xs-2
-        | Jam
-      .col-md-2.col-xs-2
-        | Skater
-      .col-md-2.col-xs-2.col-md-offset-2.col-xs-offset-2.text-center
-        | Notes
-      .col-md-2.col-xs-2.col-md-offset-2.col-xs-offset-2.text-center
-        | Points
-    .row.columns
-      .col-md-2.col-xs-2
-        .jam
-          | 1
-      .col-md-2.col-xs-2
-        .skater
-          | 1234
-      .col-md-2.col-xs-2
-        .notes.injury
-          | Injury
-      .col-md-2.col-xs-2
-        .notes.call
-          | Call
-      .col-md-2.col-xs-2
-        .notes.lost
-          | Lost
-      .col-md-2.col-xs-2
-        .points
-          | 10
-
-  / links
-  .row.links.text-center
-    .col-md-6.col-xs-6
-      .link.main-menu
-        | MAIN MENU
-    .col-md-3.col-xs-3
-      .link.prev
-        | PREV
-    .col-md-3.col-xs-3
-      .link.next
-        | NEXT
-
-  .row.jam
-    .col-md-3.col-xs-3.col-md-offset-6.col-xs-offset-6
-      .jam-number
-        | JAM 5
-    .col-md-3.col-xs-3.text-right
-      .jam-total-score
-        | 0
-
-  / passes
-  .passes
-    .row.headers
-      .col-md-2.col-xs-2
-        | Pass
-      .col-md-2.col-xs-2
-        | Skater
-      .col-md-2.col-xs-2
-      .col-md-2.col-xs-2.text-center
-        | Notes
-      .col-md-2.col-xs-2
-      .col-md-2.col-xs-2.text-center
-        | Points
-    #pass-1 aria-multiselectable="true"
-      .row.columns
+    .headers
+      .row.gutters-xs
         .col-md-2.col-xs-2
-          .pass aria-controls="#edit-pass-number-1" aria-expanded="false" data-parent="#pass-1" data-toggle="collapse" href="#edit-pass-number-1"
+          strong
+            | Jam
+        .col-md-2.col-xs-2
+          strong
+            | Skater
+        .col-md-2.col-xs-2.col-md-offset-2.col-xs-offset-2.text-center
+          strong
+            | Notes
+        .col-md-2.col-xs-2.col-md-offset-2.col-xs-offset-2.text-center
+          strong
+            | Points
+    .columns
+      .row.gutters-xs
+        .col-md-2.col-xs-2
+          .jam.text-center
             | 1
         .col-md-2.col-xs-2
           .skater
             | 1234
         .col-md-2.col-xs-2
-          .notes.injury
+          .notes.injury.text-center
             | Injury
         .col-md-2.col-xs-2
-          .notes.call
+          .notes.call.text-center
             | Call
         .col-md-2.col-xs-2
-          .notes.lost
+          .notes.lost.text-center
             | Lost
         .col-md-2.col-xs-2
-          .points aria-controls="#edit-pass-1" aria-expanded="false" data-parent="#pass-1" data-toggle="collapse" href="#edit-pass-1"
+          .points.text-center
             | 10
+
+  / links
+  .links
+    .row.text-center.gutters-xs
+      .col-md-6.col-xs-6
+        .link.main-menu
+          | MAIN MENU
+      .col-md-6.col-xs-6
+        .row.gutters-xs
+          .col-md-5.col-xs-5.col-md-offset-1.col-xs-offset-1
+            .link.prev
+              | PREV
+          .col-md-6.col-xs-6
+            .link.next
+              | NEXT
+
+  .jam-details
+    .row.gutters-xs
+      .col-md-3.col-xs-3.col-md-offset-6.col-xs-offset-6
+        .jam-number
+          strong
+            | Jam 5
+      .col-md-3.col-xs-3.text-right
+        .jam-total-score
+          strong
+            | 0
+
+  / passes
+  .passes
+    .headers
+      .row.gutters-xs
+        .col-md-2.col-xs-2
+          | Pass
+        .col-md-2.col-xs-2
+          | Skater
+        .col-md-2.col-xs-2
+        .col-md-2.col-xs-2.text-center
+          | Notes
+        .col-md-2.col-xs-2
+        .col-md-2.col-xs-2.text-center
+          | Points
+
+    #pass-1 aria-multiselectable="true"
+      .columns
+        .row.gutters-xs
+          .col-md-2.col-xs-2
+            .pass.text-center aria-controls="#edit-pass-number-1" aria-expanded="false" data-parent="#pass-1" data-toggle="collapse" href="#edit-pass-number-1"
+              | 1
+          .col-md-2.col-xs-2
+            .skater
+              | 1234
+          .col-md-2.col-xs-2
+            .notes.injury.text-center
+              | Injury
+          .col-md-2.col-xs-2
+            .notes.call.text-center
+              | Call
+          .col-md-2.col-xs-2
+            .notes.lost.text-center
+              | Lost
+          .col-md-2.col-xs-2
+            .points.text-center aria-controls="#edit-pass-1" aria-expanded="false" data-parent="#pass-1" data-toggle="collapse" href="#edit-pass-1"
+              | 10
 
       / edit pass number
       .panel
         #edit-pass-number-1.edit-pass-number.collapse
-          .row
+          .row.gutters-xs
             .col-md-1.col-xs-1
-              .cancel
-                | X
+              .remove.text-center
+                span.glyphicon.glyphicon-remove aria-hidden="true"
             .col-md-2.col-xs-2
-              .minus
-                | MINUS
+              .minus.text-center
+                span.glyphicon.glyphicon-minus aria-hidden="true"
             .col-md-2.col-xs-2
-              .plus
-                | PLUS
+              .plus.text-center
+                span.glyphicon.glyphicon-plus aria-hidden="true"
             .col-md-1.col-xs-1
-              .submit
-                | X
+              .ok.text-center
+                span.glyphicon.glyphicon-ok aria-hidden="true"
 
       / first pass edit
       .panel
         #edit-pass-1.edit-pass.first-pass.collapse
-          .row
+          .row.gutters-xs
             .col-md-2.col-xs-2.col-md-offset-1.col-xs-offset-1
-              .cancel
-                | X
+              .remove.text-center
+                span.glyphicon.glyphicon-remove aria-hidden="true"
             .col-md-2.col-xs-2
-              .notes-injury
+              .notes.injury.text-center
                 | Injury
             .col-md-2.col-xs-2
-              .notes-lead
+              .notes.note-lead.text-center
                 | Lead
             .col-md-2.col-xs-2
-              .notes-call
+              .notes.call.text-center
                 | Call
             .col-md-2.col-xs-2
-              .submit
-                | X
-          .row
+              .ok.text-center
+                span.glyphicon.glyphicon-ok aria-hidden="true"
+          .row.gutters-xs
             .col-md-2.col-xs-2.col-md-offset-3.col-xs-offset-3
-              .zero
+              .zero.text-center
                 | 0
             .col-md-2.col-xs-2
-              .one
+              .one.text-center
                 | 1
             .col-md-2.col-xs-2
-              .no-pass
+              .notes.no-pass.text-center
                 | No P.
 
     #pass-2 aria-multiselectable="true"
-      .row.columns
-        .col-md-2.col-xs-2
-          .pass aria-controls="#edit-pass-number-2" aria-expanded="false" data-parent="#pass-2" data-toggle="collapse" href="#edit-pass-number-2"
-            | 1
-        .col-md-2.col-xs-2
-          .skater
-            | 1234
-        .col-md-2.col-xs-2
-          .notes.injury
-            | Injury
-        .col-md-2.col-xs-2
-          .notes.call
-            | Call
-        .col-md-2.col-xs-2
-          .notes.lost
-            | Lost
-        .col-md-2.col-xs-2
-          .points aria-controls="#edit-pass-2" aria-expanded="false" data-parent="#pass-2" data-toggle="collapse" href="#edit-pass-2"
-            | 5
+      .columns
+        .row.gutters-xs
+          .col-md-2.col-xs-2
+            .pass.text-center aria-controls="#edit-pass-number-2" aria-expanded="false" data-parent="#pass-2" data-toggle="collapse" href="#edit-pass-number-2"
+              | 1
+          .col-md-2.col-xs-2
+            .skater
+              | 1234
+          .col-md-2.col-xs-2
+            .notes.injury.text-center
+              | Injury
+          .col-md-2.col-xs-2
+            .notes.call.text-center
+              | Call
+          .col-md-2.col-xs-2
+            .notes.lost.text-center
+              | Lost
+          .col-md-2.col-xs-2
+            .points.text-center aria-controls="#edit-pass-2" aria-expanded="false" data-parent="#pass-2" data-toggle="collapse" href="#edit-pass-2"
+              | 5
 
       / edit pass number
       .panel
         #edit-pass-number-2.edit-pass-number.collapse
-          .row
+          .row.gutters-xs
             .col-md-1.col-xs-1
-              .cancel
-                | X
+              .remove.text-center
+                span.glyphicon.glyphicon-remove aria-hidden="true"
             .col-md-2.col-xs-2
-              .minus
-                | MINUS
+              .minus.text-center
+                span.glyphicon.glyphicon-minus aria-hidden="true"
             .col-md-2.col-xs-2
-              .plus
-                | PLUS
+              .plus.text-center
+                span.glyphicon.glyphicon-plus aria-hidden="true"
             .col-md-1.col-xs-1
-              .submit
-                | X
+              .ok.text-center
+                span.glyphicon.glyphicon-ok aria-hidden="true"
 
       / second pass edit
       .panel
         #edit-pass-2.edit-pass.second-pass.collapse
-          .row
+          .row.gutters-xs
             .col-md-2.col-xs-2.col-md-offset-1.col-xs-offset-1
-              .cancel
-                | X
+              .remove.text-center
+                span.glyphicon.glyphicon-remove aria-hidden="true"
             .col-md-2.col-xs-2
-              .notes-injury
+              .notes.injury.text-center
                 | Injury
             .col-md-2.col-xs-2
-              .notes-lead
+              / must use .note-lead beacause .lead is used otherwise
+              .notes.note-lead.text-center
                 | Lead
             .col-md-2.col-xs-2
-              .notes-call
+              .notes.call.text-center
                 | Call
             .col-md-2.col-xs-2
-              .submit
-                | X
-          .row
+              .ok.text-center
+                span.glyphicon.glyphicon-ok aria-hidden="true"
+
+          .row.gutters-xs
             .col-md-1.col-xs-1.col-md-offset-2.col-xs-offset-2
-              .zero
+              .zero.text-center
                 | 0
             .col-md-1.col-xs-1
-              .one
+              .one.text-center
                 | 1
             .col-md-1.col-xs-1
-              .two
+              .two.text-center
                 | 2
             .col-md-1.col-xs-1
-              .three
+              .three.text-center
                 | 3
             .col-md-1.col-xs-1
-              .four
+              .four.text-center
                 | 4
             .col-md-1.col-xs-1
-              .five
+              .five.text-center
                 | 5
             .col-md-1.col-xs-1
-              .six
+              .six.text-center
                 | 6

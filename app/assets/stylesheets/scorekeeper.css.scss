@@ -1,10 +1,23 @@
+.row {
+  &.gutters-xs {
+    margin-right: -2px;
+    margin-left: -2px;
+  }
+
+  &.gutters-xs [class^="col-"], &.gutters-xs [class*=" col-"] {
+    padding-right: 2px;
+    padding-left: 2px;
+  }
+}
+
 #scorekeeper-view {
   .team-name {
     border: 1px solid $gray;
     border-radius: 2px;
-    height: 30px;
-    min-width: 16px;
     color: $white;
+    /*height: 30px;*/
+    line-height: 30px;
+    /*min-width: 16px;*/
 
     &.away {
       background-color: $away-team-bg-color;
@@ -20,39 +33,60 @@
   }
 
   .current-jam, .game-total {
+    color: $near-black;
     border: 1px solid $gray;
     border-radius: 2px;
-    height: 30px;
-    color: $near-black;
-    min-width: 16px;
+    font-size: 1.1em;
+    /*height: 30px;*/
+    line-height: 30px;
+    /*min-width: 16px;*/
+
+    .current-jam-score, .game-total-score {
+      font-size: 1.3em;
+      font-weight: bolder;
+    }
   }
 
   .jams, .passes {
     margin-top: 4px;
 
     .headers {
-      & > div {
-      }
     }
 
     .columns {
       margin-top: 4px;
 
       .col-md-2, .col-xs-2 {
-        & > div {
-          background-color: $gray;
-          border-radius: 2px;
-          color: $near-black;
+        /*& > div {*/
+          /*background-color: $gray;*/
+          /*border-radius: 2px;*/
+          /*color: $near-black;*/
           height: 30px;
-        }
+          /*line-height: 30px;*/
+        /*}*/
 
         .jam, .pass {
           background-color: $near-black;
+          border-radius: 2px;
           color: $white;
+          /*height: 30px;*/
+          line-height: 30px;
         }
         .skater {
+          background-color: $gray;
+          border-radius: 2px;
+          color: $near-black;
+          /*height: 30px;*/
+          line-height: 30px;
+          padding-left: 5%;
         }
         .notes {
+          background-color: $gray;
+          border-radius: 2px;
+          color: $near-black;
+          /*height: 30px;*/
+          line-height: 30px;
+
           &.injury {
           }
           &.call {
@@ -61,6 +95,11 @@
           }
         }
         .points {
+          background-color: $gray;
+          border-radius: 2px;
+          color: $near-black;
+          /*height: 30px;*/
+          line-height: 30px;
         }
       }
     }
@@ -74,45 +113,45 @@
     }
   }
 
-  .jam {
+  .jam-details {
     color: $near-black;
+    font-size: 1.2em;
     margin-top: 4px;
 
-    & > div:first-child {
+    & > .row > div:first-child {
       padding-left: 0px;
       padding-right: 0px;
     }
 
-    & > div:last-child {
+    & > .row > div:last-child {
       padding-left: 0px;
     }
 
     .jam-number, .jam-total-score {
       background-color: $gray;
-      height: 30px;
-      min-width: 16px;
+      /*height: 30px;*/
+      line-height: 30px;
+      /*min-width: 16px;*/
     }
 
     .jam-number {
-      padding-left: 15px;
+      padding-left: 5%;
     }
 
     .jam-total-score {
-      padding-right: 15px;
+      padding-right: 5%;
     }
   }
 
   .links {
     margin-top: 4px;
 
-    & > div {
-    }
-
     .link {
       background-color: $near-black;
       border-radius: 2px;
       color: $white;
-      height: 30px;
+      /*height: 30px;*/
+      line-height: 30px;
     }
   }
 
@@ -143,12 +182,18 @@
   .edit-pass, .edit-pass-number {
     .row {
       & > div > div {
-        background-color: $gray;
         border-radius: 2px;
-        height: 30px;
+        /*height: 30px;*/
+        line-height: 30px;
       }
 
-      .cancel, .submit {
+      .notes {
+        &.call, &.injury, &.lost, &.note-lead, &.no-pass {
+          background-color: $gray;
+        }
+      }
+
+      .remove, .ok {
         background-color: $near-black;
         color: $white;
       }
