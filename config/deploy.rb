@@ -34,18 +34,33 @@ set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public
 # Default value for keep_releases is 5
 set :keep_releases, 1
 
+set :puma_pid, "tmp/pids/puma.pid"
+set :puma_state, "tmp/pids/puma.state"
+
 namespace :deploy do
   desc 'Restart application'
   task :restart do
-    on roles(:app), in: :sequence, wait: 5 do
-      execute :touch, release_path.join('tmp/restart.txt')
-    end
+    invoke "foreman:restart" if fetch(:foreman_restart_required)
+    invoke "nginx:restart" if fetch(:nginx_restart_required)
   end
+
+  before :publishing, "foreman:export"
+  before :publishing, "nginx:export"
+  before :publishing, "puma:copy"
 
   after :publishing, :restart
 
   after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
+    on roles(:app), in: :parallel do
+      within current_path do
+        host.properties.processes.each do |process|
+          if process == "web" && test("[ -f #{shared_path.join(fetch(:puma_pid))} ]") && test("kill -0 $( cat #{shared_path.join(fetch(:puma_pid))} )")
+            execute :bundle, "exec", "pumactl", "-S", shared_path.join(fetch(:puma_state)), "phased-restart"
+          else
+            execute :sudo, "restart bouttime/bouttime-#{process}"
+          end
+        end
+      end
     end
   end
 end
