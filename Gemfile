@@ -37,7 +37,7 @@ gem "therubyracer", platforms: [:ruby]
 gem "airbrake"
 
 # processes
-gem "foreman", git: "https://github.com/dylanegan/foreman.git", branch: "tech/update_dotenv"
+gem "foreman"
 gem "puma"
 
 # logging
