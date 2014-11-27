@@ -8,27 +8,25 @@ describe IGRF::Parser do
     @parser = self.class.class_variable_get(:@@parser)
   end
 
-  describe "#referees" do
+  describe "#officials" do
     before do
-      @referees = @parser.referees
-      @first = @referees.first
-      @second = @referees[1]
+      @officials = @parser.officials
+      @nso = @officials.find { |official| official.is_a?(IGRF::NSO) }
+      @referee = @officials.find { |official| official.is_a?(IGRF::Referee) }
     end
 
-    it "returns referees" do
-      assert_kind_of Array, @referees
+    it "returns officials" do
+      assert_kind_of Array, @officials
 
-      assert_kind_of IGRF::Referee, @first
-      assert_equal "Mike Hammer", @first.name
-      assert_equal "HR/IPR", @first.position
-      assert_equal "Rat City", @first.league
-      assert_equal 3, @first.cert
+      assert_equal "Wizard of Laws", @nso.name
+      assert_equal "HNSO", @nso.position
+      assert_equal "Rat City", @nso.league
+      assert_equal 2, @nso.cert
 
-      assert_kind_of IGRF::Referee, @second
-      assert_equal "Steven Evatt", @second.name
-      assert_equal "OPR", @second.position
-      assert_equal "Houston", @second.league
-      assert_equal 2, @second.cert
+      assert_equal "Mike Hammer", @referee.name
+      assert_equal "HR/IPR", @referee.position
+      assert_equal "Rat City", @referee.league
+      assert_equal 3, @referee.cert
     end
   end
 

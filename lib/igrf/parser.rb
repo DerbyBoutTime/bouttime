@@ -12,8 +12,8 @@ module IGRF
       @worksheet_data = {}
     end
 
-    def referees
-      @referees ||= Parsers::RefereesParser.new(data_for_worksheet(2)).parse
+    def officials
+      @officials ||= Parsers::OfficialsParser.new(data_for_worksheet(2)).parse
     end
 
     def rosters
