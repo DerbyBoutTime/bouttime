@@ -33,6 +33,9 @@ gem "coffee-rails", "~> 4.0.0"
 gem "jquery-rails"
 gem "therubyracer", platforms: [:ruby]
 
+# igrf documents
+gem "rubyXL"
+
 # error reporting
 gem "airbrake"
 
