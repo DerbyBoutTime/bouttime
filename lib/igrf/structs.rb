@@ -1,4 +1,5 @@
 module IGRF
+  Referee = Struct.new(:name, :position, :league, :cert)
   Roster = Struct.new(:name, :league, :skaters)
   Rosters = Struct.new(:away, :home)
   Skater = Struct.new(:number, :name)

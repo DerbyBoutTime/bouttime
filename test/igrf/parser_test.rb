@@ -8,6 +8,30 @@ describe IGRF::Parser do
     @parser = self.class.class_variable_get(:@@parser)
   end
 
+  describe "#referees" do
+    before do
+      @referees = @parser.referees
+      @first = @referees.first
+      @second = @referees[1]
+    end
+
+    it "returns referees" do
+      assert_kind_of Array, @referees
+
+      assert_kind_of IGRF::Referee, @first
+      assert_equal "Mike Hammer", @first.name
+      assert_equal "HR/IPR", @first.position
+      assert_equal "Rat City", @first.league
+      assert_equal 3, @first.cert
+
+      assert_kind_of IGRF::Referee, @second
+      assert_equal "Steven Evatt", @second.name
+      assert_equal "OPR", @second.position
+      assert_equal "Houston", @second.league
+      assert_equal 2, @second.cert
+    end
+  end
+
   describe "#rosters" do
     before do
       @rosters = @parser.rosters
