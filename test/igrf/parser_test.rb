@@ -2,11 +2,15 @@ require "test_helper"
 require "igrf/parser"
 
 describe IGRF::Parser do
-  @@parser = IGRF::Parser.new(File.join("test", "igrf", "samples", "one.xlsx"))
+  class_variable_set(:@@parser, IGRF::Parser.new(File.join("test", "igrf", "samples", "one.xlsx")))
+
+  before do
+    @parser = self.class.class_variable_get(:@@parser)
+  end
 
   describe "#rosters" do
     before do
-      @rosters = @@parser.rosters
+      @rosters = @parser.rosters
 
       @away = @rosters.away
       @home = @rosters.home
@@ -42,7 +46,7 @@ describe IGRF::Parser do
 
   describe "#venue" do
     before do
-      @venue = @@parser.venue
+      @venue = @parser.venue
     end
 
     it "returns a Venue" do
