@@ -18,6 +18,21 @@ describe IGRF::Parser do
     end
   end
 
+  describe "#jams" do
+    before do
+      @jams = @parser.jams
+      @jam = @jams.first
+    end
+
+    it "returns jams" do
+      assert_kind_of Array, @jams
+      assert_kind_of IGRF::Jam, @jam
+
+      assert_equal 1, @jam.number
+      assert_equal 1, @jam.period
+    end
+  end
+
   describe "#officials" do
     before do
       @officials = @parser.officials
