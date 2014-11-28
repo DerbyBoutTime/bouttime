@@ -1,4 +1,4 @@
-module IGRF
+module IGRF::Models
   class Game
     attr_reader :workbook
 

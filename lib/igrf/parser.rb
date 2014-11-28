@@ -12,7 +12,7 @@ module IGRF
     end
 
     def parse
-      IGRF::Game.new(jams, officials, rosters, venue)
+      IGRF::Models::Game.new(jams, officials, rosters, venue)
     end
 
     def jams

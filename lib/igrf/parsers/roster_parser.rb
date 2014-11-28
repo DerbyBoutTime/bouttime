@@ -6,7 +6,7 @@ module IGRF
       end
 
       def parse
-        IGRF::Roster.new(name, league, skaters)
+        IGRF::Models::Roster.new(name, league, skaters)
       end
     end
 

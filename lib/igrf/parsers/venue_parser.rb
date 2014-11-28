@@ -14,7 +14,7 @@ module IGRF
       end
 
       def parse
-        IGRF::Venue.new(name, city, state)
+        IGRF::Models::Venue.new(name, city, state)
       end
 
       def state

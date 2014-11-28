@@ -1,6 +1,6 @@
 require "test_helper"
 require "igrf/parser"
-require "igrf/game"
+require "igrf/models"
 
 describe IGRF::Parser do
 
@@ -9,12 +9,12 @@ describe IGRF::Parser do
   end
 
   before do
-    @parser = IGRF::Parser.new(IGRF::Game.new(igrf_sample_file))
+    @parser = IGRF::Parser.new(IGRF::Models::Game.new(igrf_sample_file))
   end
 
   describe "#game" do
     it "returns a Game" do
-      assert_kind_of IGRF::Game, @parser.game
+      assert_kind_of IGRF::Models::Game, @parser.game
     end
   end
 
@@ -36,8 +36,8 @@ describe IGRF::Parser do
   describe "#officials" do
     before do
       @officials = @parser.officials
-      @nso = @officials.find { |official| official.is_a?(IGRF::NSO) }
-      @referee = @officials.find { |official| official.is_a?(IGRF::Referee) }
+      @nso = @officials.find { |official| official.is_a?(IGRF::Models::NSO) }
+      @referee = @officials.find { |official| official.is_a?(IGRF::Models::Referee) }
     end
 
     it "returns officials" do
@@ -64,10 +64,10 @@ describe IGRF::Parser do
     end
 
     it "returns Rosters" do
-      assert_kind_of IGRF::Rosters, @rosters
+      assert_kind_of IGRF::Models::Rosters, @rosters
 
-      assert_kind_of IGRF::Roster, @away
-      assert_kind_of IGRF::Roster, @home
+      assert_kind_of IGRF::Models::Roster, @away
+      assert_kind_of IGRF::Models::Roster, @home
 
       assert_equal "All-Stars", @away.name
       assert_equal "All-Stars", @home.name
@@ -78,8 +78,8 @@ describe IGRF::Parser do
       assert_kind_of Array, @away.skaters
       assert_kind_of Array, @home.skaters
 
-      assert_kind_of IGRF::Skater, @away.skaters.first
-      assert_kind_of IGRF::Skater, @home.skaters.first
+      assert_kind_of IGRF::Models::Skater, @away.skaters.first
+      assert_kind_of IGRF::Models::Skater, @home.skaters.first
 
       assert_equal 14, @away.skaters.size
       assert_equal 16, @home.skaters.size
@@ -97,7 +97,7 @@ describe IGRF::Parser do
     end
 
     it "returns a Venue" do
-      assert_kind_of IGRF::Venue, @venue
+      assert_kind_of IGRF::Models::Venue, @venue
 
       assert_equal "Key Arena", @venue.name
       assert_equal "Seattle", @venue.city
