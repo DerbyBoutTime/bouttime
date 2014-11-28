@@ -2,7 +2,7 @@ module IGRF
   module Parsers
     class SkatersParser < Base
       def data
-        @data ||= workbook.worksheets[2].extract_data
+        @data ||= @game.workbook.worksheets[2].extract_data
       end
 
       def skaters

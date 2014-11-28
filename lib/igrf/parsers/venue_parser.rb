@@ -6,7 +6,7 @@ module IGRF
       end
 
       def data
-        @data ||= workbook.worksheets[2].extract_data
+        @data ||= @game.workbook.worksheets[2].extract_data
       end
 
       def name

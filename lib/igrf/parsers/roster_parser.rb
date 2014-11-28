@@ -2,7 +2,7 @@ module IGRF
   module Parsers
     class RosterParser < Base
       def data
-        @data ||= workbook.worksheets[2].extract_data
+        @data ||= @game.workbook.worksheets[2].extract_data
       end
 
       def parse
@@ -20,7 +20,7 @@ module IGRF
       end
 
       def skaters
-        AwaySkatersParser.new(workbook).parse
+        AwaySkatersParser.new(game).parse
       end
     end
 
@@ -34,7 +34,7 @@ module IGRF
       end
 
       def skaters
-        HomeSkatersParser.new(workbook).parse
+        HomeSkatersParser.new(game).parse
       end
     end
   end

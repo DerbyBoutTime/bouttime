@@ -1,20 +1,20 @@
 require "test_helper"
 require "igrf/parser"
+require "igrf/game"
 
 describe IGRF::Parser do
-  class_variable_set(:@@parser, IGRF::Parser.new(File.join("test", "igrf", "samples", "one.xlsx")))
 
-  before do
-    @parser = self.class.class_variable_get(:@@parser)
+  let(:igrf_sample_file) do
+    File.join("test", "igrf", "samples", "one.xlsx")
   end
 
-  describe "#parse" do
-    before do
-      @game = @parser.parse
-    end
+  before do
+    @parser = IGRF::Parser.new(IGRF::Game.new(igrf_sample_file))
+  end
 
+  describe "#game" do
     it "returns a Game" do
-      assert_kind_of IGRF::Game, @game
+      assert_kind_of IGRF::Game, @parser.game
     end
   end
 
@@ -26,10 +26,10 @@ describe IGRF::Parser do
 
     it "returns jams" do
       assert_kind_of Array, @jams
-      assert_kind_of IGRF::Jam, @jam
+      assert_kind_of Hash, @jam
 
-      assert_equal 1, @jam.number
-      assert_equal 1, @jam.period
+      assert_equal 1, @jam[:number]
+      assert_equal 1, @jam[:period]
     end
   end
 

@@ -1,16 +1,17 @@
 module IGRF
   module Parsers
     class Base
-      attr_reader :workbook
+      attr_reader :game
 
-      def initialize(workbook)
-        @workbook = workbook
+      def self.parse(game)
+        new(game).parse
+      end
+
+      def initialize(game)
+        @game = game
       end
 
       def data
-      end
-
-      def parse
       end
     end
   end

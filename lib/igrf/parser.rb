@@ -5,10 +5,10 @@ require_relative "structs"
 
 module IGRF
   class Parser
-    attr_reader :venue, :workbook
+    attr_reader :venue, :game
 
-    def initialize(file)
-      @workbook = RubyXL::Parser.parse(file)
+    def initialize(game)
+      @game = game
     end
 
     def parse
@@ -16,19 +16,19 @@ module IGRF
     end
 
     def jams
-      @jams ||= Parsers::JamsParser.new(workbook).parse
+      @jams ||= Parsers::JamsParser.new(game).parse
     end
 
     def officials
-      @officials ||= Parsers::OfficialsParser.new(workbook).parse
+      @officials ||= Parsers::OfficialsParser.new(game).parse
     end
 
     def rosters
-      @rosters ||= Parsers::RostersParser.new(workbook).parse
+      @rosters ||= Parsers::RostersParser.new(game).parse
     end
 
     def venue
-      @venue ||= Parsers::VenueParser.new(workbook).parse
+      @venue ||= Parsers::VenueParser.new(game).parse
     end
   end
 end
