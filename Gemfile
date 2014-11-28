@@ -61,6 +61,7 @@ gem "sdoc", "~> 0.4.0", group: [:doc]
 # testing
 gem "rake", group: [:test]
 gem "minitest-rails", group: [:test]
+gem "minitest-line", group: [:test]
 
 # deployment
 gem "capistrano", group: [:deployment]
