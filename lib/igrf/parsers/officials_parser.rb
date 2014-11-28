@@ -1,6 +1,10 @@
 module IGRF
   module Parsers
     class OfficialsParser < Base
+      def data
+        @data ||= workbook.worksheets[2].extract_data
+      end
+
       def parse
         @officials = []
 

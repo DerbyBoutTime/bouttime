@@ -1,4 +1,5 @@
 module IGRF
+  Game = Struct.new(:officials, :rosters, :venue)
   NSO = Struct.new(:name, :position, :league, :cert)
   Referee = Struct.new(:name, :position, :league, :cert)
   Roster = Struct.new(:name, :league, :skaters)

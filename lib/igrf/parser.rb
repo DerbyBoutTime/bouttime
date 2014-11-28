@@ -9,25 +9,22 @@ module IGRF
 
     def initialize(file)
       @workbook = RubyXL::Parser.parse(file)
-      @worksheet_data = {}
+    end
+
+    def parse
+      IGRF::Game.new(officials, rosters, venue)
     end
 
     def officials
-      @officials ||= Parsers::OfficialsParser.new(data_for_worksheet(2)).parse
+      @officials ||= Parsers::OfficialsParser.new(workbook).parse
     end
 
     def rosters
-      @rosters ||= Parsers::RostersParser.new(data_for_worksheet(2)).parse
+      @rosters ||= Parsers::RostersParser.new(workbook).parse
     end
 
     def venue
-      @venue ||= Parsers::VenueParser.new(data_for_worksheet(2)).parse
-    end
-
-    private
-
-    def data_for_worksheet(number)
-      @worksheet_data[number] ||= @workbook.worksheets[number].extract_data
+      @venue ||= Parsers::VenueParser.new(workbook).parse
     end
   end
 end

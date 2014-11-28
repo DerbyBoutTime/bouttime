@@ -8,6 +8,16 @@ describe IGRF::Parser do
     @parser = self.class.class_variable_get(:@@parser)
   end
 
+  describe "#parse" do
+    before do
+      @game = @parser.parse
+    end
+
+    it "returns a Game" do
+      assert_kind_of IGRF::Game, @game
+    end
+  end
+
   describe "#officials" do
     before do
       @officials = @parser.officials
