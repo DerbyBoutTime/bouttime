@@ -3,13 +3,10 @@ require "igrf/parser"
 require "igrf/models"
 
 describe IGRF::Parser do
-
-  let(:igrf_sample_file) do
-    File.join("test", "igrf", "samples", "one.xlsx")
-  end
+  class_variable_set(:@@parser, IGRF::Parser.new(IGRF::Models::Game.new(File.join("test", "igrf", "samples", "one.xlsx"))))
 
   before do
-    @parser = IGRF::Parser.new(IGRF::Models::Game.new(igrf_sample_file))
+    @parser = self.class.class_variable_get(:@@parser)
   end
 
   describe "#game" do
