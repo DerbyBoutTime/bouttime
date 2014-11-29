@@ -30,6 +30,23 @@ describe IGRF do
     end
   end
 
+  describe "#passes" do
+    before do
+      @jam = @game.jams.first
+      @passes = @jam.passes
+      @pass = @passes.first
+    end
+
+    it "returns passes" do
+      assert_kind_of Array, @passes
+      assert_equal 5, @passes.size
+      assert_kind_of IGRF::Models::Pass, @pass
+
+      assert_equal 5, @pass.score
+      assert_equal 2, @pass.number
+    end
+  end
+
   #describe "#officials" do
     #before do
       #@officials = @parser.officials

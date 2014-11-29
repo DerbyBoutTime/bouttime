@@ -10,6 +10,10 @@ module IGRF
           jam
         end
       end
+
+      def passes
+        @passes ||= Pass.for(self)
+      end
     end
   end
 end
