@@ -1,6 +1,6 @@
 module IGRF
   module Models
-    class Jam < Base
+    class Jam < Model
       attr_accessor :game
 
       def self.for(game)
