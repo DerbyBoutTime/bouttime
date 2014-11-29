@@ -1,7 +1,8 @@
 module IGRF
-  def self.parse(file)
-    parser = Parser.new(file)
-    parser.parse
-    parser
+  def self.for(file)
+    Models::Game.new(file)
   end
 end
+
+require_relative "igrf/model"
+require_relative "igrf/parser"

@@ -1,16 +1,16 @@
 module IGRF
   module Parsers
-    class RosterParser < Base
+    class Roster < Parser
       def data
         @data ||= @game.workbook.worksheets[2].extract_data
       end
 
       def parse
-        IGRF::Models::Roster.new(name, league, skaters)
+        { :name => name, :league => league, :skaters => skaters }
       end
     end
 
-    class AwayRosterParser < RosterParser
+    class AwayRoster < Roster
       def league
         data[7][7]
       end
@@ -20,11 +20,11 @@ module IGRF
       end
 
       def skaters
-        AwaySkatersParser.new(game).parse
+        AwaySkaters.new(game).parse
       end
     end
 
-    class HomeRosterParser < RosterParser
+    class HomeRoster < Roster
       def league
         data[7][1]
       end
@@ -34,7 +34,7 @@ module IGRF
       end
 
       def skaters
-        HomeSkatersParser.new(game).parse
+        HomeSkaters.new(game).parse
       end
     end
   end

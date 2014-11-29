@@ -1,5 +1,5 @@
-module IGRF::Models
-  class Base
+module IGRF
+  module Models
   end
 end
 

@@ -1,6 +1,6 @@
 module IGRF
   module Parsers
-    class SkatersParser < Base
+    class Skaters < Parser
       def data
         @data ||= @game.workbook.worksheets[2].extract_data
       end
@@ -10,18 +10,18 @@ module IGRF
       end
     end
 
-    class AwaySkatersParser < SkatersParser
+    class AwaySkaters < Skaters
       def parse
         skaters.take_while { |skater| skater[7] }.map do |skater|
-          IGRF::Models::Skater.new(skater[7], skater[8])
+          { :number => skater[7], :name => skater[8] }
         end
       end
     end
 
-    class HomeSkatersParser < SkatersParser
+    class HomeSkaters < Skaters
       def parse
         skaters.take_while { |skater| skater[1] }.map do |skater|
-          IGRF::Models::Skater.new(skater[1], skater[2])
+          { :number => skater[1], :name => skater[2] }
         end
       end
     end

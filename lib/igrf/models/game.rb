@@ -7,7 +7,7 @@ module IGRF::Models
     end
 
     def jams
-      @jams ||= Jam.for(game)
+      @jams ||= Jam.for(self)
     end
   end
 end

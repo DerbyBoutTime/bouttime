@@ -1,12 +1,12 @@
 module IGRF
   module Parsers
-    class VenueParser < Base
+    class Venue < Parser
       def city
         data[2][7]
       end
 
       def data
-        @data ||= @game.workbook.worksheets[2].extract_data
+        @data ||= worksheets[2].extract_data
       end
 
       def name
@@ -14,7 +14,7 @@ module IGRF
       end
 
       def parse
-        IGRF::Models::Venue.new(name, city, state)
+        { :city => city, :name => name, :state => state }
       end
 
       def state
