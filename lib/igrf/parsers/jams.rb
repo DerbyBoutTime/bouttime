@@ -1,29 +1,51 @@
+require "igrf/parser"
+
 module IGRF
   module Parsers
-    class Jams < Parser
-      PERIODS = { 1 => 3..36, 2 => 50..83 }.freeze
+    class Jams < TeamParser
+      def columns
+        { :away => { :number => 0 },
+          :home => { :number => 19 } }
+      end
 
       def data
         @data ||= worksheets[3].extract_data
       end
 
       def parse
-        @jams = []
+        rows.each do |number, hash|
+          columns.each do |split, columns|
+            _parsed = _parse(data[number], columns, { split => true }.merge(hash || {}))
 
-        PERIODS.each do |number, rows|
-          data[rows].each do |row|
-            next if row[0].nil?
-
-            if row[0].is_a?(String)
-              # potential to append previous jam, as per SP
-            else
-              @jams << { :period => number, :number => row[0], :home => true }
-              @jams << { :period => number, :number => row[19], :home => false }
+            if _parsed[:number].is_a?(Integer)
+              parsed << _parsed
+            elsif _parsed[:number].is_a?(String)
+              handle_star_pass(_parsed)
             end
           end
         end
 
-        @jams
+        true
+      end
+
+      def rows
+        3.upto(36).map { |number| [number, { :period => 1 }] } +
+          50.upto(83).map { |number| [number, { :period => 2 }] }
+      end
+
+      private
+
+      def handle_star_pass(jam)
+        previous_jam = parsed.last
+        last_pass = previous_jam[:passes].take_while { |pass| pass[:number] }.last[:number]
+
+        previous_jam[:star_pass] = last_pass
+        previous_jam[:passes] += jam[:passes][(last_pass - 1)..-1]
+      end
+
+      def _parse(row, columns, hash)
+        hash[:passes] = [{ :number => 1 }]
+        super
       end
     end
   end
