@@ -1,8 +1,21 @@
 module IGRF
   module Parsers
     class Skaters < Parser
+      def initialize(game)
+        raise "Please use Parsers::AwaySkaters or Parsers::HomeSkaters"
+      end
+
+      def columns
+      end
+
       def data
         @data ||= @game.workbook.worksheets[2].extract_data
+      end
+
+      def parse
+        skaters.take_while { |skater| skater[columns[:number]] }.map do |skater|
+          { :number => skater[columns[:number]], :name => skater[columns[:name]] }
+        end
       end
 
       def skaters
@@ -11,18 +24,14 @@ module IGRF
     end
 
     class AwaySkaters < Skaters
-      def parse
-        skaters.take_while { |skater| skater[7] }.map do |skater|
-          { :number => skater[7], :name => skater[8] }
-        end
+      def columns
+        { :name => 8, :number => 7 }
       end
     end
 
     class HomeSkaters < Skaters
-      def parse
-        skaters.take_while { |skater| skater[1] }.map do |skater|
-          { :number => skater[1], :name => skater[2] }
-        end
+      def columns
+        { :name => 2, :number => 1 }
       end
     end
   end
