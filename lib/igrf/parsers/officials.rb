@@ -10,7 +10,7 @@ module IGRF
       end
 
       def rows
-        data[55..75]
+        55..75
       end
     end
 
@@ -25,7 +25,7 @@ module IGRF
       end
 
       def rows
-        data[31..34]
+        31..34
       end
     end
   end

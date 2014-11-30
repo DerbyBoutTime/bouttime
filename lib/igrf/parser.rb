@@ -21,8 +21,8 @@ module IGRF
     end
 
     def parse
-      rows.each do |row|
-        parsed << _parse(row, columns) if row[columns[columns.keys.first]]
+      rows.each do |number, hash|
+        parsed << _parse(data[number], columns, (hash || {})) if data[number][columns[columns.keys.first]]
       end
 
       true
@@ -38,7 +38,7 @@ module IGRF
 
     private
 
-    def _parse(row, columns, hash = {})
+    def _parse(row, columns, hash)
       columns.each do |name, column|
         hash[name] = row[column]
       end
@@ -53,9 +53,9 @@ module IGRF
 
   class SplitParser < Parser
     def parse
-      rows.each do |row|
+      rows.each do |number, hash|
         columns.each do |split, columns|
-          parsed << _parse(row, columns, { split => true }) if row[columns[columns.keys.first]]
+          parsed << _parse(data[number], columns, { split => true }.merge(hash || {})) if data[number][columns[columns.keys.first]]
         end
       end
 

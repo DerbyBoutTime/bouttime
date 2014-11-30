@@ -8,11 +8,11 @@ module IGRF
       end
 
       def data
-        @data ||= workbook.worksheets[2].extract_data
+        @data ||= worksheets[2].extract_data
       end
 
       def rows
-        data[2..2]
+        [2]
       end
     end
   end

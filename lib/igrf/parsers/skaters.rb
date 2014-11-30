@@ -13,7 +13,7 @@ module IGRF
       end
 
       def rows
-        data[10..29]
+        10..29
       end
     end
   end

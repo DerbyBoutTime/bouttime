@@ -13,12 +13,12 @@ module IGRF
       end
 
       def rows
-        data[7..7]
+        [7]
       end
 
       private
 
-      def _parse(row, columns, hash = {})
+      def _parse(row, columns, hash)
         hash[:skaters] = Parsers::Skaters.parse(workbook).parsed.send(hash.keys.first)
         super
       end
