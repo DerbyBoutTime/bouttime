@@ -1,32 +1,31 @@
 module IGRF
   module Parsers
-    class Officials < Parser
+    class NSOs < Parser
+      def columns
+        { :name => 1, :position => 4, :league => 7, :certification => 10 }
+      end
+
       def data
         @data ||= worksheets[2].extract_data
       end
 
-      def parse
-        @officials = []
+      def rows
+        data[55..75]
+      end
+    end
 
-        _parse_nsos
-        _parse_referees
-
-        @officials
+    class Referees < SplitParser
+      def columns
+        { :first => { :name => 0, :position => 2, :league => 3, :certification => 4 },
+          :second => { :name => 6, :position => 8, :league => 9, :certification => 11 } }
       end
 
-      private
-
-      def _parse_nsos
-        data[55..75].take_while { |row| row[1] }.each do |row|
-          @officials << { :name => row[1], :position => row[4], :league => row[7], :certification => row[10] }
-        end
+      def data
+        @data ||= worksheets[2].extract_data
       end
 
-      def _parse_referees
-        data[31..34].each do |row|
-          @officials << { :name => row[0], :position => row[2], :league => row[3], :certification => row[4] } if row[0]
-          @officials << { :name => row[6], :position => row[8], :league => row[9], :certification => row[11] } if row[6]
-        end
+      def rows
+        data[31..34]
       end
     end
   end

@@ -1,10 +1,12 @@
+require "igrf/model"
+
 module IGRF
   module Models
     class Jam < Model
       attr_accessor :game
 
       def self.for(game)
-        Parsers::Jams.parse(game).map do |hash|
+        Parsers::Jams.parse(game.workbook).map do |hash|
           jam = new(hash)
           jam.game = game
           jam

@@ -1,3 +1,6 @@
+require "rubyXL"
+require "igrf/model"
+
 module IGRF
   module Models
     class Game < Model

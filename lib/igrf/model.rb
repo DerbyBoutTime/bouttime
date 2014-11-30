@@ -13,5 +13,3 @@ module IGRF
     end
   end
 end
-
-require_relative "models"

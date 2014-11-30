@@ -4,5 +4,5 @@ module IGRF
   end
 end
 
-require_relative "igrf/model"
-require_relative "igrf/parser"
+require_relative "igrf/models"
+require_relative "igrf/parsers"

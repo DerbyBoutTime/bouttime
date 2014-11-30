@@ -10,6 +10,10 @@ require "minitest/rails"
 # Uncomment for awesome colorful output
 # require "minitest/pride"
 
+Dir.glob(File.dirname(__FILE__) + "/support/**/*.rb").each do |file|
+  require_relative file
+end
+
 class ActiveSupport::TestCase
     ActiveRecord::Migration.check_pending!
 

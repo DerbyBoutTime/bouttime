@@ -3,10 +3,8 @@ require "test_helper"
 require "igrf"
 
 describe IGRF do
-  class_variable_set(:@@game, IGRF.for(File.join("test", "igrf", "samples", "one.xlsx")))
-
   before do
-    @game = self.class.class_variable_get(:@@game)
+    @game = Support::IGRF.game
   end
 
   describe "#for" do

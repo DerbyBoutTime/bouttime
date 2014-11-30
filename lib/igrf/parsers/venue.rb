@@ -1,24 +1,18 @@
+require "igrf/parser"
+
 module IGRF
   module Parsers
     class Venue < Parser
-      def city
-        data[2][7]
+      def columns
+        { :city => 7, :name => 1, :state => 9 }
       end
 
       def data
-        @data ||= worksheets[2].extract_data
+        @data ||= workbook.worksheets[2].extract_data
       end
 
-      def name
-        data[2][1]
-      end
-
-      def parse
-        { :city => city, :name => name, :state => state }
-      end
-
-      def state
-        data[2][9]
+      def rows
+        data[2..2]
       end
     end
   end
