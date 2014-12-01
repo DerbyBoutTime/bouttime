@@ -3,18 +3,16 @@ require "igrf/model"
 module IGRF
   module Models
     class Jam < Model
-      attr_accessor :game
+      def game
+        parent
+      end
 
-      def self.for(game)
-        Parsers::Jams.parse(game.workbook).map do |hash|
-          jam = new(hash)
-          jam.game = game
-          jam
-        end
+      def lineup
+        @lineup ||= Lineup.new(attributes[:lineup], self)
       end
 
       def passes
-        @passes ||= Pass.for(self)
+        @passes ||= attributes[:passes].map { |pass| Pass.new(pass, self) }
       end
     end
   end

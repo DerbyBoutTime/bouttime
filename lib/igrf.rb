@@ -1,6 +1,6 @@
 module IGRF
   def self.for(file)
-    Models::Game.new(file)
+    Workbook.new(file).to_game
   end
 end
 

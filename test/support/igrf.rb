@@ -1,4 +1,4 @@
-require "rubyXL"
+require "igrf/workbook"
 
 module Support
   class IGRF
@@ -7,7 +7,7 @@ module Support
     end
 
     def self.workbook
-      @@workbook ||= RubyXL::Parser.parse(file)
+      @@workbook ||= ::IGRF::Workbook.new(file)
     end
   end
 end

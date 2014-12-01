@@ -2,7 +2,10 @@ require "igrf/model"
 
 module IGRF
   module Models
-    class Pass < Model
+    class Lineup < Model
+      def jam
+        parent
+      end
     end
   end
 end

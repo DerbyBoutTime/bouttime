@@ -2,7 +2,7 @@ require "igrf/model"
 
 module IGRF
   module Models
-    class Pass < Model
+    class Venue < Model
     end
   end
 end

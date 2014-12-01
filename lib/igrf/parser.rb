@@ -49,7 +49,7 @@ module IGRF
     end
 
     def worksheets
-      @workbook.worksheets
+      workbook.worksheets
     end
   end
 

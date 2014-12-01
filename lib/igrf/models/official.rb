@@ -2,7 +2,10 @@ require "igrf/model"
 
 module IGRF
   module Models
-    class Pass < Model
+    class Official < Model
+      def game
+        parent
+      end
     end
   end
 end

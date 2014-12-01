@@ -2,7 +2,10 @@ require "igrf/model"
 
 module IGRF
   module Models
-    class Pass < Model
+    class Skater < Model
+      def roster
+        parent
+      end
     end
   end
 end
