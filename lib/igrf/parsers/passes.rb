@@ -42,9 +42,9 @@ module IGRF
         team = pass[:home] ? :home : :away
         previous_pass = parsed.select{|item| item[team]}.last
         pass[:jam_number] = previous_pass[:jam_number]
+        pass[:star_pass] = true
         pass
       end
-
     end
   end
 end

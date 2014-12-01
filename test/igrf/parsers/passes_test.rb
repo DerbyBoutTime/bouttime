@@ -14,7 +14,7 @@ describe IGRF::Parsers::Passes do
 
   it "returns passes" do
     assert_kind_of Array, @passes
-    # assert_equal 5, @passes.size
+    assert_equal 124, @passes.size
 
     assert_kind_of Hash, @pass
     assert_equal 5, @pass[:score]
@@ -24,12 +24,8 @@ describe IGRF::Parsers::Passes do
     assert_equal "911", @pass[:skater_number]
   end
 
-  it "returns jam_number" do
-
-  end
-
-  # [ { score: 1, jam_number: 1, period: 1, away: true, star_pass: true, skater: 12 } ]
-  it "should track star passes" do
-
+  # [ { score: 1, jam_number: 1, period: 1, away: true, star_pass: true, skater_number: 12 } ]
+  it "should track star passes and skater_number" do
+    assert_equal 3, @passes.select{|pass| pass[:star_pass] && pass[:jam_number] == 24 && pass[:skater_number] == "12" }.count
   end
 end
