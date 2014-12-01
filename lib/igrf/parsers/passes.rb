@@ -25,23 +25,26 @@ module IGRF
             columns.each_with_index do |columns, index|
               _parsed = _parse(data[number], columns, { team => true }.merge(hash || {}))
               _parsed[:number] = index+2
-              parsed << _parsed
+              if _parsed[:jam_number].is_a?(Integer)
+                parsed << _parsed if _parsed[:score]
+              elsif _parsed[:jam_number].is_a?(String) && _parsed[:jam_number] == "SP"
+                parsed << handle_star_pass(_parsed) if _parsed[:score]
+              end
             end
           end
         end
         true
       end
 
+      private
+
+      def handle_star_pass(pass)
+        team = pass[:home] ? :home : :away
+        previous_pass = parsed.select{|item| item[team]}.last
+        pass[:jam_number] = previous_pass[:jam_number]
+        pass
+      end
+
     end
-
-    private
-
-    def handle_star_pass(args)
-    end
-
-    def _parse(row, columns, hash)
-      super
-    end
-
   end
 end
