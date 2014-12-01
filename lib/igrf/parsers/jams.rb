@@ -1,12 +1,13 @@
 require "igrf/parser"
 require "igrf/parsers/lineups"
+require "igrf/parsers/passes"
 
 module IGRF
   module Parsers
     class Jams < TeamParser
       def columns
-        { :away => { :number => 19 },
-          :home => { :number => 0 } }
+        { :home => { :number => 0 },
+          :away => { :number => 19 } }
       end
 
       def data
@@ -39,15 +40,13 @@ module IGRF
       def handle_star_pass(jam)
         previous_jam = parsed.last
         last_pass = previous_jam[:passes].take_while { |pass| pass[:number] }.last[:number]
-
         previous_jam[:star_pass] = last_pass
-        previous_jam[:passes] += jam[:passes][(last_pass - 1)..-1]
+        previous_jam[:passes] = Parsers::Passes.parse(workbook).parsed.select { |pass| [previous_jam[:period], previous_jam[:number], previous_jam[previous_jam.keys.first]] == [pass[:period], pass[:jam_number], pass[previous_jam.keys.first]] }
       end
 
       def _parse(row, columns, hash)
         super
-
-        hash[:passes] = [{ :number => 1 }]
+        hash[:passes] = Parsers::Passes.parse(workbook).parsed.select { |pass| [hash[:period], hash[:number], hash[hash.keys.first]] == [pass[:period], pass[:jam_number], pass[hash.keys.first]] }
         hash[:lineup] = Parsers::Lineups.parse(workbook).parsed.send(hash.keys.first).find { |lineup| [hash[:period], hash[:number]] == [lineup[:period], lineup[:jam_number]] }
         hash
       end

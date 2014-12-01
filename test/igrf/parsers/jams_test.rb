@@ -12,11 +12,12 @@ describe IGRF::Parsers::Jams do
   end
 
   it "parses an IGRF workbook for Jams" do
-    assert_equal true, @jam[:away]
+    assert_equal true, @jam[:home]
     assert_equal 1, @jam[:number]
     assert_equal 1, @jam[:period]
 
     assert_kind_of Hash, @jam[:lineup]
     assert_kind_of Array, @jam[:passes]
+    assert_equal 5, @jam[:passes].size
   end
 end

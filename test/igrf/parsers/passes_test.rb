@@ -26,6 +26,6 @@ describe IGRF::Parsers::Passes do
 
   # [ { score: 1, jam_number: 1, period: 1, away: true, star_pass: true, skater_number: 12 } ]
   it "should track star passes and skater_number" do
-    assert_equal 3, @passes.select{|pass| pass[:star_pass] && pass[:jam_number] == 24 && pass[:skater_number] == "12" }.count
+    assert_equal 3, @passes.select { |pass| pass[:star_pass] && pass[:jam_number] == 24 && pass[:skater_number] == "12" }.size
   end
 end
