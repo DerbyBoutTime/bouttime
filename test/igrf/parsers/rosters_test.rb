@@ -11,7 +11,7 @@ describe IGRF::Parsers::Rosters do
     @roster = @parser.parsed.first
   end
 
-  it "parses an IGRF workbook for the Rosters" do
+  it "parses an IGRF workbook for Rosters" do
     assert_equal "Houston Roller Derby", @roster[:team_name]
     assert_kind_of Array, @roster[:skaters]
     assert_equal true, @roster[:away]

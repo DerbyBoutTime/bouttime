@@ -11,7 +11,7 @@ describe IGRF::Parsers::Penalties do
     @penalty = @parser.parsed.first
   end
 
-  it "parses an IGRF workbook for the Penalties" do
+  it "parses an IGRF workbook for Penalties" do
     assert_equal true, @penalty[:away]
     assert_equal 1, @penalty[:period]
     assert_equal 12, @penalty[:skater_number]

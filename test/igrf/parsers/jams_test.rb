@@ -11,7 +11,7 @@ describe IGRF::Parsers::Jams do
     @jam = @parser.parsed.first
   end
 
-  it "parses an IGRF workbook for the Jams" do
+  it "parses an IGRF workbook for Jams" do
     assert_equal true, @jam[:away]
     assert_equal 1, @jam[:number]
     assert_equal 1, @jam[:period]

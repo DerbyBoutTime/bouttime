@@ -11,7 +11,7 @@ describe IGRF::Parsers::Lineups do
     @lineup = @parser.parsed.first
   end
 
-  it "parses an IGRF workbook for the Lineups" do
+  it "parses an IGRF workbook for Lineups" do
     assert_equal 1, @lineup[:jam_number]
     assert_kind_of Array, @lineup[:skaters]
     assert_equal true, @lineup[:away]
