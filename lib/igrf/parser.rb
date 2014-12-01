@@ -1,3 +1,5 @@
+require "active_support/core_ext/object/blank"
+
 module IGRF
   class Parser
     attr_reader :workbook
@@ -22,7 +24,7 @@ module IGRF
 
     def parse
       rows.each do |number, hash|
-        parsed << _parse(data[number], columns, (hash || {})) if data[number][columns[columns.keys.first]]
+        parsed << _parse(data[number], columns, (hash || {})) if data[number][columns[columns.keys.first]].present?
       end
 
       true
@@ -55,7 +57,7 @@ module IGRF
     def parse
       rows.each do |number, hash|
         columns.each do |split, columns|
-          parsed << _parse(data[number], columns, { split => true }.merge(hash || {})) if data[number][columns[columns.keys.first]]
+          parsed << _parse(data[number], columns, { split => true }.merge(hash || {})) if data[number][columns[columns.keys.first]].present?
         end
       end
 
