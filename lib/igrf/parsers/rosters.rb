@@ -1,4 +1,5 @@
 require "igrf/parser"
+require "igrf/parsers/skaters"
 
 module IGRF
   module Parsers
@@ -19,8 +20,10 @@ module IGRF
       private
 
       def _parse(row, columns, hash)
-        hash[:skaters] = Parsers::Skaters.parse(workbook).parsed.send(hash.keys.first)
         super
+
+        hash[:skaters] = Parsers::Skaters.parse(workbook).parsed.send(hash.keys.first)
+        hash
       end
     end
   end
