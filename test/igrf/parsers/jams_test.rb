@@ -16,6 +16,7 @@ describe IGRF::Parsers::Jams do
     assert_equal 1, @jam[:number]
     assert_equal 1, @jam[:period]
 
+    assert_kind_of Hash, @jam[:lineup]
     assert_kind_of Array, @jam[:passes]
   end
 end

@@ -1,11 +1,12 @@
 require "igrf/parser"
+require "igrf/parsers/lineups"
 
 module IGRF
   module Parsers
     class Jams < TeamParser
       def columns
-        { :away => { :number => 0 },
-          :home => { :number => 19 } }
+        { :away => { :number => 19 },
+          :home => { :number => 0 } }
       end
 
       def data
@@ -44,8 +45,11 @@ module IGRF
       end
 
       def _parse(row, columns, hash)
-        hash[:passes] = [{ :number => 1 }]
         super
+
+        hash[:passes] = [{ :number => 1 }]
+        hash[:lineup] = Parsers::Lineups.parse(workbook).parsed.send(hash.keys.first).find { |lineup| [hash[:period], hash[:number]] == [lineup[:period], lineup[:jam_number]] }
+        hash
       end
     end
   end
