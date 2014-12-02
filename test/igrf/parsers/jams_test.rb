@@ -18,6 +18,6 @@ describe IGRF::Parsers::Jams do
 
     assert_kind_of Hash, @jam[:lineup]
     assert_kind_of Array, @jam[:passes]
-    assert_equal 5, @jam[:passes].size
+    assert_equal 0, @jam[:passes].size
   end
 end
