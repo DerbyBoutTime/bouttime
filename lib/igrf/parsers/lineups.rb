@@ -22,7 +22,7 @@ module IGRF
       end
 
       def data
-        @data ||= worksheets[5].extract_data
+        workbook.extract_data(5)
       end
 
       def parse

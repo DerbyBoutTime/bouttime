@@ -7,7 +7,12 @@ module IGRF
     attr_reader :workbook
 
     def initialize(file)
+      @data = {}
       @workbook = RubyXL::Parser.parse(file)
+    end
+
+    def extract_data(worksheet)
+      @data[worksheet] ||= worksheets[worksheet].extract_data
     end
 
     def to_game

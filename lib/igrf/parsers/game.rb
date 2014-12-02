@@ -13,7 +13,7 @@ module IGRF
       end
 
       def data
-        @data ||= worksheets[2].extract_data
+        workbook.extract_data(2)
       end
 
       def rows
