@@ -8,7 +8,7 @@ module IGRF
       end
 
       def inspect
-        "<#{self.class}: @attributes=#{attributes.select { |key, value| [:away, :home, :penalties, :period, :skater_number].include?(key) }}>"
+        "<#{self.class}: @attributes=#{attributes.select { |key, value| [:away, :home, :jam_number, :penalties, :period, :skater_number].include?(key) }}>"
       end
     end
   end
