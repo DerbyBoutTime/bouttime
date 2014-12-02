@@ -1,9 +1,11 @@
 require "test_helper"
 
 describe Pass do
-  let(:pass) { Pass.new }
+  before do
+    @pass = Pass.new
+  end
 
   it "must be valid" do
-    pass.must_be :valid?
+    @pass.must_be :valid?
   end
 end

@@ -5,4 +5,4 @@ class Game < ActiveRecord::Base
   has_many :game_officials
   has_many :officials, :through => :game_officials
   has_many :rosters
-mnd
+end
