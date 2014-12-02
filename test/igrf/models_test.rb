@@ -4,7 +4,7 @@ require "igrf/models"
 
 describe IGRF::Models do
   before do
-    @game = Support::IGRF.workbook.to_game
+    @game = Support::IGRF.game
   end
 
   describe IGRF::Models::Game do
