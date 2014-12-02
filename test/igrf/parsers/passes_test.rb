@@ -1,9 +1,9 @@
 require "test_helper"
 require "igrf/parsers/passes"
 
-
 describe IGRF::Parsers::Passes do
   subject { IGRF::Parsers::Passes }
+
   before do
     @parser = subject.new(Support::IGRF.workbook)
     @parser.parse
@@ -12,7 +12,7 @@ describe IGRF::Parsers::Passes do
     @pass = @passes.first
   end
 
-  it "returns passes" do
+  it "parses an IGRF workbok for Passes" do
     assert_kind_of Array, @passes
     assert_equal 124, @passes.size
 
@@ -24,8 +24,13 @@ describe IGRF::Parsers::Passes do
     assert_equal "911", @pass[:skater_number]
   end
 
-  # [ { score: 1, jam_number: 1, period: 1, away: true, star_pass: true, skater_number: 12 } ]
-  it "should track star passes and skater_number" do
-    assert_equal 3, @passes.select { |pass| pass[:star_pass] && pass[:jam_number] == 24 && pass[:skater_number] == "12" }.size
+  describe "during a Star Pass" do
+    before do
+      @pass = @passes.find { |pass| pass[:star_pass] }
+    end
+
+    it "tracks new Skater" do
+      assert_equal "12", @pass[:skater_number]
+    end
   end
 end

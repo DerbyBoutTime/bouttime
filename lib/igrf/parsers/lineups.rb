@@ -25,6 +25,18 @@ module IGRF
         @data ||= worksheets[5].extract_data
       end
 
+      def parse
+        rows.each do |number, hash|
+          columns.each do |split, columns|
+            _parsed = _parse(data[number], columns, { split => true }.merge(hash || {}))
+
+            parsed << _parsed if _parsed[:jam_number].is_a?(Integer)
+          end
+        end
+
+        true
+      end
+
       def rows
         3.upto(34).map { |number| [number, { :period => 1 }] } +
           49.upto(80).map { |number| [number, { :period => 2 }] }
@@ -36,11 +48,13 @@ module IGRF
         super
 
         hash[:skaters] = skaters(hash)
-        hash.select { |key, _| [:away, :home, :period, :jam_number, :no_pivot, :skaters].include?(key) }
+        hash.select { |key, _| [:away, :home, :period, :jam_number, :skaters].include?(key) }
       end
 
       def skater(role, hash)
-        { :role => role.to_s.gsub(/_.*/, ""), :number => hash[role], :boxes => hash["#{role}_boxes".to_sym] }
+        { :role => ((role == :pivot && hash[:no_pivot].present?) ? "blocker" : role.to_s.gsub(/_.*/, "")),
+          :number => hash[role],
+          :boxes => hash["#{role}_boxes".to_sym] }
       end
 
       def skaters(hash)

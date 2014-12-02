@@ -14,6 +14,10 @@ module IGRF
       def passes
         @passes ||= attributes[:passes].map { |pass| Pass.new(pass, self) }
       end
+
+      def star_pass?
+        passes.find { |pass| pass.star_pass? }
+      end
     end
   end
 end

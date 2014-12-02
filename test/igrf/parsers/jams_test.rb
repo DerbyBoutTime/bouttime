@@ -12,7 +12,7 @@ describe IGRF::Parsers::Jams do
   end
 
   it "parses an IGRF workbook for Jams" do
-    assert_equal true, @jam[:home]
+    assert_equal true, @jam[:away]
     assert_equal 1, @jam[:number]
     assert_equal 1, @jam[:period]
 

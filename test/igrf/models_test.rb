@@ -27,7 +27,7 @@ describe IGRF::Models do
 
   describe IGRF::Models::Jam do
     before do
-      @jam = @game.jams.first
+      @jam = @game.jams[1]
     end
 
     it "has children" do
