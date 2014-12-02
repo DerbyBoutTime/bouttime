@@ -25,8 +25,10 @@ module IGRF
       def _parse(row, columns, hash)
         super
 
-        hash[:start_time] = Time.new(hash[:date].year, hash[:date].month, hash[:date].day, hash[:start_time].hour, hash[:start_time].min)
-        hash[:end_time] = Time.new(hash[:date].year, hash[:date].month, hash[:date].day, hash[:end_time].hour, hash[:end_time].min)
+        date = hash.delete(:date)
+        hash[:start_time] = Time.new(date.year, date.month, date.day, hash[:start_time].hour, hash[:start_time].min)
+        hash[:end_time] = Time.new(date.year, date.month, date.day, hash[:end_time].hour, hash[:end_time].min)
+
         hash[:jams] = Parsers::Jams.parse(workbook).parsed
         hash[:officials] = Parsers::NSOs.parse(workbook).parsed + Parsers::Referees.parse(workbook).parsed
         hash[:penalties] = Parsers::Penalties.parse(workbook).parsed
