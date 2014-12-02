@@ -10,6 +10,10 @@ module IGRF
       def star_pass?
         attributes[:star_pass]
       end
+
+      def inspect
+        "<#{self.class}: @attributes=#{attributes.select { |key, value| [:away, :home, :jam_number, :period, :score, :skater_number, :star_pass].include?(key) }}>"
+      end
     end
   end
 end

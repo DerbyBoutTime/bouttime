@@ -28,6 +28,10 @@ module IGRF
       def venue
         @venue ||= Venue.new(attributes[:venue])
       end
+
+      def inspect
+        "<#{self.class}: @attributes=#{attributes.select { |key, value| [:end_time, :start_time].include?(key) }}>"
+      end
     end
   end
 end

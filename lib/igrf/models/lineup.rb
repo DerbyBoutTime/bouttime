@@ -30,6 +30,10 @@ module IGRF
       def star_pass?
         jam.star_pass?
       end
+
+      def inspect
+        "<#{self.class}: @attributes=#{attributes.select { |key, value| [:away, :home, :jam_number, :period].include?(key) }}>"
+      end
     end
   end
 end

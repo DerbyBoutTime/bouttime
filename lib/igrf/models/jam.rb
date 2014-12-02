@@ -18,6 +18,10 @@ module IGRF
       def star_pass?
         passes.find { |pass| pass.star_pass? }
       end
+
+      def inspect
+        "<#{self.class}: @attributes=#{attributes.select { |key, value| [:away, :home, :number, :period].include?(key) }}>"
+      end
     end
   end
 end
