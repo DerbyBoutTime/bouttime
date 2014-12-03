@@ -30,6 +30,10 @@ header {
     li {
       a {
         padding: 4px;
+        &:active, &:hover, &:focus {
+          opacity: 0.6;
+          background-color: transparent;
+        }
       }
     }
   }
