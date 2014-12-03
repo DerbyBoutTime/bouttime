@@ -3,6 +3,10 @@ require "igrf/model"
 module IGRF
   module Models
     class Skater < Model
+      def home?
+        !!attributes[:home]
+      end
+
       def roster
         parent
       end

@@ -1,3 +1,5 @@
+require "igrf/workbook"
+
 module IGRF
   def self.for(file)
     Workbook.new(file).to_game

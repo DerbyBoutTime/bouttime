@@ -1,4 +1,3 @@
 class Penalty < ActiveRecord::Base
-  belongs_to :jam
-  belongs_to :skater
+  belongs_to :lineup_skater
 end

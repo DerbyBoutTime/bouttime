@@ -7,6 +7,10 @@ module IGRF
         parent
       end
 
+      def home?
+        !!attributes[:home]
+      end
+
       def skaters
         @skaters ||= attributes[:skaters].map { |skater| Skater.new(skater, self) }
       end

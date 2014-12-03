@@ -1,7 +1,8 @@
 class CreateJams < ActiveRecord::Migration
   def change
     create_table :jams do |t|
-      t.references :game, index: true
+      t.references :game
+
       t.integer :number
       t.integer :period
 

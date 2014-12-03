@@ -45,8 +45,6 @@ ActiveRecord::Schema.define(version: 20141202162420) do
     t.datetime "updated_at"
   end
 
-  add_index "jams", ["game_id"], name: "index_jams_on_game_id", using: :btree
-
   create_table "lineup_skaters", force: true do |t|
     t.integer  "lineup_id"
     t.integer  "skater_id"
@@ -60,11 +58,13 @@ ActiveRecord::Schema.define(version: 20141202162420) do
 
   create_table "lineups", force: true do |t|
     t.integer  "jam_id"
+    t.integer  "roster_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "lineups", ["jam_id"], name: "index_lineups_on_jam_id", using: :btree
+  add_index "lineups", ["roster_id"], name: "index_lineups_on_roster_id", using: :btree
 
   create_table "officials", force: true do |t|
     t.string   "certification"
@@ -75,26 +75,23 @@ ActiveRecord::Schema.define(version: 20141202162420) do
   end
 
   create_table "passes", force: true do |t|
-    t.integer  "jam_id"
     t.integer  "lineup_skater_id"
+    t.integer  "number"
     t.integer  "score"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "passes", ["jam_id"], name: "index_passes_on_jam_id", using: :btree
   add_index "passes", ["lineup_skater_id"], name: "index_passes_on_lineup_skater_id", using: :btree
 
   create_table "penalties", force: true do |t|
-    t.integer  "jam_id"
-    t.integer  "skater_id"
+    t.integer  "lineup_skater_id"
     t.string   "code"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "penalties", ["jam_id"], name: "index_penalties_on_jam_id", using: :btree
-  add_index "penalties", ["skater_id"], name: "index_penalties_on_skater_id", using: :btree
+  add_index "penalties", ["lineup_skater_id"], name: "index_penalties_on_lineup_skater_id", using: :btree
 
   create_table "roster_skaters", force: true do |t|
     t.integer  "roster_id"
@@ -107,6 +104,7 @@ ActiveRecord::Schema.define(version: 20141202162420) do
   add_index "roster_skaters", ["skater_id"], name: "index_roster_skaters_on_skater_id", using: :btree
 
   create_table "rosters", force: true do |t|
+    t.boolean  "home"
     t.integer  "game_id"
     t.integer  "team_id"
     t.datetime "created_at"

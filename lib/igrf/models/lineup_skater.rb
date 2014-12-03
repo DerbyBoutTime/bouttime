@@ -2,7 +2,11 @@ require "igrf/model"
 
 module IGRF
   module Models
-    class LineupSkater
+    class LineupSkater < Model
+      def home?
+        !!attributes[:home]
+      end
+
       def lineup
         parent
       end

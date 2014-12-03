@@ -24,5 +24,9 @@ module Wftda
     config.generators do |g|
       g.test_framework :minitest, spec: true, fixture: false
     end
+
+    config.autoload_paths += %W(
+      #{config.root}/app/importers
+    )
   end
 end

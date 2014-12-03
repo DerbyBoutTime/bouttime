@@ -7,6 +7,10 @@ module IGRF
         parent
       end
 
+      def home?
+        !!attributes[:home]
+      end
+
       def lineup
         @lineup ||= Lineup.new(attributes[:lineup], self)
       end

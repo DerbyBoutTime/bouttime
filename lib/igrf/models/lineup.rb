@@ -3,6 +3,10 @@ require "igrf/model"
 module IGRF
   module Models
     class Lineup < Model
+      def home?
+        !!attributes[:home]
+      end
+
       def jam
         parent
       end
