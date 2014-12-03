@@ -11,8 +11,8 @@ header
         .row
           .col-xs-12.col-sm-12
             .btn-group
-              a.btn.btn-xs.dropdown-toggle data-toggle="dropdown" href="#"
-                img src=image_path("icons/menu.svg")
+              a.btn-title-menu.btn.btn-default.dropdown-toggle data-toggle="dropdown" href="#"
+                img src=image_path("icons/menu.svg") alt="menu"
               ul.dropdown-menu
                 -if user_signed_in?
                   li
