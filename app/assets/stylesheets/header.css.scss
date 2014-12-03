@@ -4,11 +4,11 @@ header {
   }
 
   .title-bar {
-    background-color: $gray;
+    background-color: $pink;
     color: $white;
 
     .btn-default {
-      background-color: $gray;
+      background-color: $pink;
     }
 
     .dropdown-menu {
@@ -17,6 +17,7 @@ header {
     }
     .btn-title-menu {
       padding: 2px 1px;
+      border-color: $pink;
     }
   }
 
