@@ -10,7 +10,29 @@ header
       .container
         .row
           .col-xs-12.col-sm-12
-            | Atlanta vs. Gotham
+            .btn-group
+              a.btn.btn-default.dropdown-toggle data-toggle="dropdown" href="#"
+                i.glyphicon.glyphicon-chevron-down
+              ul.dropdown-menu
+                -if user_signed_in?
+                  li
+                    a href="#"  Global Bout Notes
+                  li
+                    a href="#"  Change Roles
+                  li.divider
+                  li
+                    a href="#"  Sign Out
+                -else
+                  li
+                    a href="#"  Scoreboard
+                  li
+                    a href="#"  Penalty Whiteboard
+                  li
+                    a href="#"  Announcers Feed
+                  li.divider
+                  li
+                    a href="#"  Sign In
+            |  Atlanta vs. Gotham
 
     .navbar
       .container
@@ -37,5 +59,3 @@ header
                 a href="#"
                   img.hidden-xs src=image_path("icons/penalty-box.png") width="48"
                   img.visible-xs-block src=image_path("icons/penalty-box.png") width="24"
-
-

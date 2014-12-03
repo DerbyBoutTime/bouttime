@@ -6,6 +6,15 @@ header {
   .title-bar {
     background-color: $gray;
     color: $white;
+
+    .btn-default {
+      background-color: $gray;
+    }
+
+    .dropdown-menu {
+      margin-top: 0px;
+      border-top-width: 0px;
+    }
   }
 
   .navbar {
