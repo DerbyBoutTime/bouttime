@@ -22,3 +22,6 @@
 
 //= require websocket_rails/main
 
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})

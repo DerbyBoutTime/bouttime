@@ -1,13 +1,109 @@
-<div class="row">
-  <ul class="list-group">
-    <li class="list-group-item"><%= @game.venue.name %>, <%= @game.venue.city %>, <%= @game.venue.state %></li>
-    <li class="list-group-item">
-      <span class="badge"><%= @game.jams.count %></span>
-      Jams
-    </li>
-    <li class="list-group-item">
-      <span class="badge"><%= @game.officials.count %></span>
-      Officials
-    </li>
-  </ul>
+<div class="row" id="igrf">
+  <div class="page-header">
+    <%- away = @game.rosters.where(home: false).first %>
+    <%- home = @game.rosters.where(home: true).first %>
+
+    <h2><%= home.team.name %> vs. <%= away.team.name %> <small>at <%= @game.venue.name %> in <%= @game.venue.city %>, <%= @game.venue.state %> about <span data-toggle="tooltip" data-placement="bottom" title="<%= @game.start_time %>"><%= time_ago_in_words(@game.start_time) %> ago</span></small></h5>
+  </div>
+
+  <div role="tabpanel">
+    <ul class="nav nav-pills" role="tablist">
+      <li role="presentation" class="active"><a href="#officials" aria-controls="officials" role="tab" data-toggle="tab">Officials <span class="badge"><%= @game.officials.count %></span></a></li>
+      <li role="presentation"><a href="#rosters" aria-controls="rosters" role="tab" data-toggle="tab">Rosters</a></li>
+      <li role="presentation"><a href="#periods" aria-controls="periods" role="tab" data-toggle="tab">Periods</a></li>
+    </ul>
+
+    <div class="tab-content">
+      <div role="tabpanel" class="tab-pane active" id="officials">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Certification</th>
+              <th>League</th>
+              <th>Position</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @game.game_officials.each do |game_official| %>
+              <%- official = game_official.official %>
+              <tr>
+                <th><%= official.name %></th>
+                <th><%= official.certification %></th>
+                <th><%= official.league %></th>
+                <th><%= game_official.position %></th>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="rosters">
+        <div role="tabpanel">
+          <ul class="nav nav-pills" role="tablist">
+            <li role="presentation" class="active"><a href="#rosterHome" aria-controls="rosterHome" role="tab" data-toggle="tab"><%= home.team.name %><span class="badge"><%= home.skaters.count %></span></a></li>
+            <li role="presentation"><a href="#rosterAway" aria-controls="rosterAway" role="tab" data-toggle="tab"><%= away.team.name %><span class="badge"><%= away.skaters.count %></span></a></li>
+          </ul>
+
+          <div class="tab-content">
+            <% [home, away].each do |roster| %>
+              <div role="tabpanel" class="tab-pane<%= " active" if roster.home? %>" id="roster<%= roster.home? ? "Home" : "Away" %>">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Name</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% roster.skaters.order(:number).each do |skater| %>
+                      <tr>
+                        <th><%= skater.number %></th>
+                        <th><%= skater.name %></th>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+
+      <div role="tabpanel" class="tab-pane" id="periods">
+        <%- periods = @game.jams.group_by { |jam| jam.period } %>
+        <div role="tabpanel">
+          <ul class="nav nav-pills" role="tablist">
+            <li role="presentation" class="active"><a href="#periodOne" aria-controls="periodOne" role="tab" data-toggle="tab">One<span class="badge"><%= periods[1].size %></span></a></li>
+            <li role="presentation"><a href="#periodTwo" aria-controls="periodTwo" role="tab" data-toggle="tab">Two<span class="badge"><%= periods[2].size %></span></a></li>
+          </ul>
+
+          <div class="tab-content">
+            <% periods.each do |period, jams| %>
+              <div role="tabpanel" class="tab-pane<%= " active" if period == 1 %>" id="period<%= period == 1 ? "One" : "Two" %>">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Away</th>
+                      <th>Home</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% jams.sort_by { |jam| jam.number }.each do |jam| %>
+                      <tr>
+                        <th><%= jam.number %></th>
+                        <th><%= jam.passes.reject { |pass| pass.lineup_skater.lineup.roster.home? }.sum(&:score) %></th>
+                        <th><%= jam.passes.select { |pass| pass.lineup_skater.lineup.roster.home? }.sum(&:score) %></th>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
