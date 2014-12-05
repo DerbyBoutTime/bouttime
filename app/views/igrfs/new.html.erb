@@ -1,0 +1,4 @@
+<%= bootstrap_form_for(@form, layout: :inline) do |f| %>
+  <%= f.file_field :form, hide_label: true %>
+  <%= f.submit "Import!" %>
+<% end %>

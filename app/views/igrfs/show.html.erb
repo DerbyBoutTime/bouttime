@@ -1,0 +1,13 @@
+<div class="row">
+  <ul class="list-group">
+    <li class="list-group-item"><%= @game.venue.name %>, <%= @game.venue.city %>, <%= @game.venue.state %></li>
+    <li class="list-group-item">
+      <span class="badge"><%= @game.jams.count %></span>
+      Jams
+    </li>
+    <li class="list-group-item">
+      <span class="badge"><%= @game.officials.count %></span>
+      Officials
+    </li>
+  </ul>
+</div>

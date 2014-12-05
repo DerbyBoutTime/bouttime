@@ -1,4 +1,5 @@
 class Game < ActiveRecord::Base
+  belongs_to :igrf, class_name: "InterleagueGameReportingForm"
   belongs_to :venue
 
   has_many :jams
