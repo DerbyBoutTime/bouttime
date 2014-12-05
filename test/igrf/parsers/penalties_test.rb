@@ -1,17 +1,17 @@
 require "test_helper"
 require "igrf/parsers/penalties"
 
-describe IGRF::Parsers::Penalties do
-  subject { IGRF::Parsers::Penalties }
+describe Igrf::Parsers::Penalties do
+  subject { Igrf::Parsers::Penalties }
 
   before do
-    @parser = subject.new(Support::IGRF.workbook)
+    @parser = subject.new(Support::Igrf.workbook)
     @parser.parse
 
     @penalty = @parser.parsed[2]
   end
 
-  it "parses an IGRF workbook for Penalties" do
+  it "parses an Igrf workbook for Penalties" do
     assert_equal true, @penalty[:home]
     assert_equal 1, @penalty[:period]
     assert_equal 12, @penalty[:skater_number]

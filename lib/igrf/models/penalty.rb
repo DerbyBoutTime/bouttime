@@ -1,6 +1,6 @@
 require "igrf/model"
 
-module IGRF
+module Igrf
   module Models
     class Penalty < Model
       def game

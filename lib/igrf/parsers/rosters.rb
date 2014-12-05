@@ -1,7 +1,7 @@
 require "igrf/parser"
 require "igrf/parsers/skaters"
 
-module IGRF
+module Igrf
   module Parsers
     class Rosters < TeamParser
       def columns

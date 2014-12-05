@@ -1,6 +1,6 @@
 require "igrf/workbook"
 
-module IGRF
+module Igrf
   def self.for(file)
     Workbook.new(file).to_game
   end

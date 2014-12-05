@@ -1,4 +1,4 @@
-module IGRF
+module Igrf
   module Parsers
   end
 end

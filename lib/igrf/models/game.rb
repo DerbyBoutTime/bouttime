@@ -6,7 +6,7 @@ require "igrf/models/penalty"
 require "igrf/models/roster"
 require "igrf/models/venue"
 
-module IGRF
+module Igrf
   module Models
     class Game < Model
       def jams

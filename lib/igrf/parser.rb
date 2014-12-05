@@ -1,6 +1,6 @@
 require "active_support/core_ext/object/blank"
 
-module IGRF
+module Igrf
   class Parser
     attr_reader :workbook
 

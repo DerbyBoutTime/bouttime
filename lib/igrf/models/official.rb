@@ -1,6 +1,6 @@
 require "igrf/model"
 
-module IGRF
+module Igrf
   module Models
     class Official < Model
       def game

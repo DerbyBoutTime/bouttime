@@ -1,7 +1,7 @@
 require "igrf/parser"
 require "igrf/parsers/lineups"
 
-module IGRF
+module Igrf
   module Parsers
     class Lineups < TeamParser
       def columns

@@ -2,9 +2,9 @@ require "test_helper"
 
 require "igrf_importer"
 
-describe Importers::IGRFImporter, :model do
+describe IgrfImporter, :model do
   before do
-    @parsed = Support::IGRF.game
+    @parsed = Support::Igrf.game
 
     @parsed_official = @parsed.officials.first
 
@@ -19,14 +19,14 @@ describe Importers::IGRFImporter, :model do
     @parsed_penalty = @parsed.penalties.find { |penalty| penalty.home? && penalty.skater_number.to_s == "911" }
     @parsed_penalty.attributes[:penalties] = [@parsed_penalty.attributes[:penalties].first]
 
-    IGRF::Models::Game.stub_any_instance :officials, [@parsed_official] do
-      IGRF::Models::Game.stub_any_instance :rosters, [@parsed_roster] do
-        IGRF::Models::Roster.stub_any_instance :skaters, [@parsed_skater] do
-          IGRF::Models::Game.stub_any_instance :jams, [@parsed_jam] do
-            IGRF::Models::Jam.stub_any_instance :passes, [@parsed_pass] do
-              IGRF::Models::Lineup.stub_any_instance :skaters, [@parsed_lineup_skater] do
-                IGRF::Models::Game.stub_any_instance :penalties, [@parsed_penalty] do
-                  @game = Importers::IGRFImporter::Game.new(@parsed).import
+    Igrf::Models::Game.stub_any_instance :officials, [@parsed_official] do
+      Igrf::Models::Game.stub_any_instance :rosters, [@parsed_roster] do
+        Igrf::Models::Roster.stub_any_instance :skaters, [@parsed_skater] do
+          Igrf::Models::Game.stub_any_instance :jams, [@parsed_jam] do
+            Igrf::Models::Jam.stub_any_instance :passes, [@parsed_pass] do
+              Igrf::Models::Lineup.stub_any_instance :skaters, [@parsed_lineup_skater] do
+                Igrf::Models::Game.stub_any_instance :penalties, [@parsed_penalty] do
+                  @game = IgrfImporter::Game.new(@parsed).import
                 end
               end
             end

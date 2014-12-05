@@ -1,7 +1,7 @@
 require "igrf/workbook"
 
 module Support
-  class IGRF
+  class Igrf
     def self.file
       @@file ||= File.join("test", "igrf", "samples", "one.xlsx")
     end
@@ -11,7 +11,7 @@ module Support
     end
 
     def self.workbook
-      @@workbook ||= ::IGRF::Workbook.new(file)
+      @@workbook ||= ::Igrf::Workbook.new(file)
     end
   end
 end

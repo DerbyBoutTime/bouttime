@@ -2,7 +2,7 @@ require "rubyXL"
 
 require "igrf/parsers/game"
 
-module IGRF
+module Igrf
   class Workbook
     attr_reader :workbook
 
@@ -16,7 +16,7 @@ module IGRF
     end
 
     def to_game
-      @to_game ||= Models::Game.new(IGRF::Parsers::Game.parse(self).parsed.first)
+      @to_game ||= Models::Game.new(Igrf::Parsers::Game.parse(self).parsed.first)
     end
 
     def worksheets

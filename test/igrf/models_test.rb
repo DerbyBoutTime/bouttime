@@ -2,39 +2,39 @@ require "test_helper"
 
 require "igrf/models"
 
-describe IGRF::Models do
+describe Igrf::Models do
   before do
-    @game = Support::IGRF.game
+    @game = Support::Igrf.game
   end
 
-  describe IGRF::Models::Game do
+  describe Igrf::Models::Game do
     it "has children" do
       assert_kind_of Array, @game.jams
-      assert_kind_of IGRF::Models::Jam, @game.jams.first
+      assert_kind_of Igrf::Models::Jam, @game.jams.first
 
       assert_kind_of Array, @game.officials
-      assert_kind_of IGRF::Models::Official, @game.officials.first
+      assert_kind_of Igrf::Models::Official, @game.officials.first
 
       assert_kind_of Array, @game.penalties
-      assert_kind_of IGRF::Models::Penalty, @game.penalties.first
+      assert_kind_of Igrf::Models::Penalty, @game.penalties.first
 
       assert_kind_of Array, @game.rosters
-      assert_kind_of IGRF::Models::Roster, @game.rosters.first
+      assert_kind_of Igrf::Models::Roster, @game.rosters.first
 
-      assert_kind_of IGRF::Models::Venue, @game.venue
+      assert_kind_of Igrf::Models::Venue, @game.venue
     end
   end
 
-  describe IGRF::Models::Jam do
+  describe Igrf::Models::Jam do
     before do
       @jam = @game.jams[1]
     end
 
     it "has children" do
-      assert_kind_of IGRF::Models::Lineup, @jam.lineup
+      assert_kind_of Igrf::Models::Lineup, @jam.lineup
 
       assert_kind_of Array, @jam.passes
-      assert_kind_of IGRF::Models::Pass, @jam.passes.first
+      assert_kind_of Igrf::Models::Pass, @jam.passes.first
     end
 
     it "has a parent" do
@@ -42,7 +42,7 @@ describe IGRF::Models do
     end
   end
 
-  describe IGRF::Models::Lineup do
+  describe Igrf::Models::Lineup do
     before do
       @jam = @game.jams.first
       @lineup = @jam.lineup
@@ -53,7 +53,7 @@ describe IGRF::Models do
     end
   end
 
-  describe IGRF::Models::Official do
+  describe Igrf::Models::Official do
     before do
       @official = @game.officials.first
     end
@@ -63,7 +63,7 @@ describe IGRF::Models do
     end
   end
 
-  describe IGRF::Models::Penalty do
+  describe Igrf::Models::Penalty do
     before do
       @penalty = @game.penalties.first
     end
@@ -73,14 +73,14 @@ describe IGRF::Models do
     end
   end
 
-  describe IGRF::Models::Roster do
+  describe Igrf::Models::Roster do
     before do
       @roster = @game.rosters.first
     end
 
     it "has children" do
       assert_kind_of Array, @roster.skaters
-      assert_kind_of IGRF::Models::Skater, @roster.skaters.first
+      assert_kind_of Igrf::Models::Skater, @roster.skaters.first
     end
 
     it "has a parent" do
@@ -88,7 +88,7 @@ describe IGRF::Models do
     end
   end
 
-  describe IGRF::Models::Skater do
+  describe Igrf::Models::Skater do
     before do
       @roster = @game.rosters.first
       @skater = @roster.skaters.first
@@ -99,7 +99,7 @@ describe IGRF::Models do
     end
   end
 
-  describe IGRF::Models::Venue do
+  describe Igrf::Models::Venue do
     before do
       @venue = @game.venue
     end

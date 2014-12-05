@@ -1,17 +1,17 @@
 require "test_helper"
 require "igrf/parsers/jams"
 
-describe IGRF::Parsers::Jams do
-  subject { IGRF::Parsers::Jams }
+describe Igrf::Parsers::Jams do
+  subject { Igrf::Parsers::Jams }
 
   before do
-    @parser = subject.new(Support::IGRF.workbook)
+    @parser = subject.new(Support::Igrf.workbook)
     @parser.parse
 
     @jam = @parser.parsed.first
   end
 
-  it "parses an IGRF workbook for Jams" do
+  it "parses an Igrf workbook for Jams" do
     assert_equal true, @jam[:away]
     assert_equal 1, @jam[:number]
     assert_equal 1, @jam[:period]

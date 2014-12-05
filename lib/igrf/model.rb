@@ -1,4 +1,4 @@
-module IGRF
+module Igrf
   class Model
     attr_reader :attributes, :parent
 

@@ -1,17 +1,17 @@
 require "test_helper"
 require "igrf/parsers/game"
 
-describe IGRF::Parsers::Game do
-  subject { IGRF::Parsers::Game }
+describe Igrf::Parsers::Game do
+  subject { Igrf::Parsers::Game }
 
   before do
-    @parser = subject.new(Support::IGRF.workbook)
+    @parser = subject.new(Support::Igrf.workbook)
     @parser.parse
 
     @game = @parser.parsed.first
   end
 
-  it "parses an IGRF workbook for the Game" do
+  it "parses an Igrf workbook for the Game" do
     assert_equal Time.new(2014, 7, 12, 20), @game[:start_time]
     assert_equal Time.new(2014, 7, 12, 21, 30), @game[:end_time]
 

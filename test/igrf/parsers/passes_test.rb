@@ -1,18 +1,18 @@
 require "test_helper"
 require "igrf/parsers/passes"
 
-describe IGRF::Parsers::Passes do
-  subject { IGRF::Parsers::Passes }
+describe Igrf::Parsers::Passes do
+  subject { Igrf::Parsers::Passes }
 
   before do
-    @parser = subject.new(Support::IGRF.workbook)
+    @parser = subject.new(Support::Igrf.workbook)
     @parser.parse
 
     @passes = @parser.parsed
     @pass = @passes.first
   end
 
-  it "parses an IGRF workbok for Passes" do
+  it "parses an Igrf workbok for Passes" do
     assert_kind_of Array, @passes
     assert_equal 124, @passes.size
 

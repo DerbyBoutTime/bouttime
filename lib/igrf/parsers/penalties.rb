@@ -1,6 +1,6 @@
 require "igrf/parser"
 
-module IGRF
+module Igrf
   module Parsers
     class Penalties < TeamParser
       def columns

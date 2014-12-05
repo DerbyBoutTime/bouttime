@@ -5,7 +5,7 @@ require "igrf/parsers/penalties"
 require "igrf/parsers/rosters"
 require "igrf/parsers/venue"
 
-module IGRF
+module Igrf
   module Parsers
     class Game < Parser
       def columns
