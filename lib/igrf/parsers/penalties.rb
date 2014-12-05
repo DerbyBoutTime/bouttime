@@ -4,8 +4,8 @@ module IGRF
   module Parsers
     class Penalties < TeamParser
       def columns
-        { :away => [[{ :skater_number => 0, :penalties => 1..9 }, { :period => 1 }], [{ :skater_number => 28, :penalties => 29..37 }, { :period => 2 }]],
-          :home => [[{ :skater_number => 15, :penalties => 16..24 }, { :period => 1 }], [{ :skater_number => 43, :penalties => 44..52 }, { :period => 2 }]] }
+        { :away => [[{ :skater_number => 15, :penalties => 16..24 }, { :period => 1 }], [{ :skater_number => 43, :penalties => 44..52 }, { :period => 2 }]],
+          :home => [[{ :skater_number => 0, :penalties => 1..9 }, { :period => 1 }], [{ :skater_number => 28, :penalties => 29..37 }, { :period => 2 }]] }
       end
 
       def data
