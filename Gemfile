@@ -26,6 +26,7 @@ gem "uglifier", ">= 1.3.0"
 # css
 gem "autoprefixer-rails"
 gem "bootstrap-sass", "~> 3.3.0"
+gem "bootstrap_form"
 gem "sass-rails", "~> 4.0.3"
 
 # js
@@ -34,6 +35,7 @@ gem "jquery-rails"
 gem "therubyracer", platforms: [:ruby]
 
 # igrf documents
+gem "carrierwave"
 gem "rubyXL"
 
 # error reporting
