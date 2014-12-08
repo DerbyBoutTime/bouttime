@@ -18,6 +18,14 @@
       border: 0.8px solid $gray;
       margin: 4px 6px;
       border-radius: 2px;
+      padding: 0.5em 0;
+      @media (min-width: $screen-md-min) {
+        font-size: 2em;
+        padding: 0.3em 0;
+      }
+      &.official-review {
+        border-radius: 20px;
+      }
     }
     :first-child {
       border-radius: 6px;
