@@ -13,15 +13,20 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require jquery_ujs
+//= require touch-punch
 //= require turbolinks
+//= require react-with-addons
+//= require react_ujs
 //= require mousetrap.min
 //= require namespaces
 //= require constants
 //= require functions
-//= require scoreboard
+//= require displays/scorekeeper
 
 //= require fileinput
 
 //= require igrf
 
 //= require websocket_rails/main
+//= require components/components
+React.initializeTouchEvents(true);
