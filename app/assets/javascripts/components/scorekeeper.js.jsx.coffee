@@ -587,7 +587,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <PassesList passes={this.state.team.home.passes} />
+          <PassesList passes={this.state.team.home.passes} teamType="home" />
         </div>
       </div>
     </div>`
@@ -597,7 +597,7 @@ exports.PassesList = React.createClass
   render: () ->
     PassItemFactory = React.createFactory(PassItem)
     passComponents = this.props.passes.map (pass) =>
-      PassItemFactory({pass: pass, key: pass.number})
+      PassItemFactory({pass: pass, key: pass.number, teamType: this.props.teamType})
 
     `<div className="passes">
       <div className="headers">
@@ -623,7 +623,16 @@ exports.PassesList = React.createClass
 
 exports.PassItem = React.createClass
   render: () ->
-    `<div aria-multiselectable="true" id="home-team-pass-1">
+    nodeId = "#{this.props.teamType}-team-pass-#{this.props.pass.number}"
+    jqNodeId = "##{nodeId}"
+
+    editPassNumberId = "#{this.props.teamType}-team-edit-pass-number-#{this.props.pass.number}"
+    jqEditPassNumberId = "##{editPassNumberId}"
+
+    editPassId = "#{this.props.teamType}-team-edit-pass-#{this.props.pass.number}"
+    jqEditPassId = "##{editPassId}"
+
+    `<div aria-multiselectable="true" id={nodeId}>
       <div className="columns">
         <div className="row gutters-xs">
           <div className="col-sm-2 col-xs-2">
@@ -652,14 +661,14 @@ exports.PassItem = React.createClass
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div aria-controls="#home-team-edit-pass-1" aria-expanded="false" className="points text-center" data-parent="#home-team-pass-1" data-toggle="collapse" href="#home-team-edit-pass-1">
-              10
+            <div aria-controls={jqEditPassId} aria-expanded="false" className="points text-center" data-parent={jqNodeId} data-toggle="collapse" href={jqEditPassId}>
+              {this.props.pass.points}
             </div>
           </div>
         </div>
       </div>
       <div className="panel">
-        <div className="edit-pass-number collapse" id="home-team-edit-pass-number-1">
+        <div className="edit-pass-number collapse" id={editPassNumberId}>
           <div className="row gutters-xs">
             <div className="col-sm-1 col-xs-1">
               <div className="remove text-center">
@@ -684,52 +693,130 @@ exports.PassItem = React.createClass
           </div>
         </div>
       </div>
-      <div className="panel">
-        <div className="edit-pass first-pass collapse" id="home-team-edit-pass-1">
-          <div className="row gutters-xs">
-            <div className="col-sm-2 col-xs-2 col-sm-offset-1 col-xs-offset-1">
-              <div className="remove text-center">
-                <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
-              </div>
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              <div className="notes injury text-center">
-                Injury
-              </div>
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              <div className="notes note-lead text-center">
-                Lead
-              </div>
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              <div className="notes call text-center">
-                Call
-              </div>
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              <div className="ok text-center">
-                <span aria-hidden="true" className="glyphicon glyphicon-ok"></span>
-              </div>
-            </div>
-          </div>
-          <div className="row gutters-xs">
-            <div className="col-sm-2 col-xs-2 col-sm-offset-3 col-xs-offset-3">
-              <div className="zero text-center">
-                0
-              </div>
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              <div className="one text-center">
-                1
-              </div>
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              <div className="notes no-pass text-center">
-                No P.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <PassEditPanel pass={this.props.pass} teamType={this.props.teamType} editPassId={editPassId}/>
     </div>`
+
+exports.PassEditPanel = React.createClass
+  render: () ->
+    if this.props.pass.number == 1
+      return(
+        `<div className="panel">
+          <div className="edit-pass first-pass collapse" id={this.props.editPassId}>
+            <div className="row gutters-xs">
+              <div className="col-sm-2 col-xs-2 col-sm-offset-1 col-xs-offset-1">
+                <div className="remove text-center">
+                  <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
+                </div>
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <div className="notes injury text-center">
+                  Injury
+                </div>
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <div className="notes note-lead text-center">
+                  Lead
+                </div>
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <div className="notes call text-center">
+                  Call
+                </div>
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <div className="ok text-center">
+                  <span aria-hidden="true" className="glyphicon glyphicon-ok"></span>
+                </div>
+              </div>
+            </div>
+            <div className="row gutters-xs">
+              <div className="col-sm-2 col-xs-2 col-sm-offset-3 col-xs-offset-3">
+                <div className="zero text-center">
+                  0
+                </div>
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <div className="one text-center">
+                  1
+                </div>
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <div className="notes no-pass text-center">
+                  No P.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`
+      )
+    else
+      return(
+        `<div className="panel">
+          <div className="edit-pass second-pass collapse" id={this.props.editPassId}>
+            <div className="row gutters-xs">
+              <div className="col-sm-2 col-xs-2 col-sm-offset-1 col-xs-offset-1">
+                <div className="remove text-center">
+                  <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
+                </div>
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <div className="notes injury text-center">
+                  Injury
+                </div>
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <div className="notes note-lead text-center">
+                  Lead
+                </div>
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <div className="notes call text-center">
+                  Call
+                </div>
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <div className="ok text-center">
+                  <span aria-hidden="true" className="glyphicon glyphicon-ok"></span>
+                </div>
+              </div>
+            </div>
+            <div className="row gutters-xs">
+              <div className="col-sm-1 col-xs-1 col-sm-offset-2 col-xs-offset-2">
+                <div className="zero text-center">
+                  0
+                </div>
+              </div>
+              <div className="col-sm-1 col-xs-1">
+                <div className="one text-center">
+                  1
+                </div>
+              </div>
+              <div className="col-sm-1 col-xs-1">
+                <div className="two text-center">
+                  2
+                </div>
+              </div>
+              <div className="col-sm-1 col-xs-1">
+                <div className="three text-center">
+                  3
+                </div>
+              </div>
+              <div className="col-sm-1 col-xs-1">
+                <div className="four text-center">
+                  4
+                </div>
+              </div>
+              <div className="col-sm-1 col-xs-1">
+                <div className="five text-center">
+                  5
+                </div>
+              </div>
+              <div className="col-sm-1 col-xs-1">
+                <div className="six text-center">
+                  6
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`
+      )
