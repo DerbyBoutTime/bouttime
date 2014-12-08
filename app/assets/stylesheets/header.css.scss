@@ -1,0 +1,57 @@
+header {
+  .container-fluid {
+    padding: 0;
+  }
+
+  .title-bar {
+    background-color: $pink;
+    color: $white;
+
+    .btn-default {
+      background-color: $pink;
+    }
+
+    .dropdown-menu {
+      margin-top: 0px;
+      border-top-width: 0px;
+    }
+    .btn-title-menu {
+      padding: 2px 1px;
+      border-color: $pink;
+    }
+  }
+
+  .navbar {
+    background-color: $near-black;
+    min-height: 0;
+  }
+
+  .navbar-nav {
+    li {
+      a {
+        padding: 4px;
+        &:active, &:hover, &:focus {
+          opacity: 0.6;
+          background-color: transparent;
+        }
+      }
+    }
+  }
+
+  .logo {
+    .container {
+      position: relative;
+    }
+
+    img {
+      position: absolute;
+      top: 5px;
+      right: 5%;
+      z-index: 9999;
+
+      @media (max-width: $screen-xs-max) {
+        top: 2px;
+      }
+    }
+  }
+}

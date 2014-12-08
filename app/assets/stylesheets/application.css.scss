@@ -7,8 +7,9 @@ $gray-base: $near-black;
 @import "base/variables";
 @import "bootstrap-sprockets";
 @import "bootstrap";
-@import "scoreboard";
+@import "header";
 @import "jam-timer";
+@import "scoreboard";
 
 //Hide test DOM
 #UUT {

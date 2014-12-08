@@ -7,11 +7,10 @@
   <%= render "layouts/meta_tags" %>
 </head>
 <body>
-
-<div class="container">
   <%= yield :nav %>
-  <%= yield %>
-</div>
 
+  <div class="container">
+    <%= yield %>
+  </div>
 </body>
 </html>
