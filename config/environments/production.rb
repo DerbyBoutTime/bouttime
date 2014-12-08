@@ -78,4 +78,5 @@ Rails.application.configure do
 
   #Set react to minified version
   config.react.variant = :production
+  config.react.addons = true
 end

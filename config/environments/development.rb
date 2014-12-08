@@ -37,4 +37,5 @@ Rails.application.configure do
 
   #Set react to unminified version
   config.react.variant = :development
+  config.react.addons = true
 end

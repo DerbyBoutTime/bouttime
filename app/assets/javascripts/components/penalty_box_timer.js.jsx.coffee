@@ -1,7 +1,7 @@
 cx = React.addons.classSet;
 exports = exports ? this
-exports.AnnouncerFeed = React.createClass
+exports.PenaltyBoxTimer = React.createClass
   getInitialState: () ->
     null
   render: () ->
-    `<div class="announcer-feed"></div>`
+    `<div class="penalty-box-timer"></div>`

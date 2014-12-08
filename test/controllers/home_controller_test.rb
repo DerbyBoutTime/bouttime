@@ -13,9 +13,9 @@ describe HomeController do
       assert_response :success
     end
   end
-  describe "GET penalty_box" do
+  describe "GET penalty_box_timer" do
     it "returns http success" do
-      get :penalty_box
+      get :penalty_box_timer
       assert_response :success
     end
   end
@@ -43,9 +43,9 @@ describe HomeController do
       assert_response :success
     end
   end
-  describe "GET announcer" do
+  describe "GET announcers feeds" do
     it "returns http success" do
-      get :announcer
+      get :announcers_feed
       assert_response :success
     end
   end

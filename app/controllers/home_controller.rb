@@ -4,14 +4,39 @@ class HomeController < ApplicationController
 
   def jam_timer
     @active_class = "jam_timer"
+    @json = {
+      jamNumber: 1,
+      periodNumber: 1,
+      jamClockLabel: "Time to derby",
+      jamClock: "90:00",
+      periodClock: "30:00",
+      teams: {
+        home: {
+          initials: "ARG",
+          colorBarStyle: {
+            backgroundColor: "#2082a6"
+          },
+          hasOfficialReview: true,
+          timeouts: 3
+        },
+        away: {
+          name: "GRG",
+          colorBarStyle: {
+            backgroundColor: "#f50031"
+          },
+          hasOfficialReview: true,
+          timeouts: 3
+        }
+      }
+    }.to_json
   end
 
   def lineup_tracker
     @active_class = "lineup_tracker"
   end
 
-  def penalty_box
-    @active_class = "penalty_box"
+  def penalty_box_timer
+    @active_class = "penalty_box_timer"
   end
 
   def penalty_tracker
@@ -36,8 +61,8 @@ class HomeController < ApplicationController
     @hide_nav = true
   end
 
-  def announcer
-    @active_class = "announcer"
+  def announcers_feeds
+    @active_class = "announcers_feed"
     @hide_nav = true
   end
 

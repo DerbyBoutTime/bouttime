@@ -1,24 +1,12 @@
+cx = React.addons.classSet;
 exports = exports ? this
 exports.JamTimer = React.createClass
   getInitialState: () ->
-    jamNumber: 1
-    periodNumber: 1
-    jamClockLabel: "Time To Derby"
-    jamClock: "90:00"
-    periodClock: "30:00"
-    team:
-      home:
-        initials: "ARG"
-        colorBarStyle:
-          backgroundColor: "#2082a6"
-        hasOfficialReview: true
-        timeouts: 3
-      away:
-        name: "GRG"
-        colorBarStyle:
-          backgroundColor: "#f50031"
-        hasOfficialReview: true
-        timeouts: 3
+    jamNumber: this.props.jamNumber
+    periodNumber: this.props.periodNumber
+    jamClockLabel: this.props.jamClockLabel
+    jamClock: this.props.jamClock
+    periodClock: this.props.periodClock
   render: () ->
     `<div id="jam-timer-view">
       <div className="row text-center">

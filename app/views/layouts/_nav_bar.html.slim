@@ -24,11 +24,11 @@ header
                     a href="#"  Sign Out
                 -else
                   li
-                    a href="/scoreboard" target="_blank"  Scoreboard
+                    =link_to "Scoreboard", "/scoreboard", target: "_blank"
                   li
-                    =link_to "Penalty Whiteboard", "penalty_whiteboard"
+                    =link_to "Penalty Whiteboard", "/penalty_whiteboard", target: "_blank"
                   li
-                    =link_to "Announcers Feed", "/announcer"
+                    =link_to "Announcers Feed", "/announcer", target: "_blank"
                   li.divider
                   li
                     a href="#"  Sign In
@@ -55,7 +55,7 @@ header
                 =link_to "/penalty_tracker" do
                   img.hidden-xs src=image_path("icons/penalty-tracker.svg") width="48"
                   img.visible-xs-block src=image_path("icons/penalty-tracker.svg") width="32"
-              li class="#{@active_class == "penalty_box" ? "active" : ""}"
+              li class="#{@active_class == "penalty_box_timer" ? "active" : ""}"
                 =link_to "/penalty_box" do
                   img.hidden-xs src=image_path("icons/penalty-box.svg") width="48"
                   img.visible-xs-block src=image_path("icons/penalty-box.svg") width="32"
