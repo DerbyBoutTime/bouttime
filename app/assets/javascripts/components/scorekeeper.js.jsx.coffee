@@ -2,18 +2,55 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.Scorekeeper = React.createClass
   getInitialState: () ->
-    null
+    jamNumber: 1
+    team:
+      home:
+        name: "Atlanta Rollergirls"
+        colorTabStyle:
+          backgroundColor: "#2082a6"
+        points: 0
+        jamPoints: 0
+        hasOfficialReview: true
+        timeouts: 3
+        jammer:
+          lead: false
+          name: "Nattie Long Legs"
+          number: 1234
+        passes: [
+          number: 1
+          skaterNumber: 4321
+          injury: false
+        ]
+
+      away:
+        name: "Gotham Rollergirls"
+        colorTabStyle:
+          backgroundColor: "#f50031"
+        points: 0
+        jamPoints: 0
+        hasOfficialReview: true
+        timeouts: 3
+        jammer:
+          lead: true
+          name: "Bonnie Thunders"
+          number: 4567
+        passes: [
+          number: 1
+          skaterNumber: 4567
+          injury: false
+        ]
+
   render: () ->
     `<div id="scorekeeper-view">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name away">
-            Atlanta Rollergirls
+          <div className="team-name" style={this.state.team.away.colorTabStyle} >
+            {this.state.team.away.name}
           </div>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name home">
-            Gotham Rollergirls
+          <div className="team-name" style={this.state.team.home.colorTabStyle}>
+            {this.state.team.home.name}
           </div>
         </div>
       </div>
@@ -37,7 +74,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Current Jam</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right current-jam-score">
-                    <strong>0</strong>
+                    <strong>{this.state.jamNumber}</strong>
                   </div>
                 </div>
               </div>
@@ -49,7 +86,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>0</strong>
+                    <strong>{this.state.team.away.points}</strong>
                   </div>
                 </div>
               </div>
@@ -76,12 +113,12 @@ exports.Scorekeeper = React.createClass
               <div className="row gutters-xs">
                 <div className="col-sm-2 col-xs-2">
                   <div className="jam text-center">
-                    1
+                    {this.state.jamNumber}
                   </div>
                 </div>
                 <div className="col-sm-2 col-xs-2">
                   <div className="skater">
-                    4567
+                    {this.state.team.away.jammer.number}
                   </div>
                 </div>
                 <div className="col-sm-2 col-xs-2">
@@ -168,12 +205,12 @@ exports.Scorekeeper = React.createClass
                 <div className="row gutters-xs">
                   <div className="col-sm-2 col-xs-2">
                     <div aria-controls="#away-team-edit-pass-number-1" aria-expanded="false" className="pass text-center" data-parent="#away-team-pass-1" data-toggle="collapse" href="#away-team-edit-pass-number-1">
-                      1
+                      {this.state.team.away.passes[0].number}
                     </div>
                   </div>
                   <div className="col-sm-2 col-xs-2">
                     <div className="skater">
-                      1234
+                      {this.state.team.away.passes[0].skaterNumber}
                     </div>
                   </div>
                   <div className="col-sm-2 col-xs-2">
@@ -414,7 +451,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Current Jam</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right current-jam-score">
-                    <strong>0</strong>
+                    <strong>{this.state.jamNumber}</strong>
                   </div>
                 </div>
               </div>
@@ -426,7 +463,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>0</strong>
+                    <strong>{this.state.team.home.points}</strong>
                   </div>
                 </div>
               </div>
@@ -521,263 +558,145 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <div className="passes">
-            <div className="headers">
-              <div className="row gutters-xs">
-                <div className="col-sm-2 col-xs-2">
-                  Pass
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  Skater
-                </div>
-                <div className="col-sm-2 col-xs-2"></div>
-                <div className="col-sm-2 col-xs-2 text-center">
-                  Notes
-                </div>
-                <div className="col-sm-2 col-xs-2"></div>
-                <div className="col-sm-2 col-xs-2 text-center">
-                  Points
-                </div>
+          <PassesList passes={this.state.team.home.passes} />
+        </div>
+      </div>
+    </div>`
+
+
+exports.PassesList = React.createClass
+  render: () ->
+    passComponents = this.props.passes.map (pass) ->
+      PassItem({pass: pass, key: pass.number})
+
+    `<div className="passes">
+      <div className="headers">
+        <div className="row gutters-xs">
+          <div className="col-sm-2 col-xs-2">
+            Pass
+          </div>
+          <div className="col-sm-2 col-xs-2">
+            Skater
+          </div>
+          <div className="col-sm-2 col-xs-2"></div>
+          <div className="col-sm-2 col-xs-2 text-center">
+            Notes
+          </div>
+          <div className="col-sm-2 col-xs-2"></div>
+          <div className="col-sm-2 col-xs-2 text-center">
+            Points
+          </div>
+        </div>
+      </div>
+      {passComponents}
+    </div>`
+
+exports.PassItem = React.createClass
+  render: () ->
+    `<div aria-multiselectable="true" id="home-team-pass-1">
+      <div className="columns">
+        <div className="row gutters-xs">
+          <div className="col-sm-2 col-xs-2">
+            <div aria-controls="#home-team-edit-pass-number-1" aria-expanded="false" className="pass text-center" data-parent="#home-team-pass-1" data-toggle="collapse" href="#home-team-edit-pass-number-1">
+              1
+            </div>
+          </div>
+          <div className="col-sm-2 col-xs-2">
+            <div className="skater">
+              1234
+            </div>
+          </div>
+          <div className="col-sm-2 col-xs-2">
+            <div className="notes injury text-center">
+              Injury
+            </div>
+          </div>
+          <div className="col-sm-2 col-xs-2">
+            <div className="notes call text-center">
+              Call
+            </div>
+          </div>
+          <div className="col-sm-2 col-xs-2">
+            <div className="notes lost text-center">
+              Lost
+            </div>
+          </div>
+          <div className="col-sm-2 col-xs-2">
+            <div aria-controls="#home-team-edit-pass-1" aria-expanded="false" className="points text-center" data-parent="#home-team-pass-1" data-toggle="collapse" href="#home-team-edit-pass-1">
+              10
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="panel">
+        <div className="edit-pass-number collapse" id="home-team-edit-pass-number-1">
+          <div className="row gutters-xs">
+            <div className="col-sm-1 col-xs-1">
+              <div className="remove text-center">
+                <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
               </div>
             </div>
-            <div aria-multiselectable="true" id="home-team-pass-1">
-              <div className="columns">
-                <div className="row gutters-xs">
-                  <div className="col-sm-2 col-xs-2">
-                    <div aria-controls="#home-team-edit-pass-number-1" aria-expanded="false" className="pass text-center" data-parent="#home-team-pass-1" data-toggle="collapse" href="#home-team-edit-pass-number-1">
-                      1
-                    </div>
-                  </div>
-                  <div className="col-sm-2 col-xs-2">
-                    <div className="skater">
-                      1234
-                    </div>
-                  </div>
-                  <div className="col-sm-2 col-xs-2">
-                    <div className="notes injury text-center">
-                      Injury
-                    </div>
-                  </div>
-                  <div className="col-sm-2 col-xs-2">
-                    <div className="notes call text-center">
-                      Call
-                    </div>
-                  </div>
-                  <div className="col-sm-2 col-xs-2">
-                    <div className="notes lost text-center">
-                      Lost
-                    </div>
-                  </div>
-                  <div className="col-sm-2 col-xs-2">
-                    <div aria-controls="#home-team-edit-pass-1" aria-expanded="false" className="points text-center" data-parent="#home-team-pass-1" data-toggle="collapse" href="#home-team-edit-pass-1">
-                      10
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="panel">
-                <div className="edit-pass-number collapse" id="home-team-edit-pass-number-1">
-                  <div className="row gutters-xs">
-                    <div className="col-sm-1 col-xs-1">
-                      <div className="remove text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="minus text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-minus"></span>
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="plus text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-plus"></span>
-                      </div>
-                    </div>
-                    <div className="col-sm-1 col-xs-1">
-                      <div className="ok text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-ok"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="panel">
-                <div className="edit-pass first-pass collapse" id="home-team-edit-pass-1">
-                  <div className="row gutters-xs">
-                    <div className="col-sm-2 col-xs-2 col-sm-offset-1 col-xs-offset-1">
-                      <div className="remove text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="notes injury text-center">
-                        Injury
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="notes note-lead text-center">
-                        Lead
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="notes call text-center">
-                        Call
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="ok text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-ok"></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row gutters-xs">
-                    <div className="col-sm-2 col-xs-2 col-sm-offset-3 col-xs-offset-3">
-                      <div className="zero text-center">
-                        0
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="one text-center">
-                        1
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="notes no-pass text-center">
-                        No P.
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            <div className="col-sm-2 col-xs-2">
+              <div className="minus text-center">
+                <span aria-hidden="true" className="glyphicon glyphicon-minus"></span>
               </div>
             </div>
-            <div aria-multiselectable="true" id="home-team-pass-2">
-              <div className="columns">
-                <div className="row gutters-xs">
-                  <div className="col-sm-2 col-xs-2">
-                    <div aria-controls="#home-team-edit-pass-number-2" aria-expanded="false" className="pass text-center" data-parent="#home-team-pass-2" data-toggle="collapse" href="#home-team-edit-pass-number-2">
-                      1
-                    </div>
-                  </div>
-                  <div className="col-sm-2 col-xs-2">
-                    <div className="skater">
-                      1234
-                    </div>
-                  </div>
-                  <div className="col-sm-2 col-xs-2">
-                    <div className="notes injury text-center">
-                      Injury
-                    </div>
-                  </div>
-                  <div className="col-sm-2 col-xs-2">
-                    <div className="notes call text-center">
-                      Call
-                    </div>
-                  </div>
-                  <div className="col-sm-2 col-xs-2">
-                    <div className="notes lost text-center">
-                      Lost
-                    </div>
-                  </div>
-                  <div className="col-sm-2 col-xs-2">
-                    <div aria-controls="#home-team-edit-pass-2" aria-expanded="false" className="points text-center" data-parent="#home-team-pass-2" data-toggle="collapse" href="#home-team-edit-pass-2">
-                      5
-                    </div>
-                  </div>
-                </div>
+            <div className="col-sm-2 col-xs-2">
+              <div className="plus text-center">
+                <span aria-hidden="true" className="glyphicon glyphicon-plus"></span>
               </div>
-              <div className="panel">
-                <div className="edit-pass-number collapse" id="home-team-edit-pass-number-2">
-                  <div className="row gutters-xs">
-                    <div className="col-sm-1 col-xs-1">
-                      <div className="remove text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="minus text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-minus"></span>
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="plus text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-plus"></span>
-                      </div>
-                    </div>
-                    <div className="col-sm-1 col-xs-1">
-                      <div className="ok text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-ok"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            </div>
+            <div className="col-sm-1 col-xs-1">
+              <div className="ok text-center">
+                <span aria-hidden="true" className="glyphicon glyphicon-ok"></span>
               </div>
-              <div className="panel">
-                <div className="edit-pass second-pass collapse" id="home-team-edit-pass-2">
-                  <div className="row gutters-xs">
-                    <div className="col-sm-2 col-xs-2 col-sm-offset-1 col-xs-offset-1">
-                      <div className="remove text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="notes injury text-center">
-                        Injury
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="notes note-lead text-center">
-                        Lead
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="notes call text-center">
-                        Call
-                      </div>
-                    </div>
-                    <div className="col-sm-2 col-xs-2">
-                      <div className="ok text-center">
-                        <span aria-hidden="true" className="glyphicon glyphicon-ok"></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="row gutters-xs">
-                    <div className="col-sm-1 col-xs-1 col-sm-offset-2 col-xs-offset-2">
-                      <div className="zero text-center">
-                        0
-                      </div>
-                    </div>
-                    <div className="col-sm-1 col-xs-1">
-                      <div className="one text-center">
-                        1
-                      </div>
-                    </div>
-                    <div className="col-sm-1 col-xs-1">
-                      <div className="two text-center">
-                        2
-                      </div>
-                    </div>
-                    <div className="col-sm-1 col-xs-1">
-                      <div className="three text-center">
-                        3
-                      </div>
-                    </div>
-                    <div className="col-sm-1 col-xs-1">
-                      <div className="four text-center">
-                        4
-                      </div>
-                    </div>
-                    <div className="col-sm-1 col-xs-1">
-                      <div className="five text-center">
-                        5
-                      </div>
-                    </div>
-                    <div className="col-sm-1 col-xs-1">
-                      <div className="six text-center">
-                        6
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="panel">
+        <div className="edit-pass first-pass collapse" id="home-team-edit-pass-1">
+          <div className="row gutters-xs">
+            <div className="col-sm-2 col-xs-2 col-sm-offset-1 col-xs-offset-1">
+              <div className="remove text-center">
+                <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
+              </div>
+            </div>
+            <div className="col-sm-2 col-xs-2">
+              <div className="notes injury text-center">
+                Injury
+              </div>
+            </div>
+            <div className="col-sm-2 col-xs-2">
+              <div className="notes note-lead text-center">
+                Lead
+              </div>
+            </div>
+            <div className="col-sm-2 col-xs-2">
+              <div className="notes call text-center">
+                Call
+              </div>
+            </div>
+            <div className="col-sm-2 col-xs-2">
+              <div className="ok text-center">
+                <span aria-hidden="true" className="glyphicon glyphicon-ok"></span>
+              </div>
+            </div>
+          </div>
+          <div className="row gutters-xs">
+            <div className="col-sm-2 col-xs-2 col-sm-offset-3 col-xs-offset-3">
+              <div className="zero text-center">
+                0
+              </div>
+            </div>
+            <div className="col-sm-2 col-xs-2">
+              <div className="one text-center">
+                1
+              </div>
+            </div>
+            <div className="col-sm-2 col-xs-2">
+              <div className="notes no-pass text-center">
+                No P.
               </div>
             </div>
           </div>
