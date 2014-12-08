@@ -3,7 +3,7 @@ require "igrf/workbook"
 module Support
   class Igrf
     def self.file
-      @@file ||= File.join("test", "igrf", "samples", "one.xlsx")
+      @@file ||= File.join(Rails.root, "test", "fixtures", "igrfs", "one.xlsx")
     end
 
     def self.game
