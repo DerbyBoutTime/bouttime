@@ -1,7 +1,24 @@
 exports = exports ? this
 exports.JamTimer = React.createClass
   getInitialState: () ->
-    null
+    jamNumber: 1
+    periodNumber: 1
+    jamClockLabel: "Time To Derby"
+    jamClock: "90:00"
+    periodClock: "30:00"
+    team:
+      home:
+        initials: "ARG"
+        colorBarStyle:
+          backgroundColor: "#2082a6"
+        hasOfficialReview: true
+        timeouts: 3
+      away:
+        name: "GRG"
+        colorBarStyle:
+          backgroundColor: "#f50031"
+        hasOfficialReview: true
+        timeouts: 3
   render: () ->
     `<div id="jam-timer-view">
       <div className="row text-center">
@@ -26,8 +43,8 @@ exports.JamTimer = React.createClass
             <div className="game-clock">30:00</div>
           </div>
           <div className="col-md-12 col-xs-12">
-            <strong className="jt-label">Jam Clock</strong>
-            <div className="jam-clock">2:00<span className="seconds">:00</span>
+            <strong className="jt-label">{this.state.jamClockLabel}</strong>
+            <div className="jam-clock">2:00<span className="subseconds">.00</span>
           </div>
         </div>
       </div>
