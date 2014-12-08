@@ -63,7 +63,7 @@ exports.JamTimer = React.createClass
               </div>
               <div className="col-md-12 col-xs-12">
                 <strong className="jt-label">{this.state.jamClockLabel}</strong>
-                <div className="jam-clock">{exports.wftda.functions.toClock(this.state.jamClock,2,true,false)}</div>
+                <div className="jam-clock">{exports.wftda.functions.toClock(this.state.jamClock,2,false,false)}</div>
               </div>
             </div>
           </div>
@@ -82,46 +82,54 @@ exports.JamTimer = React.createClass
             <div className="home">
               <div className="row">
                 <div className="col-md-12 col-xs-12">
-                  <button className="btn btn-block">TIMEOUT</button>
+                  <button className="btn btn-block timeout-btn">TIMEOUT</button>
                 </div>
               </div>
               <div className="row margin-top-05">
                 <div className="col-md-12 col-xs-12">
-                  <button className="btn btn-block">OFF. REVIEW</button>
+                  <button className="btn btn-block review-btn">
+                    <span className="hidden-xs">OFFICIAL REVIEW</span>
+                    <span className="visible-xs-inline">REVIEW</span>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
           <div className="col-md-4 col-xs-4">
-
-            <div className="official-timeout">OFFICIAL TIMEOUT</div>
+            <button className="btn btn-lg btn-block official-timeout-btn">
+              <div>OFFICIAL</div>
+              <div>TIMEOUT</div>
+            </button>
           </div>
-          <div className="col-md-4 col-xs-4">
+          <div className="col-md-4 col-xs-4 timeouts">
             <div className="away">
               <div className="row">
-                <div className="col-md-12 col-xs-12">
+                <div className="col-md-12 col-xs-12 timeout-btn">
                   <button className="btn btn-block">TIMEOUT</button>
                 </div>
               </div>
               <div className="row margin-top-05">
                 <div className="col-md-12 col-xs-12">
-                  <button className="btn btn-block">OFF. REVIEW</button>
+                  <button className="btn btn-block review-btn">
+                    <span className="hidden-xs">OFFICIAL REVIEW</span>
+                    <span className="visible-xs-inline">REVIEW</span>
+                  </button>
                 </div>
               </div>
             </div>
           </div>
         </div>
         <div className="row margin-top-05">
-          <div className="col-md-6 col-xs-6">
+          <div className="col-md-6 col-xs-6 stop-clock-btn">
             <button className="btn btn-lg btn-block">STOP CLOCK</button>
           </div>
-          <div className="col-md-6 col-xs-6">
+          <div className="col-md-6 col-xs-6 undo-btn">
             <button className="btn btn-lg btn-block">UNDO</button>
           </div>
         </div>
         <div className="row margin-top-05">
           <div className="col-md-12 col-xs-12">
-            <button className="btn-start-jam">START JAM</button>
+            <button className="btn btn-lg btn-block start-jam-btn">START JAM</button>
           </div>
         </div>
     </div>`

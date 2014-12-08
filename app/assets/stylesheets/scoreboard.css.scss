@@ -23,6 +23,7 @@
 }
 
 .scoreboard {
+  margin-bottom: 15px;
   .scoreboard-label {
     @include scoreboard-label;
   }

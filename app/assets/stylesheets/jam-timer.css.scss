@@ -5,6 +5,7 @@
   100%   { background-color: $inactive-color; }
 }
 .jam-timer {
+  margin-bottom: 15px;
   .away .bar, .away .btn {
     color: $away-team-text-color;
     background-color: $away-team-bg-color;
@@ -63,29 +64,31 @@
       font-size: 0.8em;
     }
   }
+  .btn {
+    padding: 10px 5px;
+    font-size: 0.85em;
+    @media (min-width: $screen-sm-min) {
+      padding: inherit;
+      font-size: inherit;
+    }
+    background-color: $light-gray;
+    color: $near-black;
+  }
   .period-clock {
     @extend .clock;
     background-color: $white;
     font-weight: lighter;
+    margin-bottom: 10px;
   }
   .jam-clock {
     @extend .clock;
     border: none;
     font-weight: bold;
+    background-color: $light-gray;
+    color: $near-black;
+    margin-bottom: 10px;
   }
   .official-timeout {
-    @extend .well;
-    border: none;
-    padding: 15px;
-  }
-  .btn-start-jam {
-    background-color: $gray;
-    padding-top: 20px;
-    padding-bottom: 20px;
-    border-radius: 2px;
-    @extend .btn;
-    @extend .btn-lg;
-    @extend .btn-block;
-    font-weight: bold;
+
   }
 }
