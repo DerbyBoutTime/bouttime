@@ -17,9 +17,24 @@ exports.Scorekeeper = React.createClass
           name: "Nattie Long Legs"
           number: 1234
         passes: [
-          number: 1
-          skaterNumber: 4321
-          injury: false
+          {
+            number: 1
+            skaterNumber: 4321
+            points: 10
+            notes:
+              injury: false
+              call: false
+              lost: false
+          }
+          {
+            number: 2
+            skaterNumber: 4322
+            points: 3
+            notes:
+              injury: false
+              call: false
+              lost: false
+          }
         ]
 
       away:
@@ -35,9 +50,23 @@ exports.Scorekeeper = React.createClass
           name: "Bonnie Thunders"
           number: 4567
         passes: [
-          number: 1
-          skaterNumber: 4567
-          injury: false
+          {
+            number: 1
+            skaterNumber: 4567
+            notes:
+              injury: false
+              call: false
+              lost: false
+          }
+          {
+            number: 2
+            skaterNumber: 4321
+            points: 5
+            notes:
+              injury: false
+              call: false
+              lost: false
+          }
         ]
 
   render: () ->
@@ -566,8 +595,9 @@ exports.Scorekeeper = React.createClass
 
 exports.PassesList = React.createClass
   render: () ->
-    passComponents = this.props.passes.map (pass) ->
-      PassItem({pass: pass, key: pass.number})
+    PassItemFactory = React.createFactory(PassItem)
+    passComponents = this.props.passes.map (pass) =>
+      PassItemFactory({pass: pass, key: pass.number})
 
     `<div className="passes">
       <div className="headers">
@@ -598,12 +628,12 @@ exports.PassItem = React.createClass
         <div className="row gutters-xs">
           <div className="col-sm-2 col-xs-2">
             <div aria-controls="#home-team-edit-pass-number-1" aria-expanded="false" className="pass text-center" data-parent="#home-team-pass-1" data-toggle="collapse" href="#home-team-edit-pass-number-1">
-              1
+              {this.props.pass.number}
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
             <div className="skater">
-              1234
+              {this.props.pass.skaterNumber}
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
