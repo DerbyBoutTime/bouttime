@@ -5,6 +5,7 @@ class HomeController < ApplicationController
   def jam_timer
     @active_class = "jam_timer"
     @json = {
+      jamTimerState: "TIME_TO_DERBY",
       jamNumber: 1,
       periodNumber: 1,
       jamClockLabel: "Time to derby",
@@ -13,19 +14,21 @@ class HomeController < ApplicationController
       teams: {
         home: {
           initials: "ARG",
+          hasOfficialReview: true,
+          isTakingOfficialReview: false,
+          timeouts: 3,
           colorBarStyle: {
             backgroundColor: "#2082a6"
-          },
-          hasOfficialReview: true,
-          timeouts: 3
+          }
         },
         away: {
-          name: "GRG",
+          initials: "GRG",
+          hasOfficialReview: true,
+          isTakingOfficialReview: false,
+          timeouts: 3,
           colorBarStyle: {
             backgroundColor: "#f50031"
-          },
-          hasOfficialReview: true,
-          timeouts: 3
+          }
         }
       }
     }.to_json

@@ -1,9 +1,13 @@
 .margin-top-05 { margin-top: 0.5em; }
-
+@keyframes active-animation {
+  0%   { background-color: $inactive-color; }
+  50% { background-color: $alert-color; }
+  100%   { background-color: $inactive-color; }
+}
 #jam-timer-view {
   .jt-label {
     text-transform: capitalize;
-    font-size: 1em;
+    font-size: 1.15em;
     @media (min-width: $screen-md-min) {
       font-size: 1.5em;
     }
@@ -25,6 +29,12 @@
       }
       &.official-review {
         border-radius: 20px;
+      }
+      &.inactive {
+        background-color: $inactive-color;
+      }
+      &.active{
+        animation: active-animation 2s infinite;
       }
     }
     :first-child {
@@ -61,7 +71,7 @@
       font-size: 0.8em;
     }
   }
-  .game-clock {
+  .period-clock {
     @extend .clock;
     background-color: $white;
     font-weight: lighter;
