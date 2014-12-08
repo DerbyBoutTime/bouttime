@@ -5,7 +5,7 @@ exports.Scorekeeper = React.createClass
     team:
       home:
         name: "Atlanta Rollergirls"
-        colorBarStyle:
+        colorTabStyle:
           backgroundColor: "#2082a6"
         points: 0
         jamPoints: 0
@@ -17,7 +17,7 @@ exports.Scorekeeper = React.createClass
           number: 1234
       away:
         name: "Gotham Rollergirls"
-        colorBarStyle:
+        colorTabStyle:
           backgroundColor: "#f50031"
         points: 0
         jamPoints: 0
@@ -32,12 +32,12 @@ exports.Scorekeeper = React.createClass
     `<div id="scorekeeper-view">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.state.team.away.colorBarStyle} >
+          <div className="team-name" style={this.state.team.away.colorTabStyle} >
             {this.state.team.away.name}
           </div>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.state.team.home.colorBarStyle}>
+          <div className="team-name" style={this.state.team.home.colorTabStyle}>
             {this.state.team.home.name}
           </div>
         </div>
