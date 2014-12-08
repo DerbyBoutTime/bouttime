@@ -7,11 +7,12 @@
   <%= render "layouts/meta_tags" %>
 </head>
 <body>
+  <% unless @hide_nav == true %>
+  <%= render partial: "layouts/nav_bar" %>
+  <% end %>
 
-<div class="container">
-  <%= yield :nav %>
-  <%= yield %>
-</div>
-
+  <div class="container">
+    <%= yield %>
+  </div>
 </body>
 </html>

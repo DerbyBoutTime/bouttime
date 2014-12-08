@@ -1,28 +1,61 @@
-#navbar.navbar-collapse.collapse
-  ul.nav.navbar-nav
-    li.active
-      a href="#"
-        img.hidden-xs src=image_path("icons/jam-timer.png") width="48px"
-        img.visible-xs-block src=image_path("icons/jam-timer.png") width="24px"
-    li
-      a href="#"
-        img.hidden-xs src=image_path("icons/lineup-tracker.png") width="48px"
-        img.visible-xs-block src=image_path("icons/lineup-tracker.png") width="24px"
-    li
-      a href="#"
-        img.hidden-xs src=image_path("icons/scorekeeper.png") width="48px"
-        img.visible-xs-block src=image_path("icons/scorekeeper.png") width="24px"
-    li
-      a href="#"
-        img.hidden-xs src=image_path("icons/penalty-tracker.png") width="48px"
-        img.visible-xs-block src=image_path("icons/penalty-tracker.png") width="24px"
-    li
-      a href="#"
-        img.hidden-xs src=image_path("icons/penalty-box.png") width="48px"
-        img.visible-xs-block src=image_path("icons/penalty-box.png") width="24px"
+header
+  .container-fluid
+    .logo
+      .container
+        a href="#"
+          img.hidden-xs src=image_path("logo.png") height="64"
+          img.visible-xs-block src=image_path("logo.png") height="48"
 
-  ul.nav.navbar-nav.navbar-right
-    li
-      a href="#"
-        img.hidden-xs src=image_path("logo.png") height="48px"
-        img.visible-xs-block src=image_path("logo.png") height="24px"
+    .title-bar
+      .container
+        .row
+          .col-xs-12.col-sm-12
+            .btn-group
+              a.btn-title-menu.btn.btn-default.dropdown-toggle data-toggle="dropdown" href="#"
+                img src=image_path("icons/menu.svg") alt="menu"
+              ul.dropdown-menu
+                -if user_signed_in?
+                  li
+                    a href="#"  Global Bout Notes
+                  li
+                    a href="#"  Change Roles
+                  li.divider
+                  li
+                    a href="#"  Sign Out
+                -else
+                  li
+                    a href="/scoreboard" target="_blank"  Scoreboard
+                  li
+                    =link_to "Penalty Whiteboard", "penalty_whiteboard"
+                  li
+                    =link_to "Announcers Feed", "/announcer"
+                  li.divider
+                  li
+                    a href="#"  Sign In
+            |  Atlanta vs. Gotham
+
+    .navbar
+      .container
+        .row
+          .col-xs-12.col-sm-12
+            ul.nav.navbar-nav
+              li class="#{@active_class == "jam_timer" ? "active" : ""}"
+                =link_to "/jam_timer" do
+                  img.hidden-xs src=image_path("icons/jam-timer.svg") width="48"
+                  img.visible-xs-block.img-responsive src=image_path("icons/jam-timer.svg") width="32"
+              li class="#{@active_class == "lineup_tracker" ? "active" : ""}"
+                =link_to "/lineup_tracker" do
+                  img.hidden-xs src=image_path("icons/lineup-tracker.svg") width="48"
+                  img.visible-xs-block src=image_path("icons/lineup-tracker.svg") width="32"
+              li class="#{@active_class == "scorekeeper" ? "active" : ""}"
+                =link_to "/scorekeeper" do
+                  img.hidden-xs src=image_path("icons/scorekeeper.svg") width="48"
+                  img.visible-xs-block src=image_path("icons/scorekeeper.svg") width="32"
+              li class="#{@active_class == "penalty_tracker" ? "active" : ""}"
+                =link_to "/penalty_tracker" do
+                  img.hidden-xs src=image_path("icons/penalty-tracker.svg") width="48"
+                  img.visible-xs-block src=image_path("icons/penalty-tracker.svg") width="32"
+              li class="#{@active_class == "penalty_box" ? "active" : ""}"
+                =link_to "/penalty_box" do
+                  img.hidden-xs src=image_path("icons/penalty-box.svg") width="48"
+                  img.visible-xs-block src=image_path("icons/penalty-box.svg") width="32"

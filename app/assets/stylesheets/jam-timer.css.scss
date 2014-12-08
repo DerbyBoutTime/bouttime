@@ -1,9 +1,19 @@
 .margin-top-05 { margin-top: 0.5em; }
 
 #jam-timer-view {
+  .jt-label {
+    text-transform: capitalize;
+    font-size: 1em;
+    @media (min-width: $screen-md-min) {
+      font-size: 1.5em;
+    }
+  }
   .timeout-bars {
     .bar {
-      height: 30px;
+      height: 35px;
+      @media (min-width: $screen-md-min) {
+        height: 60px;
+      }
       min-width: 16px;
       border: 0.8px solid $gray;
       margin: 4px 6px;
@@ -35,14 +45,18 @@
     @extend .well-sm;
     @extend .well;
     font-size: 3em;
+    @media (min-width: $screen-md-min) {
+      font-size: 4.5em;
+    }
     padding: 3px;
-    span.seconds{
+    span.subseconds{
       font-size: 0.8em;
     }
   }
   .game-clock {
     @extend .clock;
     background-color: $white;
+    font-weight: lighter;
   }
 
   .jam-clock {

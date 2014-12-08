@@ -8,6 +8,7 @@ gem "dotenv-rails"
 # rails
 gem "rails", "4.1.5"
 gem "websocket-rails"
+gem 'react-rails', '~> 1.0.0.pre', github: 'reactjs/react-rails'
 
 # railsish
 gem "bcrypt", "~> 3.1.7"
@@ -36,10 +37,9 @@ gem "therubyracer", platforms: [:ruby]
 # error reporting
 gem "airbrake"
 
-# server
+# processes
+gem "foreman"
 gem "puma"
-#gem "foreman"
-#gem "unicorn"
 
 # logging
 gem "colorize"
