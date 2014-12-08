@@ -5,13 +5,14 @@
   / game-clock
   .row.text-center
     / away
-    .timeout-bars.away.col-md-2.col-xs-2
-      | AWAY
-      .bar.disabled
-        | 0
-      .bar
-      .bar
-      .bar
+    .col-md-2.col-xs-2
+      .timeout-bars.away
+        | AWAY
+        .bar.disabled
+          | 0
+        .bar
+        .bar
+        .bar
 
     / clocks
     .col-md-8.col-xs-8
@@ -30,35 +31,38 @@
               | :00
 
     / home
-    .timeout-bars.home.col-md-2.col-xs-2
-      | HOME
-      .bar
-        | 0
-      .bar
-      .bar
-      .bar
+    .col-md-2.col-xs-2
+      .timeout-bars.home
+        | HOME
+        .bar
+          | 0
+        .bar
+        .bar
+        .bar
 
   / status-display
   .text-center.row
-    .away.col-md-4.col-xs-4
-      .row
-        .col-md-12.col-xs-12
-          button.btn.btn-block TIMEOUT
-      .row
-        .col-md-12.col-xs-12.margin-top-05
-          button.btn.btn-block OFF. REVIEW
+    .col-md-4.col-xs-4
+      .away
+        .row
+          .col-md-12.col-xs-12
+            button.btn.btn-block TIMEOUT
+        .row.margin-top-05
+          .col-md-12.col-xs-12
+            button.btn.btn-block OFF. REVIEW
 
     .col-md-4.col-xs-4
       .official-timeout
         | OFFICIAL TIMEOUT
 
-    .home.col-md-4.col-xs-4
-      .row
-        .col-md-12.col-xs-12
-          button.btn.btn-block TIMEOUT
-      .row
-        .col-md-12.col-xs-12.margin-top-05
-          button.btn.btn-block OFF. REVIEW
+    .col-md-4.col-xs-4
+      .home
+        .row
+          .col-md-12.col-xs-12
+            button.btn.btn-block TIMEOUT
+        .row.margin-top-05
+          .col-md-12.col-xs-12
+            button.btn.btn-block OFF. REVIEW
 
   / clock-controls
   .row
@@ -70,7 +74,7 @@
         | UNDO
 
   / jam-clock-controls
-  .row
-    .col-md-12.col-xs-12.margin-top-05
+  .row.margin-top-05
+    .col-md-12.col-xs-12
       button.btn-start-jam
         | START JAM
