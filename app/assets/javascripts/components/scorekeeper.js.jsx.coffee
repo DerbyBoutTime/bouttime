@@ -3,7 +3,6 @@ exports.Scorekeeper = React.createClass
   getInitialState: () ->
     null
   render: () ->
-
     `<div id="scorekeeper-view">
       <div class="row teams text-center gutters-xs">
         <div class="col-sm-6 col-xs-6">
