@@ -16,6 +16,15 @@ ActiveRecord::Schema.define(version: 20141208192625) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "events", force: true do |t|
+    t.json     "data"
+    t.integer  "game_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "events", ["game_id"], name: "index_events_on_game_id", using: :btree
+
   create_table "game_officials", force: true do |t|
     t.integer  "game_id"
     t.integer  "official_id"
