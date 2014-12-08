@@ -1,4 +1,7 @@
 class HomeController < ApplicationController
+  def index
+  end
+
   def jam_timer
     @active_class = "jam_timer"
   end

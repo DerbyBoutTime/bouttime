@@ -20,6 +20,8 @@
 //= require namespaces
 //= require constants
 //= require functions
+//= require displays/scorekeeper
+
 //= require websocket_rails/main
 //= require components/components
 React.initializeTouchEvents(true);
