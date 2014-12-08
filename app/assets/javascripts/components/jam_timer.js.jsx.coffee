@@ -64,7 +64,7 @@ exports.JamTimer = React.createClass
               </div>
               <div className="col-md-12 col-xs-12">
                 <div className="period-clock">
-                  exports.wftda.functions.toClock(this.state.periodClock,2,false,true)}
+                  {exports.wftda.functions.toClock(this.state.periodClock,2,false,true)}
                 </div>
               </div>
               <div className="col-md-12 col-xs-12">
