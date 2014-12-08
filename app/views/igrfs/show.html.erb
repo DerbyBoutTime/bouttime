@@ -3,7 +3,7 @@
     <%- away = @game.rosters.where(home: false).first %>
     <%- home = @game.rosters.where(home: true).first %>
 
-    <h2><%= home.team.name %> vs. <%= away.team.name %> <small>at <%= @game.venue.name %> in <%= @game.venue.city %>, <%= @game.venue.state %> about <span data-toggle="tooltip" data-placement="bottom" title="<%= @game.start_time %>"><%= time_ago_in_words(@game.start_time) %> ago</span></small></h5>
+    <h2><%= home.team.name %> vs. <%= away.team.name %> <small>at <%= @game.venue.name %> in <%= @game.venue.city %>, <%= @game.venue.state %><% if @game.start_time %> about <span data-toggle="tooltip" data-placement="bottom" title="<%= @game.start_time %>"><%= time_ago_in_words(@game.start_time) %> ago<% end %></span></small></h5>
   </div>
 
   <div role="tabpanel">

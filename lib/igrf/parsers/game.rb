@@ -26,8 +26,8 @@ module Igrf
         super
 
         date = hash.delete(:date)
-        hash[:start_time] = Time.new(date.year, date.month, date.day, hash[:start_time].hour, hash[:start_time].min)
-        hash[:end_time] = Time.new(date.year, date.month, date.day, hash[:end_time].hour, hash[:end_time].min)
+        hash[:start_time] = Time.new(date.year, date.month, date.day, hash[:start_time].hour, hash[:start_time].min) if hash[:start_time]
+        hash[:end_time] = Time.new(date.year, date.month, date.day, hash[:end_time].hour, hash[:end_time].min) if hash[:end_time]
 
         hash[:jams] = Parsers::Jams.parse(workbook).parsed
         hash[:officials] = Parsers::NSOs.parse(workbook).parsed + Parsers::Referees.parse(workbook).parsed
