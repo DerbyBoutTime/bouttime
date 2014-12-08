@@ -1,18 +1,44 @@
 exports = exports ? this
 exports.Scorekeeper = React.createClass
   getInitialState: () ->
-    null
+    jamNumber: 1
+    team:
+      home:
+        name: "Atlanta Rollergirls"
+        colorBarStyle:
+          backgroundColor: "#2082a6"
+        points: 0
+        jamPoints: 0
+        hasOfficialReview: true
+        timeouts: 3
+        jammer:
+          lead: false
+          name: "Nattie Long Legs"
+          number: 1234
+      away:
+        name: "Gotham Rollergirls"
+        colorBarStyle:
+          backgroundColor: "#f50031"
+        points: 0
+        jamPoints: 0
+        hasOfficialReview: true
+        timeouts: 3
+        jammer:
+          lead: true
+          name: "Bonnie Thunders"
+          number: 4567
+
   render: () ->
     `<div id="scorekeeper-view">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name away">
-            Atlanta Rollergirls
+          <div className="team-name" style={this.state.team.away.colorBarStyle} >
+            {this.state.team.away.name}
           </div>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name home">
-            Gotham Rollergirls
+          <div className="team-name" style={this.state.team.home.colorBarStyle}>
+            {this.state.team.home.name}
           </div>
         </div>
       </div>
@@ -36,7 +62,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Current Jam</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right current-jam-score">
-                    <strong>0</strong>
+                    <strong>{this.state.jamNumber}</strong>
                   </div>
                 </div>
               </div>
@@ -48,7 +74,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>0</strong>
+                    <strong>{this.state.team.away.points}</strong>
                   </div>
                 </div>
               </div>
@@ -75,12 +101,12 @@ exports.Scorekeeper = React.createClass
               <div className="row gutters-xs">
                 <div className="col-sm-2 col-xs-2">
                   <div className="jam text-center">
-                    1
+                    {this.state.jamNumber}
                   </div>
                 </div>
                 <div className="col-sm-2 col-xs-2">
                   <div className="skater">
-                    4567
+                    {this.state.team.away.jammer.number}
                   </div>
                 </div>
                 <div className="col-sm-2 col-xs-2">
@@ -413,7 +439,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Current Jam</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right current-jam-score">
-                    <strong>0</strong>
+                    <strong>{this.state.jamNumber}</strong>
                   </div>
                 </div>
               </div>
@@ -425,7 +451,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>0</strong>
+                    <strong>{this.state.team.home.points}</strong>
                   </div>
                 </div>
               </div>
