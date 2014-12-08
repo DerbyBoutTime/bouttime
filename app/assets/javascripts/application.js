@@ -20,8 +20,8 @@
 //= require functions
 //= require scoreboard
 
-//= require websocket_rails/main
+//= require fileinput
 
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+//= require igrf
+
+//= require websocket_rails/main

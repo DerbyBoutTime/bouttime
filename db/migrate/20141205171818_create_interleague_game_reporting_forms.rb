@@ -5,5 +5,7 @@ class CreateInterleagueGameReportingForms < ActiveRecord::Migration
 
       t.timestamps
     end
+
+    add_index :interleague_game_reporting_forms, :form, :unique => true
   end
 end

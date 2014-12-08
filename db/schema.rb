@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 20141205175258) do
     t.datetime "updated_at"
   end
 
+  add_index "interleague_game_reporting_forms", ["form"], name: "index_interleague_game_reporting_forms_on_form", unique: true, using: :btree
+
   create_table "jams", force: true do |t|
     t.integer  "game_id"
     t.integer  "number"

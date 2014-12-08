@@ -12,6 +12,8 @@ $gray-base: $near-black;
 @import "jam-timer";
 @import "scoreboard";
 
+@import "fileinput";
+
 //Hide test DOM
 #UUT {
   display: none;

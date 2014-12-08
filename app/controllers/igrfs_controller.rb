@@ -24,7 +24,7 @@ class IgrfsController < ApplicationController
 
   def strong_parameters
     params.
-      require(:interleague_game_reporting_form).
+      fetch(:interleague_game_reporting_form, {}).
       permit(:form)
   end
 end
