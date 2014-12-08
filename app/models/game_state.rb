@@ -24,7 +24,7 @@ class GameState < ActiveRecord::Base
   enum state: [:time_to_derby, :pregame, :jam, :lineup, :team_timeout, :official_timeout, :official_review, :unofficial_final, :final]
 
   def init_demo!
-    self.update_attributes({
+    self.update_attributes!({
         state: :time_to_derby,
         jam_number: 1,
         period_number: 1,
@@ -32,7 +32,7 @@ class GameState < ActiveRecord::Base
         period_clock: 30*60*60*1000,
       })
     self.build_home
-    self.home.update_attributes({
+    self.home.update_attributes!({
         name: "Atlanta Rollergirls",
         initials: "ARG",
         color: "#2082a6",
@@ -44,13 +44,13 @@ class GameState < ActiveRecord::Base
         has_official_review: true,
         timeouts: 3
       })
-    self.home.jammer.update_attributes({
+    self.home.jammer.update_attributes!({
         is_lead: false,
         name: "Nattie Long Legs",
         number: "504"
       })
     self.build_away
-    self.away.update_attributes({
+    self.away.update_attributes!({
         name: "Gotham Rollergirls",
         initials: "GRG",
         color: "#f50031",
@@ -62,7 +62,7 @@ class GameState < ActiveRecord::Base
         has_official_review: true,
         timeouts: 3
       })
-    self.away.jammer.update_attributes({
+    self.away.jammer.update_attributes!({
         is_lead: true,
         name: "Bonnie Thunders",
         number: "340"

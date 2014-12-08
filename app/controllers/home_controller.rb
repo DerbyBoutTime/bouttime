@@ -5,6 +5,7 @@ class HomeController < ApplicationController
 
   def jam_timer
     @active_class = "jam_timer"
+    logger.debug @game_state.to_json
     @props = @game_state.to_json
   end
 
@@ -47,6 +48,7 @@ class HomeController < ApplicationController
   private
 
   def init_game_state
+    reset_session
     if session[:game_state_id].nil?
       gs = GameState.new
       gs.init_demo!
