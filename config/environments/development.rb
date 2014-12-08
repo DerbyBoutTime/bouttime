@@ -37,5 +37,6 @@ Rails.application.configure do
 
   #Set react to unminified version
   config.react.variant = :development
+  # 12.08.2014 - Addons does not seems to work as expected need to investigate and file bug
   config.react.addons = true
 end

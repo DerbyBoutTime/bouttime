@@ -1,4 +1,4 @@
-cx = React.addons.classSet;
+cx = React.addons.classSet
 exports = exports ? this
 exports.Scorekeeper = React.createClass
   getInitialState: () ->
