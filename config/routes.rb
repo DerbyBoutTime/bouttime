@@ -11,4 +11,9 @@ Rails.application.routes.draw do
   get "/penalty_whiteboard", to: "home#penalty_whiteboard"
   get "/announcer", to: "home#announcer"
   get "/global_bout_notes", to: "home#global_bout_notes"
+
+  resources :games do
+    get "jam_timer", on: :member, to: "displays#jam_timer"
+    get "scorekeeper", on: :member, to: "displays#scorekeeper"
+  end
 end
