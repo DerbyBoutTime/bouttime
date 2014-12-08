@@ -39,23 +39,23 @@ header
         .row
           .col-xs-12.col-sm-12
             ul.nav.navbar-nav
-              li.active
+              li class="#{@active_class == "jam_timer" ? "active" : ""}"
                 =link_to "/jam_timer" do
                   img.hidden-xs src=image_path("icons/jam-timer.svg") width="48"
                   img.visible-xs-block.img-responsive src=image_path("icons/jam-timer.svg") width="32"
-              li
+              li class="#{@active_class == "lineup_tracker" ? "active" : ""}"
                 =link_to "/lineup_tracker" do
                   img.hidden-xs src=image_path("icons/lineup-tracker.svg") width="48"
                   img.visible-xs-block src=image_path("icons/lineup-tracker.svg") width="32"
-              li
+              li class="#{@active_class == "scorekeeper" ? "active" : ""}"
                 =link_to "/scorekeeper" do
                   img.hidden-xs src=image_path("icons/scorekeeper.svg") width="48"
                   img.visible-xs-block src=image_path("icons/scorekeeper.svg") width="32"
-              li
+              li class="#{@active_class == "penalty_tracker" ? "active" : ""}"
                 =link_to "/penalty_tracker" do
                   img.hidden-xs src=image_path("icons/penalty-tracker.svg") width="48"
                   img.visible-xs-block src=image_path("icons/penalty-tracker.svg") width="32"
-              li
+              li class="#{@active_class == "penalty_box" ? "active" : ""}"
                 =link_to "/penalty_box" do
                   img.hidden-xs src=image_path("icons/penalty-box.svg") width="48"
                   img.visible-xs-block src=image_path("icons/penalty-box.svg") width="32"

@@ -28,6 +28,9 @@ header {
 
   .navbar-nav {
     li {
+      &.active{
+        opacity: 0.6;
+      }
       a {
         padding: 4px;
         &:active, &:hover, &:focus {
