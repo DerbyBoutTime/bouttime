@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: jams
+#
+#  id         :integer          not null, primary key
+#  game_id    :integer
+#  number     :integer
+#  period     :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class Jam < ActiveRecord::Base
   belongs_to :game
 

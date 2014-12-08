@@ -1,3 +1,15 @@
+# == Schema Information
+#
+# Table name: rosters
+#
+#  id         :integer          not null, primary key
+#  home       :boolean
+#  game_id    :integer
+#  team_id    :integer
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 require "test_helper"
 
 describe Roster do

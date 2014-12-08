@@ -1,3 +1,13 @@
+# == Schema Information
+#
+# Table name: interleague_game_reporting_forms
+#
+#  id         :integer          not null, primary key
+#  form       :string(255)
+#  created_at :datetime
+#  updated_at :datetime
+#
+
 class InterleagueGameReportingForm < ActiveRecord::Base
   mount_uploader :form, IgrfUploader
 

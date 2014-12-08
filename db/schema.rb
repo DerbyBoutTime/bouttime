@@ -11,16 +11,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 20141208164207) do
-=======
-ActiveRecord::Schema.define(version: 20141205175258) do
->>>>>>> 74d870fdb2347b572eb49c340db54384be1eda45
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-<<<<<<< HEAD
+  create_table "game_officials", force: true do |t|
+    t.integer  "game_id"
+    t.integer  "official_id"
+    t.string   "position"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "game_officials", ["game_id"], name: "index_game_officials_on_game_id", using: :btree
+  add_index "game_officials", ["official_id"], name: "index_game_officials_on_official_id", using: :btree
+
   create_table "game_states", force: true do |t|
     t.integer  "state"
     t.integer  "jam_number"
@@ -38,22 +44,6 @@ ActiveRecord::Schema.define(version: 20141205175258) do
   add_index "game_states", ["away_id"], name: "index_game_states_on_away_id", using: :btree
   add_index "game_states", ["game_id"], name: "index_game_states_on_game_id", using: :btree
   add_index "game_states", ["home_id"], name: "index_game_states_on_home_id", using: :btree
-
-  create_table "jammer_states", force: true do |t|
-    t.string   "name"
-    t.string   "number"
-    t.boolean  "is_lead"
-=======
-  create_table "game_officials", force: true do |t|
-    t.integer  "game_id"
-    t.integer  "official_id"
-    t.string   "position"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "game_officials", ["game_id"], name: "index_game_officials_on_game_id", using: :btree
-  add_index "game_officials", ["official_id"], name: "index_game_officials_on_official_id", using: :btree
 
   create_table "games", force: true do |t|
     t.datetime "end_time"
@@ -73,6 +63,14 @@ ActiveRecord::Schema.define(version: 20141205175258) do
   end
 
   add_index "interleague_game_reporting_forms", ["form"], name: "index_interleague_game_reporting_forms_on_form", unique: true, using: :btree
+
+  create_table "jammer_states", force: true do |t|
+    t.string   "name"
+    t.string   "number"
+    t.boolean  "is_lead"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "jams", force: true do |t|
     t.integer  "game_id"
@@ -155,12 +153,12 @@ ActiveRecord::Schema.define(version: 20141205175258) do
     t.integer  "team_id"
     t.string   "name"
     t.string   "number"
->>>>>>> 74d870fdb2347b572eb49c340db54384be1eda45
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-<<<<<<< HEAD
+  add_index "skaters", ["team_id"], name: "index_skaters_on_team_id", using: :btree
+
   create_table "team_states", force: true do |t|
     t.string   "name"
     t.string   "initials"
@@ -180,8 +178,6 @@ ActiveRecord::Schema.define(version: 20141205175258) do
   end
 
   add_index "team_states", ["jammer_id"], name: "index_team_states_on_jammer_id", using: :btree
-=======
-  add_index "skaters", ["team_id"], name: "index_skaters_on_team_id", using: :btree
 
   create_table "teams", force: true do |t|
     t.string   "name"
@@ -196,6 +192,5 @@ ActiveRecord::Schema.define(version: 20141205175258) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
->>>>>>> 74d870fdb2347b572eb49c340db54384be1eda45
 
 end
