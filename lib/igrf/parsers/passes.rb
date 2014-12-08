@@ -22,7 +22,7 @@ module Igrf
               if _parsed[:jam_number].is_a?(Integer)
                 parsed << _parsed if _parsed[:score]
               elsif _parsed[:jam_number].is_a?(String) && _parsed[:jam_number] == "SP"
-                parsed << handle_star_pass(_parsed) if _parsed[:score]
+                parsed << handle_star_pass(_parsed, previous(number, hash, columns, team)) if _parsed[:score]
               end
             end
           end
@@ -33,17 +33,19 @@ module Igrf
 
       def rows
         3.upto(36).map { |number| [number, { :period => 1 }] } +
-        50.upto(83).map { |number| [number, { :period => 2 }] }
+          50.upto(83).map { |number| [number, { :period => 2 }] }
       end
 
       private
 
-      def handle_star_pass(pass)
-        previous_pass = parsed.select { |item| pass[:period] == item[:period] && item[pass.keys.first] }.last
-
-        pass[:jam_number] = previous_pass[:jam_number]
+      def handle_star_pass(pass, previous)
+        pass[:jam_number] = previous[:jam_number]
         pass[:star_pass] = true
         pass
+      end
+
+      def previous(number, hash, columns, team)
+        _parse(data[number - 1], columns, { team => true }.merge(hash || {}))
       end
     end
   end
