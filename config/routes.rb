@@ -16,6 +16,4 @@ Rails.application.routes.draw do
     get "jam_timer", on: :member, to: "displays#jam_timer"
     get "scorekeeper", on: :member, to: "displays#scorekeeper"
   end
-
-  root "home#index"
 end
