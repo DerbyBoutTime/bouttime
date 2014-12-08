@@ -7,11 +7,16 @@ $gray-base: $near-black;
 @import "base/variables";
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+@import "fileinput";
+
 @import "mixins/border-arrow";
-@import "scorekeeper";
+
 @import "header";
+@import "igrf";
 @import "jam-timer";
 @import "scoreboard";
+@import "scorekeeper";
 
 //Hide test DOM
 #UUT {
