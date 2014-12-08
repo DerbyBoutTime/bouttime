@@ -54,16 +54,24 @@ exports.JamTimer = React.createClass
             <div className="row">
               <div className="col-xs-12">
                 <strong>
-                  <span className="jt-label pull-left">Period {this.state.periodNumber}</span>
-                  <span className="jt-label pull-right">Jam {this.state.jamNumber}</span>
+                  <span className="jt-label pull-left">
+                    Period {this.state.periodNumber}
+                  </span>
+                  <span className="jt-label pull-right">
+                    Jam {this.state.jamNumber}
+                  </span>
                 </strong>
               </div>
               <div className="col-md-12 col-xs-12">
-                <div className="period-clock">{exports.wftda.functions.toClock(this.state.periodClock,2,false,true)}</div>
+                <div className="period-clock">
+                  exports.wftda.functions.toClock(this.state.periodClock,2,false,true)}
+                </div>
               </div>
               <div className="col-md-12 col-xs-12">
                 <strong className="jt-label">{this.state.jamClockLabel}</strong>
-                <div className="jam-clock">{exports.wftda.functions.toClock(this.state.jamClock,2,false,false)}</div>
+                <div className="jam-clock">
+                  {exports.wftda.functions.toClock(this.state.jamClock,2,false,false)}
+                </div>
               </div>
             </div>
           </div>
