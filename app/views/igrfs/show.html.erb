@@ -85,16 +85,16 @@
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Away</th>
                       <th>Home</th>
+                      <th>Away</th>
                     </tr>
                   </thead>
                   <tbody>
                     <% jams.sort_by { |jam| jam.number }.each do |jam| %>
                       <tr>
                         <th><%= jam.number %></th>
-                        <th><%= jam.passes.reject { |pass| pass.lineup_skater.lineup.roster.home? }.sum(&:score) %></th>
                         <th><%= jam.passes.select { |pass| pass.lineup_skater.lineup.roster.home? }.sum(&:score) %></th>
+                        <th><%= jam.passes.reject { |pass| pass.lineup_skater.lineup.roster.home? }.sum(&:score) %></th>
                       </tr>
                     <% end %>
                   </tbody>
