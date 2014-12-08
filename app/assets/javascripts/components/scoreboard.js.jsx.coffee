@@ -126,4 +126,3 @@ exports.Scoreboard = React.createClass
       <section className="ads"></section>
       <section className="fly-ins"></section>
     </div>`
-exports.Scoreboard = Scoreboard

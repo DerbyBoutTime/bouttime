@@ -43,6 +43,7 @@
   .game-clock {
     @extend .clock;
     background-color: $white;
+    font-weight: lighter;
   }
 
   .jam-clock {
