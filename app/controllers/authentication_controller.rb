@@ -3,6 +3,10 @@ class AuthenticationController < WebsocketRails::BaseController
 
   end
 
+  def client_heartbeat
+    puts "Client pinged at: #{message[:time]}"
+  end
+
   def client_connected
     puts "Client connected!"
   end

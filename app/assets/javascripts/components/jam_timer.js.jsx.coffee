@@ -1,6 +1,9 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.dispatcher = exports.dispatcher || new WebSocketRails('localhost:3001/websocket')
+setInterval( () ->
+  exports.dispatcher.trigger("client_heartbeat", {time: new Date()})
+,1000)
 exports.JamTimer = React.createClass
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
