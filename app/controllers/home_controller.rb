@@ -1,37 +1,11 @@
 class HomeController < ApplicationController
+  before_action :init_game_state
   def index
   end
 
   def jam_timer
     @active_class = "jam_timer"
-    @json = {
-      jamTimerState: "TIME_TO_DERBY",
-      jamNumber: 1,
-      periodNumber: 1,
-      jamClockLabel: "Time to derby",
-      jamClock: "90:00",
-      periodClock: "30:00",
-      teams: {
-        home: {
-          initials: "ARG",
-          hasOfficialReview: true,
-          isTakingOfficialReview: false,
-          timeouts: 3,
-          colorBarStyle: {
-            backgroundColor: "#2082a6"
-          }
-        },
-        away: {
-          initials: "GRG",
-          hasOfficialReview: true,
-          isTakingOfficialReview: false,
-          timeouts: 3,
-          colorBarStyle: {
-            backgroundColor: "#f50031"
-          }
-        }
-      }
-    }.to_json
+    @props = @game_state.to_json
   end
 
   def lineup_tracker
@@ -53,10 +27,7 @@ class HomeController < ApplicationController
   def scoreboard
     @active_class = "scoreboard"
     @hide_nav = true
-    @home_team_logo_url = params[:home_team_logo_url] || placehold_it(600, 600)
-    @away_team_logo_url = params[:away_team_logo_url] || placehold_it(600, 600)
-    @home_team_name = params[:home_team_name].to_s || "Atlanta Rollergirls"
-    @away_team_name = params[:away_team_name].to_s || "Gotham Rollergirls"
+    @props = @game_state.to_json
   end
 
   def penalty_whiteboard
@@ -74,6 +45,15 @@ class HomeController < ApplicationController
   end
 
   private
+
+  def init_game_state
+    if session[:game_state_id].nil?
+      gs = GameState.new
+      gs.init_demo!
+      session[:game_state_id] = gs.id
+    end
+    @game_state = GameState.find session[:game_state_id]
+  end
 
   def placehold_it(width, height, text = "")
     "http://placehold.it/#{width}x#{height}&text=#{text}+(#{width}x#{height})"

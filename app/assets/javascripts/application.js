@@ -20,9 +20,9 @@
 //= require mousetrap.min
 //= require namespaces
 //= require constants
+//= require camelize
 //= require functions
 //= require displays/scorekeeper
-
 //= require websocket_rails/main
 //= require components/components
 React.initializeTouchEvents(true);
