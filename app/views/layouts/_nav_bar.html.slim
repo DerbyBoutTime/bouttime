@@ -24,11 +24,11 @@ header
                     a href="#"  Sign Out
                 -else
                   li
-                    a href="#"  Scoreboard
+                    a href="/scoreboard" target="_blank"  Scoreboard
                   li
-                    a href="#"  Penalty Whiteboard
+                    =link_to "Penalty Whiteboard", "penalty_whiteboard"
                   li
-                    a href="#"  Announcers Feed
+                    =link_to "Announcers Feed", "/announcer"
                   li.divider
                   li
                     a href="#"  Sign In
@@ -40,22 +40,22 @@ header
           .col-xs-12.col-sm-12
             ul.nav.navbar-nav
               li.active
-                a href="#"
+                =link_to "/jam_timer" do
                   img.hidden-xs src=image_path("icons/jam-timer.svg") width="48"
                   img.visible-xs-block.img-responsive src=image_path("icons/jam-timer.svg") width="32"
               li
-                a href="#"
+                =link_to "/lineup_tracker" do
                   img.hidden-xs src=image_path("icons/lineup-tracker.svg") width="48"
                   img.visible-xs-block src=image_path("icons/lineup-tracker.svg") width="32"
               li
-                a href="#"
+                =link_to "/scorekeeper" do
                   img.hidden-xs src=image_path("icons/scorekeeper.svg") width="48"
                   img.visible-xs-block src=image_path("icons/scorekeeper.svg") width="32"
               li
-                a href="#"
+                =link_to "/penalty_tracker" do
                   img.hidden-xs src=image_path("icons/penalty-tracker.svg") width="48"
                   img.visible-xs-block src=image_path("icons/penalty-tracker.svg") width="32"
               li
-                a href="#"
+                =link_to "/penalty_box" do
                   img.hidden-xs src=image_path("icons/penalty-box.svg") width="48"
                   img.visible-xs-block src=image_path("icons/penalty-box.svg") width="32"
