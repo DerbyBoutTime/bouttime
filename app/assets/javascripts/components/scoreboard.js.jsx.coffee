@@ -10,7 +10,7 @@ exports.Scoreboard = React.createClass
     `<div className="scoreboard" id="scoreboard">
       <section className="team home">
         <div className="logo">
-          <img src={this.state.home.logoURI} />
+          <img src={this.state.home.logo} />
         </div>
         <div className="name">{this.state.home.name}</div>
         <div className="color-bar" style={this.state.home.colorBarStyle}></div>
@@ -19,7 +19,7 @@ exports.Scoreboard = React.createClass
           <div className="lead-status">
             <span className="glyphicon glyphicon-star" className={this.state.home.jammer.lead ? '' : 'hidden'}></span>
           </div>
-          <div className="name">{this.state.home.jammer.name}</div>
+          <div className="name">{this.state.home.jammer.number} {this.state.home.jammer.name}</div>
         </div>
         <div className="timeouts home-team-timeouts">
           <div style={this.state.home.hasOfficialReview ? this.state.home.colorBarStyle : this.state.inactiveColorBarStyle} className="timeout-bar official-review"></div>
@@ -43,11 +43,11 @@ exports.Scoreboard = React.createClass
           </div>
           <div className="period-clock">
             <label className="hidden">Period Clock</label>
-            <div className="clock period-clock">{this.state.periodClock}</div>
+            <div className="clock period-clock">{exports.wftda.functions.toClock(this.state.periodClock,2,false,true)}</div>
           </div>
           <div className="jam-clock">
             <label className="jam-clock-label">{this.state.jamClockLabel}</label>
-            <div className="clock">{this.state.jamClock}</div>
+            <div className="clock">{exports.wftda.functions.toClock(this.state.jamClock,2,false,false)}</div>
           </div>
         </div>
         <div className="jam-points-wrapper">
@@ -57,7 +57,7 @@ exports.Scoreboard = React.createClass
       </section>
       <section className="team away">
         <div className="logo">
-          <img src={this.state.away.logoURI} />
+          <img src={this.state.away.logo} />
         </div>
         <div className="name">{this.state.away.name}</div>
         <div className="color-bar" style={this.state.away.colorBarStyle}></div>
@@ -66,7 +66,7 @@ exports.Scoreboard = React.createClass
           <div className="lead-status">
             <span className="glyphicon glyphicon-star {this.state.away.jammer.lead ? '' : 'hidden'}"></span>
           </div>
-          <div className="name">{this.state.away.jammer.name}</div>
+          <div className="name">{this.state.away.jammer.number} {this.state.away.jammer.name}</div>
         </div>
         <div className="timeouts away-team-timeouts">
           <div style={this.state.away.colorBarStyle} className="timeout-bar official-review {this.state.away.hasOfficialReview ? :}"></div>

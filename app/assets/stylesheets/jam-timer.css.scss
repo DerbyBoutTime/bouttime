@@ -4,7 +4,15 @@
   50% { background-color: $alert-color; }
   100%   { background-color: $inactive-color; }
 }
-#jam-timer-view {
+.jam-timer {
+  .away .bar, .away .btn {
+    color: $away-team-text-color;
+    background-color: $away-team-bg-color;
+  }
+  .home .bar, .home .btn {
+    color: $home-team-text-color;
+    background-color: $home-team-bg-color;
+  }
   .jt-label {
     text-transform: capitalize;
     font-size: 1.15em;
@@ -42,23 +50,7 @@
       font-weight: bold;
       height: 19px;
     }
-
   }
-
-  .away {
-    .bar, .btn {
-      color: $white;
-      background-color: $away-team-bg-color;
-    }
-  }
-
-  .home {
-    .bar, .btn {
-      color: $white;
-      background-color: $home-team-bg-color;
-    }
-  }
-
   .clock {
     @extend .well-sm;
     @extend .well;
@@ -76,19 +68,16 @@
     background-color: $white;
     font-weight: lighter;
   }
-
   .jam-clock {
     @extend .clock;
     border: none;
     font-weight: bold;
   }
-
   .official-timeout {
     @extend .well;
     border: none;
     padding: 15px;
   }
-
   .btn-start-jam {
     background-color: $gray;
     padding-top: 20px;

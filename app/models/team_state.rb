@@ -18,6 +18,7 @@
 #  logo                      :text
 #  jam_points                :integer
 #  has_official_review       :boolean
+#  text_color                :string(255)
 #
 
 class TeamState < ActiveRecord::Base
@@ -32,7 +33,10 @@ class TeamState < ActiveRecord::Base
   end
 
   def color_bar_style
-    {backgroundColor: "#2082a6"}
+    {
+      color: self.text_color,
+      backgroundColor: self.color
+    }
   end
 
   private

@@ -39,10 +39,10 @@ exports.JamTimer = React.createClass
       'bar': true
       'active': this.state.away.isTakingTimeout && this.state.away.timeouts == 0
       'inactive': this.state.away.timeouts < 1
-    `<div id="jam-timer-view">
+    `<div className="jam-timer">
         <div className="row text-center">
           <div className="col-md-2 col-xs-2">
-            <div className="timeout-bars away">
+            <div className="timeout-bars home">
               <span className="jt-label">{this.state.home.initials}</span>
               <div className={homeTeamOfficialReviewCS}>0</div>
               <div className={homeTeamTimeouts1CS}></div>
@@ -59,16 +59,16 @@ exports.JamTimer = React.createClass
                 </strong>
               </div>
               <div className="col-md-12 col-xs-12">
-                <div className="period-clock">{exports.wftda.functions.toClock(this.state.periodClock)}</div>
+                <div className="period-clock">{exports.wftda.functions.toClock(this.state.periodClock,2,false,true)}</div>
               </div>
               <div className="col-md-12 col-xs-12">
                 <strong className="jt-label">{this.state.jamClockLabel}</strong>
-                <div className="jam-clock">{exports.wftda.functions.toClock(this.state.jamClock)}</div>
+                <div className="jam-clock">{exports.wftda.functions.toClock(this.state.jamClock,2,true,false)}</div>
               </div>
             </div>
           </div>
           <div className="col-md-2 col-xs-2">
-            <div className="timeout-bars home">
+            <div className="timeout-bars away">
               <span className="jt-label">{this.state.away.initials}</span>
               <div className={awayTeamOfficialReviewCS}>0</div>
               <div className={awayTeamTimeouts1CS}></div>
@@ -79,7 +79,7 @@ exports.JamTimer = React.createClass
         </div>
         <div className="text-center row">
           <div className="col-md-4 col-xs-4">
-            <div className="away">
+            <div className="home">
               <div className="row">
                 <div className="col-md-12 col-xs-12">
                   <button className="btn btn-block">TIMEOUT</button>
@@ -97,7 +97,7 @@ exports.JamTimer = React.createClass
             <div className="official-timeout">OFFICIAL TIMEOUT</div>
           </div>
           <div className="col-md-4 col-xs-4">
-            <div className="home">
+            <div className="away">
               <div className="row">
                 <div className="col-md-12 col-xs-12">
                   <button className="btn btn-block">TIMEOUT</button>

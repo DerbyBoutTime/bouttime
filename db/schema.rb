@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141208164207) do
+ActiveRecord::Schema.define(version: 20141208192625) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 20141208164207) do
     t.text     "logo"
     t.integer  "jam_points"
     t.boolean  "has_official_review"
+    t.string   "text_color"
   end
 
   add_index "team_states", ["jammer_id"], name: "index_team_states_on_jammer_id", using: :btree

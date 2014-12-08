@@ -18,6 +18,7 @@
 #  logo                      :text
 #  jam_points                :integer
 #  has_official_review       :boolean
+#  text_color                :string(255)
 #
 
 require "test_helper"
