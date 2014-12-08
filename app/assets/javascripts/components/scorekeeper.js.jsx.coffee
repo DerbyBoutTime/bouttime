@@ -566,8 +566,9 @@ exports.Scorekeeper = React.createClass
 
 exports.PassesList = React.createClass
   render: () ->
-    passComponents = this.props.passes.map (pass) ->
-      PassItem({pass: pass, key: pass.number})
+    PassItemFactory = React.createFactory(PassItem)
+    passComponents = this.props.passes.map (pass) =>
+      PassItemFactory({pass: pass, key: pass.number})
 
     `<div className="passes">
       <div className="headers">
