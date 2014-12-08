@@ -25,4 +25,10 @@ class ActiveSupport::TestCase
   fixtures :all
 
   # Add more helper methods to be used by all tests here...
+
+  CarrierWave.root = Rails.root.join("tmp/carrierwave")
+
+  def after_teardown
+    CarrierWave.clean_cached_files!(0)
+  end
 end
