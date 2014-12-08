@@ -27,12 +27,17 @@ gem "uglifier", ">= 1.3.0"
 # css
 gem "autoprefixer-rails"
 gem "bootstrap-sass", "~> 3.3.0"
+gem "bootstrap_form"
 gem "sass-rails", "~> 4.0.3"
 
 # js
 gem "coffee-rails", "~> 4.0.0"
 gem "jquery-rails"
 gem "therubyracer", platforms: [:ruby]
+
+# igrf documents
+gem "carrierwave"
+gem "rubyXL"
 
 # error reporting
 gem "airbrake"
@@ -58,7 +63,9 @@ gem "sdoc", "~> 0.4.0", group: [:doc]
 
 # testing
 gem "rake", group: [:test]
+gem "minitest-line", group: [:test]
 gem "minitest-rails", group: [:test]
+gem "minitest-stub_any_instance", group: [:test]
 
 # deployment
 gem "capistrano", group: [:deployment]

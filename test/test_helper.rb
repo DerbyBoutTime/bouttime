@@ -1,4 +1,5 @@
 ENV["RAILS_ENV"] = "test"
+
 require File.expand_path("../../config/environment", __FILE__)
 require "rails/test_help"
 require "minitest/rails"
@@ -10,10 +11,14 @@ require "minitest/rails"
 # Uncomment for awesome colorful output
 # require "minitest/pride"
 
-class ActiveSupport::TestCase
-    ActiveRecord::Migration.check_pending!
+Dir.glob(File.dirname(__FILE__) + "/support/**/*.rb").each do |file|
+  require_relative file
+end
 
-    # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
+class ActiveSupport::TestCase
+  ActiveRecord::Migration.check_pending!
+
+  # Setup all fixtures in test/fixtures/*.(yml|csv) for all tests in alphabetical order.
   #
   # Note: You'll currently still have to declare fixtures explicitly in integration tests
   # -- they do not yet inherit this setting
