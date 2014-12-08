@@ -6,36 +6,40 @@ exports.JamTimer = React.createClass
     `<div id="jam-timer-view">
       <div className="row text-center">
         <div className="col-md-2 col-xs-2">
-          <div className="timeout-bars away">AWAY<div className="bar disabled">0</div>
-          <div className="bar"/>
-          <div className="bar"/>
-          <div className="bar"/>
+          <div className="timeout-bars away">
+            <span className="jt-label">AWAY</span>
+            <div className="bar disabled">0</div>
+            <div className="bar"/>
+            <div className="bar"/>
+            <div className="bar"/>
         </div>
       </div>
       <div className="col-md-8 col-xs-8">
         <div className="row">
           <div className="col-md-8 col-xs-8 col-md-offset-2 col-xs-offset-2">
             <strong>
-              <span className="pull-left">Period 1</span>
-              <span className="pull-right">Jam 1</span>
+              <span className="jt-label pull-left">Period 1</span>
+              <span className="jt-label pull-right">Jam 1</span>
             </strong>
           </div>
           <div className="col-md-12 col-xs-12">
             <div className="game-clock">30:00</div>
           </div>
           <div className="col-md-12 col-xs-12">
-            <strong>Jam Clock</strong>
+            <strong className="jt-label">Jam Clock</strong>
             <div className="jam-clock">2:00<span className="seconds">:00</span>
           </div>
         </div>
       </div>
     </div>
     <div className="col-md-2 col-xs-2">
-      <div className="timeout-bars home">HOME<div className="bar">0</div>
-      <div className="bar"/>
-      <div className="bar"/>
-      <div className="bar"/>
-    </div>
+      <div className="timeout-bars home">
+        <span className="jt-label">HOME</span>
+        <div className="bar">0</div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+        <div className="bar"></div>
+      </div>
     </div>
     </div>
     <div className="text-center row">
