@@ -27,3 +27,14 @@ $gray-base: $near-black;
   margin-bottom: 10px;
   border-radius: 0;
 }
+
+.btn-default {
+  padding: 10px 5px;
+  font-size: 0.85em;
+  @media (min-width: $screen-sm-min) {
+    padding: inherit;
+    font-size: inherit;
+  }
+  background-color: $light-gray;
+  color: $near-black;
+}

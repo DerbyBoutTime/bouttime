@@ -52,7 +52,7 @@ exports.JamTimer = React.createClass
           </div>
           <div className="col-md-8 col-xs-8">
             <div className="row">
-              <div className="col-md-8 col-xs-8 col-md-offset-2 col-xs-offset-2">
+              <div className="col-xs-12">
                 <strong>
                   <span className="jt-label pull-left">Period {this.state.periodNumber}</span>
                   <span className="jt-label pull-right">Jam {this.state.jamNumber}</span>
