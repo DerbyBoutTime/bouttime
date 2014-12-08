@@ -23,11 +23,8 @@
 //= require camelize
 //= require functions
 //= require displays/scorekeeper
-
 //= require fileinput
-
 //= require igrf
-
 //= require websocket_rails/main
 //= require components/components
 React.initializeTouchEvents(true);

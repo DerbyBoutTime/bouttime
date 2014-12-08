@@ -15,7 +15,7 @@ WebsocketRails.setup do |config|
   # Change to true to enable standalone server mode
   # Start the standalone server with rake websocket_rails:start_server
   # * Requires Redis
-  config.standalone = false
+  config.standalone = true
 
   # Change to true to enable channel synchronization between
   # multiple server instances.
@@ -23,7 +23,7 @@ WebsocketRails.setup do |config|
   config.synchronize = false
 
   # Prevent Thin from daemonizing (default is true)
-  # config.daemonize = false
+  config.daemonize = false
 
   # Uncomment and edit to point to a different redis instance.
   # Will not be used unless standalone or synchronization mode
@@ -37,7 +37,7 @@ WebsocketRails.setup do |config|
   # config.keep_subscribers_when_private = false
 
   # Set to true if you wish to broadcast channel subscriber_join and
-  # subscriber_part events. All subscribers of a channel will be 
+  # subscriber_part events. All subscribers of a channel will be
   # notified when other clients join and part the channel. If you are
   # using the UserManager, the current_user object will be sent along
   # with the event.

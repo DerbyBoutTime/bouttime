@@ -1,5 +1,6 @@
 cx = React.addons.classSet
 exports = exports ? this
+exports.dispatcher = exports.dispatcher || new WebSocketRails('localhost:3001/websocket')
 exports.JamTimer = React.createClass
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
