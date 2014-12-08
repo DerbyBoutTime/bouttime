@@ -15,6 +15,12 @@ exports.Scorekeeper = React.createClass
           lead: false
           name: "Nattie Long Legs"
           number: 1234
+        passes: [
+          number: 1
+          skaterNumber: 4321
+          injury: false
+        ]
+
       away:
         name: "Gotham Rollergirls"
         colorTabStyle:
@@ -27,11 +33,11 @@ exports.Scorekeeper = React.createClass
           lead: true
           name: "Bonnie Thunders"
           number: 4567
-        passes:
-          passOne:
-            number: 1
-            skaterNumber: 1234
-            injury: false
+        passes: [
+          number: 1
+          skaterNumber: 4567
+          injury: false
+        ]
 
   render: () ->
     `<div id="scorekeeper-view">
@@ -551,7 +557,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <PassesList />
+          <PassesList passes={this.state.team.home.passes} />
         </div>
       </div>
     </div>`
