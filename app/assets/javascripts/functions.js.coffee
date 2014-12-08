@@ -3,8 +3,14 @@ exports.wftda.functions.uniqueId = (length=8) ->
   id = ""
   id += Math.random().toString(36).substr(2) while id.length < length
   id.substr 0, length
-exports.wftda.functions.toClock = (time, significantSections = 1) ->
+exports.wftda.functions.pad = (num, digits) ->
+  if num.toString().length < digits
+    ("000" + num).substr(-digits)
+  else
+    num
+exports.wftda.functions.toClock = (time, significantSections = 1, partialSeconds = false, includeLeadingZeros = true) ->
   sec = parseInt(time/1000, 10)
+  milliseconds = parseInt(time % 1000, 10)
   hours = minutes = seconds = 0
   if significantSections >= 3
     hours = Math.floor(sec / 3600)
@@ -13,20 +19,17 @@ exports.wftda.functions.toClock = (time, significantSections = 1) ->
   if significantSections >=1
     seconds = sec - (hours * 3600) - (minutes * 60)
 
-  #Add leading zeros
-  if significantSections >= 4 && hours < 10
-    hours = "0" + hours
-  if significantSections >= 3 && minutes < 10
-    minutes = "0" + minutes
-  if significantSections >= 2 && seconds < 10
-    seconds = "0" + seconds
+  #Padding
+  # if includeLeadingZeros == true
 
   #Only Display signfication Sections
   strTime = ""
-  if hours > 0 || significantSections >=3
-    strTime = "#{hours}:"
-  if minutes > 0 || significantSections >=2
-    strTime = strTime + "#{minutes}:"
+  if (includeLeadingZeros || hours > 0) && significantSections >=3
+    strTime = "#{exports.wftda.functions.pad(hours,2)}:"
+  if (includeLeadingZeros || minutes > 0) && significantSections >=2
+    strTime = strTime + "#{exports.wftda.functions.pad(minutes,2)}:"
   if significantSections >= 1
-    strTime = strTime + "#{seconds}"
+    strTime = strTime + "#{exports.wftda.functions.pad(seconds,2)}"
+  if partialSeconds == true
+    strTime = strTime + ".#{exports.wftda.functions.pad(milliseconds, 3)}"
   return strTime

@@ -24,5 +24,16 @@ module Wftda
     config.generators do |g|
       g.test_framework :minitest, spec: true, fixture: false
     end
+
+    config.autoload_paths += %W(
+      #{config.root}/app/importers
+      #{config.root}/app/uploaders
+    )
+
+    #React configuration
+    config.react.max_renderers = 10
+    config.react.timeout = 20 #seconds
+    config.react.react_js = lambda {File.read(::Rails.application.assets.resolve('react.js'))}
+    config.react.component_filenames = ['components.js']
   end
 end

@@ -75,4 +75,9 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  #Set react to minified version
+  config.react.variant = :production
+  # 12.08.2014 - Addons does not seems to work as expected need to investigate and file bug
+  config.react.addons = true
 end

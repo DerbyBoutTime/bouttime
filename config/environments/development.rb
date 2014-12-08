@@ -34,4 +34,9 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  #Set react to unminified version
+  config.react.variant = :development
+  # 12.08.2014 - Addons does not seems to work as expected need to investigate and file bug
+  config.react.addons = true
 end

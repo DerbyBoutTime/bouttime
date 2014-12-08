@@ -23,6 +23,7 @@
 }
 
 .scoreboard {
+  margin-bottom: 15px;
   .scoreboard-label {
     @include scoreboard-label;
   }
@@ -138,11 +139,12 @@
     }
   }
 
-  > section{
+  > .alerts, .ads, .fly-ins{
     @include make-row;
   }
 
   .logo {
+    position: relative;
     @media (min-width: $screen-sm-min){
       display: none;
     }
@@ -159,6 +161,9 @@
     img {
       max-width: 100%;
       max-height: 100%;
+      position: absolute;
+      bottom: 0;
+      padding-top: 15px;
     }
   }
 
@@ -227,7 +232,8 @@
       float: right !important;
     }
     .name {
-      float: left !important;
+      float: right !important;
+      margin-right: 1em;
     }
   }
   .away-team-jammer {
@@ -236,7 +242,8 @@
       float: left !important;
     }
     .name {
-      float: right !important;
+      float: left !important;
+      margin-left: 1em;
     }
   }
 

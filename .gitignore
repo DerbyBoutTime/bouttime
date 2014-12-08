@@ -1,3 +1,4 @@
+.DS_Store
 *.rbc
 *.swp
 capybara-*.html
@@ -29,3 +30,6 @@ config/secrets.yml
 /vendor/assets/bower_components
 *.bowerrc
 bower.json
+
+# carrierwave
+public/uploads/

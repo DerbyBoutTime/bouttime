@@ -8,6 +8,7 @@ gem "dotenv-rails"
 # rails
 gem "rails", "4.1.5"
 gem "websocket-rails"
+gem 'react-rails', '~> 1.0.0.pre', github: 'reactjs/react-rails'
 
 # railsish
 gem "bcrypt", "~> 3.1.7"
@@ -26,6 +27,7 @@ gem "uglifier", ">= 1.3.0"
 # css
 gem "autoprefixer-rails"
 gem "bootstrap-sass", "~> 3.3.0"
+gem "bootstrap_form"
 gem "sass-rails", "~> 4.0.3"
 
 # js
@@ -33,13 +35,16 @@ gem "coffee-rails", "~> 4.0.0"
 gem "jquery-rails"
 gem "therubyracer", platforms: [:ruby]
 
+# igrf documents
+gem "carrierwave"
+gem "rubyXL"
+
 # error reporting
 gem "airbrake"
 
-# server
+# processes
+gem "foreman"
 gem "puma"
-#gem "foreman"
-#gem "unicorn"
 
 # logging
 gem "colorize"
@@ -58,7 +63,9 @@ gem "sdoc", "~> 0.4.0", group: [:doc]
 
 # testing
 gem "rake", group: [:test]
+gem "minitest-line", group: [:test]
 gem "minitest-rails", group: [:test]
+gem "minitest-stub_any_instance", group: [:test]
 
 # deployment
 gem "capistrano", group: [:deployment]

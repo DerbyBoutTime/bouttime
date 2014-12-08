@@ -1,0 +1,211 @@
+.row {
+  &.gutters-xs {
+    margin-right: -2px;
+    margin-left: -2px;
+  }
+
+  &.gutters-xs [class^="col-"], &.gutters-xs [class*=" col-"] {
+    padding-right: 2px;
+    padding-left: 2px;
+  }
+}
+
+#scorekeeper-view {
+  .team-name {
+    border: 1px solid $gray;
+    border-radius: 2px;
+    color: $white;
+    /*height: 30px;*/
+    line-height: 30px;
+    /*min-width: 16px;*/
+
+    &.away {
+      background-color: $away-team-bg-color;
+    }
+
+    &.home {
+      background-color: $home-team-bg-color;
+    }
+  }
+
+  .active-team {
+    margin-top: 4px;
+
+    .away, .home {
+      border: 2px solid $gray;
+      border-radius: 2px;
+    }
+  }
+
+  .stats {
+    margin-top: 4px;
+  }
+
+  .current-jam, .game-total {
+    color: $near-black;
+    border: 1px solid $gray;
+    border-radius: 2px;
+    font-size: 1.1em;
+    /*height: 30px;*/
+    line-height: 30px;
+    /*min-width: 16px;*/
+
+    .current-jam-score, .game-total-score {
+      font-size: 1.3em;
+      font-weight: bolder;
+    }
+  }
+
+  .jams, .passes {
+    margin-top: 4px;
+
+    .headers {
+    }
+
+    .columns {
+      margin-top: 4px;
+
+      .col-sm-2, .col-xs-2 {
+        /*& > div {*/
+          /*background-color: $gray;*/
+          /*border-radius: 2px;*/
+          /*color: $near-black;*/
+          height: 30px;
+          /*line-height: 30px;*/
+        /*}*/
+
+        .jam, .pass {
+          background-color: $near-black;
+          border-radius: 2px;
+          color: $white;
+          /*height: 30px;*/
+          line-height: 30px;
+        }
+        .skater {
+          background-color: $gray;
+          border-radius: 2px;
+          color: $near-black;
+          /*height: 30px;*/
+          line-height: 30px;
+          padding-left: 5%;
+        }
+        .notes {
+          background-color: $gray;
+          border-radius: 2px;
+          color: $near-black;
+          /*height: 30px;*/
+          line-height: 30px;
+
+          &.injury {
+          }
+          &.call {
+          }
+          &.lost {
+          }
+        }
+        .points {
+          background-color: $gray;
+          border-radius: 2px;
+          color: $near-black;
+          /*height: 30px;*/
+          line-height: 30px;
+        }
+      }
+    }
+
+    // because collapse requires a .panel to work with data-parent,
+    // https://github.com/twbs/bootstrap/blob/a577f1922ee7054a97b455ccfaa16857cb2b79fc/js/collapse.js#L49,
+    // but we don't want the .panel styles.
+    .panel {
+      border: 0;
+      margin-bottom: 0;
+    }
+  }
+
+  .jam-details {
+    color: $near-black;
+    font-size: 1.2em;
+    margin-top: 4px;
+
+    & > .row > div:first-child {
+      padding-left: 0px;
+      padding-right: 0px;
+    }
+
+    & > .row > div:last-child {
+      padding-left: 0px;
+    }
+
+    .jam-number, .jam-total-score {
+      background-color: $gray;
+      /*height: 30px;*/
+      line-height: 30px;
+      /*min-width: 16px;*/
+    }
+
+    .jam-number {
+      padding-left: 5%;
+    }
+
+    .jam-total-score {
+      padding-right: 5%;
+    }
+  }
+
+  .links {
+    margin-top: 4px;
+
+    .link {
+      background-color: $near-black;
+      border-radius: 2px;
+      color: $white;
+      /*height: 30px;*/
+      line-height: 30px;
+    }
+  }
+
+  .edit-pass {
+    @include border-arrow(95%);
+
+    .row:nth-child(2) {
+      margin-top: 4px;
+    }
+
+    .row {
+      .zero, .one, .two, .three, .four, .five, .six {
+        background-color: $white;
+      }
+    }
+  }
+
+  .edit-pass-number {
+    @include border-arrow(5%);
+
+    .row {
+      .minus, .plus {
+        background-color: $white;
+      }
+    }
+  }
+
+  .edit-pass, .edit-pass-number {
+    .row {
+      & > div > div {
+        border-radius: 2px;
+        /*height: 30px;*/
+        line-height: 30px;
+      }
+
+      .notes {
+        &.call, &.injury, &.lost, &.note-lead, &.no-pass {
+          background-color: $gray;
+        }
+      }
+
+      .remove, .ok {
+        background-color: $near-black;
+        color: $white;
+      }
+    }
+  }
+}

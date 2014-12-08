@@ -1,70 +1,94 @@
-@import "bootstrap";
-
 .margin-top-05 { margin-top: 0.5em; }
-
-.timeout-bars {
-  .bar {
-    height: 30px;
-    min-width: 16px;
-    border: 0.8px solid $gray;
-    margin: 4px 6px;
-    border-radius: 2px;
-  }
-  :first-child {
-    border-radius: 6px;
-    font-weight: bold;
-    height: 19px;
-  }
-
+@keyframes active-animation {
+  0%   { background-color: $inactive-color; }
+  50% { background-color: $alert-color; }
+  100%   { background-color: $inactive-color; }
 }
-
-.away {
-  .bar, .btn {
-    color: $white;
+.jam-timer {
+  margin-bottom: 15px;
+  .away .bar, .away .btn {
+    color: $away-team-text-color;
     background-color: $away-team-bg-color;
   }
-}
-
-.home {
-  .bar, .btn {
-    color: $white;
+  .home .bar, .home .btn {
+    color: $home-team-text-color;
     background-color: $home-team-bg-color;
   }
-}
-
-.clock {
-  @extend .well-sm;
-  @extend .well;
-  font-size: 3em;
-  padding: 3px;
-  span.seconds{
-    font-size: 0.8em;
+  .jt-label {
+    text-transform: capitalize;
+    font-size: 1.15em;
+    @media (min-width: $screen-md-min) {
+      font-size: 1.5em;
+    }
   }
-}
-.game-clock {
-  @extend .clock;
-  background-color: $white;
-}
+  .timeout-bars {
+    .bar {
+      height: 35px;
+      @media (min-width: $screen-md-min) {
+        height: 60px;
+      }
+      min-width: 16px;
+      border: 0.8px solid $gray;
+      margin: 4px 6px;
+      border-radius: 2px;
+      padding: 0.5em 0;
+      @media (min-width: $screen-md-min) {
+        font-size: 2em;
+        padding: 0.3em 0;
+      }
+      &.official-review {
+        border-radius: 20px;
+      }
+      &.inactive {
+        background-color: $inactive-color;
+      }
+      &.active{
+        animation: active-animation 2s infinite;
+      }
+    }
+    :first-child {
+      border-radius: 6px;
+      font-weight: bold;
+      height: 19px;
+    }
+  }
+  .clock {
+    @extend .well-sm;
+    @extend .well;
+    font-size: 3em;
+    @media (min-width: $screen-md-min) {
+      font-size: 4.5em;
+    }
+    padding: 3px;
+    span.subseconds{
+      font-size: 0.8em;
+    }
+  }
+  .btn {
+    padding: 10px 5px;
+    font-size: 0.85em;
+    @media (min-width: $screen-sm-min) {
+      padding: inherit;
+      font-size: inherit;
+    }
+    background-color: $light-gray;
+    color: $near-black;
+  }
+  .period-clock {
+    @extend .clock;
+    background-color: $white;
+    font-weight: lighter;
+    margin-bottom: 10px;
+  }
+  .jam-clock {
+    @extend .clock;
+    border: none;
+    font-weight: bold;
+    background-color: $light-gray;
+    color: $near-black;
+    margin-bottom: 10px;
+  }
+  .official-timeout {
 
-.jam-clock {
-  @extend .clock;
-  border: none;
-  font-weight: bold;
-}
-
-.official-timeout {
-  @extend .well;
-  border: none;
-  padding: 15px;
-}
-
-.btn-start-jam {
-  background-color: $gray;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  border-radius: 2px;
-  @extend .btn;
-  @extend .btn-lg;
-  @extend .btn-block;
-  font-weight: bold;
+  }
 }

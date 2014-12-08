@@ -14,6 +14,12 @@
 ./bin/setup/rbenv.sh # if you do not manage your own rubbies
 ```
 
+#### laptop
+
+If you do not manage your own environment already then you can take a look at [laptop](https://github.com/wiserstudios/laptop).
+
+> Laptop is a script to set up a Mac OS X or Linux laptop for Rails development.
+
 #### Environment Variables
 
 ### Setup
