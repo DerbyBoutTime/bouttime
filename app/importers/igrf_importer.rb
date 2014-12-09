@@ -13,7 +13,6 @@ module IgrfImporter
     end
 
     def import
-      venue = Venue.new(game.venue).import
       _game = ::Game.find_or_create_by!(end_time: game.end_time, start_time: game.start_time, venue: venue)
 
       game.officials.each do |official|
@@ -33,6 +32,14 @@ module IgrfImporter
       end
 
       _game
+    end
+
+    def imported?
+      !::Game.where(end_time: game.end_time, start_time: game.start_time, venue: venue).count.zero?
+    end
+
+    def venue
+      @venue ||= Venue.new(game.venue).import
     end
   end
 

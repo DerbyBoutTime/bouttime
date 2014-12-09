@@ -4,11 +4,11 @@ require "igrf/parsers/game"
 
 module Igrf
   class Workbook
-    attr_reader :workbook
+    attr_reader :file
 
     def initialize(file)
       @data = {}
-      @workbook = RubyXL::Parser.parse(file)
+      @file = file
     end
 
     def extract_data(worksheet)
@@ -19,8 +19,12 @@ module Igrf
       @to_game ||= Models::Game.new(Igrf::Parsers::Game.parse(self).parsed.first)
     end
 
+    def workbook
+      @workbook ||= RubyXL::Parser.parse(file)
+    end
+
     def worksheets
-      workbook.worksheets
+      @worksheets ||= workbook.worksheets
     end
   end
 end

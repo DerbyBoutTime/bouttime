@@ -97,3 +97,21 @@ describe IgrfImporter, :model do
     assert_equal penalty.lineup_skater, lineup_skater
   end
 end
+
+describe IgrfImporter::Game, :model do
+  subject { IgrfImporter::Game }
+
+  describe "#imported?" do
+    before do
+      @importer = subject.new(Support::Igrf.game)
+    end
+
+    it "checks if Game has been imported" do
+      assert !@importer.imported?
+
+      Game.create!(end_time: @importer.game.end_time, start_time: @importer.game.start_time, venue: @importer.venue)
+
+      assert @importer.imported?
+    end
+  end
+end

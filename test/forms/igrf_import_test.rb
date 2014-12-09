@@ -1,5 +1,7 @@
 require "test_helper"
 
+require "igrf"
+
 describe IgrfImport do
   subject { IgrfImport }
 
@@ -18,8 +20,12 @@ describe IgrfImport do
 
   describe "with form" do
     before do
-      IgrfImporter.stub :import, Game.new do
-        @import.save
+      Igrf.stub :for, Igrf::Workbook.new(Support::Igrf.file) do
+        IgrfImporter::Game.stub_any_instance :imported?, false do
+          IgrfImporter::Game.stub_any_instance :import, Game.new do
+            @import.save
+          end
+        end
       end
     end
 
@@ -29,7 +35,7 @@ describe IgrfImport do
     end
 
     it "creates a Game" do
-      assert @import.game.is_a?(Game)
+      assert @import.igrf.game.is_a?(Game)
     end
   end
 
@@ -37,9 +43,11 @@ describe IgrfImport do
     before do
       game = Game.new
 
-      game.stub :igrf, InterleagueGameReportingForm.new do
-        IgrfImporter.stub :import, game do
-          @import.save
+      Igrf.stub :for, Igrf::Workbook.new(Support::Igrf.file) do
+        game.stub :igrf, InterleagueGameReportingForm.new do
+          IgrfImporter::Game.stub_any_instance :imported?, true do
+            @import.save
+          end
         end
       end
     end
@@ -55,7 +63,9 @@ describe IgrfImport do
 
   describe "without form" do
     it "is invalid" do
-      assert_equal false, subject.new.valid?
+      Igrf.stub :for, Igrf::Workbook.new(Support::Igrf.file) do
+        assert_equal false, subject.new.valid?
+      end
     end
   end
 end
