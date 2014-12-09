@@ -1,7 +1,7 @@
 exports = exports ? this
 exports.PassEditPanel = React.createClass
   render: () ->
-    if this.props.pass.number == 1
+    if this.props.pass.passNumber == 1
       return(
         `<div className="panel">
           <div className="edit-pass first-pass collapse" id={this.props.editPassId}>

@@ -76,42 +76,42 @@ class GameState < ActiveRecord::Base
     js_home = self.home.jam_states.create({
         jam_number: 1,
         skater_number: self.home.jammer.number,
-        points: nil,
-        injury: nil,
-        lead: true,
-        lost_lead: nil,
-        calloff: nil,
-        nopass: nil
+        points: 0,
+        injury: false,
+        lead: false,
+        lost_lead: false,
+        calloff: false,
+        nopass: false
       })
     js_home.pass_states.create({
         pass_number: 1,
-        skater_number: nil,
-        points: nil,
-        injury: nil,
-        lead: nil,
-        lost_lead: nil,
-        calloff: nil,
-        nopass: nil
+        skater_number: self.home.jammer.number,
+        points: 0,
+        injury: false,
+        lead: false,
+        lost_lead: false,
+        calloff: false,
+        nopass: false
       })
     js_away = self.away.jam_states.create({
         jam_number: 1,
         skater_number: self.away.jammer.number,
-        points: nil,
-        injury: nil,
-        lead: true,
-        lost_lead: nil,
-        calloff: nil,
-        nopass: nil
+        points: 0,
+        injury: false,
+        lead: false,
+        lost_lead: false,
+        calloff: false,
+        nopass: false
       })
     js_away.pass_states.create({
         pass_number: 1,
-        skater_number: nil,
-        points: nil,
-        injury: nil,
-        lead: nil,
-        lost_lead: nil,
-        calloff: nil,
-        nopass: nil
+        skater_number: self.away.jammer.number,
+        points: 0,
+        injury: false,
+        lead: false,
+        lost_lead: false,
+        calloff: false,
+        nopass: false
       })
     self.save
   end

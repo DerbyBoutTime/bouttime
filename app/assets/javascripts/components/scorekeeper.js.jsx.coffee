@@ -2,84 +2,7 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.Scorekeeper = React.createClass
   getInitialState: () ->
-    jamNumber: 1
-    home:
-      name: "Atlanta Rollergirls"
-      colorBarStyle:
-        backgroundColor: "#2082a6"
-      points: 0
-      jamPoints: 0
-      hasOfficialReview: true
-      timeouts: 3
-      jammer:
-        lead: false
-        name: "Nattie Long Legs"
-        number: 1234
-      passes: [
-        {
-          number: 1
-          skaterNumber: 4321
-          points: 10
-          notes:
-            injury: false
-            call: false
-            lost: false
-        }
-        {
-          number: 2
-          skaterNumber: 4322
-          points: 3
-          notes:
-            injury: false
-            call: false
-            lost: false
-        }
-        {
-          number: 3
-          skaterNumber: 4321
-          points: 5
-          notes:
-            injury: false
-            call: false
-            lost: false
-        }
-      ]
-
-    away:
-      name: "Gotham Rollergirls"
-      colorBarStyle:
-        backgroundColor: "#f50031"
-      points: 0
-      jamPoints: 0
-      hasOfficialReview: true
-      timeouts: 3
-      jammer:
-        lead: true
-        name: "Bonnie Thunders"
-        number: 4567
-      passes: [
-        {
-          number: 1
-          skaterNumber: 4567
-          points: 3
-          notes:
-            injury: false
-            call: false
-            lost: false
-        }
-        {
-          number: 2
-          skaterNumber: 4321
-          points: 5
-          notes:
-            injury: false
-            call: false
-            lost: false
-        }
-      ]
-
-  # getInitialState: () ->
-  #   exports.wftda.functions.camelize(this.props)
+    exports.wftda.functions.camelize(this.props)
   render: () ->
     `<div id="scorekeeper-view">
       <div className="row teams text-center gutters-xs">
@@ -221,7 +144,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <PassesList passes={this.state.away.passes} teamType="away" />
+          <PassesList passes={this.state.away.passStates} teamType="away" />
         </div>
         <div className="col-sm-6 col-xs-12 hidden-xs" id="home-team">
           <div className="row stats gutters-xs">
@@ -339,7 +262,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <PassesList passes={this.state.home.passes} teamType="home" />
+          <PassesList passes={this.state.home.passStates} teamType="home" />
         </div>
       </div>
     </div>`

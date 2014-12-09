@@ -1,13 +1,13 @@
 exports = exports ? this
 exports.PassItem = React.createClass
   render: () ->
-    nodeId = "#{this.props.teamType}-team-pass-#{this.props.pass.number}"
+    nodeId = "#{this.props.teamType}-team-pass-#{this.props.pass.passNumber}"
     jqNodeId = "##{nodeId}"
 
-    editPassNumberId = "#{this.props.teamType}-team-edit-pass-number-#{this.props.pass.number}"
+    editPassNumberId = "#{this.props.teamType}-team-edit-pass-number-#{this.props.pass.passNumber}"
     jqEditPassNumberId = "##{editPassNumberId}"
 
-    editPassId = "#{this.props.teamType}-team-edit-pass-#{this.props.pass.number}"
+    editPassId = "#{this.props.teamType}-team-edit-pass-#{this.props.pass.passNumber}"
     jqEditPassId = "##{editPassId}"
 
     `<div aria-multiselectable="true" id={nodeId}>
@@ -15,7 +15,7 @@ exports.PassItem = React.createClass
         <div className="row gutters-xs">
           <div className="col-sm-2 col-xs-2">
             <div aria-controls={jqEditPassNumberId} aria-expanded="false" className="pass text-center" data-parent={jqNodeId} data-toggle="collapse" href={jqEditPassNumberId}>
-              {this.props.pass.number}
+              {this.props.pass.passNumber}
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
