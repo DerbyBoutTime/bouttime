@@ -4,7 +4,9 @@ class EventLogController < WebsocketRails::BaseController
   end
 
   def log
-    logger.debug "Called log!"
+    puts "#{event.name}"
+    puts message
+    Event.create name: event.name, data: message, role: message["role"]
   end
 
 end

@@ -15,7 +15,7 @@ WebsocketRails::EventMap.describe do
   subscribe :client_disconnected, 'authentication#client_disconnected'
   subscribe :client_heartbeat, 'authentication#client_heartbeat'
 
-  #Event logger
+  subscribe :client_heartbeat, 'event_log#log'
   subscribe :client_connected, 'event_log#log'
   subscribe :client_disconnected, 'event_log#log'
 end
