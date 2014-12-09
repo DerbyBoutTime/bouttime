@@ -39,6 +39,9 @@ gem "therubyracer", platforms: [:ruby]
 gem "carrierwave"
 gem "rubyXL"
 
+# forms
+gem "virtus"
+
 # error reporting
 gem "airbrake"
 
