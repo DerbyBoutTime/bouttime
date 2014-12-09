@@ -17,10 +17,18 @@ describe IgrfsController do
 
   describe "POST create" do
     describe "on success" do
+      after do
+        @igrf.destroy
+      end
+
       before do
-        InterleagueGameReportingForm.stub_any_instance :id, 1 do
-          IgrfImporter.stub :import, Game.new do
-            post :create, interleague_game_reporting_form: { form: fixture_file_upload("igrfs/one.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") }
+        @igrf = InterleagueGameReportingForm.create(form: fixture_file_upload("igrfs/one.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+
+        IgrfImport.stub_any_instance :save, true do
+          InterleagueGameReportingForm.stub_any_instance :id, 1 do
+            IgrfImport.stub_any_instance :igrf, @igrf do
+              post :create
+            end
           end
         end
       end
@@ -32,15 +40,13 @@ describe IgrfsController do
       it "redirects to IGRF" do
         assert_redirected_to "/igrfs/1"
       end
-
-      after do
-        InterleagueGameReportingForm.destroy_all
-      end
     end
 
     describe "on failure" do
       before do
-        post :create
+        IgrfImport.stub_any_instance :save, false do
+          post :create
+        end
       end
 
       it "renders new" do
