@@ -23,6 +23,9 @@ class JamTimerController < WebsocketRails::BaseController
   def start_timeout
   end
 
+  def restore_official_review
+  end
+
   def mark_as_official_timeout
   end
 

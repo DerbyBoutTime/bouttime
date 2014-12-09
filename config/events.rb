@@ -22,6 +22,7 @@ WebsocketRails::EventMap.describe do
     subscribe :stop_clock, 'event_log#log'
     subscribe :undo, 'event_log#log'
     subscribe :start_timeout, 'event_log#log'
+    subscribe :restore_official_review, 'event_log#log'
     #subscribe :set_timeout_state
     subscribe :mark_as_official_timeout, 'event_log#log'
     subscribe :mark_as_home_team_timeout, 'event_log#log'
