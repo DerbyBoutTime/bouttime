@@ -11,8 +11,8 @@ WebsocketRails::EventMap.describe do
   #     subscribe :new, :to => ProductController, :with_method => :new_product
   #   end
   # The above will handle an event triggered on the client like `product.new`.
-  subscribe :client_heartbeat, 'event_log#client_connected'
-  subscribe :client_connected, 'event_log#client_disconnected'
+  subscribe :client_connected, 'event_log#client_connected'
+  subscribe :client_disconnected, 'event_log#client_disconnected'
 
   namespace :jam_timer do
     subscribe :start_jam, 'event_log#log'
