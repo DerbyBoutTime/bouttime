@@ -11,38 +11,45 @@ class HomeController < ApplicationController
 
   def lineup_tracker
     @active_class = "lineup_tracker"
+    @props = @game_state.to_json
   end
 
   def penalty_box_timer
     @active_class = "penalty_box_timer"
+    @props = @game_state.to_json
   end
 
   def penalty_tracker
     @active_class = "penalty_tracker"
+    @props = @game_state.to_json
   end
 
   def scorekeeper
     @active_class = "scorekeeper"
+    @props = @game_state.to_json
   end
 
   def scoreboard
     @active_class = "scoreboard"
     @hide_nav = true
-    @props = @game_state.to_json
+    @props = @game_state.as_json
   end
 
   def penalty_whiteboard
     @active_class = "penalty_whiteboard"
     @hide_nav = true
+    @props = @game_state.to_json
   end
 
   def announcers_feeds
     @active_class = "announcers_feed"
     @hide_nav = true
+    @props = @game_state.to_json
   end
 
   def global_bout_notes
     @active_class = "global_bout_notes"
+    @props = @game_state.to_json
   end
 
   private

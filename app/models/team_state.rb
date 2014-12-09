@@ -23,6 +23,8 @@
 
 class TeamState < ActiveRecord::Base
   belongs_to :jammer, class_name: "JammerState"
+  has_many :jam_states
+  has_many :pass_states, through: :jam_states
 
   def as_json
     super(include: [:jammer], methods: [:color_bar_style])

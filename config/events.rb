@@ -38,6 +38,9 @@ WebsocketRails::EventMap.describe do
   end
 
   namespace :lineup_tracker do
+    :toggle_pivot
+    :toggle_star_pass
+    :set_skater
   end
 
   namespace :penalty_tracker do

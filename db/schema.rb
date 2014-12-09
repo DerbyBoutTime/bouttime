@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141209000021) do
+ActiveRecord::Schema.define(version: 20141209042657) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -75,6 +75,22 @@ ActiveRecord::Schema.define(version: 20141209000021) do
 
   add_index "interleague_game_reporting_forms", ["form"], name: "index_interleague_game_reporting_forms_on_form", unique: true, using: :btree
 
+  create_table "jam_states", force: true do |t|
+    t.integer  "team_state_id"
+    t.integer  "jam_number"
+    t.string   "skater_number"
+    t.integer  "points"
+    t.boolean  "injury"
+    t.boolean  "lead"
+    t.boolean  "lost_lead"
+    t.boolean  "calloff"
+    t.boolean  "nopass"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "jam_states", ["team_state_id"], name: "index_jam_states_on_team_state_id", using: :btree
+
   create_table "jammer_states", force: true do |t|
     t.string   "name"
     t.string   "number"
@@ -119,6 +135,22 @@ ActiveRecord::Schema.define(version: 20141209000021) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "pass_states", force: true do |t|
+    t.integer  "pass_number"
+    t.string   "skater_number"
+    t.integer  "points"
+    t.boolean  "injury"
+    t.boolean  "lead"
+    t.boolean  "lost_lead"
+    t.boolean  "calloff"
+    t.boolean  "nopass"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "jam_state_id"
+  end
+
+  add_index "pass_states", ["jam_state_id"], name: "index_pass_states_on_jam_state_id", using: :btree
 
   create_table "passes", force: true do |t|
     t.integer  "lineup_skater_id"

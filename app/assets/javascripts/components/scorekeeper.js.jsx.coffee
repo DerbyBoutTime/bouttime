@@ -3,93 +3,94 @@ exports = exports ? this
 exports.Scorekeeper = React.createClass
   getInitialState: () ->
     jamNumber: 1
-    team:
-      home:
-        name: "Atlanta Rollergirls"
-        colorTabStyle:
-          backgroundColor: "#2082a6"
-        points: 0
-        jamPoints: 0
-        hasOfficialReview: true
-        timeouts: 3
-        jammer:
-          lead: false
-          name: "Nattie Long Legs"
-          number: 1234
-        passes: [
-          {
-            number: 1
-            skaterNumber: 4321
-            points: 10
-            notes:
-              injury: false
-              call: false
-              lost: false
-          }
-          {
-            number: 2
-            skaterNumber: 4322
-            points: 3
-            notes:
-              injury: false
-              call: false
-              lost: false
-          }
-          {
-            number: 3
-            skaterNumber: 4321
-            points: 5
-            notes:
-              injury: false
-              call: false
-              lost: false
-          }
-        ]
+    home:
+      name: "Atlanta Rollergirls"
+      colorBarStyle:
+        backgroundColor: "#2082a6"
+      points: 0
+      jamPoints: 0
+      hasOfficialReview: true
+      timeouts: 3
+      jammer:
+        lead: false
+        name: "Nattie Long Legs"
+        number: 1234
+      passes: [
+        {
+          number: 1
+          skaterNumber: 4321
+          points: 10
+          notes:
+            injury: false
+            call: false
+            lost: false
+        }
+        {
+          number: 2
+          skaterNumber: 4322
+          points: 3
+          notes:
+            injury: false
+            call: false
+            lost: false
+        }
+        {
+          number: 3
+          skaterNumber: 4321
+          points: 5
+          notes:
+            injury: false
+            call: false
+            lost: false
+        }
+      ]
 
-      away:
-        name: "Gotham Rollergirls"
-        colorTabStyle:
-          backgroundColor: "#f50031"
-        points: 0
-        jamPoints: 0
-        hasOfficialReview: true
-        timeouts: 3
-        jammer:
-          lead: true
-          name: "Bonnie Thunders"
-          number: 4567
-        passes: [
-          {
-            number: 1
-            skaterNumber: 4567
-            points: 3
-            notes:
-              injury: false
-              call: false
-              lost: false
-          }
-          {
-            number: 2
-            skaterNumber: 4321
-            points: 5
-            notes:
-              injury: false
-              call: false
-              lost: false
-          }
-        ]
+    away:
+      name: "Gotham Rollergirls"
+      colorBarStyle:
+        backgroundColor: "#f50031"
+      points: 0
+      jamPoints: 0
+      hasOfficialReview: true
+      timeouts: 3
+      jammer:
+        lead: true
+        name: "Bonnie Thunders"
+        number: 4567
+      passes: [
+        {
+          number: 1
+          skaterNumber: 4567
+          points: 3
+          notes:
+            injury: false
+            call: false
+            lost: false
+        }
+        {
+          number: 2
+          skaterNumber: 4321
+          points: 5
+          notes:
+            injury: false
+            call: false
+            lost: false
+        }
+      ]
 
+  # getInitialState: () ->
+  #   exports.wftda.functions.camelize(this.props)
   render: () ->
     `<div id="scorekeeper-view">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.state.team.away.colorTabStyle} >
-            {this.state.team.away.name}
+          <div className="team-name" style={this.state.away.colorBarStyle} >
+            {this.state.away.name}
           </div>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.state.team.home.colorTabStyle}>
-            {this.state.team.home.name}
+          <div className="team-name" style={this.state.home.colorBarStyle}>
+            {this.state.home.name}
           </div>
         </div>
       </div>
@@ -125,7 +126,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>{this.state.team.away.points}</strong>
+                    <strong>{this.state.away.points}</strong>
                   </div>
                 </div>
               </div>
@@ -157,7 +158,7 @@ exports.Scorekeeper = React.createClass
                 </div>
                 <div className="col-sm-2 col-xs-2">
                   <div className="skater">
-                    {this.state.team.away.jammer.number}
+                    {this.state.away.jammer.number}
                   </div>
                 </div>
                 <div className="col-sm-2 col-xs-2">
@@ -220,7 +221,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <PassesList passes={this.state.team.away.passes} teamType="away" />
+          <PassesList passes={this.state.away.passes} teamType="away" />
         </div>
         <div className="col-sm-6 col-xs-12 hidden-xs" id="home-team">
           <div className="row stats gutters-xs">
@@ -243,7 +244,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>{this.state.team.home.points}</strong>
+                    <strong>{this.state.home.points}</strong>
                   </div>
                 </div>
               </div>
@@ -338,7 +339,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <PassesList passes={this.state.team.home.passes} teamType="home" />
+          <PassesList passes={this.state.home.passes} teamType="home" />
         </div>
       </div>
     </div>`

@@ -11,6 +11,7 @@
 // about supported directives.
 //
 //= require jquery
+//= require websocket_rails/main
 //= require bootstrap-sprockets
 //= require jquery_ujs
 //= require touch-punch
@@ -25,6 +26,5 @@
 //= require displays/scorekeeper
 //= require fileinput
 //= require igrf
-//= require websocket_rails/main
 //= require components/components
 React.initializeTouchEvents(true);
