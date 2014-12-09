@@ -27,7 +27,7 @@ class TeamState < ActiveRecord::Base
   has_many :pass_states, through: :jam_states
 
   def as_json
-    super(include: [:jammer], methods: [:color_bar_style])
+    super(include: [:jammer, :jam_states, :pass_states], methods: [:color_bar_style])
   end
 
   def to_json(options = {})
