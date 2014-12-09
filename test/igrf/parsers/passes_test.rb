@@ -12,13 +12,13 @@ describe Igrf::Parsers::Passes do
     @pass = @passes.first
   end
 
-  it "parses an Igrf workbok for Passes" do
+  it "parses an Igrf workbook for Passes" do
     assert_kind_of Array, @passes
     assert_equal 124, @passes.size
 
     assert_kind_of Hash, @pass
     assert_equal 5, @pass[:score]
-    assert_equal 2, @pass[:number]
+    assert_equal 1, @pass[:number]
     assert_equal 1, @pass[:jam_number]
     assert_equal 1, @pass[:period]
     assert_equal "911", @pass[:skater_number]

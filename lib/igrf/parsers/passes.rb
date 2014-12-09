@@ -19,11 +19,10 @@ module Igrf
               _parsed = _parse(data[number], columns, { team => true }.merge(hash || {}))
               _parsed[:number] = index + 2
 
-              if _parsed[:jam_number].is_a?(Integer)
-                parsed << _parsed if _parsed[:score]
-              elsif _parsed[:jam_number].is_a?(String) && _parsed[:jam_number] == "SP"
-                parsed << handle_star_pass(_parsed, previous(number, hash, columns, team)) if _parsed[:score]
-              end
+              _parsed = handle_star_pass(_parsed, previous(number, hash, columns, team))
+              _parsed = handle_first_pass(_parsed)
+
+              parsed << _parsed if _parsed[:score]
             end
           end
         end
@@ -38,9 +37,22 @@ module Igrf
 
       private
 
+      def handle_first_pass(pass)
+        if pass[:number] == 2 && pass[:score]
+          first = pass.dup.merge(:number => 1)
+          first[:score], pass[:score] = pass[:score].to_s.split("+").map { |score| score.to_i }
+          parsed << first
+        end
+
+        pass
+      end
+
       def handle_star_pass(pass, previous)
-        pass[:jam_number] = previous[:jam_number]
-        pass[:star_pass] = true
+        if pass[:jam_number].to_s == "SP"
+          pass[:jam_number] = previous[:jam_number]
+          pass[:star_pass] = true
+        end
+
         pass
       end
 
