@@ -11,11 +11,41 @@ WebsocketRails::EventMap.describe do
   #     subscribe :new, :to => ProductController, :with_method => :new_product
   #   end
   # The above will handle an event triggered on the client like `product.new`.
-  subscribe :client_connected, 'authentication#client_connected'
-  subscribe :client_disconnected, 'authentication#client_disconnected'
-  subscribe :client_heartbeat, 'authentication#client_heartbeat'
+  subscribe :client_heartbeat, 'event_log#client_connected'
+  subscribe :client_connected, 'event_log#client_disconnected'
 
-  subscribe :client_heartbeat, 'event_log#log'
-  subscribe :client_connected, 'event_log#log'
-  subscribe :client_disconnected, 'event_log#log'
+  namespace :jam_timer do
+    subscribe :start_jam, 'event_log#log'
+    subscribe :stop_jam, 'event_log#log'
+    subscribe :start_lineup, 'event_log#log'
+    subscribe :start_clock, 'event_log#log'
+    subscribe :stop_clock, 'event_log#log'
+    subscribe :undo, 'event_log#log'
+    subscribe :start_timeout, 'event_log#log'
+    subscribe :mark_as_official_timeout, 'event_log#log'
+    subscribe :mark_as_home_team_timeout, 'event_log#log'
+    subscribe :mark_as_home_team_review, 'event_log#log'
+    subscribe :mark_as_away_team_timeout, 'event_log#log'
+    subscribe :mark_as_away_team_review, 'event_log#log'
+    subscribe :mark_as_ended_by_time, 'event_log#log'
+    subscribe :mark_as_ended_by_calloff, 'event_log#log'
+  end
+
+  namespace :scorekeeper do
+  end
+
+  namespace :scoreboard do
+  end
+
+  namespace :lineup_tracker do
+  end
+
+  namespace :penalty_tracker do
+  end
+
+  namespace :penalty_box_timer do
+  end
+
+  namespace :head_nso do
+  end
 end

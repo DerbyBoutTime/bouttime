@@ -21,15 +21,15 @@ class GameState < ActiveRecord::Base
   belongs_to :away, class_name: "TeamState"
   belongs_to :game
 
-  enum state: [:time_to_derby, :pregame, :jam, :lineup,
+  enum state: [:pregame, :halftime, :jam, :lineup,
    :team_timeout, :official_timeout, :official_review,
     :unofficial_final, :final]
 
   def init_demo!
     self.update_attributes!({
-        state: :time_to_derby,
-        jam_number: 1,
-        period_number: 1,
+        state: :pregame,
+        jam_number: 0,
+        period_number: 0,
         jam_clock: 90*60*1000,
         period_clock: 0,
       })

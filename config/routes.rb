@@ -3,11 +3,11 @@ Rails.application.routes.draw do
 
   get "js_tests/index"
 
-  get "/announcers_feeds", to: "home#announcers_feed"
+  get "/announcers_feed", to: "home#announcers_feed"
   get "/global_bout_notes", to: "home#global_bout_notes"
   get "/jam_timer", to: "home#jam_timer"
   get "/lineup_tracker", to: "home#lineup_tracker"
-  get "/penalty_box", to: "home#penalty_box_timer"
+  get "/penalty_box_timer", to: "home#penalty_box_timer"
   get "/penalty_tracker", to: "home#penalty_tracker"
   get "/penalty_whiteboard", to: "home#penalty_whiteboard"
   get "/scoreboard", to: "home#scoreboard"

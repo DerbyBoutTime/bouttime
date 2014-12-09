@@ -28,7 +28,7 @@ header
                   li
                     =link_to "Penalty Whiteboard", "/penalty_whiteboard", target: "_blank"
                   li
-                    =link_to "Announcers Feed", "/announcer", target: "_blank"
+                    =link_to "Announcers Feed", "/announcers_feed", target: "_blank"
                   li.divider
                   li
                     a href="#"  Sign In
@@ -56,6 +56,6 @@ header
                   img.hidden-xs src=image_path("icons/penalty-tracker.svg") width="48"
                   img.visible-xs-block src=image_path("icons/penalty-tracker.svg") width="32"
               li class="#{@active_class == "penalty_box_timer" ? "active" : ""}"
-                =link_to "/penalty_box" do
+                =link_to "/penalty_box_timer" do
                   img.hidden-xs src=image_path("icons/penalty-box.svg") width="48"
                   img.visible-xs-block src=image_path("icons/penalty-box.svg") width="32"
