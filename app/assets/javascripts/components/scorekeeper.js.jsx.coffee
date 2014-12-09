@@ -1,18 +1,29 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.Scorekeeper = React.createClass
+  # click event handlers
+  handleMainMenu: (e) ->
+    console.log e.target
+  handlePrev: (e) ->
+    console.log e.target
+  handleNext: (e) ->
+    console.log e.target
+  handleToggleTeam: (e) ->
+    console.log e.target
+
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
+
   render: () ->
     `<div id="scorekeeper-view">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.state.away.colorBarStyle} >
+          <div className="team-name" style={this.state.away.colorBarStyle} onClick={this.handleToggleTeam}>
             {this.state.away.name}
           </div>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.state.home.colorBarStyle}>
+          <div className="team-name" style={this.state.home.colorBarStyle} onClick={this.handleToggleTeam}>
             {this.state.home.name}
           </div>
         </div>
@@ -110,19 +121,19 @@ exports.Scorekeeper = React.createClass
           <div className="links">
             <div className="row text-center gutters-xs">
               <div className="col-sm-6 col-xs-6">
-                <div className="link main-menu">
+                <div className="link main-menu" onClick={this.handleMainMenu}>
                   MAIN MENU
                 </div>
               </div>
               <div className="col-sm-6 col-xs-6">
                 <div className="row gutters-xs">
                   <div className="col-sm-5 col-xs-5 col-sm-offset-1 col-xs-offset-1">
-                    <div className="link prev">
+                    <div className="link prev" onClick={this.handlePrev}>
                       PREV
                     </div>
                   </div>
                   <div className="col-sm-6 col-xs-6">
-                    <div className="link next">
+                    <div className="link next" onClick={this.handleNext}>
                       NEXT
                     </div>
                   </div>
