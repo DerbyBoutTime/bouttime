@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141209042657) do
+ActiveRecord::Schema.define(version: 20141210122152) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 20141209042657) do
     t.boolean  "nopass"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "is_selected",   default: false
   end
 
   add_index "jam_states", ["team_state_id"], name: "index_jam_states_on_team_state_id", using: :btree
@@ -148,6 +149,7 @@ ActiveRecord::Schema.define(version: 20141209042657) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "jam_state_id"
+    t.boolean  "is_selected",   default: false
   end
 
   add_index "pass_states", ["jam_state_id"], name: "index_pass_states_on_jam_state_id", using: :btree
@@ -219,6 +221,7 @@ ActiveRecord::Schema.define(version: 20141209042657) do
     t.integer  "jam_points"
     t.boolean  "has_official_review"
     t.string   "text_color"
+    t.boolean  "is_selected",               default: false
   end
 
   add_index "team_states", ["jammer_id"], name: "index_team_states_on_jammer_id", using: :btree
