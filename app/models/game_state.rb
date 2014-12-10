@@ -45,7 +45,8 @@ class GameState < ActiveRecord::Base
         is_taking_official_review: false,
         is_taking_timeout: false,
         has_official_review: true,
-        timeouts: 3
+        timeouts: 3,
+        is_selected: true
       })
     self.home.jammer.update_attributes!({
         is_lead: false,
