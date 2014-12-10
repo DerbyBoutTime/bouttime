@@ -9,12 +9,22 @@ exports.Scorekeeper = React.createClass
   handleNext: (e) ->
     console.log e.target
   handleToggleTeam: (e) ->
-    console.log e.target
+    this.state.home.isSelected = !this.state.home.isSelected
+    this.state.away.isSelected = !this.state.away.isSelected
+    this.setState(this.state)
 
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
 
   render: () ->
+    homeActiveTeamClass = cx
+      'home': true
+      'hidden-xs': !this.state.home.isSelected
+
+    awayActiveTeamClass = cx
+      'away': true
+      'hidden-xs': !this.state.away.isSelected
+
     `<div id="scorekeeper-view">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
@@ -31,10 +41,10 @@ exports.Scorekeeper = React.createClass
       <div className="active-team">
         <div className="row gutters-xs">
           <div className="col-sm-6 col-xs-6">
-            <div className="away"></div>
+            <div className={awayActiveTeamClass}></div>
           </div>
           <div className="col-sm-6 col-xs-6">
-            <div className="home hidden-xs"></div>
+            <div className={homeActiveTeamClass}></div>
           </div>
         </div>
       </div>
