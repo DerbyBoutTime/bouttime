@@ -4,7 +4,7 @@
   </div>
 
   <div class="well well-sm">
-    <%= bootstrap_form_for(@form, layout: :horizontal) do |f| %>
+    <%= bootstrap_form_for @form, url: interleague_game_reporting_forms_path, layout: :horizontal do |f| %>
       <div id="fileinput-error" class="alert alert-danger"></div>
 
       <%= f.file_field :form %>

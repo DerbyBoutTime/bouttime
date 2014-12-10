@@ -1,20 +1,18 @@
 class IgrfsController < ApplicationController
   def show
-    @form = InterleagueGameReportingForm.find(params[:id])
-    @game = @form.game
+    @igrf = InterleagueGameReportingForm.find(params[:id])
+    @game = @igrf.game
   end
 
   def new
-    @form = InterleagueGameReportingForm.new
+    @form = IgrfImport.new
   end
 
   def create
-    @form = InterleagueGameReportingForm.new(strong_parameters)
+    @form = IgrfImport.new(strong_parameters)
 
     if @form.save
-      @form.game = IgrfImporter.import(@form.form.file.file)
-
-      redirect_to @form
+      redirect_to @form.igrf
     else
       render "new"
     end
@@ -24,7 +22,7 @@ class IgrfsController < ApplicationController
 
   def strong_parameters
     params.
-      fetch(:interleague_game_reporting_form, {}).
+      fetch(:igrf_import, {}).
       permit(:form)
   end
 end

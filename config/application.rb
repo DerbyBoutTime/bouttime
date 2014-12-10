@@ -26,6 +26,7 @@ module Wftda
     end
 
     config.autoload_paths += %W(
+      #{config.root}/app/forms
       #{config.root}/app/importers
       #{config.root}/app/uploaders
     )
