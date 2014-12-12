@@ -1,5 +1,20 @@
 class JamTimerController < WebsocketRails::BaseController
-  def initialize
+  before_filter :set_game_state
+  before_filter :set_state
+  def initialize_session
+    controller_store[:game_state_id] = GameState.last.id
+  end
+
+  def jam_tick
+    puts event.name, @game_state[:jam_clock], message[:clock]
+    if @game_state[:jam_clock] != @state[:jam_clock]
+      @game_state.update_attributes!(sanitize(GameState, @state))
+      broadcast_message :jam_clock_update, @game_state.as_json()
+    end
+  end
+
+  def period_tick
+
   end
 
   def start_jam
@@ -47,4 +62,17 @@ class JamTimerController < WebsocketRails::BaseController
   def mark_as_ended_by_calloff
   end
 
+  private
+
+  def sanitize(klass, attributes)
+    attributes.reject{|k,v| !klass.attribute_names.include?(k.to_s) }
+  end
+
+  def set_game_state
+    @game_state = GameState.find(controller_store[:game_state_id])
+  end
+
+  def set_state
+    @state = message[:state].deep_transform_keys{ |key| key.to_s.underscore.to_sym }
+  end
 end

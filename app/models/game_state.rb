@@ -6,35 +6,50 @@
 #  state           :integer
 #  jam_number      :integer
 #  period_number   :integer
-#  jam_clock_label :string(255)
 #  home_id         :integer
 #  away_id         :integer
 #  game_id         :integer
 #  created_at      :datetime
 #  updated_at      :datetime
-#  jam_clock       :integer
-#  period_clock    :integer
+#  jam_clock_id    :integer
+#  period_clock_id :integer
+#  timeout         :integer
 #
 
 class GameState < ActiveRecord::Base
+  belongs_to :game
   belongs_to :home, class_name: "TeamState"
   belongs_to :away, class_name: "TeamState"
-  belongs_to :game
+  belongs_to :jam_clock, class_name: "ClockState"
+  belongs_to :period_clock, class_name: "ClockState"
 
-  enum state: [:pregame, :halftime, :jam, :lineup,
-   :team_timeout, :official_timeout, :official_review,
-    :unofficial_final, :final]
+  accepts_nested_attributes_for :home, :away, :period_clock, :jam_clock
 
-  def init_demo!
-    self.update_attributes!({
-        state: :pregame,
-        jam_number: 0,
-        period_number: 0,
-        jam_clock: 90*60*1000,
-        period_clock: 0,
-      })
-    self.build_home
-    self.home.update_attributes!({
+  enum state: %i[pregame halftime jam lineup timeout unofficial_final final]
+  enum timeout: %i[official_timeout home_team_timeout home_team_official_review away_team_timeout away_team_official_review]
+
+  def self.demo!
+    o = self.demo
+    o.save
+    o
+  end
+
+  def self.demo
+    self.new ({
+      state: :pregame,
+      jam_number: 0,
+      period_number: 0,
+      jam_clock_attributes: {
+        time: 90*60,
+        offset: 0,
+        display: "90:00"
+      },
+      period_clock_attributes: {
+        time: 0,
+        offset: 0,
+        display: "00"
+      },
+      home_attributes: {
         name: "Atlanta Rollergirls",
         initials: "ARG",
         color: "#2082a6",
@@ -46,15 +61,13 @@ class GameState < ActiveRecord::Base
         is_taking_timeout: false,
         has_official_review: true,
         timeouts: 3,
-        is_selected: true
-      })
-    self.home.jammer.update_attributes!({
-        is_lead: false,
-        name: "Nattie Long Legs",
-        number: "504"
-      })
-    self.build_away
-    self.away.update_attributes!({
+        jammer_attributes: {
+          is_lead: false,
+          name: "Nattie Long Legs",
+          number: "504"
+        }
+      },
+      away_attributes: {
         name: "Gotham Rollergirls",
         initials: "GRG",
         color: "#f50031",
@@ -65,56 +78,14 @@ class GameState < ActiveRecord::Base
         is_taking_official_review: false,
         is_taking_timeout: false,
         has_official_review: true,
-        timeouts: 3
-      })
-    self.away.jammer.update_attributes!({
-        is_lead: true,
-        name: "Bonnie Thunders",
-        number: "340"
-      })
-
-    # add jam_states and pass_states
-    js_home = self.home.jam_states.create({
-        jam_number: 1,
-        skater_number: self.home.jammer.number,
-        points: 0,
-        injury: false,
-        lead: false,
-        lost_lead: false,
-        calloff: false,
-        nopass: false
-      })
-    js_home.pass_states.create({
-        pass_number: 1,
-        skater_number: self.home.jammer.number,
-        points: 0,
-        injury: false,
-        lead: false,
-        lost_lead: false,
-        calloff: false,
-        nopass: false
-      })
-    js_away = self.away.jam_states.create({
-        jam_number: 1,
-        skater_number: self.away.jammer.number,
-        points: 0,
-        injury: false,
-        lead: false,
-        lost_lead: false,
-        calloff: false,
-        nopass: false
-      })
-    js_away.pass_states.create({
-        pass_number: 1,
-        skater_number: self.away.jammer.number,
-        points: 0,
-        injury: false,
-        lead: false,
-        lost_lead: false,
-        calloff: false,
-        nopass: false
-      })
-    self.save
+        timeouts: 3,
+        jammer_attributes: {
+          is_lead: true,
+          name: "Bonnie Thunders",
+          number: "340"
+        }
+      }
+    })
   end
 
   def jam_clock_label
@@ -123,15 +94,16 @@ class GameState < ActiveRecord::Base
 
   def as_json
     super(include: {
-          :home => {include: [:jammer, :jam_states, :pass_states]},
-          :away => {include: [:jammer, :jam_states, :pass_states]},
-          :game => {}
-        }, methods: [:jam_clock_label])
+        :home => {include: :jammer},
+        :away => {include: :jammer},
+        :jam_clock => {},
+        :period_clock => {},
+        :game => {}
+      })
   end
 
   def to_json(options = {})
     hash = self.as_json
-    hash
     JSON.pretty_generate(hash, options)
   end
 

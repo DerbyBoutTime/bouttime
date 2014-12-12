@@ -15,6 +15,9 @@ WebsocketRails::EventMap.describe do
   subscribe :client_disconnected, 'event_log#client_disconnected'
 
   namespace :jam_timer do
+    #subscribe :jam_tick, 'event_log#print'
+    subscribe :jam_tick, 'jam_timer#jam_tick'
+    #subscribe :period_tick, 'event_log#print'
     subscribe :start_jam, 'event_log#log'
     subscribe :stop_jam, 'event_log#log'
     subscribe :start_lineup, 'event_log#log'

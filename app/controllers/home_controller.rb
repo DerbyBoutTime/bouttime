@@ -57,8 +57,7 @@ class HomeController < ApplicationController
   def init_game_state
     reset_session
     if session[:game_state_id].nil?
-      gs = GameState.new
-      gs.init_demo!
+      gs = GameState.demo!
       session[:game_state_id] = gs.id
     end
     @game_state = GameState.find session[:game_state_id]
