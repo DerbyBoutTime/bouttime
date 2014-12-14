@@ -24,6 +24,10 @@ class GameState < ActiveRecord::Base
   belongs_to :period_clock, class_name: "ClockState"
 
   accepts_nested_attributes_for :home, :away, :period_clock, :jam_clock
+  alias_method :home_attributes, :home
+  alias_method :away_attributes, :away
+  alias_method :period_clock_attributes, :period_clock
+  alias_method :jam_clock_attributes, :jam_clock
 
   enum state: %i[pregame halftime jam lineup timeout unofficial_final final]
   enum timeout: %i[official_timeout home_team_timeout home_team_official_review away_team_timeout away_team_official_review]
@@ -94,10 +98,10 @@ class GameState < ActiveRecord::Base
 
   def as_json
     super(include: {
-        :home => {include: :jammer},
-        :away => {include: :jammer},
-        :jam_clock => {},
-        :period_clock => {},
+        :home_attributes => {include: :jammer, as: :home_attributes},
+        :away_attributes => {include: :jammer, as: :away_attributes},
+        :jam_clock_attributes => {},
+        :period_clock_attributes => {},
         :game => {}
       })
   end

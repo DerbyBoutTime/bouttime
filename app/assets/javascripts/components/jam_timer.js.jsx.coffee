@@ -9,21 +9,21 @@ exports.JamTimer = React.createClass
       jamNumber: this.props.jamNumber
       periodNumber: this.props.periodNumber
       jamClockAttributes:
-        display: this.props.jamClock.display
-        time: this.props.jamClock.time
-        offset: this.props.jamClock.offset
+        display: this.props.jamClockAttributes.display
+        time: this.props.jamClockAttributes.time
+        offset: this.props.jamClockAttributes.offset
       periodClockAttributes:
-        display: this.props.periodClock.display
-        time: this.props.periodClock.time
-        offset: this.props.periodClock.offset
+        display: this.props.periodClockAttributes.display
+        time: this.props.periodClockAttributes.time
+        offset: this.props.periodClockAttributes.offset
       homeAttributes:
-        timeouts: this.props.home.timeouts
-        hasOfficialReview: this.props.home.hasOfficialReview
-        officialReviewsRetained: this.props.home.officialReviewsRetained
+        timeouts: this.props.homeAttributes.timeouts
+        hasOfficialReview: this.props.homeAttributes.hasOfficialReview
+        officialReviewsRetained: this.props.homeAttributes.officialReviewsRetained
       awayAttributes:
-        timeouts: this.props.away.timeouts
-        hasOfficialReview: this.props.away.hasOfficialReview
-        officialReviewsRetained: this.props.away.officialReviewsRetained
+        timeouts: this.props.awayAttributes.timeouts
+        hasOfficialReview: this.props.awayAttributes.hasOfficialReview
+        officialReviewsRetained: this.props.awayAttributes.officialReviewsRetained
   buildOptions: (opts = {}) ->
     std_opts =
       role: 'Jam Timer'
@@ -125,8 +125,8 @@ exports.JamTimer = React.createClass
     dispatcher.trigger "jam_timer.jam_tick", this.buildOptions
       clock: this.state.jamClock
   clearJammers: () ->
-    this.state.home.jammer = {}
-    this.state.away.jammer = {}
+    this.state.homeAttributes.jammer = {}
+    this.state.awayAttributes.jammer = {}
   startJam: () ->
     this.clearTimeouts()
     this.clearJammers()
@@ -134,8 +134,8 @@ exports.JamTimer = React.createClass
     this.startJamClock()
     this.startPeriodClock()
     this.state.state = "jam"
-    this.state.home.jamPoints = 0
-    this.state.away.jamPoints = 0
+    this.state.homeAttributes.jamPoints = 0
+    this.state.awayAttributes.jamPoints = 0
     this.state.jamNumber =  this.state.jamNumber + 1
   stopJam: () ->
     this.stopClocks()
@@ -151,40 +151,40 @@ exports.JamTimer = React.createClass
     this.state.jamTime = time
   incrementHomeTeamScore: (score = 1) ->
     score = parseInt(score)
-    this.state.home.points = this.state.home.points + score
-    this.state.home.jamPoints = this.state.home.jamPoints + score
+    this.state.homeAttributes.points = this.state.homeAttributes.points + score
+    this.state.homeAttributes.jamPoints = this.state.homeAttributes.jamPoints + score
   decrementHomeTeamScore: (score = 1) ->
     score = parseInt(score)
-    this.state.home.points = this.state.home.points - score
-    this.state.home.jamPoints = this.state.home.jamPoints - score
+    this.state.homeAttributes.points = this.state.homeAttributes.points - score
+    this.state.homeAttributes.jamPoints = this.state.homeAttributes.jamPoints - score
   incrementAwayTeamScore: (score = 1) ->
     score = parseInt(score)
-    this.state.away.points = this.state.away.points + score
-    this.state.away.jamPoints = this.state.away.jamPoints + score
+    this.state.awayAttributes.points = this.state.awayAttributes.points + score
+    this.state.awayAttributes.jamPoints = this.state.awayAttributes.jamPoints + score
   decrementAwayTeamScore: (score = 1) ->
     score = parseInt(score)
-    this.state.away.points = this.state.away.points - score
-    this.state.away.jamPoints = this.state.away.jamPoints - score
+    this.state.awayAttributes.points = this.state.awayAttributes.points - score
+    this.state.awayAttributes.jamPoints = this.state.awayAttributes.jamPoints - score
   restoreHomeTeamOfficialReview: () ->
-    this.state.home.hasOfficialReview = true
+    this.state.homeAttributes.hasOfficialReview = true
   restoreAwayTeamOfficialReview: () ->
-    this.state.home.hasOfficialReview = true
+    this.state.homeAttributes.hasOfficialReview = true
   setHomeTeamName: (name) ->
-    this.state.home.name = name
+    this.state.homeAttributes.name = name
   setAwayTeamName: (name) ->
-    this.state.away.name = name
+    this.state.awayAttributes.name = name
   setHomeTeamJammer: (name) ->
-    this.state.home.jammer.name = name
+    this.state.homeAttributes.jammer.name = name
   setAwayTeamJammer: (name) ->
-    this.state.away.jammer.name = name
+    this.state.awayAttributes.jammer.name = name
   setHomeTeamLead: () ->
-    this.state.home.jammer.lead = true
+    this.state.homeAttributes.jammer.lead = true
   setAwayTeamLead: () ->
-    this.state.away.jammer.lead = true
+    this.state.awayAttributes.jammer.lead = true
   setHomeTeamNotLead: () ->
-    this.state.home.jammer.lead = false
+    this.state.homeAttributes.jammer.lead = false
   setAwayTeamNotLead: () ->
-    this.state.away.jammer.lead = false
+    this.state.awayAttributes.jammer.lead = false
   incrementPeriodNumber: (num = 1) ->
     this.state.periodNumber =  this.state.periodNumber + parseInt(num)
   decrementPeriodNumber: (num = 1) ->
@@ -209,11 +209,11 @@ exports.JamTimer = React.createClass
     this.clearTimeouts()
 
     this.state.state = "team_timeout"
-    this.state.home.timeouts = this.state.home.timeouts - 1
-    this.state.home.isTakingTimeout = true
+    this.state.homeAttributes.timeouts = this.state.homeAttributes.timeouts - 1
+    this.state.homeAttributes.isTakingTimeout = true
     this.state.undoFunction = this.state.restoreHomeTeamTimeout
   restoreHomeTeamTimeout: () ->
-    this.state.home.timeouts = this.state.home.timeouts + 1
+    this.state.homeAttributes.timeouts = this.state.homeAttributes.timeouts + 1
     this.clearTimeouts()
   assignTimeoutToAwayTeam: () ->
     if this.inTimeout() == false
@@ -221,11 +221,11 @@ exports.JamTimer = React.createClass
     this.clearTimeouts()
 
     this.state.state = "team_timeout"
-    this.state.away.timeouts = this.state.away.timeouts - 1
-    this.state.away.isTakingTimeout = true
+    this.state.awayAttributes.timeouts = this.state.awayAttributes.timeouts - 1
+    this.state.awayAttributes.isTakingTimeout = true
     this.state.undoFunction = this.state.restoreAwayTeamTimeout
   restoreAwayTeamTimeout: () ->
-    this.state.away.timeouts = this.state.away.timeouts + 1
+    this.state.awayAttributes.timeouts = this.state.awayAttributes.timeouts + 1
     this.clearTimeouts()
   inTimeout: ()->
     this.state.state == "team_timeout" || "official_timeout"
@@ -245,15 +245,15 @@ exports.JamTimer = React.createClass
     this.state.jamTime = 0
     this.startJamClock()
 
-    this.state.home.hasOfficialReview = false
-    this.state.home.isTakingOfficialReview = true
+    this.state.homeAttributes.hasOfficialReview = false
+    this.state.homeAttributes.isTakingOfficialReview = true
     this.state.state = "official_review"
     this.state.undoFunction = this.state.restoreHomeTeamOfficialReview
   restoreHomeTeamOfficialReview: (retained = false) ->
-    this.state.home.hasOfficialReview = true
+    this.state.homeAttributes.hasOfficialReview = true
     this.clearTimeouts()
     if retained
-      this.state.home.officialReviewsRetained = this.state.home.officialReviewsRetained + 1
+      this.state.homeAttributes.officialReviewsRetained = this.state.homeAttributes.officialReviewsRetained + 1
   assignTimeoutToAwayTeamOfficialReview: () ->
     if this.inTimeout() == false
       this.startTimeout()
@@ -261,15 +261,15 @@ exports.JamTimer = React.createClass
     this.state.jamTime = 0
     this.startJamClock()
 
-    this.state.away.hasOfficialReview = false
-    this.state.away.isTakingOfficialReview = true
+    this.state.awayAttributes.hasOfficialReview = false
+    this.state.awayAttributes.isTakingOfficialReview = true
     this.state.state = "official_review"
     this.state.undoFunction = this.state.restoreAwayTeamOfficialReview
   restoreAwayTeamOfficialReview: (retained = false) ->
-    this.state.away.hasOfficialReview = true
+    this.state.awayAttributes.hasOfficialReview = true
     this.clearTimeouts()
     if retained
-      this.state.away.officialReviewsRetained = this.state.away.officialReviewsRetained + 1
+      this.state.awayAttributes.officialReviewsRetained = this.state.awayAttributes.officialReviewsRetained + 1
   incrementPeriodTime: (ms = 1000) ->
     this.state.periodTime = this.state.periodTime + ms
   decrementPeriodTime: (ms = 1000) ->
@@ -278,15 +278,15 @@ exports.JamTimer = React.createClass
     this.clearTimeouts()
     this.state.inUnofficialFinal = false
     this.state.inOfficialFinal = false
-    this.state.home.isUnofficialFinal = false
-    this.state.home.isOfficialFinal = false
-    this.state.away.isUnofficialFinal = false
-    this.state.away.isOfficialFinal = false
+    this.state.homeAttributes.isUnofficialFinal = false
+    this.state.homeAttributes.isOfficialFinal = false
+    this.state.awayAttributes.isUnofficialFinal = false
+    this.state.awayAttributes.isOfficialFinal = false
   clearTimeouts: () ->
-    this.state.home.isTakingTimeout = false
-    this.state.away.isTakingTimeout = false
-    this.state.home.isTakingOfficialReview = false
-    this.state.away.isTakingOfficialReview = false
+    this.state.homeAttributes.isTakingTimeout = false
+    this.state.awayAttributes.isTakingTimeout = false
+    this.state.homeAttributes.isTakingOfficialReview = false
+    this.state.awayAttributes.isTakingOfficialReview = false
 
   formatJamClock: () ->
     exports.wftda.functions.toClock(this.state.jamTime, 2)
@@ -342,42 +342,42 @@ exports.JamTimer = React.createClass
     homeTeamOfficialReviewCS = cx
       'official-review': true
       'bar': true
-      'active': this.state.home.isTakingOfficialReview
-      'inactive': this.state.home.hasOfficialReview == false
+      'active': this.state.homeAttributes.isTakingOfficialReview
+      'inactive': this.state.homeAttributes.hasOfficialReview == false
     homeTeamTimeouts1CS = cx
       'bar': true
-      'active': this.state.home.isTakingTimeout && this.state.home.timeouts == 2
-      'inactive': this.state.home.timeouts < 3
+      'active': this.state.homeAttributes.isTakingTimeout && this.state.homeAttributes.timeouts == 2
+      'inactive': this.state.homeAttributes.timeouts < 3
     homeTeamTimeouts2CS = cx
       'bar': true
-      'active': this.state.home.isTakingTimeout && this.state.home.timeouts == 1
-      'inactive': this.state.home.timeouts < 2
+      'active': this.state.homeAttributes.isTakingTimeout && this.state.homeAttributes.timeouts == 1
+      'inactive': this.state.homeAttributes.timeouts < 2
     homeTeamTimeouts3CS = cx
       'bar': true
-      'active': this.state.home.isTakingTimeout && this.state.home.timeouts == 0
-      'inactive': this.state.home.timeouts < 1
+      'active': this.state.homeAttributes.isTakingTimeout && this.state.homeAttributes.timeouts == 0
+      'inactive': this.state.homeAttributes.timeouts < 1
     awayTeamOfficialReviewCS = cx
       'official-review': true
       'bar': true
-      'active': this.state.away.isTakingOfficialReview
-      'inactive': this.state.away.hasOfficialReview == false
+      'active': this.state.awayAttributes.isTakingOfficialReview
+      'inactive': this.state.awayAttributes.hasOfficialReview == false
     awayTeamTimeouts1CS = cx
       'bar': true
-      'active': this.state.away.isTakingTimeout && this.state.away.timeouts == 2
-      'inactive': this.state.away.timeouts < 3
+      'active': this.state.awayAttributes.isTakingTimeout && this.state.awayAttributes.timeouts == 2
+      'inactive': this.state.awayAttributes.timeouts < 3
     awayTeamTimeouts2CS = cx
       'bar': true
-      'active': this.state.away.isTakingTimeout && this.state.away.timeouts == 1
-      'inactive': this.state.away.timeouts < 2
+      'active': this.state.awayAttributes.isTakingTimeout && this.state.awayAttributes.timeouts == 1
+      'inactive': this.state.awayAttributes.timeouts < 2
     awayTeamTimeouts3CS = cx
       'bar': true
-      'active': this.state.away.isTakingTimeout && this.state.away.timeouts == 0
-      'inactive': this.state.away.timeouts < 1
+      'active': this.state.awayAttributes.isTakingTimeout && this.state.awayAttributes.timeouts == 0
+      'inactive': this.state.awayAttributes.timeouts < 1
     `<div className="jam-timer">
         <div className="row text-center">
           <div className="col-md-2 col-xs-2">
             <div className="timeout-bars home">
-              <span className="jt-label">{this.state.home.initials}</span>
+              <span className="jt-label">{this.state.homeAttributes.initials}</span>
               <div className={homeTeamOfficialReviewCS}>0</div>
               <div className={homeTeamTimeouts1CS}></div>
               <div className={homeTeamTimeouts2CS}></div>
@@ -397,17 +397,17 @@ exports.JamTimer = React.createClass
                 </strong>
               </div>
               <div className="col-md-12 col-xs-12">
-                <div className="period-clock">{this.state.periodClock.display}</div>
+                <div className="period-clock">{this.state.periodClockAttributes.display}</div>
               </div>
               <div className="col-md-12 col-xs-12">
                 <strong className="jt-label">{this.state.state}</strong>
-                <div className="jam-clock">{this.state.jamClock.display}</div>
+                <div className="jam-clock">{this.state.jamClockAttributes.display}</div>
               </div>
             </div>
           </div>
           <div className="col-md-2 col-xs-2">
             <div className="timeout-bars away">
-              <span className="jt-label">{this.state.away.initials}</span>
+              <span className="jt-label">{this.state.awayAttributes.initials}</span>
               <div className={awayTeamOfficialReviewCS}>0</div>
               <div className={awayTeamTimeouts1CS}></div>
               <div className={awayTeamTimeouts2CS}></div>
