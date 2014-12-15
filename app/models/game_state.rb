@@ -98,8 +98,8 @@ class GameState < ActiveRecord::Base
 
   def as_json
     super(include: {
-        :home_attributes => {include: [:jammer, :pass_states, :jam_states]},
-        :away_attributes => {include: [:jammer, :pass_states, :jam_states]},
+        :home_attributes => {include: [:jammer_attributes, :pass_states, :jam_states]},
+        :away_attributes => {include: [:jammer_attributes, :pass_states, :jam_states]},
         :jam_clock_attributes => {},
         :period_clock_attributes => {},
         :game => {}

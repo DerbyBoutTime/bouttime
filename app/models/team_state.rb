@@ -29,9 +29,10 @@ class TeamState < ActiveRecord::Base
   has_many :pass_states, through: :jam_states
 
   accepts_nested_attributes_for :jammer, :pass_states, :jam_states
+  alias_method :jammer_attributes, :jammer
 
   def as_json
-    super(include: [:jammer, :jam_states, :pass_states], methods: [:color_bar_style])
+    super(include: [:jammer_attributes, :jam_states, :pass_states], methods: [:color_bar_style])
   end
 
   def to_json(options = {})

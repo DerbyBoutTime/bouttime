@@ -102,7 +102,7 @@ exports.Scorekeeper = React.createClass
                 </div>
                 <div className="col-sm-2 col-xs-2">
                   <div className="skater">
-                    {this.state.awayAttributes.jammer.number}
+                    {this.state.awayAttributes.jammerAttributes.number}
                   </div>
                 </div>
                 <div className="col-sm-2 col-xs-2">

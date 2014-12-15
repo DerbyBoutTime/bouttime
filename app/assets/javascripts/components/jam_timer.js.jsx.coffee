@@ -176,17 +176,17 @@ exports.JamTimer = React.createClass
   setAwayTeamName: (name) ->
     this.state.awayAttributes.name = name
   setHomeTeamJammer: (name) ->
-    this.state.homeAttributes.jammer.name = name
+    this.state.homeAttributes.jammerAttributes.name = name
   setAwayTeamJammer: (name) ->
-    this.state.awayAttributes.jammer.name = name
+    this.state.awayAttributes.jammerAttributes.name = name
   setHomeTeamLead: () ->
-    this.state.homeAttributes.jammer.lead = true
+    this.state.homeAttributes.jammerAttributes.lead = true
   setAwayTeamLead: () ->
-    this.state.awayAttributes.jammer.lead = true
+    this.state.awayAttributes.jammerAttributes.lead = true
   setHomeTeamNotLead: () ->
-    this.state.homeAttributes.jammer.lead = false
+    this.state.homeAttributes.jammerAttributes.lead = false
   setAwayTeamNotLead: () ->
-    this.state.awayAttributes.jammer.lead = false
+    this.state.awayAttributes.jammerAttributes.lead = false
   incrementPeriodNumber: (num = 1) ->
     this.state.periodNumber =  this.state.periodNumber + parseInt(num)
   decrementPeriodNumber: (num = 1) ->

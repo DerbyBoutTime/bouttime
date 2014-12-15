@@ -46,9 +46,9 @@ ActiveRecord::Schema.define(version: 20141215012042) do
   add_index "game_officials", ["official_id"], name: "index_game_officials_on_official_id", using: :btree
 
   create_table "game_states", force: true do |t|
-    t.integer  "state"
-    t.integer  "jam_number"
-    t.integer  "period_number"
+    t.integer  "state",           limit: 2
+    t.integer  "jam_number",      limit: 2
+    t.integer  "period_number",   limit: 2
     t.integer  "home_id"
     t.integer  "away_id"
     t.integer  "game_id"
