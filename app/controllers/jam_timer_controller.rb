@@ -6,10 +6,10 @@ class JamTimerController < WebsocketRails::BaseController
   end
 
   def jam_tick
-    puts event.name, @game_state[:jam_clock], message[:clock]
-    if @game_state[:jam_clock] != @state[:jam_clock]
-      @game_state.update_attributes!(sanitize(GameState, @state))
-      broadcast_message :jam_clock_update, @game_state.as_json()
+    puts event.name, @state[:jam_clock_attributes]
+    if @game_state[:jam_clock_attributes] != @state[:jam_clock_attributes]
+      @game_state.update_attributes!(@state)
+      broadcast_message :update, @game_state.as_json()
     end
   end
 

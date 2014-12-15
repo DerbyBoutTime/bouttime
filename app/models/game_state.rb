@@ -44,14 +44,12 @@ class GameState < ActiveRecord::Base
       jam_number: 0,
       period_number: 0,
       jam_clock_attributes: {
-        time: 90*60,
-        offset: 0,
+        time: 90*60*1000,
         display: "90:00"
       },
       period_clock_attributes: {
-        time: 0,
-        offset: 0,
-        display: "00"
+        time: 90*60*1000,
+        display: "90:00"
       },
       home_attributes: {
         name: "Atlanta Rollergirls",

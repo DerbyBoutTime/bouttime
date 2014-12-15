@@ -11,11 +11,11 @@ exports.JamTimer = React.createClass
       jamClockAttributes:
         display: this.props.jamClockAttributes.display
         time: this.props.jamClockAttributes.time
-        offset: this.props.jamClockAttributes.offset
+        tick: this.props.jamClockAttributes.tick
       periodClockAttributes:
         display: this.props.periodClockAttributes.display
         time: this.props.periodClockAttributes.time
-        offset: this.props.periodClockAttributes.offset
+        tick: this.props.periodClockAttributes.tick
       homeAttributes:
         timeouts: this.props.homeAttributes.timeouts
         hasOfficialReview: this.props.homeAttributes.hasOfficialReview
@@ -27,7 +27,7 @@ exports.JamTimer = React.createClass
   buildOptions: (opts = {}) ->
     std_opts =
       role: 'Jam Timer'
-      timestamp: Date.now() / 1000
+      timestamp: Date.now()
       state: this.state
     $.extend(std_opts, opts)
   componentDidMount: () ->
@@ -78,7 +78,7 @@ exports.JamTimer = React.createClass
     this.state.lastHeartbeat = evt.timestamp
   startPeriodClock: () ->
     this.stopPeriodClock() #Clear to prevent lost interval function
-    this.state.lastPeriodTick = Date.now() / 1000.0
+    this.state.periodClockAttributes.tick = Date.now()
     exports.wftda.ticks[this.state.id].periodTickFunction = setInterval(() =>
       this.tickperiodClock()
     ,exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS)
@@ -89,7 +89,7 @@ exports.JamTimer = React.createClass
       this.stopJamClock()
   startJamClock: () ->
     this.stopJamClock() #Clear to prevent lost interval function
-    this.state.lastJamTick = Date.now() / 1000.0
+    this.state.jamClockAttributes.tick = Date.now()
     exports.wftda.ticks[this.state.id].jamTickFunction = setInterval(() =>
       this.tickjamClock()
     ,exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS)
@@ -107,30 +107,32 @@ exports.JamTimer = React.createClass
     clearInterval exports.wftda.ticks[this.state.id].periodTickFunction
     exports.wftda.ticks[this.state.id].periodTickFunction = null
   tickperiodClock: () ->
-    stopTime = Date.now() / 1000.0
-    periodDelta = stopTime - this.state.lastPeriodTick
-    this.state.lastPeriodTick = stopTime
-    this.state.periodTime = this.state.periodTime - periodDelta
-    this.state.periodTime = 0 if this.state.periodTime < 0
-    this.state.periodClock = this.formatPeriodClock()
+    stopTick = Date.now()
+    periodDelta = stopTick - this.state.periodClockAttributes.tick
+    this.state.periodClockAttributes.tick = stopTick
+    this.state.periodClockAttributes.time = this.state.periodClockAttributes.time - periodDelta
+    this.state.periodClockAttributes.time = 0 if this.state.periodClockAttributes.time < 0
+    this.state.periodClockAttributes.display = this.formatPeriodClock()
     dispatcher.trigger "jam_timer.period_tick", this.buildOptions
-      clock: this.state.periodClock
+      state:
+        periodClockAttributes: this.state.periodClock
   tickjamClock: () ->
-    stopTime = Date.now() / 1000.0
-    jamDelta = stopTime - this.state.lastJamTick
-    this.state.lastJamTick = stopTime
-    this.state.jamTime = this.state.jamTime - jamDelta
-    this.state.jamTime = 0 if this.state.jamTime < 0
-    this.state.jamClock = this.formatJamClock()
+    stopTick = Date.now()
+    jamDelta = stopTick - this.state.jamClockAttributes.tick
+    this.state.jamClockAttributes.tick = stopTick
+    this.state.jamClockAttributes.time = this.state.jamClockAttributes.time - jamDelta
+    this.state.jamClockAttributes.time = 0 if this.state.jamClockAttributes.time < 0
+    this.state.jamClockAttributes.display = this.formatJamClock()
     dispatcher.trigger "jam_timer.jam_tick", this.buildOptions
-      clock: this.state.jamClock
+      state:
+        jamClockAttributes: this.state.jamClockAttributes
   clearJammers: () ->
     this.state.homeAttributes.jammer = {}
     this.state.awayAttributes.jammer = {}
   startJam: () ->
     this.clearTimeouts()
     this.clearJammers()
-    this.state.jamTime = exports.wftda.constants.JAM_DURATION_IN_MS
+    this.state.jamClockAttributes.time = exports.wftda.constants.JAM_DURATION_IN_MS
     this.startJamClock()
     this.startPeriodClock()
     this.state.state = "jam"
@@ -142,13 +144,13 @@ exports.JamTimer = React.createClass
     this.startLineupClock()
   startLineupClock: () ->
     this.clearTimeouts()
-    this.state.jamTime = exports.wftda.constants.LINEUP_DURATION_IN_MS
+    this.state.jamClockAttributes.time = exports.wftda.constants.LINEUP_DURATION_IN_MS
     this.startJamClock()
     this.state.state = "lineup"
   setTimeToDerby: (time = 60*60*1000) ->
-    this.state.periodTime = 0
+    this.state.periodClockAttributes.time = 0
     this.state.state = "pregame"
-    this.state.jamTime = time
+    this.state.jamClockAttributes.time = time
   incrementHomeTeamScore: (score = 1) ->
     score = parseInt(score)
     this.state.homeAttributes.points = this.state.homeAttributes.points + score
@@ -200,7 +202,7 @@ exports.JamTimer = React.createClass
   startTimeout: () ->
 
     this.stopClocks()
-    this.state.jamTime = exports.wftda.constants.LINEUP_DURATION_IN_MS
+    this.state.jamClockAttributes.time = exports.wftda.constants.LINEUP_DURATION_IN_MS
     this.startJamClock()
     this.state.state = "official_timeout"
   assignTimeoutToHomeTeam: () ->
@@ -233,7 +235,7 @@ exports.JamTimer = React.createClass
     if this.inTimeout() == false
       this.startTimeout()
     this.clearTimeouts()
-    this.state.jamTime = 0
+    this.state.jamClockAttributes.time = 0
     this.stopJamClock()
     this.state.state = "official_timeout"
     this.state.inOfficialTimeout = true
@@ -242,7 +244,7 @@ exports.JamTimer = React.createClass
     if this.inTimeout() == false
       this.startTimeout()
     this.clearTimeouts()
-    this.state.jamTime = 0
+    this.state.jamClockAttributes.time = 0
     this.startJamClock()
 
     this.state.homeAttributes.hasOfficialReview = false
@@ -258,7 +260,7 @@ exports.JamTimer = React.createClass
     if this.inTimeout() == false
       this.startTimeout()
     this.clearTimeouts()
-    this.state.jamTime = 0
+    this.state.jamClockAttributes.time = 0
     this.startJamClock()
 
     this.state.awayAttributes.hasOfficialReview = false
@@ -271,9 +273,9 @@ exports.JamTimer = React.createClass
     if retained
       this.state.awayAttributes.officialReviewsRetained = this.state.awayAttributes.officialReviewsRetained + 1
   incrementPeriodTime: (ms = 1000) ->
-    this.state.periodTime = this.state.periodTime + ms
+    this.state.periodClockAttributes.time = this.state.periodClockAttributes.time + ms
   decrementPeriodTime: (ms = 1000) ->
-    this.state.periodTime = this.state.periodTime - ms
+    this.state.periodClockAttributes.time = this.state.periodClockAttributes.time - ms
   clearAlerts: () ->
     this.clearTimeouts()
     this.state.inUnofficialFinal = false
@@ -289,9 +291,9 @@ exports.JamTimer = React.createClass
     this.state.awayAttributes.isTakingOfficialReview = false
 
   formatJamClock: () ->
-    exports.wftda.functions.toClock(this.state.jamTime, 2)
+    exports.wftda.functions.toClock(this.state.jamClockAttributes.time)
   formatPeriodClock: () ->
-    exports.wftda.functions.toClock(this.state.periodTime, 2)
+    exports.wftda.functions.toClock(this.state.periodClockAttributes.time)
   render: () ->
     #CS = Class Set
     timeoutSectionCS = cx

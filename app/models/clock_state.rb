@@ -4,17 +4,17 @@
 #
 #  id         :integer          not null, primary key
 #  display    :string(16)
-#  time       :integer
-#  offset     :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  time       :integer
 #
 
 class ClockState < ActiveRecord::Base
   has_one :game_state
   validates :display, length: {maximum: 16}
-  validate :time, numericality: {only_integer: true, greater_than: -1}
-  validate :offset, numericality: {only_integer: true, greater_than: -1, less_than: 1000}
+  # validate :time, numericality: {only_integer: true, greater_than: -1}
+  # validate :offset, numericality: {only_integer: true, greater_than: -1, less_than: 1000}
+  attr_accessor :tick #time in ms
 
   def to_s(format)
     if format == :short

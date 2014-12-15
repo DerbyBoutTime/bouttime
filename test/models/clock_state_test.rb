@@ -4,10 +4,9 @@
 #
 #  id         :integer          not null, primary key
 #  display    :string(16)
-#  time       :integer
-#  offset     :integer
 #  created_at :datetime
 #  updated_at :datetime
+#  time       :integer
 #
 
 require "test_helper"
