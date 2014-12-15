@@ -40,7 +40,7 @@ $gray-base: $near-black;
 }
 
 .game{
-  .jam_timer, .lineup-tracker, .scorekeeper, .penalty-tracker, .penalty-box-timer, .scoreboard, .penalty-whiteboard, .announcers-feed {
+  .jam-timer, .lineup-tracker, .scorekeeper, .penalty-tracker, .penalty-box-timer, .scoreboard, .penalty-whiteboard, .announcers-feed {
     display: none;
   }
   &[data-tab="jam_timer"] .jam-timer {

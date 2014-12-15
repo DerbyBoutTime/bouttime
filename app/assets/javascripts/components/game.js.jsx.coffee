@@ -3,6 +3,9 @@ exports = exports ? this
 exports.Game = React.createClass
   componentDidMount: () ->
     $dom = $(this.getDOMNode())
+    $dom.on 'click', 'ul.nav li', null, (evt) =>
+      this.setState
+        tab: evt.currentTarget.dataset.tabName
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
   render: () ->

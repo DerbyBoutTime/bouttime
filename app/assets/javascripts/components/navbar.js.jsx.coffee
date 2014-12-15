@@ -9,9 +9,6 @@ exports.Navbar = React.createClass
     $.extend(std_opts, opts)
   componentDidMount: () ->
     $dom = $(this.getDOMNode())
-    $dom.on 'click', 'ul.nav li', null, (evt) =>
-      exports.dispatcher.trigger "global.change_tab", this.buildOptions
-        tab: evt.currentTarget.dataset.tabName
   getInitialState: () ->
     this.props = exports.wftda.functions.camelize(this.props)
     state =
