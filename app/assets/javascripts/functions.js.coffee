@@ -1,4 +1,15 @@
 exports = exports ? this
+
+exports.wftda.functions.connectDispatcher = () ->
+  exports.dispatcherTimeout = setTimeout( ()->
+    console.log('Connection not established... retrying')
+    exports.wftda.functions.connectDispatcher()
+  ,100)
+  exports.dispatcher = new WebSocketRails('localhost:3001/websocket')
+  exports.dispatcher.on_open = (data) ->
+    console.log('Connection has been established');
+    clearTimeout(exports.dispatcherTimeout)
+exports.wftda.functions.connectDispatcher()
 exports.wftda.functions.uniqueId = (length=8) ->
   id = ""
   id += Math.random().toString(36).substr(2) while id.length < length
