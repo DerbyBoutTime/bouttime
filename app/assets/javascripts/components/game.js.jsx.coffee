@@ -6,6 +6,7 @@ exports.Game = React.createClass
     $dom.on 'click', 'ul.nav li', null, (evt) =>
       this.setState
         tab: evt.currentTarget.dataset.tabName
+
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
   render: () ->
@@ -18,7 +19,6 @@ exports.Game = React.createClass
     penaltyWhiteboard = React.createElement(PenaltyWhiteboard, this.state)
     announcersFeed = React.createElement(AnnouncersFeed, this.state)
     gameNotes = React.createElement(GameNotes, this.state)
-
     `<div className="game" data-tab={this.state.tab}>
       <header>
         <div className="container-fluid">

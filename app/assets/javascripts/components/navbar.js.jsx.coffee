@@ -10,9 +10,11 @@ exports.Navbar = React.createClass
   componentDidMount: () ->
     $dom = $(this.getDOMNode())
   getInitialState: () ->
-    this.props = exports.wftda.functions.camelize(this.props)
+    props = exports.wftda.functions.camelize(this.props)
     state =
-      tab: this.props.tab
+      tab: props.tab
+  componentWillReceiveProps: (props) ->
+    this.state.tab = props.tab
   render: () ->
     jamTimerCS = cx
       'active': this.state.tab == "jam_timer"
@@ -24,6 +26,12 @@ exports.Navbar = React.createClass
       'active': this.state.tab == "penalty_tracker"
     penaltyBoxTimerCS = cx
       'active': this.state.tab == "penalty_box_timer"
+    scoreboardCS = cx
+      'active': this.state.tab == "scoreboard"
+    penaltyWhiteboardCS = cx
+      'active': this.state.tab == "penalty_whiteboard"
+    announcersFeedCS = cx
+      'active': this.state.tab == "announcers_feed"
     `<div className="navbar">
       <div className="container">
         <div className="row">
@@ -54,6 +62,24 @@ exports.Navbar = React.createClass
                 </a>
               </li>
               <li className={penaltyBoxTimerCS} data-tab-name="penalty_box_timer">
+                <a href="#">
+                  <img className="hidden-xs" src="/assets/icons/penalty-box.svg" width="48"/>
+                  <img className="visible-xs-block" src="/assets/icons/penalty-box.svg" width="32"/>
+                </a>
+              </li>
+              <li className={scoreboardCS} data-tab-name="scoreboard">
+                <a href="#">
+                  <img className="hidden-xs" src="/assets/icons/penalty-box.svg" width="48"/>
+                  <img className="visible-xs-block" src="/assets/icons/penalty-box.svg" width="32"/>
+                </a>
+              </li>
+              <li className={penaltyWhiteboardCS} data-tab-name="penalty_whiteboard">
+                <a href="#">
+                  <img className="hidden-xs" src="/assets/icons/penalty-box.svg" width="48"/>
+                  <img className="visible-xs-block" src="/assets/icons/penalty-box.svg" width="32"/>
+                </a>
+              </li>
+              <li className={announcersFeedCS} data-tab-name="announcers_feed">
                 <a href="#">
                   <img className="hidden-xs" src="/assets/icons/penalty-box.svg" width="48"/>
                   <img className="visible-xs-block" src="/assets/icons/penalty-box.svg" width="32"/>
