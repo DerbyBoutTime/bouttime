@@ -6,4 +6,4 @@ exports.PenaltyBoxTimer = React.createClass
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
   render: () ->
-    `<div class="penalty-box-timer"></div>`
+    `<div className="penalty-box-timer"></div>`

@@ -28,7 +28,7 @@ class TeamState < ActiveRecord::Base
   has_many :jam_states
   has_many :pass_states, through: :jam_states
 
-  accepts_nested_attributes_for :jammer
+  accepts_nested_attributes_for :jammer, :pass_states, :jam_states
 
   def as_json
     super(include: [:jammer, :jam_states, :pass_states], methods: [:color_bar_style])

@@ -14,6 +14,7 @@
 #  jam_clock_id    :integer
 #  period_clock_id :integer
 #  timeout         :integer
+#  tab             :integer          default(0)
 #
 
 require "test_helper"

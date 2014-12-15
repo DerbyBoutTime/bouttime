@@ -14,6 +14,7 @@
 #  jam_clock_id    :integer
 #  period_clock_id :integer
 #  timeout         :integer
+#  tab             :integer          default(0)
 #
 
 class GameState < ActiveRecord::Base
@@ -29,6 +30,7 @@ class GameState < ActiveRecord::Base
   alias_method :period_clock_attributes, :period_clock
   alias_method :jam_clock_attributes, :jam_clock
 
+  enum tab: %i[jam_timer lineup_tracker scorekeeper penalty_tracker penalty_box_timer game_notes scoreboard penalty_whiteboard announcers]
   enum state: %i[pregame halftime jam lineup timeout unofficial_final final]
   enum timeout: %i[official_timeout home_team_timeout home_team_official_review away_team_timeout away_team_official_review]
 
@@ -96,8 +98,8 @@ class GameState < ActiveRecord::Base
 
   def as_json
     super(include: {
-        :home_attributes => {include: :jammer, as: :home_attributes},
-        :away_attributes => {include: :jammer, as: :away_attributes},
+        :home_attributes => {include: [:jammer, :pass_states, :jam_states]},
+        :away_attributes => {include: [:jammer, :pass_states, :jam_states]},
         :jam_clock_attributes => {},
         :period_clock_attributes => {},
         :game => {}

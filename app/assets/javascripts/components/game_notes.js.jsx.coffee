@@ -1,9 +1,9 @@
 cx = React.addons.classSet
 exports = exports ? this
-exports.AnnouncerFeed = React.createClass
+exports.GameNotes = React.createClass
   componentDidMount: () ->
     $dom = $(this.getDOMNode())
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
   render: () ->
-    `<div class="announcer-feed"></div>`
+    `<div className="global-bout-notes"></div>`

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root "home#jam_timer"
+  root "home#index"
 
   get "js_tests/index"
 

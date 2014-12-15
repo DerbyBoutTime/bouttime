@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   before_action :init_game_state
   def index
+    @props = @game_state.to_json
   end
 
   def jam_timer

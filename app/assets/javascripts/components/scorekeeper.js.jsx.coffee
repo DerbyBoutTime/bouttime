@@ -9,8 +9,8 @@ exports.Scorekeeper = React.createClass
   handleNext: (e) ->
     console.log e.target
   handleToggleTeam: (e) ->
-    this.state.home.isSelected = !this.state.home.isSelected
-    this.state.away.isSelected = !this.state.away.isSelected
+    this.state.homeAttributes.isSelected = !this.state.homeAttributes.isSelected
+    this.state.awayAttributes.isSelected = !this.state.awayAttributes.isSelected
     this.setState(this.state)
 
   getInitialState: () ->
@@ -19,22 +19,22 @@ exports.Scorekeeper = React.createClass
   render: () ->
     homeActiveTeamClass = cx
       'home': true
-      'hidden-xs': !this.state.home.isSelected
+      'hidden-xs': !this.state.homeAttributes.isSelected
 
     awayActiveTeamClass = cx
       'away': true
-      'hidden-xs': !this.state.away.isSelected
+      'hidden-xs': !this.state.awayAttributes.isSelected
 
     `<div id="scorekeeper-view">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.state.away.colorBarStyle} onClick={this.handleToggleTeam}>
-            {this.state.away.name}
+          <div className="team-name" style={this.state.awayAttributes.colorBarStyle} onClick={this.handleToggleTeam}>
+            {this.state.awayAttributes.name}
           </div>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.state.home.colorBarStyle} onClick={this.handleToggleTeam}>
-            {this.state.home.name}
+          <div className="team-name" style={this.state.homeAttributes.colorBarStyle} onClick={this.handleToggleTeam}>
+            {this.state.homeAttributes.name}
           </div>
         </div>
       </div>
@@ -70,7 +70,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>{this.state.away.points}</strong>
+                    <strong>{this.state.awayAttributes.points}</strong>
                   </div>
                 </div>
               </div>
@@ -102,7 +102,7 @@ exports.Scorekeeper = React.createClass
                 </div>
                 <div className="col-sm-2 col-xs-2">
                   <div className="skater">
-                    {this.state.away.jammer.number}
+                    {this.state.awayAttributes.jammer.number}
                   </div>
                 </div>
                 <div className="col-sm-2 col-xs-2">
@@ -165,7 +165,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <PassesList passes={this.state.away.passStates} teamType="away" />
+          <PassesList passes={this.state.awayAttributes.passStates} teamType="away" />
         </div>
         <div className="col-sm-6 col-xs-12 hidden-xs" id="home-team">
           <div className="row stats gutters-xs">
@@ -188,7 +188,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>{this.state.home.points}</strong>
+                    <strong>{this.state.homeAttributes.points}</strong>
                   </div>
                 </div>
               </div>
@@ -283,7 +283,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <PassesList passes={this.state.home.passStates} teamType="home" />
+          <PassesList passes={this.state.homeAttributes.passStates} teamType="home" />
         </div>
       </div>
     </div>`
