@@ -4,7 +4,7 @@ exports.wftda.functions.connectDispatcher = () ->
   exports.dispatcherTimeout = setTimeout( ()->
     console.log('Connection not established... retrying')
     exports.wftda.functions.connectDispatcher()
-  ,100)
+  ,exports.wftda.constants.WEBSOCKETS_RETRY_TIME_IN_MS)
   exports.dispatcher = new WebSocketRails('localhost:3001/websocket')
   exports.dispatcher.on_open = (data) ->
     console.log('Connection has been established');
