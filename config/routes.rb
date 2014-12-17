@@ -17,6 +17,4 @@ Rails.application.routes.draw do
     get "jam_timer", on: :member, to: "displays#jam_timer"
     get "scorekeeper", on: :member, to: "displays#scorekeeper"
   end
-
-  resources :igrfs, as: "interleague_game_reporting_forms", only: [:show, :new, :create]
 end

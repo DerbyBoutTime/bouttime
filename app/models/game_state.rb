@@ -9,7 +9,6 @@
 #  jam_clock_label :string(255)
 #  home_id         :integer
 #  away_id         :integer
-#  game_id         :integer
 #  created_at      :datetime
 #  updated_at      :datetime
 #  jam_clock       :integer
@@ -19,7 +18,6 @@
 class GameState < ActiveRecord::Base
   belongs_to :home, class_name: "TeamState"
   belongs_to :away, class_name: "TeamState"
-  belongs_to :game
 
   enum state: [:pregame, :halftime, :jam, :lineup,
    :team_timeout, :official_timeout, :official_review,
