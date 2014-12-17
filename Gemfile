@@ -68,5 +68,4 @@ gem "minitest-rails", group: [:test]
 gem "minitest-stub_any_instance", group: [:test]
 
 # deployment
-gem "capistrano", group: [:deployment]
-gem "capistrano-rails", group: [:deployment]
+gem "capistrano-rails", group: [:development]
