@@ -24,7 +24,5 @@
 //= require camelize
 //= require functions
 //= require displays/scorekeeper
-//= require fileinput
-//= require igrf
 //= require components/components
 React.initializeTouchEvents(true);

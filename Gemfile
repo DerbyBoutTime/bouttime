@@ -7,8 +7,8 @@ gem "dotenv-rails"
 
 # rails
 gem "rails", "4.1.5"
+gem "react-rails", "~> 1.0.0.pre", github: "reactjs/react-rails"
 gem "websocket-rails"
-gem 'react-rails', '~> 1.0.0.pre', github: 'reactjs/react-rails'
 
 # railsish
 gem "bcrypt", "~> 3.1.7"
@@ -34,10 +34,6 @@ gem "sass-rails", "~> 4.0.3"
 gem "coffee-rails", "~> 4.0.0"
 gem "jquery-rails"
 gem "therubyracer", platforms: [:ruby]
-
-# igrf documents
-gem "carrierwave"
-gem "rubyXL"
 
 # error reporting
 gem "airbrake"
