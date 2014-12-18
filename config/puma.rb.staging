@@ -1,19 +1,20 @@
 preload_app!
 
-bind          "unix:///home/bouttime/applications/bouttime/shared/tmp/sockets/puma.socket"
+bind          "unix:///home/deploy/applications/bouttime/shared/tmp/sockets/puma.socket"
 environment   "staging"
-pidfile       "/home/bouttime/applications/bouttime/shared/tmp/pids/puma.pid"
+pidfile       "/home/deploy/applications/bouttime/shared/tmp/pids/puma.pid"
 rackup        DefaultRackup
-state_path    "/home/bouttime/applications/bouttime/shared/tmp/pids/puma.state"
+state_path    "/home/deploy/applications/bouttime/shared/tmp/pids/puma.state"
 tag           "bouttime"
 threads       1, 16
 workers       3
 
 on_worker_boot do
   ActiveSupport.on_load(:active_record) do
-    config = ActiveRecord::Base.configurations[Rails.env] ||
+    if config = ActiveRecord::Base.configurations[Rails.env] ||
                 Rails.application.config.database_configuration[Rails.env]
-    config['pool'] = 16
-    ActiveRecord::Base.establish_connection(config)
+      config['pool'] = 16
+      ActiveRecord::Base.establish_connection(config)
+    end
   end
 end
