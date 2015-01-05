@@ -69,20 +69,20 @@ exports.Navbar = React.createClass
               </li>
               <li className={scoreboardCS} data-tab-name="scoreboard">
                 <a href="#">
-                  <img className="hidden-xs" src="/assets/icons/penalty-box.svg" width="48"/>
-                  <img className="visible-xs-block" src="/assets/icons/penalty-box.svg" width="32"/>
+                  <img className="hidden-xs" src="/assets/icons/scoreboard.svg" width="48"/>
+                  <img className="visible-xs-block" src="/assets/icons/scoreboard.svg" width="32"/>
                 </a>
               </li>
               <li className={penaltyWhiteboardCS} data-tab-name="penalty_whiteboard">
                 <a href="#">
-                  <img className="hidden-xs" src="/assets/icons/penalty-box.svg" width="48"/>
-                  <img className="visible-xs-block" src="/assets/icons/penalty-box.svg" width="32"/>
+                  <img className="hidden-xs" src="/assets/icons/whiteboard.svg" width="48"/>
+                  <img className="visible-xs-block" src="/assets/icons/whiteboard.svg" width="32"/>
                 </a>
               </li>
               <li className={announcersFeedCS} data-tab-name="announcers_feed">
                 <a href="#">
-                  <img className="hidden-xs" src="/assets/icons/penalty-box.svg" width="48"/>
-                  <img className="visible-xs-block" src="/assets/icons/penalty-box.svg" width="32"/>
+                  <img className="hidden-xs" src="/assets/icons/announcers-feed.svg" width="48"/>
+                  <img className="visible-xs-block" src="/assets/icons/announcers-feed.svg" width="32"/>
                 </a>
               </li>
             </ul>
