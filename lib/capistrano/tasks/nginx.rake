@@ -10,8 +10,8 @@ namespace :nginx do
         execute(:diff, '-Naur', release_path.join('config/nginx.conf'), latest_release_path.join('config/nginx.conf')) rescue raise(NginxRestartRequired)
       rescue NginxRestartRequired
         set(:nginx_restart_required, true)
-        execute(:cp, release_path.join("config/nginx.conf"), "/etc/nginx/sites-available/bouttime")
-        execute :sudo, "/usr/local/bin/nginx_ensite bouttime"
+        execute(:cp, release_path.join("config/nginx.conf"), "/etc/nginx/sites-available/#{fetch(:application)}")
+        execute :sudo, "/usr/local/bin/nginx_ensite #{fetch(:application)}"
       end
     end
   end

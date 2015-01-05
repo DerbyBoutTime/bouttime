@@ -1,14 +1,13 @@
-# config valid only for Capistrano 3.1
-lock '3.2.1'
+lock '~> 3.3'
 
 set :application, 'bouttime'
 set :repo_url, 'git@github.com:WFTDA/bouttime.git'
 
 # Default branch is :master
-ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call
+set :branch, ENV["CAP_BRANCH"] || :master
 
 # Default deploy_to directory is /var/www/my_app
-set :deploy_to, '/home/bouttime/applications/bouttime'
+set :deploy_to, "~/applications/#{fetch(:application)}"
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -54,10 +53,12 @@ namespace :deploy do
     on roles(:app), in: :parallel do
       within current_path do
         host.properties.processes.each do |process|
+          next if fetch(:foreman_restart_required)
+
           if process == "web" && test("[ -f #{shared_path.join(fetch(:puma_pid))} ]") && test("kill -0 $( cat #{shared_path.join(fetch(:puma_pid))} )")
             execute :bundle, "exec", "pumactl", "-S", shared_path.join(fetch(:puma_state)), "phased-restart"
           else
-            execute :sudo, "restart bouttime/bouttime-#{process}"
+            execute :sudo, "restart #{host.user}/#{fetch(:application)}-#{process}"
           end
         end
       end

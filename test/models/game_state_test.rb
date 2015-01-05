@@ -8,7 +8,6 @@
 #  period_number   :integer
 #  home_id         :integer
 #  away_id         :integer
-#  game_id         :integer
 #  created_at      :datetime
 #  updated_at      :datetime
 #  jam_clock_id    :integer
