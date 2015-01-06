@@ -21,8 +21,10 @@ exports.wftda.functions.pad = (num, digits) ->
     num
 # Take time in seconds and offset in milliseconds and formats it as a string
 exports.wftda.functions.toClock = (time, offset = false) ->
-  hours = Math.floor(time / exports.wftda.constants.HOUR_IN_MS)
-  minutes = Math.floor((time % exports.wftda.constants.HOUR_IN_MS) / exports.wftda.constants.MINUTE_IN_MS)
+  # hours = Math.floor(time / exports.wftda.constants.HOUR_IN_MS)
+  hours = 0
+  #minutes = Math.floor((time % exports.wftda.constants.HOUR_IN_MS) / exports.wftda.constants.MINUTE_IN_MS)
+  minutes = Math.floor(time / exports.wftda.constants.MINUTE_IN_MS)
   seconds = Math.floor((time % exports.wftda.constants.MINUTE_IN_MS) / exports.wftda.constants.SECOND_IN_MS)
   milliseconds = time % exports.wftda.constants.SECOND_IN_MS
 

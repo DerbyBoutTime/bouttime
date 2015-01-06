@@ -96,10 +96,17 @@ class GameState < ActiveRecord::Base
 
   def as_json
     super(include: {
-        :home_attributes => {include: [:jammer_attributes, :pass_states, :jam_states]},
-        :away_attributes => {include: [:jammer_attributes, :pass_states, :jam_states]},
-        :jam_clock_attributes => {},
-        :period_clock_attributes => {},
+        :home_attributes => {
+          include: {
+            jammer_attributes: {except: [:created_at, :updated_at]},
+            pass_states: {},
+            jam_states: {}
+          },
+          except: [:created_at, :updated_at]
+        },
+        :away_attributes => {include: [:jammer_attributes, :pass_states, :jam_states], except: [:created_at, :updated_at]},
+        :jam_clock_attributes => {except: [:created_at, :updated_at]},
+        :period_clock_attributes => {except: [:created_at, :updated_at]},
         :game => {}
       })
   end

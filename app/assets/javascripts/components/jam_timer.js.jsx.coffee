@@ -8,22 +8,22 @@ exports.JamTimer = React.createClass
       state: this.props.state
       jamNumber: this.props.jamNumber
       periodNumber: this.props.periodNumber
-      jamClockAttributes:
-        display: this.props.jamClockAttributes.display
-        time: this.props.jamClockAttributes.time
-        tick: this.props.jamClockAttributes.tick
-      periodClockAttributes:
-        display: this.props.periodClockAttributes.display
-        time: this.props.periodClockAttributes.time
-        tick: this.props.periodClockAttributes.tick
-      homeAttributes:
-        timeouts: this.props.homeAttributes.timeouts
-        hasOfficialReview: this.props.homeAttributes.hasOfficialReview
-        officialReviewsRetained: this.props.homeAttributes.officialReviewsRetained
-      awayAttributes:
-        timeouts: this.props.awayAttributes.timeouts
-        hasOfficialReview: this.props.awayAttributes.hasOfficialReview
-        officialReviewsRetained: this.props.awayAttributes.officialReviewsRetained
+      jamClockAttributes: this.props.jamClockAttributes
+        # display: this.props.jamClockAttributes.display
+        # time: this.props.jamClockAttributes.time
+        # tick: this.props.jamClockAttributes.tick
+      periodClockAttributes: this.props.periodClockAttributes
+        # display: this.props.periodClockAttributes.display
+        # time: this.props.periodClockAttributes.time
+        # tick: this.props.periodClockAttributes.tick
+      homeAttributes: this.props.homeAttributes
+        # timeouts: this.props.homeAttributes.timeouts
+        # hasOfficialReview: this.props.homeAttributes.hasOfficialReview
+        # officialReviewsRetained: this.props.homeAttributes.officialReviewsRetained
+      awayAttributes: this.props.awayAttributes
+        # timeouts: this.props.awayAttributes.timeouts
+        # hasOfficialReview: this.props.awayAttributes.hasOfficialReview
+        # officialReviewsRetained: this.props.awayAttributes.officialReviewsRetained
   buildOptions: (opts = {}) ->
     std_opts =
       role: 'Jam Timer'
