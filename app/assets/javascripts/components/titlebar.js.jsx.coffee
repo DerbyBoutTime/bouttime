@@ -16,15 +16,6 @@ exports.Titlebar = React.createClass
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a href="/scoreboard" target="_blank">Scoreboard</a>
-                </li>
-                <li>
-                  <a href="/penalty_whiteboard" target="_blank">Penalty Whiteboard</a>
-                </li>
-                <li>
-                  <a href="/announcers_feed" target="_blank">Announcers Feed</a></li>
-                <li className="divider"></li>
-                <li>
                   <a href="#"> Sign In</a>
                 </li>
               </ul>
