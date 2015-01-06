@@ -10,7 +10,7 @@
   }
 }
 
-.scorekeeper {
+.scorekeeper, .lineup-tracker {
   .team-name {
     border: 1px solid $gray;
     border-radius: 2px;
@@ -36,7 +36,9 @@
       border-radius: 2px;
     }
   }
+}
 
+.scorekeeper {
   .stats {
     margin-top: 4px;
   }

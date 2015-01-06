@@ -12,6 +12,7 @@ $gray-base: $near-black;
 
 @import "header";
 @import "jam-timer";
+@import "lineup-tracker";
 @import "scoreboard";
 @import "scorekeeper";
 
@@ -64,4 +65,10 @@ $gray-base: $near-black;
   &[data-tab="announcers_feed"] .announcers-feed {
     display: block;
   }
+}
+.boxed-good {
+  border: 1px solid $gray;
+  border-radius: 2px;
+  font-size: 1.1em;
+  line-height: 30px;
 }
