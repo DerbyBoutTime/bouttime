@@ -4,8 +4,8 @@ exports.JamsList = React.createClass
     console.log this.props
     JamItemFactory = React.createFactory(JamItem)
     jamComponents = this.props.jams.map (jam) =>
-      JamItemFactory({number: this.props.jamNumber, skater: this.props.jammerAttributes.number})
-    jamComponents.push(JamItemFactory({number: this.props.jams.length+1, skater: "Skater"}))
+      JamItemFactory({key: this.props.jamNumber, number: this.props.jamNumber, skater: this.props.jammerAttributes.number, teamType: this.props.teamType})
+    jamComponents.push(JamItemFactory({key: "0", number: this.props.jams.length+1, skater: "Skater", teamType: this.props.teamType}))
     return(
       `<div className="jams">
         <div className="headers">

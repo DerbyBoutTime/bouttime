@@ -83,7 +83,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <JamsList jams={this.state.awayAttributes.jamStates} />
+          <JamsList jams={this.state.awayAttributes.jamStates} teamType="away" />
           <div className="links">
             <div className="row text-center gutters-xs">
               <div className="col-sm-6 col-xs-6">
