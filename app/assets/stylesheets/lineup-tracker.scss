@@ -4,16 +4,9 @@
   }
 
   .jam-detail {
-    .jam-detail-number, .jam-detail-no-pivot, .jam-detail-star-pass {
-      border: 1px solid $gray;
-      border-radius: 2px;
-      font-size: 1.1em;
-      line-height: 30px;
-    }
-
     .jam-detail-number {
-      color: $white;
       background-color: $near-black;
+      color: $white;
     }
 
     .jam-detail-no-pivot, .jam-detail-star-pass {
@@ -33,20 +26,12 @@
 
     .skater {
       background-color: $blue;
-      border: 1px solid $gray;
-      border-radius: 2px;
       color: $white;
-      font-size: 1.1em;
-      line-height: 30px;
     }
 
     .skater-selector {
       background-color: $gray;
-      border: 1px solid $gray;
-      border-radius: 2px;
       color: $light-gray;
-      font-size: 1.1em;
-      line-height: 30px;
     }
 
     .skater-injury {
@@ -63,8 +48,6 @@
 
     .box-toggle {
       color: $gray;
-      border: 1px solid $gray;
-      border-radius: 2px;
       font-size: 0.7em;
       line-height: 15px;
       margin-top: 15px;
@@ -72,10 +55,6 @@
 
     .box {
       color: $gray;
-      border: 1px solid $gray;
-      border-radius: 2px;
-      font-size: 1.1em;
-      line-height: 30px;
     }
 
     .box-injury {
@@ -87,10 +66,6 @@
     margin-top: 14px;
 
     .actions-action {
-      border: 1px solid $gray;
-      border-radius: 2px;
-      font-size: 1.1em;
-      line-height: 30px;
     }
 
     .actions-edit {
