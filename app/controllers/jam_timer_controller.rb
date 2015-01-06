@@ -1,20 +1,29 @@
 class JamTimerController < WebsocketRails::BaseController
-  before_filter :set_game_state
-  before_filter :set_state
+  before_filter :set_game_state, except: :set_game_state_id
+  before_filter :set_state, except: :set_game_state_id
   def initialize_session
+    puts "Initialize Session"
     controller_store[:game_state_id] = GameState.last.id
+    connection_store[:game_state_id] = GameState.last.id
+  end
+
+  def set_game_state_id
+    puts event.name, message
+    controller_store[:game_state_id] = message[:game_state_id]
+    connection_store[:game_state_id] = message[:game_state_id]
+    puts "Switching to GS##{controller_store[:game_state_id]}"
   end
 
   def jam_tick
-    puts event.name, @state[:jam_clock_attributes]
+    puts "#{event.name} for GS##{@game_state.id}", @state[:jam_clock_attributes]
     @game_state.update_attributes! jam_clock_attributes: @state[:jam_clock_attributes]
-    send_message :update, @game_state.as_json()
+    broadcast_message :update, @game_state.as_json()
   end
 
   def period_tick
-    puts event.name, @state[:period_clock_attributes]
+    puts "#{event.name} for GS##{@game_state.id}", @state[:period_clock_attributes]
     @game_state.update_attributes! period_clock_attributes: @state[:period_clock_attributes]
-    send_message :update, @game_state.as_json()
+    broadcast_message :update, @game_state.as_json()
   end
 
   def start_jam

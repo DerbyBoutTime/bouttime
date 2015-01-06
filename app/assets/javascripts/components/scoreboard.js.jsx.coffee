@@ -5,7 +5,7 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.Scoreboard = React.createClass
   render: () ->
-    console.log "Jam Time: #{this.props.jamClockAttributes.display}"
+    console.log "Period Time: #{this.props.periodClockAttributes.display}"
     `<div className="scoreboard" id="scoreboard">
       <section className="team home">
         <div className="logo">

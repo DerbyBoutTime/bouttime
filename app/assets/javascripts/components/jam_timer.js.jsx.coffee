@@ -4,6 +4,7 @@ exports.JamTimer = React.createClass
   getInitialState: () ->
     this.props = exports.wftda.functions.camelize(this.props)
     state =
+      id: this.props.id
       componentId: exports.wftda.functions.uniqueId()
       state: this.props.state
       jamNumber: this.props.jamNumber
@@ -119,7 +120,7 @@ exports.JamTimer = React.createClass
     clearInterval exports.wftda.ticks[this.state.id].periodTickFunction
     exports.wftda.ticks[this.state.id].periodTickFunction = null
   tickPeriodClock: () ->
-    console.log("tick period clock")
+    #console.log("tick period clock")
     stopTick = Date.now()
     periodDelta = stopTick - this.state.periodClockAttributes.tick
     this.state.periodClockAttributes.tick = stopTick
@@ -139,6 +140,7 @@ exports.JamTimer = React.createClass
     this.state.jamClockAttributes.display = this.formatJamClock()
     dispatcher.trigger "jam_timer.jam_tick", this.buildOptions
       state:
+        id: this.state.id
         jamClockAttributes: this.state.jamClockAttributes
   clearJammers: () ->
     this.state.homeAttributes.jammer = {}
