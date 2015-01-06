@@ -130,7 +130,7 @@ exports.JamTimer = React.createClass
       state:
         periodClockAttributes: this.state.periodClockAttributes
   tickJamClock: () ->
-    console.log("tick jam clock")
+    #console.log("tick jam clock")
     stopTick = Date.now()
     jamDelta = stopTick - this.state.jamClockAttributes.tick
     this.state.jamClockAttributes.tick = stopTick
@@ -144,7 +144,7 @@ exports.JamTimer = React.createClass
     this.state.homeAttributes.jammer = {}
     this.state.awayAttributes.jammer = {}
   startJam: () ->
-    console.log("start jam")
+    #console.log("start jam")
     this.clearTimeouts()
     this.clearJammers()
     this.state.jamClockAttributes.time = exports.wftda.constants.JAM_DURATION_IN_MS

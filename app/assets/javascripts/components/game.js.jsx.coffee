@@ -7,11 +7,13 @@ exports.Game = React.createClass
       this.setState
         tab: evt.currentTarget.dataset.tabName
     exports.dispatcher.bind 'update', (state) =>
-      this.setState(state)
+      console.log "Update received"
+      this.setState(exports.wftda.functions.camelize(state))
   getInitialState: () ->
     $.extend exports.wftda.functions.camelize(this.props),
       tab: "jam_timer"
   render: () ->
+    # console.log "Jam Time: #{this.state.jamClockAttributes.display}"
     jamTimer            = React.createElement(JamTimer, this.state)
     lineupTracker       = React.createElement(LineupTracker, this.state)
     scorekeeper         = React.createElement(Scorekeeper, this.state)
