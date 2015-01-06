@@ -28,8 +28,18 @@ exports.Scorekeeper = React.createClass
       'home': true
       'hidden-xs': !this.state.homeAttributes.isSelected
 
+    homeContainerClass = cx
+      'col-sm-6': true
+      'col-xs-12': true
+      'hidden-xs': !this.state.homeAttributes.isSelected
+
     awayActiveTeamClass = cx
       'away': true
+      'hidden-xs': !this.state.awayAttributes.isSelected
+
+    awayContainerClass = cx
+      'col-sm-6': true
+      'col-xs-12': true
       'hidden-xs': !this.state.awayAttributes.isSelected
 
     `<div className="scorekeeper">
@@ -56,7 +66,7 @@ exports.Scorekeeper = React.createClass
         </div>
       </div>
       <div className="row gutters-xs">
-        <div className="col-sm-6 col-xs-12" id="away-team">
+        <div className={awayContainerClass} id="away-team">
           <div className="row stats gutters-xs">
             <div className="col-sm-6 col-xs-6">
               <div className="stat current-jam">
@@ -121,9 +131,9 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <PassesList passes={this.state.awayAttributes.passStates} teamType="away" />
+          <PassesList passes={this.state.awayAttributes.passStates} teamType="away" roster={this.state.awayAttributes.skaterStates} />
         </div>
-        <div className="col-sm-6 col-xs-12 hidden-xs" id="home-team">
+        <div className={homeContainerClass} id="home-team">
           <div className="row stats gutters-xs">
             <div className="col-sm-6 col-xs-6">
               <div className="stat current-jam">

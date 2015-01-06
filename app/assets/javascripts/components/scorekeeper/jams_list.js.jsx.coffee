@@ -1,7 +1,6 @@
 exports = exports ? this
 exports.JamsList = React.createClass
   render: () ->
-    console.log this.props
     JamItemFactory = React.createFactory(JamItem)
     jamComponents = this.props.jams.map (jam) =>
       JamItemFactory({key: this.props.jamNumber, number: this.props.jamNumber, skater: this.props.jammerAttributes.number, teamType: this.props.teamType})
