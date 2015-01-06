@@ -9,7 +9,8 @@ exports.Game = React.createClass
     exports.dispatcher.bind 'update', (state) =>
       this.setState(state)
   getInitialState: () ->
-    exports.wftda.functions.camelize(this.props) #.extend
+    $.extend exports.wftda.functions.camelize(this.props),
+      tab: "jam_timer"
   render: () ->
     jamTimer            = React.createElement(JamTimer, this.state)
     lineupTracker       = React.createElement(LineupTracker, this.state)

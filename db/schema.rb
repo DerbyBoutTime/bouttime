@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141217150000) do
+ActiveRecord::Schema.define(version: 20150106111344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,7 +42,6 @@ ActiveRecord::Schema.define(version: 20141217150000) do
     t.integer  "jam_clock_id"
     t.integer  "period_clock_id"
     t.integer  "timeout",         limit: 2
-    t.integer  "tab",             limit: 2, default: 0
   end
 
   add_index "game_states", ["away_id"], name: "index_game_states_on_away_id", using: :btree
