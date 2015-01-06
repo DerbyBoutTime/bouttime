@@ -14,6 +14,7 @@
 #  nopass        :boolean
 #  created_at    :datetime
 #  updated_at    :datetime
+#  is_selected   :boolean          default(FALSE)
 #
 
 class JamState < ActiveRecord::Base

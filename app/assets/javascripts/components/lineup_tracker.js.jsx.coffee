@@ -21,17 +21,17 @@ exports.LineupTracker = React.createClass
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
   render: () ->
-    `<div class="lineup-tracker">
+    `<div className="lineup-tracker">
       <section className="team-toggle">
         <div className="row teams text-center gutters-xs">
           <div className="col-sm-6 col-xs-6">
-            <div className="team-name" style={this.state.away.colorBarStyle} >
-              {this.state.away.name}
+            <div className="team-name" style={this.state.awayAttributes.colorBarStyle} >
+              {this.state.awayAttributes.name}
             </div>
           </div>
           <div className="col-sm-6 col-xs-6">
-            <div className="team-name" style={this.state.home.colorBarStyle}>
-              {this.state.home.name}
+            <div className="team-name" style={this.state.homeAttributes.colorBarStyle}>
+              {this.state.homeAttributes.name}
             </div>
           </div>
         </div>

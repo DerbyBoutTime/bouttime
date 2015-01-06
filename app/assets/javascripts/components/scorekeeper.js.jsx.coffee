@@ -9,32 +9,39 @@ exports.Scorekeeper = React.createClass
   handleNext: (e) ->
     console.log e.target
   handleToggleTeam: (e) ->
-    this.state.home.isSelected = !this.state.home.isSelected
-    this.state.away.isSelected = !this.state.away.isSelected
+    this.state.homeAttributes.isSelected = !this.state.homeAttributes.isSelected
+    this.state.awayAttributes.isSelected = !this.state.awayAttributes.isSelected
     this.setState(this.state)
-
   getInitialState: () ->
-    exports.wftda.functions.camelize(this.props)
-
+    this.props = exports.wftda.functions.camelize(this.props)
+    # make sure one of the tabs isSelected
+    if this.props.homeAttributes.isSelected == this.props.awayAttributes.isSelected
+      this.props.homeAttributes.isSelected = !this.props.homeAttributes.isSelected
+    state =
+      componentId: exports.wftda.functions.uniqueId()
+      homeAttributes: this.props.homeAttributes
+      awayAttributes: this.props.awayAttributes
+  componentDidMount: () ->
+    # ...
   render: () ->
     homeActiveTeamClass = cx
       'home': true
-      'hidden-xs': !this.state.home.isSelected
+      'hidden-xs': !this.state.homeAttributes.isSelected
 
     awayActiveTeamClass = cx
       'away': true
-      'hidden-xs': !this.state.away.isSelected
+      'hidden-xs': !this.state.awayAttributes.isSelected
 
-    `<div id="scorekeeper-view">
+    `<div className="scorekeeper">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.state.away.colorBarStyle} onClick={this.handleToggleTeam}>
-            {this.state.away.name}
+          <div className="team-name" style={this.state.awayAttributes.colorBarStyle} onClick={this.handleToggleTeam}>
+            {this.state.awayAttributes.name}
           </div>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.state.home.colorBarStyle} onClick={this.handleToggleTeam}>
-            {this.state.home.name}
+          <div className="team-name" style={this.state.homeAttributes.colorBarStyle} onClick={this.handleToggleTeam}>
+            {this.state.homeAttributes.name}
           </div>
         </div>
       </div>
@@ -70,64 +77,13 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>{this.state.away.points}</strong>
+                    <strong>{this.state.awayAttributes.points}</strong>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="jams">
-            <div className="headers">
-              <div className="row gutters-xs">
-                <div className="col-sm-2 col-xs-2">
-                  <strong>Jam</strong>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <strong>Skater</strong>
-                </div>
-                <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2 text-center">
-                  <strong>Notes</strong>
-                </div>
-                <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2 text-center">
-                  <strong>Points</strong>
-                </div>
-              </div>
-            </div>
-            <div className="columns">
-              <div className="row gutters-xs">
-                <div className="col-sm-2 col-xs-2">
-                  <div className="jam text-center">
-                    {this.state.jamNumber}
-                  </div>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <div className="skater">
-                    {this.state.away.jammer.number}
-                  </div>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <div className="notes injury text-center">
-                    Injury
-                  </div>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <div className="notes call text-center">
-                    Call
-                  </div>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <div className="notes lost text-center">
-                    Lost
-                  </div>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <div className="points text-center">
-                    10
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <JamsList jams={this.state.awayAttributes.jamStates} teamType="away" />
           <div className="links">
             <div className="row text-center gutters-xs">
               <div className="col-sm-6 col-xs-6">
@@ -165,7 +121,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <PassesList passes={this.state.away.passStates} teamType="away" />
+          <PassesList passes={this.state.awayAttributes.passStates} teamType="away" />
         </div>
         <div className="col-sm-6 col-xs-12 hidden-xs" id="home-team">
           <div className="row stats gutters-xs">
@@ -188,64 +144,13 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>{this.state.home.points}</strong>
+                    <strong>{this.state.homeAttributes.points}</strong>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div className="jams">
-            <div className="headers">
-              <div className="row gutters-xs">
-                <div className="col-sm-2 col-xs-2">
-                  <strong>Jam</strong>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <strong>Skater</strong>
-                </div>
-                <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2 text-center">
-                  <strong>Notes</strong>
-                </div>
-                <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2 text-center">
-                  <strong>Points</strong>
-                </div>
-              </div>
-            </div>
-            <div className="columns">
-              <div className="row gutters-xs">
-                <div className="col-sm-2 col-xs-2">
-                  <div className="jam text-center">
-                    1
-                  </div>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <div className="skater">
-                    1234
-                  </div>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <div className="notes injury text-center">
-                    Injury
-                  </div>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <div className="notes call text-center">
-                    Call
-                  </div>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <div className="notes lost text-center">
-                    Lost
-                  </div>
-                </div>
-                <div className="col-sm-2 col-xs-2">
-                  <div className="points text-center">
-                    10
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <JamsList jams={this.state.homeAttributes.jamStates} teamType="home" />
           <div className="links">
             <div className="row text-center gutters-xs">
               <div className="col-sm-6 col-xs-6">
@@ -283,7 +188,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <PassesList passes={this.state.home.passStates} teamType="home" />
+          <PassesList passes={this.state.homeAttributes.passStates} teamType="home" />
         </div>
       </div>
     </div>`

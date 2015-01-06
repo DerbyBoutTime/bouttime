@@ -6,14 +6,13 @@
 #  state           :integer
 #  jam_number      :integer
 #  period_number   :integer
-#  jam_clock_label :string(255)
 #  home_id         :integer
 #  away_id         :integer
-#  game_id         :integer
 #  created_at      :datetime
 #  updated_at      :datetime
-#  jam_clock       :integer
-#  period_clock    :integer
+#  jam_clock_id    :integer
+#  period_clock_id :integer
+#  timeout         :integer
 #
 
 require "test_helper"

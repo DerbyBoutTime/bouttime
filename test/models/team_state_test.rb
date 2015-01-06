@@ -19,6 +19,7 @@
 #  jam_points                :integer
 #  has_official_review       :boolean
 #  text_color                :string(255)
+#  is_selected               :boolean          default(FALSE)
 #
 
 require "test_helper"

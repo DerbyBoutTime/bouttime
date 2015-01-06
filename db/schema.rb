@@ -11,10 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141217150000) do
+ActiveRecord::Schema.define(version: 20150106111344) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "clock_states", force: true do |t|
+    t.string   "display",    limit: 16
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "time"
+  end
 
   create_table "events", force: true do |t|
     t.json     "data"
@@ -25,16 +32,16 @@ ActiveRecord::Schema.define(version: 20141217150000) do
   end
 
   create_table "game_states", force: true do |t|
-    t.integer  "state"
-    t.integer  "jam_number"
-    t.integer  "period_number"
-    t.string   "jam_clock_label"
+    t.integer  "state",           limit: 2
+    t.integer  "jam_number",      limit: 2
+    t.integer  "period_number",   limit: 2
     t.integer  "home_id"
     t.integer  "away_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "jam_clock"
-    t.integer  "period_clock"
+    t.integer  "jam_clock_id"
+    t.integer  "period_clock_id"
+    t.integer  "timeout",         limit: 2
   end
 
   add_index "game_states", ["away_id"], name: "index_game_states_on_away_id", using: :btree

@@ -35,3 +35,33 @@ $gray-base: $near-black;
   background-color: $light-gray;
   color: $near-black;
 }
+
+.game{
+  .jam-timer, .lineup-tracker, .scorekeeper, .penalty-tracker, .penalty-box-timer, .scoreboard, .penalty-whiteboard, .announcers-feed {
+    display: none;
+  }
+  &[data-tab="jam_timer"] .jam-timer {
+    display: block;
+  }
+  &[data-tab="lineup_tracker"] .lineup-tracker {
+    display: block;
+  }
+  &[data-tab="scorekeeper"] .scorekeeper {
+    display: block;
+  }
+  &[data-tab="penalty_tracker"] .penalty-tracker {
+    display: block;
+  }
+  &[data-tab="penalty_box_timer"] .penalty-box-timer {
+    display: block;
+  }
+  &[data-tab="scoreboard"] .scoreboard {
+    display: block;
+  }
+  &[data-tab="penalty_whiteboard"] .penalty-whiteboard {
+    display: block;
+  }
+  &[data-tab="announcers_feed"] .announcers-feed {
+    display: block;
+  }
+}

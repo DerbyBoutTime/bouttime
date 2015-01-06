@@ -15,6 +15,11 @@ class EventLogController < WebsocketRails::BaseController
     puts "="*80
   end
 
+  def print
+    puts "#{event.name}"
+    puts message
+  end
+
   def log
     puts "#{event.name}"
     puts message

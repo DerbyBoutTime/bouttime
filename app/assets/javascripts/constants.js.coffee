@@ -1,7 +1,12 @@
 exports = exports ? this
+exports.wftda.constants.WEBSOCKETS_RETRY_TIME_IN_MS = 200
 exports.wftda.constants.PERIOD_DURATION_IN_MS = 30*60*1000
 exports.wftda.constants.JAM_DURATION_IN_MS = 2*60*1000
 exports.wftda.constants.LINEUP_DURATION_IN_MS = 30*1000
 exports.wftda.constants.TIMEOUT_DURATION_IN_MS = 30*1000
-exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS = 50
-exports.wftda.constants.GAMES_STATES = ["pregame", "halftime", "jam", "lineup", "team_timeout", "official_timeout", "official_review", "unofficial_final", "final"]
+exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS = 500
+exports.wftda.constants.GAMES_STATES = ["pregame", "halftime", "jam", "lineup", "timeout", "unofficial_final", "final"]
+exports.wftda.constants.TIMEOUT_STATES = ["official_timeout", "home_team_timeout", "home_team_official_review", "away_team_timeout", "away_team_official_review"]
+exports.wftda.constants.HOUR_IN_MS = 3600000
+exports.wftda.constants.MINUTE_IN_MS = 60000
+exports.wftda.constants.SECOND_IN_MS = 1000

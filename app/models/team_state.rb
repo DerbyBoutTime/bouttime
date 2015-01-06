@@ -19,15 +19,20 @@
 #  jam_points                :integer
 #  has_official_review       :boolean
 #  text_color                :string(255)
+#  is_selected               :boolean          default(FALSE)
 #
 
 class TeamState < ActiveRecord::Base
   belongs_to :jammer, class_name: "JammerState"
+  has_one :game_state
   has_many :jam_states
   has_many :pass_states, through: :jam_states
 
+  accepts_nested_attributes_for :jammer, :pass_states, :jam_states
+  alias_method :jammer_attributes, :jammer
+
   def as_json
-    super(include: [:jammer, :jam_states, :pass_states], methods: [:color_bar_style])
+    super(include: [:jammer_attributes, :jam_states, :pass_states], methods: [:color_bar_style])
   end
 
   def to_json(options = {})
