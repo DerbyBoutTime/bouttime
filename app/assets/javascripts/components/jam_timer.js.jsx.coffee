@@ -25,6 +25,8 @@ exports.JamTimer = React.createClass
         # timeouts: this.props.awayAttributes.timeouts
         # hasOfficialReview: this.props.awayAttributes.hasOfficialReview
         # officialReviewsRetained: this.props.awayAttributes.officialReviewsRetained
+  componentWillReceiveProps: (nextProps) ->
+
   buildOptions: (opts = {}) ->
     std_opts =
       role: 'Jam Timer'
@@ -36,44 +38,58 @@ exports.JamTimer = React.createClass
     $dom = $(this.getDOMNode())
     #Send Events
     $dom.on 'click', '.start-jam-btn', null, (evt) =>
-      exports.dispatcher.trigger "jam_timer.start_jam", this.buildOptions()
       this.startJam()
+      exports.dispatcher.trigger "jam_timer.start_jam", this.buildOptions()
+      console.log("start jam")
     $dom.on 'click', '.stop-jam-btn', null, (evt) =>
-      exports.dispatcher.trigger "jam_timer.stop_jam", this.buildOptions()
       this.stopJam()
+      exports.dispatcher.trigger "jam_timer.stop_jam", this.buildOptions()
+      console.log("stop jam")
     $dom.on 'click', '.start-lineup-btn', null, (evt) =>
-      exports.dispatcher.trigger "jam_timer.start_lineup", this.buildOptions()
       this.startLineupClock()
+      exports.dispatcher.trigger "jam_timer.start_lineup", this.buildOptions()
+      console.log("start lineup")
     $dom.on 'click', '.start-clock-btn', null, (evt) =>
-      exports.dispatcher.trigger "jam_timer.start_clock", this.buildOptions()
       this.startJamClock()
+      exports.dispatcher.trigger "jam_timer.start_clock", this.buildOptions()
+      console.log("start clock")
     $dom.on 'click', '.stop-clock-btn', null, (evt) =>
-      exports.dispatcher.trigger "jam_timer.stop_clock", this.buildOptions()
       this.stopJamClock()
+      exports.dispatcher.trigger "jam_timer.stop_clock", this.buildOptions()
+      console.log("stop clock")
     $dom.on 'click', '.undo-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.undo", this.buildOptions()
+      console.log("undo")
     $dom.on 'click', '.timeout-section .timeout-btn', null, (evt) =>
-      exports.dispatcher.trigger "jam_timer.start_timeout", this.buildOptions()
       this.startTimeout()
+      exports.dispatcher.trigger "jam_timer.start_timeout", this.buildOptions()
+      console.log("start timeout")
     $dom.on 'click', '.official-timeout-btn', null, (evt) =>
+      this.markAsOfficialTimeout()
       exports.dispatcher.trigger "jam_timer.mark_as_official_timeout", this.buildOptions()
-      this.assignTimeoutToOfficials()
+      console.log("mark as official timeout")
     $dom.on 'click', '.home .timeout-btn', null, (evt) =>
+      this.markAsHomeTeamTimeout()
       exports.dispatcher.trigger "jam_timer.mark_as_home_team_timeout", this.buildOptions()
-      this.assignTimeoutToHomeTeam()
+      console.log("mark as home team timeout")
     $dom.on 'click', '.home .review-btn', null, (evt) =>
+      this.markAsHomeTeamOfficialReview()
       exports.dispatcher.trigger "jam_timer.mark_as_home_team_review", this.buildOptions()
-      this.assignTimeoutToHomeTeamOfficialReview()
+      console.log("mark as home team official review")
     $dom.on 'click', '.away .timeout-btn', null, (evt) =>
+      this.markAsAwayTeamTimeout()
       exports.dispatcher.trigger "jam_timer.mark_as_away_team_timeout", this.buildOptions()
-      this.assignTimeoutToAwayTeam()
+      console.log("mark as away team timeout")
     $dom.on 'click', '.away .review-btn', null, (evt) =>
+      this.markAsAwayTeamOfficialReview()
       exports.dispatcher.trigger "jam_timer.mark_as_away_team_review", this.buildOptions()
-      this.assignTimeoutToAwayTeamOfficialReview()
+      console.log("mark as away team official review")
     $dom.on 'click', '.ended-by-time-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.mark_as_ended_by_time", this.buildOptions()
+      console.log("mark as ended by time")
     $dom.on 'click', '.jam-called-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.mark_as_ended_by_calloff", this.buildOptions()
+      console.log("mark as ended by calloff")
     # Receive Events
     dispatcher.bind 'heartbeat', this.handleHeartbeat
   componentWillUnmount: () ->
@@ -146,7 +162,6 @@ exports.JamTimer = React.createClass
     this.state.homeAttributes.jammer = {}
     this.state.awayAttributes.jammer = {}
   startJam: () ->
-    #console.log("start jam")
     this.clearTimeouts()
     this.clearJammers()
     this.state.jamClockAttributes.time = exports.wftda.constants.JAM_DURATION_IN_MS
@@ -155,17 +170,18 @@ exports.JamTimer = React.createClass
     this.state.state = "jam"
     this.state.homeAttributes.jamPoints = 0
     this.state.awayAttributes.jamPoints = 0
-    if this.state.jamNumber == 0
+    if this.state.periodClockAttributes.time == 0
+      this.state.periodNumber = this.state.periodNumber + 1
       this.state.periodClockAttributes.time = exports.wftda.constants.PERIOD_DURATION_IN_MS
-    this.state.jamNumber =  this.state.jamNumber + 1
+    this.state.jamNumber = this.state.jamNumber + 1
   stopJam: () ->
-    console.log("stop jam")
     this.stopClocks()
     this.startLineupClock()
   startLineupClock: () ->
-    console.log("start lineup")
     this.clearTimeouts()
     this.state.jamClockAttributes.time = exports.wftda.constants.LINEUP_DURATION_IN_MS
+    this.state.homeAttributes.jammerAttributes = {id: this.state.homeAttributes.jammerAttributes.id}
+    this.state.awayAttributes.jammerAttributes = {id: this.state.awayAttributes.jammerAttributes.id}
     this.startJamClock()
     this.state.state = "lineup"
   setTimeToDerby: (time = 60*60*1000) ->
@@ -224,40 +240,48 @@ exports.JamTimer = React.createClass
     this.stopClocks()
     this.state.jamClockAttributes.time = exports.wftda.constants.LINEUP_DURATION_IN_MS
     this.startJamClock()
-    this.state.state = "official_timeout"
-  assignTimeoutToHomeTeam: () ->
+    this.state.state = "timeout"
+    this.state.timeout = null
+  markAsHomeTeamTimeout: () ->
     if this.inTimeout() == false
       this.startTimeout()
     this.clearTimeouts()
-    this.state.state = "team_timeout"
+    this.state.state = "timeout"
+    this.state.timeout = "home_team_timeout"
     this.state.homeAttributes.timeouts = this.state.homeAttributes.timeouts - 1
     this.state.homeAttributes.isTakingTimeout = true
     this.state.undoFunction = this.state.restoreHomeTeamTimeout
+    this.forceUpdate()
   restoreHomeTeamTimeout: () ->
     this.state.homeAttributes.timeouts = this.state.homeAttributes.timeouts + 1
     this.clearTimeouts()
-  assignTimeoutToAwayTeam: () ->
+  markAsAwayTeamTimeout: () ->
     if this.inTimeout() == false
       this.startTimeout()
     this.clearTimeouts()
-    this.state.state = "team_timeout"
+    this.state.state = "timeout"
+    this.state.timeout = "away_team_timeout"
     this.state.awayAttributes.timeouts = this.state.awayAttributes.timeouts - 1
     this.state.awayAttributes.isTakingTimeout = true
     this.state.undoFunction = this.state.restoreAwayTeamTimeout
+    this.forceUpdate()
   restoreAwayTeamTimeout: () ->
     this.state.awayAttributes.timeouts = this.state.awayAttributes.timeouts + 1
     this.clearTimeouts()
   inTimeout: ()->
     this.state.state == "team_timeout" || "official_timeout"
-  assignTimeoutToOfficials: () ->
+  markAsOfficialTimeout: () ->
     if this.inTimeout() == false
       this.startTimeout()
     this.clearTimeouts()
     this.state.jamClockAttributes.time = 0
+    this.state.jamClockAttributes.display = this.formatJamClock()
     this.stopJamClock()
-    this.state.state = "official_timeout"
+    this.state.state = "timeout"
+    this.state.timeout = "official_timeout"
     this.state.inOfficialTimeout = true
-  assignTimeoutToHomeTeamOfficialReview: () ->
+    this.forceUpdate()
+  markAsHomeTeamOfficialReview: () ->
     if this.inTimeout() == false
       this.startTimeout()
     this.clearTimeouts()
@@ -265,14 +289,16 @@ exports.JamTimer = React.createClass
     this.startJamClock()
     this.state.homeAttributes.hasOfficialReview = false
     this.state.homeAttributes.isTakingOfficialReview = true
-    this.state.state = "official_review"
+    this.state.state = "timeout"
+    this.state.timeout = "home_team_official_review"
     this.state.undoFunction = this.state.restoreHomeTeamOfficialReview
+    this.forceUpdate()
   restoreHomeTeamOfficialReview: (retained = false) ->
     this.state.homeAttributes.hasOfficialReview = true
     this.clearTimeouts()
     if retained
       this.state.homeAttributes.officialReviewsRetained = this.state.homeAttributes.officialReviewsRetained + 1
-  assignTimeoutToAwayTeamOfficialReview: () ->
+  markAsAwayTeamOfficialReview: () ->
     if this.inTimeout() == false
       this.startTimeout()
     this.clearTimeouts()
@@ -280,8 +306,10 @@ exports.JamTimer = React.createClass
     this.startJamClock()
     this.state.awayAttributes.hasOfficialReview = false
     this.state.awayAttributes.isTakingOfficialReview = true
-    this.state.state = "official_review"
+    this.state.state = "timeout"
+    this.state.timeout = "away_team_official_review"
     this.state.undoFunction = this.state.restoreAwayTeamOfficialReview
+    this.forceUpdate()
   restoreAwayTeamOfficialReview: (retained = false) ->
     this.state.awayAttributes.hasOfficialReview = true
     this.clearTimeouts()
@@ -314,17 +342,17 @@ exports.JamTimer = React.createClass
       'timeout-section': true
       'row': true
       'margin-top-05': true
-      'hidden': $.inArray(this.state.state, ["jam", "lineup", "team_timeout", "official_timeout", "official_review", "unofficial_final"]) == -1
+      'hidden': $.inArray(this.state.state, ["jam", "lineup", "timeout", "unofficial_final"]) == -1
     timeoutExplanationSectionCS = cx
       'timeout-explanation-section': true
       'row': true
       'margin-top-05': true
-      'hidden': $.inArray(this.state.state, ["team_timeout", "official_timeout", "official_review"]) == -1
+      'hidden': $.inArray(this.state.state, ["timeout"]) == -1
     undoSectionCS = cx
       'undo-section': true
       'row': true
       'margin-top-05': true
-      'hidden': $.inArray(this.state.state, ["jam", "lineup", "team_timeout", "official_timeout", "official_review", "unofficial_final", "final"]) == -1
+      'hidden': true #$.inArray(this.state.state, ["jam", "lineup", "timeout", "unofficial_final", "final"]) == -1
     startClockSectionCS = cx
       'start-clock-section': true
       'row': true
@@ -349,12 +377,12 @@ exports.JamTimer = React.createClass
       'start-lineup-section': true
       'row': true
       'margin-top-05': true
-      'hidden': $.inArray(this.state.state, ["pregame", "halftime",  "team_timeout", "official_timeout", "official_review", "unofficial_final", "final"]) == -1
+      'hidden': $.inArray(this.state.state, ["pregame", "halftime",  "timeout", "unofficial_final", "final"]) == -1
     jamExplanationSectionCS = cx
       'jam-explanation-section': true
       'row': true
       'margin-top-05': true
-      'hidden': $.inArray(this.state.state, ["lineup", "team_timeout", "official_timeout", "official_review", "unofficial_final"]) == -1
+      'hidden': $.inArray(this.state.state, ["lineup", "timeout", "unofficial_final"]) == -1
     homeTeamOfficialReviewCS = cx
       'official-review': true
       'bar': true
