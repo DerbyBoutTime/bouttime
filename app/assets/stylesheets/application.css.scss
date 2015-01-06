@@ -12,6 +12,7 @@ $gray-base: $near-black;
 
 @import "header";
 @import "jam-timer";
+@import "lineup-tracker";
 @import "scoreboard";
 @import "scorekeeper";
 
@@ -34,4 +35,11 @@ $gray-base: $near-black;
   }
   background-color: $light-gray;
   color: $near-black;
+}
+
+.boxed-good {
+  border: 1px solid $gray;
+  border-radius: 2px;
+  font-size: 1.1em;
+  line-height: 30px;
 }
