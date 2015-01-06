@@ -33,6 +33,6 @@ exports.wftda.functions.toClock = (time, offset = false) ->
   if minutes > 0
     strTime = strTime + "#{exports.wftda.functions.pad(minutes,2)}:"
   strTime = strTime + "#{exports.wftda.functions.pad(seconds,2)}"
-  if offset?
+  if offset == true
     strTime = strTime + ".#{exports.wftda.functions.pad(milliseconds, 3)}"
   return strTime

@@ -49,8 +49,8 @@ class GameState < ActiveRecord::Base
         display: "90:00"
       },
       period_clock_attributes: {
-        time: 90*60*1000,
-        display: "90:00"
+        time: 0,
+        display: "0"
       },
       home_attributes: {
         name: "Atlanta Rollergirls",

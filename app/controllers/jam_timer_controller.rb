@@ -6,15 +6,19 @@ class JamTimerController < WebsocketRails::BaseController
   end
 
   def jam_tick
-    puts event.name, this.state[:jam_clock_attributes]
-    if @game_state[:jam_clock_attributes] != this.state[:jam_clock_attributes]
-      @game_state.update_attributes!(this.state)
+    puts event.name, @state[:jam_clock_attributes]
+    if @game_state[:jam_clock_attributes] != @state[:jam_clock_attributes]
+      @game_state.update_attributes!(@state)
       broadcast_message :update, @game_state.as_json()
     end
   end
 
   def period_tick
-
+    puts event.name, @state[:period_clock_attributes]
+    if @game_state[:period_clock_attributes] != @state[:period_clock_attributes]
+      @game_state.update_attributes!(@state)
+      broadcast_message :update, @game_state.as_json()
+    end
   end
 
   def start_jam
@@ -73,6 +77,6 @@ class JamTimerController < WebsocketRails::BaseController
   end
 
   def set_state
-    this.state = message[:state].deep_transform_keys{ |key| key.to_s.underscore.to_sym }
+    @state = message[:state].deep_transform_keys{ |key| key.to_s.underscore.to_sym }
   end
 end

@@ -6,19 +6,20 @@ exports.Game = React.createClass
     $dom.on 'click', 'ul.nav li', null, (evt) =>
       this.setState
         tab: evt.currentTarget.dataset.tabName
-
+    exports.dispatcher.bind 'update', (state) =>
+      this.setState(state)
   getInitialState: () ->
-    exports.wftda.functions.camelize(this.props)
+    exports.wftda.functions.camelize(this.props) #.extend
   render: () ->
-    jamTimer = React.createElement(JamTimer, this.state)
-    lineupTracker = React.createElement(LineupTracker, this.state)
-    scorekeeper = React.createElement(Scorekeeper, this.state)
-    penaltyTracker = React.createElement(PenaltyTracker, this.state)
-    penaltyBoxTimer = React.createElement(PenaltyBoxTimer, this.state)
-    scoreboard = React.createElement(Scoreboard, this.state)
-    penaltyWhiteboard = React.createElement(PenaltyWhiteboard, this.state)
-    announcersFeed = React.createElement(AnnouncersFeed, this.state)
-    gameNotes = React.createElement(GameNotes, this.state)
+    jamTimer            = React.createElement(JamTimer, this.state)
+    lineupTracker       = React.createElement(LineupTracker, this.state)
+    scorekeeper         = React.createElement(Scorekeeper, this.state)
+    penaltyTracker      = React.createElement(PenaltyTracker, this.state)
+    penaltyBoxTimer     = React.createElement(PenaltyBoxTimer, this.state)
+    scoreboard          = React.createElement(Scoreboard, this.state)
+    penaltyWhiteboard   = React.createElement(PenaltyWhiteboard, this.state)
+    announcersFeed      = React.createElement(AnnouncersFeed, this.state)
+    gameNotes           = React.createElement(GameNotes, this.state)
     `<div className="game" data-tab={this.state.tab}>
       <header>
         <div className="container-fluid">

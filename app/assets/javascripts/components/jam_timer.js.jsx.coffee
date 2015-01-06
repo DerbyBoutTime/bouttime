@@ -39,32 +39,44 @@ exports.JamTimer = React.createClass
       this.startJam()
     $dom.on 'click', '.stop-jam-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.stop_jam", this.buildOptions()
+      this.stopJam()
     $dom.on 'click', '.start-lineup-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.start_lineup", this.buildOptions()
+      this.startLineupClock()
     $dom.on 'click', '.start-clock-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.start_clock", this.buildOptions()
+      this.startJamClock()
     $dom.on 'click', '.stop-clock-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.stop_clock", this.buildOptions()
+      this.stopJamClock()
     $dom.on 'click', '.undo-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.undo", this.buildOptions()
     $dom.on 'click', '.timeout-section .timeout-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.start_timeout", this.buildOptions()
+      this.startTimeout()
     $dom.on 'click', '.official-timeout-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.mark_as_official_timeout", this.buildOptions()
+      this.assignTimeoutToOfficials()
     $dom.on 'click', '.home .timeout-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.mark_as_home_team_timeout", this.buildOptions()
+      this.assignTimeoutToHomeTeam()
     $dom.on 'click', '.home .review-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.mark_as_home_team_review", this.buildOptions()
+      this.assignTimeoutToHomeTeamOfficialReview()
     $dom.on 'click', '.away .timeout-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.mark_as_away_team_timeout", this.buildOptions()
+      this.assignTimeoutToAwayTeam()
     $dom.on 'click', '.away .review-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.mark_as_away_team_review", this.buildOptions()
+      this.assignTimeoutToAwayTeamOfficialReview()
     $dom.on 'click', '.ended-by-time-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.mark_as_ended_by_time", this.buildOptions()
     $dom.on 'click', '.jam-called-btn', null, (evt) =>
       exports.dispatcher.trigger "jam_timer.mark_as_ended_by_calloff", this.buildOptions()
     # Receive Events
     dispatcher.bind 'heartbeat', this.handleHeartbeat
+  componentWillUnmount: () ->
+    this.stopClocks()
   handleHeartBeat: (msg) ->
     gameState = exports.wftda.functions.camelize(msg)
     console.log "Heartbeat"
@@ -80,7 +92,7 @@ exports.JamTimer = React.createClass
     this.stopPeriodClock() #Clear to prevent lost interval function
     this.state.periodClockAttributes.tick = Date.now()
     exports.wftda.ticks[this.state.id].periodTickFunction = setInterval(() =>
-      this.tickperiodClock()
+      this.tickPeriodClock()
     ,exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS)
   toggleJamClock: () ->
     if exports.wftda.ticks[this.state.id].jamTickFunction == null
@@ -91,7 +103,7 @@ exports.JamTimer = React.createClass
     this.stopJamClock() #Clear to prevent lost interval function
     this.state.jamClockAttributes.tick = Date.now()
     exports.wftda.ticks[this.state.id].jamTickFunction = setInterval(() =>
-      this.tickjamClock()
+      this.tickJamClock()
     ,exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS)
   stopClocks: () ->
     this.stopJamClock()
@@ -106,7 +118,8 @@ exports.JamTimer = React.createClass
   stopPeriodClock: () ->
     clearInterval exports.wftda.ticks[this.state.id].periodTickFunction
     exports.wftda.ticks[this.state.id].periodTickFunction = null
-  tickperiodClock: () ->
+  tickPeriodClock: () ->
+    console.log("tick period clock")
     stopTick = Date.now()
     periodDelta = stopTick - this.state.periodClockAttributes.tick
     this.state.periodClockAttributes.tick = stopTick
@@ -115,8 +128,9 @@ exports.JamTimer = React.createClass
     this.state.periodClockAttributes.display = this.formatPeriodClock()
     dispatcher.trigger "jam_timer.period_tick", this.buildOptions
       state:
-        periodClockAttributes: this.state.periodClock
-  tickjamClock: () ->
+        periodClockAttributes: this.state.periodClockAttributes
+  tickJamClock: () ->
+    console.log("tick jam clock")
     stopTick = Date.now()
     jamDelta = stopTick - this.state.jamClockAttributes.tick
     this.state.jamClockAttributes.tick = stopTick
@@ -130,6 +144,7 @@ exports.JamTimer = React.createClass
     this.state.homeAttributes.jammer = {}
     this.state.awayAttributes.jammer = {}
   startJam: () ->
+    console.log("start jam")
     this.clearTimeouts()
     this.clearJammers()
     this.state.jamClockAttributes.time = exports.wftda.constants.JAM_DURATION_IN_MS
@@ -138,11 +153,15 @@ exports.JamTimer = React.createClass
     this.state.state = "jam"
     this.state.homeAttributes.jamPoints = 0
     this.state.awayAttributes.jamPoints = 0
+    if this.state.jamNumber == 0
+      this.state.periodClockAttributes.time = exports.wftda.constants.PERIOD_DURATION_IN_MS
     this.state.jamNumber =  this.state.jamNumber + 1
   stopJam: () ->
+    console.log("stop jam")
     this.stopClocks()
     this.startLineupClock()
   startLineupClock: () ->
+    console.log("start lineup")
     this.clearTimeouts()
     this.state.jamClockAttributes.time = exports.wftda.constants.LINEUP_DURATION_IN_MS
     this.startJamClock()
@@ -200,7 +219,6 @@ exports.JamTimer = React.createClass
   setJamNumber: (num) ->
     this.state.jamNumber =  parseInt(num)
   startTimeout: () ->
-
     this.stopClocks()
     this.state.jamClockAttributes.time = exports.wftda.constants.LINEUP_DURATION_IN_MS
     this.startJamClock()
@@ -209,7 +227,6 @@ exports.JamTimer = React.createClass
     if this.inTimeout() == false
       this.startTimeout()
     this.clearTimeouts()
-
     this.state.state = "team_timeout"
     this.state.homeAttributes.timeouts = this.state.homeAttributes.timeouts - 1
     this.state.homeAttributes.isTakingTimeout = true
@@ -221,7 +238,6 @@ exports.JamTimer = React.createClass
     if this.inTimeout() == false
       this.startTimeout()
     this.clearTimeouts()
-
     this.state.state = "team_timeout"
     this.state.awayAttributes.timeouts = this.state.awayAttributes.timeouts - 1
     this.state.awayAttributes.isTakingTimeout = true
@@ -239,14 +255,12 @@ exports.JamTimer = React.createClass
     this.stopJamClock()
     this.state.state = "official_timeout"
     this.state.inOfficialTimeout = true
-
   assignTimeoutToHomeTeamOfficialReview: () ->
     if this.inTimeout() == false
       this.startTimeout()
     this.clearTimeouts()
     this.state.jamClockAttributes.time = 0
     this.startJamClock()
-
     this.state.homeAttributes.hasOfficialReview = false
     this.state.homeAttributes.isTakingOfficialReview = true
     this.state.state = "official_review"
@@ -262,7 +276,6 @@ exports.JamTimer = React.createClass
     this.clearTimeouts()
     this.state.jamClockAttributes.time = 0
     this.startJamClock()
-
     this.state.awayAttributes.hasOfficialReview = false
     this.state.awayAttributes.isTakingOfficialReview = true
     this.state.state = "official_review"
@@ -289,11 +302,10 @@ exports.JamTimer = React.createClass
     this.state.awayAttributes.isTakingTimeout = false
     this.state.homeAttributes.isTakingOfficialReview = false
     this.state.awayAttributes.isTakingOfficialReview = false
-
   formatJamClock: () ->
-    exports.wftda.functions.toClock(this.state.jamClockAttributes.time)
+    exports.wftda.functions.toClock(this.state.jamClockAttributes.time, false)
   formatPeriodClock: () ->
-    exports.wftda.functions.toClock(this.state.periodClockAttributes.time)
+    exports.wftda.functions.toClock(this.state.periodClockAttributes.time, false)
   render: () ->
     #CS = Class Set
     timeoutSectionCS = cx
@@ -402,7 +414,7 @@ exports.JamTimer = React.createClass
                 <div className="period-clock">{this.state.periodClockAttributes.display}</div>
               </div>
               <div className="col-md-12 col-xs-12">
-                <strong className="jt-label">{this.state.state}</strong>
+                <strong className="jt-label">{this.state.state.replace(/_/g, ' ')}</strong>
                 <div className="jam-clock">{this.state.jamClockAttributes.display}</div>
               </div>
             </div>

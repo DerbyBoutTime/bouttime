@@ -17,6 +17,7 @@ WebsocketRails::EventMap.describe do
   namespace :jam_timer do
     #subscribe :jam_tick, 'event_log#print'
     subscribe :jam_tick, 'jam_timer#jam_tick'
+    subscribe :period_tick, 'jam_timer#period_tick'
     #subscribe :period_tick, 'event_log#print'
     subscribe :start_jam, 'event_log#log'
     subscribe :stop_jam, 'event_log#log'
