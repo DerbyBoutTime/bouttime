@@ -1,0 +1,106 @@
+.lineup-tracker-view {
+  .jam-details {
+    margin-top: 4px;
+  }
+
+  .jam-detail {
+    .jam-detail-number, .jam-detail-no-pivot, .jam-detail-star-pass {
+      border: 1px solid $gray;
+      border-radius: 2px;
+      font-size: 1.1em;
+      line-height: 30px;
+    }
+
+    .jam-detail-number {
+      color: $white;
+      background-color: $near-black;
+    }
+
+    .jam-detail-no-pivot, .jam-detail-star-pass {
+      background-color: $gray;
+      color: $near-black;
+      font-size: 0.8em;
+    }
+  }
+
+  .positions {
+    color: $near-black;
+    margin-top: 4px;
+  }
+
+  .skaters {
+    margin-top: 4px;
+
+    .skater {
+      background-color: $blue;
+      border: 1px solid $gray;
+      border-radius: 2px;
+      color: $white;
+      font-size: 1.1em;
+      line-height: 30px;
+    }
+
+    .skater-selector {
+      background-color: $gray;
+      border: 1px solid $gray;
+      border-radius: 2px;
+      color: $light-gray;
+      font-size: 1.1em;
+      line-height: 30px;
+    }
+
+    .skater-injury {
+      background-color: white;
+      border: 5px solid $pink;
+      border-radius: 10px;
+      color: $pink;
+      line-height: 22px;
+    }
+  }
+
+  .boxes {
+    margin-top: 4px;
+
+    .box-toggle {
+      color: $gray;
+      border: 1px solid $gray;
+      border-radius: 2px;
+      font-size: 0.7em;
+      line-height: 15px;
+      margin-top: 15px;
+    }
+
+    .box {
+      color: $gray;
+      border: 1px solid $gray;
+      border-radius: 2px;
+      font-size: 1.1em;
+      line-height: 30px;
+    }
+
+    .box-injury {
+      color: $pink;
+    }
+  }
+
+  .actions {
+    margin-top: 14px;
+
+    .actions-action {
+      border: 1px solid $gray;
+      border-radius: 2px;
+      font-size: 1.1em;
+      line-height: 30px;
+    }
+
+    .actions-edit {
+      background-color: $near-black;
+      color: $white;
+    }
+
+    .actions-undo {
+      background-color: $gray;
+      color: $near-black;
+    }
+  }
+}
