@@ -109,8 +109,14 @@ class GameState < ActiveRecord::Base
         :period_clock_attributes => {except: [:created_at, :updated_at]},
         :game => {}
       })
-    h["home_attributes"].merge!("skater_states" => [{"number" => '36A', "name" => '"Shock"Ira'}, {"number" => '72', name: '\'Lil Diablo'} ] )
-    h["away_attributes"].merge!("skater_states" => [{"number" => '2 cups', "name" => 'ZackaRonni N\' Cheese'}, {"number" => '74', "name" => 'Zombetty'} ] )
+    h["home_attributes"].merge!(
+      "skater_states" => [
+        {"number" => '36A', "name" => '"Shock"Ira'},
+        {"number" => '72', name: '\'Lil Diablo'} ] )
+    h["away_attributes"].merge!(
+      "skater_states" => [
+        {"number" => '2 cups', "name" => 'ZackaRonni N\' Cheese'},
+        {"number" => '74', "name" => 'Zombetty'} ] )
     h
   end
 
