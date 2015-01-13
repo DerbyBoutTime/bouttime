@@ -3,11 +3,11 @@ exports = exports ? this
 exports.Scorekeeper = React.createClass
   # click event handlers
   handleMainMenu: (e) ->
-    console.log e.target
+    # console.log e.target
   handlePrev: (e) ->
-    console.log e.target
+    # console.log e.target
   handleNext: (e) ->
-    console.log e.target
+    # console.log e.target
   handleToggleTeam: (e) ->
     this.state.homeAttributes.isSelected = !this.state.homeAttributes.isSelected
     this.state.awayAttributes.isSelected = !this.state.awayAttributes.isSelected
@@ -75,7 +75,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Current Jam</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right current-jam-score">
-                    <strong>{this.state.jamNumber}</strong>
+                    <strong>{this.props.jamNumber}</strong>
                   </div>
                 </div>
               </div>

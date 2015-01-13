@@ -2,9 +2,11 @@ exports = exports ? this
 exports.JamsList = React.createClass
   render: () ->
     JamItemFactory = React.createFactory(JamItem)
+    # jam's schema is same as jam_state table
     jamComponents = this.props.jams.map (jam) =>
-      JamItemFactory({key: this.props.jamNumber, number: this.props.jamNumber, skater: this.props.jammerAttributes.number, teamType: this.props.teamType})
-    jamComponents.push(JamItemFactory({key: "0", number: this.props.jams.length+1, skater: "Skater", teamType: this.props.teamType}))
+      # console.log jam
+      JamItemFactory({key: this.props.jamNumber, jam: jam, teamType: this.props.teamType})
+    jamComponents.push(JamItemFactory({key: "0", jam: {skaterNumber: "Skater", jamNumber: this.props.jams.length+1}, teamType: this.props.teamType}))
     return(
       `<div className="jams">
         <div className="headers">
