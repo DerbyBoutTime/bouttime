@@ -2,12 +2,6 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.Scorekeeper = React.createClass
   # click event handlers
-  handleMainMenu: (e) ->
-    # console.log e.target
-  handlePrev: (e) ->
-    # console.log e.target
-  handleNext: (e) ->
-    # console.log e.target
   handleToggleTeam: (e) ->
     this.state.homeAttributes.isSelected = !this.state.homeAttributes.isSelected
     this.state.awayAttributes.isSelected = !this.state.awayAttributes.isSelected
@@ -21,6 +15,7 @@ exports.Scorekeeper = React.createClass
       componentId: exports.wftda.functions.uniqueId()
       homeAttributes: this.props.homeAttributes
       awayAttributes: this.props.awayAttributes
+      jamSelected: null
   componentDidMount: () ->
     # ...
   render: () ->
@@ -94,43 +89,8 @@ exports.Scorekeeper = React.createClass
             </div>
           </div>
           <JamsList jams={this.state.awayAttributes.jamStates} teamType="away" />
-          <div className="links">
-            <div className="row text-center gutters-xs">
-              <div className="col-sm-6 col-xs-6">
-                <div className="link main-menu" onClick={this.handleMainMenu}>
-                  MAIN MENU
-                </div>
-              </div>
-              <div className="col-sm-6 col-xs-6">
-                <div className="row gutters-xs">
-                  <div className="col-sm-5 col-xs-5 col-sm-offset-1 col-xs-offset-1">
-                    <div className="link prev" onClick={this.handlePrev}>
-                      PREV
-                    </div>
-                  </div>
-                  <div className="col-sm-6 col-xs-6">
-                    <div className="link next" onClick={this.handleNext}>
-                      NEXT
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="jam-details">
-            <div className="row gutters-xs">
-              <div className="col-sm-3 col-xs-3 col-sm-offset-6 col-xs-offset-6">
-                <div className="jam-number">
-                  <strong>Jam 5</strong>
-                </div>
-              </div>
-              <div className="col-sm-3 col-xs-3 text-right">
-                <div className="jam-total-score">
-                  <strong>0</strong>
-                </div>
-              </div>
-            </div>
-          </div>
+          {/* depending on the team and jam selected pass in the jam as props */}
+          <JamDetails jam={this.state.awayAttributes.jamStates[0]} />
           <PassesList passes={this.state.awayAttributes.passStates} teamType="away" roster={this.state.awayAttributes.skaterStates} />
         </div>
         <div className={homeContainerClass} id="home-team">
