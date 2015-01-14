@@ -1,8 +1,8 @@
 exports = exports ? this
 exports.JamsList = React.createClass
-  handleJamSelection: (e) ->
-    console.log e.target
+  handleJamSelection: (jamNumber) ->
     console.log "handleJamSelection"
+    console.log jamNumber
     console.log this.props
 
   getInitialState: () ->
@@ -12,9 +12,8 @@ exports.JamsList = React.createClass
     JamItemFactory = React.createFactory(JamItem)
     # jam's schema is same as jam_state table
     jamComponents = this.props.jams.map (jam) =>
-      # console.log jam
-      JamItemFactory({key: this.props.jamNumber, jam: jam, teamType: this.props.teamType, selectionHandler: this.handleJamSelection})
-    jamComponents.push(JamItemFactory({key: "0", jam: {skaterNumber: "Skater", jamNumber: this.props.jams.length+1}, teamType: this.props.teamType, selectionHandler: this.handleJamSelection}))
+      JamItemFactory({key: jam.jamNumber, jam: jam, teamType: this.props.teamType, selectionHandler: this.handleJamSelection.bind(this, jam.jamNumber)})
+    jamComponents.push(JamItemFactory({key: "0", jam: {skaterNumber: "Skater", jamNumber: this.props.jams.length+1}, teamType: this.props.teamType, selectionHandler: this.handleJamSelection.bind(this, this.props.jams.length+1)}))
     return(
       `<div className="jams">
         <div className="headers">
