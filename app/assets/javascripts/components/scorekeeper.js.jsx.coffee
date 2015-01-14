@@ -7,6 +7,7 @@ exports.Scorekeeper = React.createClass
     this.state.awayAttributes.isSelected = !this.state.awayAttributes.isSelected
     this.setState(this.state)
   getInitialState: () ->
+    console.log this
     this.props = exports.wftda.functions.camelize(this.props)
     # make sure one of the tabs isSelected
     if this.props.homeAttributes.isSelected == this.props.awayAttributes.isSelected
@@ -121,43 +122,7 @@ exports.Scorekeeper = React.createClass
             </div>
           </div>
           <JamsList jams={this.state.homeAttributes.jamStates} teamType="home" />
-          <div className="links">
-            <div className="row text-center gutters-xs">
-              <div className="col-sm-6 col-xs-6">
-                <div className="link main-menu">
-                  MAIN MENU
-                </div>
-              </div>
-              <div className="col-sm-6 col-xs-6">
-                <div className="row gutters-xs">
-                  <div className="col-sm-5 col-xs-5 col-sm-offset-1 col-xs-offset-1">
-                    <div className="link prev">
-                      PREV
-                    </div>
-                  </div>
-                  <div className="col-sm-6 col-xs-6">
-                    <div className="link next">
-                      NEXT
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="jam-details">
-            <div className="row gutters-xs">
-              <div className="col-sm-3 col-xs-3 col-sm-offset-6 col-xs-offset-6">
-                <div className="jam-number">
-                  <strong>Jam 5</strong>
-                </div>
-              </div>
-              <div className="col-sm-3 col-xs-3 text-right">
-                <div className="jam-total-score">
-                  <strong>0</strong>
-                </div>
-              </div>
-            </div>
-          </div>
+          <JamDetails jam={this.state.homeAttributes.jamStates[0]} />
           <PassesList passes={this.state.homeAttributes.passStates} teamType="home" />
         </div>
       </div>

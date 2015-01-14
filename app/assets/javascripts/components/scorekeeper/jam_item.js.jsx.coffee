@@ -1,16 +1,15 @@
 exports = exports ? this
 exports.JamItem = React.createClass
-  handleJamSelection: (e) ->
-    console.log this.props.jam.jamNumber + " selected"
+  getInitialState: () ->
+    this.state = this.props
 
   render: () ->
     console.log "JamItem"
     console.log this.props
     nodeId = "#{this.props.teamType}-team-jam-#{this.props.jam.jamNumber}"
     jqNodeId = "##{nodeId}"
-
     return(
-      `<div className="row gutters-xs" id={nodeId} onClick={this.handleJamSelection} >
+      `<div className="row gutters-xs" id={nodeId} onClick={this.props.selectionHandler} >
         <div className="col-sm-2 col-xs-2">
           <div className="jam text-center">
             {this.props.jam.jamNumber}
