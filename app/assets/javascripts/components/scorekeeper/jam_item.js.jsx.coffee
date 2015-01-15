@@ -10,10 +10,12 @@ exports.JamItem = React.createClass
     nodeId = "#{this.props.teamType}-team-jam-#{this.props.jam.jamNumber}"
     jqNodeId = "##{nodeId}"
     jamRowClassName = cx
-      'hidden-xs': this.state.jamSelected == this.props.jam.jamNumber
+      'hidden-xs': this.props.jamSelected
+      'row gutters-xs': true
+
     return(
-      `<div className={jamRowClassName}>
-        <div className="row gutters-xs" id={nodeId} onClick={this.props.selectionHandler} >
+      `<div>
+        <div className={jamRowClassName} id={nodeId} onClick={this.props.selectionHandler} >
           <div className="col-sm-2 col-xs-2">
             <div className="jam text-center">
               {this.props.jam.jamNumber}

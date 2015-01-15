@@ -13,7 +13,7 @@ exports.JamDetails = React.createClass
     nodeId = "#{this.props.teamType}-team-jam-#{this.props.jam.jamNumber}-details"
     jqNodeId = "##{nodeId}"
     jamDetailsClassName = cx
-      'hidden-xs': !this.props.jamSelected == this.props.jam.jamNumber
+      'hidden-xs': this.props.jamSelected != this.props.jam.jamNumber
 
     return(
       `<div  className={jamDetailsClassName}>
