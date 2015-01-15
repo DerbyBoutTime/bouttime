@@ -4,6 +4,8 @@ exports.JamsList = React.createClass
     console.log "handleJamSelection"
     console.log jamNumber
     console.log this.props
+    this.state.jamSelected = jamNumber
+    this.setState(this.state)
 
   getInitialState: () ->
     this.state = this.props
@@ -12,8 +14,23 @@ exports.JamsList = React.createClass
     JamItemFactory = React.createFactory(JamItem)
     # jam's schema is same as jam_state table
     jamComponents = this.props.jams.map (jam) =>
-      JamItemFactory({key: jam.jamNumber, jam: jam, teamType: this.props.teamType, selectionHandler: this.handleJamSelection.bind(this, jam.jamNumber)})
-    jamComponents.push(JamItemFactory({key: "0", jam: {skaterNumber: "Skater", jamNumber: this.props.jams.length+1}, teamType: this.props.teamType, selectionHandler: this.handleJamSelection.bind(this, this.props.jams.length+1)}))
+      JamItemFactory
+        key: jam.jamNumber
+        jam: jam
+        teamType: this.props.teamType
+        selectionHandler: this.handleJamSelection.bind(this, jam.jamNumber)
+        jamSelected: this.state.jamSelected
+
+    # add a blank jam for adding a next jam
+    jamComponents.push(
+      JamItemFactory
+        key: "0"
+        jam: {skaterNumber: "Skater", jamNumber: this.props.jams.length+1}
+        teamType: this.props.teamType
+        selectionHandler: this.handleJamSelection.bind(this, this.props.jams.length+1)
+        jamSelected: this.state.jamSelected
+    )
+
     return(
       `<div className="jams">
         <div className="headers">

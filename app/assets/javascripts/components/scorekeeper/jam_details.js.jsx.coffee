@@ -1,3 +1,4 @@
+cx = React.addons.classSet
 exports = exports ? this
 exports.JamDetails = React.createClass
   handleMainMenu: (e) ->
@@ -11,9 +12,11 @@ exports.JamDetails = React.createClass
     console.log this.props
     nodeId = "#{this.props.teamType}-team-jam-#{this.props.jam.jamNumber}-details"
     jqNodeId = "##{nodeId}"
+    jamDetailsClassName = cx
+      'hidden-xs': !this.props.jamSelected == this.props.jam.jamNumber
 
     return(
-      `<div >
+      `<div  className={jamDetailsClassName}>
           <div className="links">
             <div className="row text-center gutters-xs">
               <div className="col-sm-6 col-xs-6">

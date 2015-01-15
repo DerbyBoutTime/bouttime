@@ -91,7 +91,6 @@ exports.Scorekeeper = React.createClass
           </div>
           <JamsList jams={this.state.awayAttributes.jamStates} teamType="away" />
           {/* depending on the team and jam selected pass in the jam as props */}
-          <JamDetails jam={this.state.awayAttributes.jamStates[0]} />
           <PassesList passes={this.state.awayAttributes.passStates} teamType="away" roster={this.state.awayAttributes.skaterStates} />
         </div>
         <div className={homeContainerClass} id="home-team">
@@ -122,7 +121,6 @@ exports.Scorekeeper = React.createClass
             </div>
           </div>
           <JamsList jams={this.state.homeAttributes.jamStates} teamType="home" />
-          <JamDetails jam={this.state.homeAttributes.jamStates[0]} />
           <PassesList passes={this.state.homeAttributes.passStates} teamType="home" />
         </div>
       </div>
