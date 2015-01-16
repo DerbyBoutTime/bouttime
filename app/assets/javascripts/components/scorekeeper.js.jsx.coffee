@@ -100,7 +100,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Current Jam</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right current-jam-score">
-                    <strong>{this.state.jamNumber}</strong>
+                    <strong>{this.props.jamNumber}</strong>
                   </div>
                 </div>
               </div>
