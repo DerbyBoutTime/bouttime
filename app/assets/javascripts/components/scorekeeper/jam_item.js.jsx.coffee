@@ -48,5 +48,6 @@ exports.JamItem = React.createClass
           </div>
         </div>
         <JamDetails jam={this.props.jam} jamSelected={this.props.jamSelected} />
+        {/* depending on the team and jam selected pass in the jam as props */}
       </div>`
     )

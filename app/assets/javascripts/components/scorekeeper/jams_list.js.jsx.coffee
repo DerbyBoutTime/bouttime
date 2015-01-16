@@ -20,15 +20,17 @@ exports.JamsList = React.createClass
         teamType: this.props.teamType
         selectionHandler: this.handleJamSelection.bind(this, jam.jamNumber)
         jamSelected: this.state.jamSelected
+        roster: this.props.roster
 
     # add a blank jam for adding a next jam
     jamComponents.push(
       JamItemFactory
         key: "0"
-        jam: {skaterNumber: "Skater", jamNumber: this.props.jams.length+1}
+        jam: {skaterNumber: "Skater", jamNumber: this.props.jams.length+1, passStates: []}
         teamType: this.props.teamType
         selectionHandler: this.handleJamSelection.bind(this, this.props.jams.length+1)
         jamSelected: this.state.jamSelected
+        roster: this.props.roster
     )
 
     return(

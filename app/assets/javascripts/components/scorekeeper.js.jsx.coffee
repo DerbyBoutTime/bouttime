@@ -89,9 +89,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <JamsList jams={this.state.awayAttributes.jamStates} teamType="away" />
-          {/* depending on the team and jam selected pass in the jam as props */}
-          <PassesList passes={this.state.awayAttributes.passStates} teamType="away" roster={this.state.awayAttributes.skaterStates} />
+          <JamsList jams={this.state.awayAttributes.jamStates} teamType="away" roster={this.state.awayAttributes.skaterStates} />
         </div>
         <div className={homeContainerClass} id="home-team">
           <div className="row stats gutters-xs">
@@ -120,8 +118,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <JamsList jams={this.state.homeAttributes.jamStates} teamType="home" />
-          <PassesList passes={this.state.homeAttributes.passStates} teamType="home" />
+          <JamsList jams={this.state.homeAttributes.jamStates} teamType="home" roster={this.state.homeAttributes.skaterStates} />
         </div>
       </div>
     </div>`
