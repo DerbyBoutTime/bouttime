@@ -1,8 +1,6 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.JamDetails = React.createClass
-  handleMainMenu: (e) ->
-    # console.log e.target
   handlePrev: (e) ->
     # console.log e.target
   handleNext: (e) ->
@@ -20,7 +18,7 @@ exports.JamDetails = React.createClass
           <div className="links">
             <div className="row text-center gutters-xs">
               <div className="col-sm-6 col-xs-6">
-                <div className="link main-menu" onClick={this.handleMainMenu}>
+                <div className="link main-menu" onClick={this.props.mainMenuHandler}>
                   MAIN MENU
                 </div>
               </div>

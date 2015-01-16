@@ -1,9 +1,9 @@
 exports = exports ? this
 exports.JamsList = React.createClass
+  handleMainMenu: (jamNumber) ->
+    this.state.jamSelected = null
+    this.setState(this.state)
   handleJamSelection: (jamNumber) ->
-    console.log "handleJamSelection"
-    console.log jamNumber
-    console.log this.props
     this.state.jamSelected = jamNumber
     this.setState(this.state)
 
@@ -19,6 +19,7 @@ exports.JamsList = React.createClass
         jam: jam
         teamType: this.props.teamType
         selectionHandler: this.handleJamSelection.bind(this, jam.jamNumber)
+        mainMenuHandler: this.handleMainMenu.bind(this, jam.jamNumber)
         jamSelected: this.state.jamSelected
         roster: this.props.roster
 
@@ -29,6 +30,7 @@ exports.JamsList = React.createClass
         jam: {skaterNumber: "Skater", jamNumber: this.props.jams.length+1, passStates: []}
         teamType: this.props.teamType
         selectionHandler: this.handleJamSelection.bind(this, this.props.jams.length+1)
+        mainMenuHandler: this.handleMainMenu.bind(this, this.props.jams.length+1)
         jamSelected: this.state.jamSelected
         roster: this.props.roster
     )
