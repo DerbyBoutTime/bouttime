@@ -5,8 +5,6 @@ exports.JamItem = React.createClass
     this.state = this.props
 
   render: () ->
-    console.log "JamItem"
-    console.log this.props
     nodeId = "#{this.props.teamType}-team-jam-#{this.props.jam.jamNumber}"
     jqNodeId = "##{nodeId}"
     jamRowClassName = cx

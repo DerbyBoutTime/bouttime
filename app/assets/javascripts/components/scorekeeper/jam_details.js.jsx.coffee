@@ -2,8 +2,6 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.JamDetails = React.createClass
   render: () ->
-    console.log "JamDetails"
-    console.log this.props
     nodeId = "#{this.props.teamType}-team-jam-#{this.props.jam.jamNumber}-details"
     jqNodeId = "##{nodeId}"
     jamDetailsClassName = cx

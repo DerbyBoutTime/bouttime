@@ -7,7 +7,6 @@ exports.Scorekeeper = React.createClass
     this.state.awayAttributes.isSelected = !this.state.awayAttributes.isSelected
     this.setState(this.state)
   getInitialState: () ->
-    console.log this
     this.props = exports.wftda.functions.camelize(this.props)
     # make sure one of the tabs isSelected
     if this.props.homeAttributes.isSelected == this.props.awayAttributes.isSelected
