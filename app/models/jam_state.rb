@@ -19,5 +19,5 @@
 
 class JamState < ActiveRecord::Base
   belongs_to :team_state
-  has_many :pass_states
+  has_many :pass_states, -> { order('pass_number ASC') }
 end
