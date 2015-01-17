@@ -21,7 +21,7 @@ exports.SelectRoster = React.createClass
     this.state
 
   componentDidMount: () ->
-    this.state.options.push(`<option key={null} value={null}>Skater</option>`)
+    this.state.options.push(`<option key={"null"} value="__blank">Skater</option>`)
     this.props.roster.map (skater) =>
       this.state.options.push(`<option key={skater.number} value={skater.number}>{skater.name}</option>`)
 
