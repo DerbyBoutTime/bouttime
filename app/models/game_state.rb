@@ -130,6 +130,17 @@ class GameState < ActiveRecord::Base
     JSON.pretty_generate(hash, options)
   end
 
+
+  def find_or_initialize_pass_state_by(attrs)
+    team = attrs["team"]
+    jam_number = attrs["jamNumber"]
+    pass_number = attrs["pass"]
+    self.send(team).
+      jam_states.
+      find_by(jam_number: jam_number).
+      pass_states.find_or_initialize_by(pass_number: pass_number)
+  end
+
   private
 
   def init_teams

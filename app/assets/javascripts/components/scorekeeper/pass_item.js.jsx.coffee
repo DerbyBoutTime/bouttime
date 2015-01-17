@@ -8,12 +8,12 @@ exports.SelectRoster = React.createClass
       pass: this.props.pass.passNumber
       team: this.props.teamType
       jamNumber: this.props.jamNumber
+      state: this.state
     $.extend(std_opts, opts)
 
   handleSelection: (e) ->
     skaterNumber = e.target.value
-    console.log this.getStandardOptions(skaterNumber: skaterNumber)
-    dispatcher.trigger "scorekeeper.set_points", this.getStandardOptions(skaterNumber: skaterNumber)
+    dispatcher.trigger "scorekeeper.set_jammer", this.getStandardOptions(skaterNumber: skaterNumber)
 
   getInitialState: () ->
     this.state = this.props
