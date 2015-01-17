@@ -1,4 +1,20 @@
 exports = exports ? this
+
+exports.SelectRoster = React.createClass
+  getInitialState: () ->
+    this.state = this.props
+    this.state.options = []
+    this.state
+
+  componentDidMount: () ->
+    this.props.roster.map (skater) =>
+      this.state.options.push(`<option key={skater.number} value={skater.number}>{skater.name}</option>`)
+
+  render: () ->
+    `<select className="form-control">
+      {this.state.options}
+    </select>`
+
 exports.PassItem = React.createClass
   render: () ->
     nodeId = "#{this.props.teamType}-team-pass-#{this.props.pass.passNumber}"
@@ -20,7 +36,7 @@ exports.PassItem = React.createClass
           </div>
           <div className="col-sm-2 col-xs-2">
             <div className="skater">
-              {this.props.pass.skaterNumber}
+              <SelectRoster {...this.props} />
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">

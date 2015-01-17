@@ -1,7 +1,6 @@
 exports = exports ? this
 exports.PassesList = React.createClass
   render: () ->
-    console.log this.props
     PassItemFactory = React.createFactory(PassItem)
     passComponents = this.props.passes.map (pass) =>
       PassItemFactory(
