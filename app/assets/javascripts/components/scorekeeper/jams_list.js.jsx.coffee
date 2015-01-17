@@ -1,3 +1,4 @@
+cx = React.addons.classSet
 exports = exports ? this
 exports.JamsList = React.createClass
   handleMainMenu: (jamNumber) ->
@@ -47,9 +48,13 @@ exports.JamsList = React.createClass
         roster: this.props.roster
     )
 
+    jamHeadersClassName = cx
+      'headers': true
+      'hidden-xs': this.state.jamSelected
+
     return(
       `<div className="jams">
-        <div className="headers">
+        <div className={jamHeadersClassName}>
           <div className="row gutters-xs">
             <div className="col-sm-2 col-xs-2">
               <strong>Jam</strong>
