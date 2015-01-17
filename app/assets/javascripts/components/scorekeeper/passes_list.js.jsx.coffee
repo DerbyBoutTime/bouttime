@@ -8,13 +8,15 @@ exports.PassesList = React.createClass
         pass: pass
         teamType: this.props.teamType
         roster: this.props.roster
+        jamNumber: this.props.jamNumber
       )
     passComponents.push(
       PassItemFactory(
         key: "0"
-        pass: {passNumber: this.props.passes.length+1 }
+        pass: { passNumber: this.props.passes.length+1, skaterNumber: null }
         teamType: this.props.teamType
         roster: this.props.roster
+        jamNumber: this.props.jamNumber
       )
     )
 

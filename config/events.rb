@@ -56,7 +56,7 @@ WebsocketRails::EventMap.describe do
     subscribe :toggle_nopass, 'event_log#log'
     subscribe :toggle_calloff, 'event_log#log'
     subscribe :set_points, 'event_log#log'
-    subscribe :set_jammer, 'event_log#log'
+    subscribe :set_jammer, 'scorekeeper#set_jammer'
   end
 
   namespace :lineup_tracker do

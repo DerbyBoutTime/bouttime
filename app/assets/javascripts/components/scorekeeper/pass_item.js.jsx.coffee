@@ -1,17 +1,32 @@
 exports = exports ? this
 
 exports.SelectRoster = React.createClass
+  getStandardOptions: (opts = {}) ->
+    std_opts =
+      time: new Date()
+      role: 'Scorekeeper'
+      pass: this.props.pass.passNumber
+      team: this.props.teamType
+      jamNumber: this.props.jamNumber
+    $.extend(std_opts, opts)
+
+  handleSelection: (e) ->
+    skaterNumber = e.target.value
+    console.log this.getStandardOptions(skaterNumber: skaterNumber)
+    dispatcher.trigger "scorekeeper.set_points", this.getStandardOptions(skaterNumber: skaterNumber)
+
   getInitialState: () ->
     this.state = this.props
     this.state.options = []
     this.state
 
   componentDidMount: () ->
+    this.state.options.push(`<option key={null} value={null}>Skater</option>`)
     this.props.roster.map (skater) =>
       this.state.options.push(`<option key={skater.number} value={skater.number}>{skater.name}</option>`)
 
   render: () ->
-    `<select className="form-control">
+    `<select className="form-control" value={this.state.pass.skaterNumber} onChange={this.handleSelection}>
       {this.state.options}
     </select>`
 
