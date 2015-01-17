@@ -1,11 +1,11 @@
+cx = React.addons.classSet
 exports = exports ? this
-
 exports.SelectRoster = React.createClass
   getStandardOptions: (opts = {}) ->
     std_opts =
       time: new Date()
       role: 'Scorekeeper'
-      pass: this.props.pass.passNumber
+      passNumber: this.props.pass.passNumber
       team: this.props.teamType
       jamNumber: this.props.jamNumber
       state: this.state
@@ -13,6 +13,7 @@ exports.SelectRoster = React.createClass
 
   handleSelection: (e) ->
     skaterNumber = e.target.value
+    this.state.pass.skaterNumber = skaterNumber
     dispatcher.trigger "scorekeeper.set_jammer", this.getStandardOptions(skaterNumber: skaterNumber)
 
   getInitialState: () ->
@@ -31,6 +32,36 @@ exports.SelectRoster = React.createClass
     </select>`
 
 exports.PassItem = React.createClass
+  getStandardOptions: (opts = {}) ->
+    std_opts =
+      time: new Date()
+      role: 'Scorekeeper'
+      passNumber: this.props.pass.passNumber
+      team: this.props.teamType
+      jamNumber: this.props.jamNumber
+      state: this.state
+    $.extend(std_opts, opts)
+
+  toggleInjury: (e) ->
+    this.state.pass.injury = !this.state.pass.injury
+    # this.setState(this.state)
+    dispatcher.trigger "scorekeeper.toggle_injury", this.getStandardOptions()
+
+  toggleCalloff: (e) ->
+    this.state.pass.calloff = !this.state.pass.calloff
+    # this.setState(this.state)
+    dispatcher.trigger "scorekeeper.toggle_calloff", this.getStandardOptions()
+
+  toggleLostLead: (e) ->
+    this.state.pass.lostLead = !this.state.pass.lostLead
+    # this.setState(this.state)
+    dispatcher.trigger "scorekeeper.toggle_lost_lead", this.getStandardOptions()
+
+  getInitialState: () ->
+    this.state = this.props
+    this.state.options = []
+    this.state
+
   render: () ->
     nodeId = "#{this.props.teamType}-team-pass-#{this.props.pass.passNumber}"
     jqNodeId = "##{nodeId}"
@@ -40,6 +71,22 @@ exports.PassItem = React.createClass
 
     editPassId = "#{this.props.teamType}-team-edit-pass-#{this.props.pass.passNumber}"
     jqEditPassId = "##{editPassId}"
+
+    injuryClass = cx
+      'selected': this.state.pass.injury
+      'notes': true
+      'injury': true
+      'text-center': true
+    callClass = cx
+      'selected': this.state.pass.calloff
+      'notes': true
+      'call': true
+      'text-center': true
+    callLost = cx
+      'selected': this.state.pass.lostLead
+      'notes': true
+      'lost': true
+      'text-center': true
 
     `<div aria-multiselectable="true" id={nodeId}>
       <div className="columns">
@@ -55,23 +102,23 @@ exports.PassItem = React.createClass
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div className="notes injury text-center">
+            <div className={injuryClass} onClick={this.toggleInjury}>
               Injury
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div className="notes call text-center">
+            <div className={callClass} onClick={this.toggleCalloff}>
               Call
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div className="notes lost text-center">
+            <div className={callLost} onClick={this.toggleLostLead}>
               Lost
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
             <div aria-controls={jqEditPassId} aria-expanded="false" className="points text-center" data-parent={jqNodeId} data-toggle="collapse" href={jqEditPassId}>
-              {this.props.pass.points}
+              {this.props.pass.points || 0}
             </div>
           </div>
         </div>

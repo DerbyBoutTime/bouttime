@@ -134,7 +134,7 @@ class GameState < ActiveRecord::Base
   def find_or_initialize_pass_state_by(attrs)
     team = attrs["team"]
     jam_number = attrs["jamNumber"]
-    pass_number = attrs["pass"]
+    pass_number = attrs["passNumber"]
     self.send(team).
       jam_states.
       find_by(jam_number: jam_number).

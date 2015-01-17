@@ -104,6 +104,11 @@
           }
           &.lost {
           }
+          &.selected {
+            background-color: $near-black;
+            color: $gray;
+          }
+
         }
         .points {
           background-color: $gray;
