@@ -46,6 +46,10 @@ class TeamState < ActiveRecord::Base
     }
   end
 
+  def update_points
+    self.update_column :points, (self.pass_states.pluck :points).compact.sum
+  end
+
   private
 
   def init_jammer
