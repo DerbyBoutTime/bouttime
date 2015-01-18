@@ -181,6 +181,10 @@
     .row {
       .zero, .one, .two, .three, .four, .five, .six {
         background-color: $white;
+        &.selected {
+          background-color: $near-black;
+          color: $gray;
+        }
       }
     }
   }

@@ -50,12 +50,12 @@ WebsocketRails::EventMap.describe do
   end
 
   namespace :scorekeeper do
-    subscribe :toggle_lead, 'event_log#log'
+    subscribe :toggle_lead, 'scorekeeper#toggle_lead'
     subscribe :toggle_lost_lead, 'scorekeeper#toggle_lost_lead'
     subscribe :toggle_injury, 'scorekeeper#toggle_injury'
-    subscribe :toggle_nopass, 'event_log#log'
+    subscribe :toggle_nopass, 'scorekeeper#toggle_nopass'
     subscribe :toggle_calloff, 'scorekeeper#toggle_calloff'
-    subscribe :set_points, 'event_log#log'
+    subscribe :set_points, 'scorekeeper#set_points'
     subscribe :set_jammer, 'scorekeeper#set_jammer'
   end
 

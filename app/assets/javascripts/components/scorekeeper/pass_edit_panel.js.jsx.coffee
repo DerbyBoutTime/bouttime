@@ -13,23 +13,23 @@ exports.PassEditPanel = React.createClass
 
   toggleInjury: (e) ->
     this.state.pass.injury = !this.state.pass.injury
-    # this.setState(this.state)
     dispatcher.trigger "scorekeeper.toggle_injury", this.getStandardOptions()
 
   toggleCalloff: (e) ->
     this.state.pass.calloff = !this.state.pass.calloff
-    # this.setState(this.state)
     dispatcher.trigger "scorekeeper.toggle_calloff", this.getStandardOptions()
 
   toggleLostLead: (e) ->
     this.state.pass.lostLead = !this.state.pass.lostLead
-    # this.setState(this.state)
     dispatcher.trigger "scorekeeper.toggle_lost_lead", this.getStandardOptions()
 
   toggleLead: (e) ->
     this.state.pass.lead = !this.state.pass.lead
-    this.setState(this.state)
     dispatcher.trigger "scorekeeper.toggle_lead", this.getStandardOptions()
+
+  handleSetPoints: (points) ->
+    this.state.pass.points = points
+    dispatcher.trigger "scorekeeper.set_points", this.getStandardOptions(points: points)
 
   getInitialState: () ->
     this.state = this.props
@@ -56,6 +56,11 @@ exports.PassEditPanel = React.createClass
       'notes': true
       'note-lead': true
       'text-center': true
+    zeroClass = cx
+      'zero': true
+      'text-center': true
+      'selected': this.state.pass.points == 0
+
 
     if this.props.pass.passNumber == 1
       return(
@@ -90,12 +95,12 @@ exports.PassEditPanel = React.createClass
             </div>
             <div className="row gutters-xs">
               <div className="col-sm-2 col-xs-2 col-sm-offset-3 col-xs-offset-3">
-                <div className="zero text-center">
+                <div className={zeroClass} onClick={this.handleSetPoints.bind(this, 0)}>
                   0
                 </div>
               </div>
               <div className="col-sm-2 col-xs-2">
-                <div className="one text-center">
+                <div className="one text-center" onClick={this.handleSetPoints.bind(this, 1)}>
                   1
                 </div>
               </div>
@@ -141,37 +146,37 @@ exports.PassEditPanel = React.createClass
             </div>
             <div className="row gutters-xs">
               <div className="col-sm-1 col-xs-1 col-sm-offset-2 col-xs-offset-2">
-                <div className="zero text-center">
+                <div className="zero text-center" onClick={this.handleSetPoints.bind(this, 0)}>
                   0
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="one text-center">
+                <div className="one text-center" onClick={this.handleSetPoints.bind(this, 1)}>
                   1
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="two text-center">
+                <div className="two text-center" onClick={this.handleSetPoints.bind(this, 2)}>
                   2
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="three text-center">
+                <div className="three text-center" onClick={this.handleSetPoints.bind(this, 3)}>
                   3
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="four text-center">
+                <div className="four text-center" onClick={this.handleSetPoints.bind(this, 4)}>
                   4
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="five text-center">
+                <div className="five text-center" onClick={this.handleSetPoints.bind(this, 5)}>
                   5
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="six text-center">
+                <div className="six text-center" onClick={this.handleSetPoints.bind(this, 6)}>
                   6
                 </div>
               </div>
