@@ -15,6 +15,10 @@ exports.PassEditPanel = React.createClass
     this.state.pass.injury = !this.state.pass.injury
     dispatcher.trigger "scorekeeper.toggle_injury", this.getStandardOptions()
 
+  toggleNopass: (e) ->
+    this.state.pass.nopass = !this.state.pass.nopass
+    dispatcher.trigger "scorekeeper.toggle_nopass", this.getStandardOptions()
+
   toggleCalloff: (e) ->
     this.state.pass.calloff = !this.state.pass.calloff
     dispatcher.trigger "scorekeeper.toggle_calloff", this.getStandardOptions()
@@ -40,6 +44,11 @@ exports.PassEditPanel = React.createClass
       'selected': this.state.pass.injury
       'notes': true
       'injury': true
+      'text-center': true
+    nopassClass = cx
+      'selected': this.state.pass.nopass
+      'notes': true
+      'no-pass': true
       'text-center': true
     callClass = cx
       'selected': this.state.pass.calloff
@@ -129,7 +138,7 @@ exports.PassEditPanel = React.createClass
                 </div>
               </div>
               <div className="col-sm-2 col-xs-2">
-                <div className="notes no-pass text-center">
+                <div className={nopassClass} onClick={this.toggleNopass}>
                   No P.
                 </div>
               </div>
