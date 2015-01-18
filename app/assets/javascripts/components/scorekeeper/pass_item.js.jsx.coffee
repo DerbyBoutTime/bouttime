@@ -32,31 +32,6 @@ exports.SelectRoster = React.createClass
     </select>`
 
 exports.PassItem = React.createClass
-  getStandardOptions: (opts = {}) ->
-    std_opts =
-      time: new Date()
-      role: 'Scorekeeper'
-      passNumber: this.props.pass.passNumber
-      team: this.props.teamType
-      jamNumber: this.props.jamNumber
-      state: this.state
-    $.extend(std_opts, opts)
-
-  toggleInjury: (e) ->
-    this.state.pass.injury = !this.state.pass.injury
-    # this.setState(this.state)
-    dispatcher.trigger "scorekeeper.toggle_injury", this.getStandardOptions()
-
-  toggleCalloff: (e) ->
-    this.state.pass.calloff = !this.state.pass.calloff
-    # this.setState(this.state)
-    dispatcher.trigger "scorekeeper.toggle_calloff", this.getStandardOptions()
-
-  toggleLostLead: (e) ->
-    this.state.pass.lostLead = !this.state.pass.lostLead
-    # this.setState(this.state)
-    dispatcher.trigger "scorekeeper.toggle_lost_lead", this.getStandardOptions()
-
   getInitialState: () ->
     this.state = this.props
     this.state.options = []
@@ -82,7 +57,7 @@ exports.PassItem = React.createClass
       'notes': true
       'call': true
       'text-center': true
-    callLost = cx
+    lostClass = cx
       'selected': this.state.pass.lostLead
       'notes': true
       'lost': true
@@ -102,17 +77,17 @@ exports.PassItem = React.createClass
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div className={injuryClass} onClick={this.toggleInjury}>
+            <div className={injuryClass}>
               Injury
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div className={callClass} onClick={this.toggleCalloff}>
+            <div className={callClass}>
               Call
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div className={callLost} onClick={this.toggleLostLead}>
+            <div className={lostClass}>
               Lost
             </div>
           </div>
@@ -149,5 +124,5 @@ exports.PassItem = React.createClass
           </div>
         </div>
       </div>
-      <PassEditPanel pass={this.props.pass} teamType={this.props.teamType} editPassId={editPassId}/>
+      <PassEditPanel {...this.props} editPassId={editPassId}/>
     </div>`
