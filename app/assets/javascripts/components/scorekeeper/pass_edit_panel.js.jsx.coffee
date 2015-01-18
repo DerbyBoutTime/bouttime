@@ -60,6 +60,30 @@ exports.PassEditPanel = React.createClass
       'zero': true
       'text-center': true
       'selected': this.state.pass.points == 0
+    oneClass = cx
+      'one': true
+      'text-center': true
+      'selected': this.state.pass.points == 1
+    twoClass = cx
+      'two': true
+      'text-center': true
+      'selected': this.state.pass.points == 2
+    threeClass = cx
+      'three': true
+      'text-center': true
+      'selected': this.state.pass.points == 3
+    fourClass = cx
+      'four': true
+      'text-center': true
+      'selected': this.state.pass.points == 4
+    fiveClass = cx
+      'five': true
+      'text-center': true
+      'selected': this.state.pass.points == 5
+    sixClass = cx
+      'six': true
+      'text-center': true
+      'selected': this.state.pass.points == 6
 
 
     if this.props.pass.passNumber == 1
@@ -100,7 +124,7 @@ exports.PassEditPanel = React.createClass
                 </div>
               </div>
               <div className="col-sm-2 col-xs-2">
-                <div className="one text-center" onClick={this.handleSetPoints.bind(this, 1)}>
+                <div className={oneClass} onClick={this.handleSetPoints.bind(this, 1)}>
                   1
                 </div>
               </div>
@@ -146,37 +170,37 @@ exports.PassEditPanel = React.createClass
             </div>
             <div className="row gutters-xs">
               <div className="col-sm-1 col-xs-1 col-sm-offset-2 col-xs-offset-2">
-                <div className="zero text-center" onClick={this.handleSetPoints.bind(this, 0)}>
+                <div className={zeroClass} onClick={this.handleSetPoints.bind(this, 0)}>
                   0
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="one text-center" onClick={this.handleSetPoints.bind(this, 1)}>
+                <div className={oneClass} onClick={this.handleSetPoints.bind(this, 1)}>
                   1
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="two text-center" onClick={this.handleSetPoints.bind(this, 2)}>
+                <div className={twoClass} onClick={this.handleSetPoints.bind(this, 2)}>
                   2
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="three text-center" onClick={this.handleSetPoints.bind(this, 3)}>
+                <div className={threeClass} onClick={this.handleSetPoints.bind(this, 3)}>
                   3
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="four text-center" onClick={this.handleSetPoints.bind(this, 4)}>
+                <div className={fourClass} onClick={this.handleSetPoints.bind(this, 4)}>
                   4
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="five text-center" onClick={this.handleSetPoints.bind(this, 5)}>
+                <div className={fiveClass} onClick={this.handleSetPoints.bind(this, 5)}>
                   5
                 </div>
               </div>
               <div className="col-sm-1 col-xs-1">
-                <div className="six text-center" onClick={this.handleSetPoints.bind(this, 6)}>
+                <div className={sixClass} onClick={this.handleSetPoints.bind(this, 6)}>
                   6
                 </div>
               </div>
