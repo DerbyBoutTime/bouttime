@@ -1,4 +1,12 @@
 class ScorekeeperController < WebsocketController
+  def set_team_points
+    team = message["team"] == "home" ? @game_state.home : @game_state.away
+    team.points = message["points"]
+    team.save!
+
+    broadcast_message :update, @game_state.as_json
+  end
+
   def set_points
     @pass_state = @game_state.find_or_initialize_pass_state_by(message)
     @pass_state.points = message["points"].to_i

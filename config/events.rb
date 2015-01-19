@@ -57,6 +57,7 @@ WebsocketRails::EventMap.describe do
     subscribe :toggle_calloff, 'scorekeeper#toggle_calloff'
     subscribe :set_points, 'scorekeeper#set_points'
     subscribe :set_jammer, 'scorekeeper#set_jammer'
+    subscribe :set_team_points, 'scorekeeper#set_team_points'
   end
 
   namespace :lineup_tracker do

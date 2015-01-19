@@ -45,7 +45,7 @@ exports.JamItem = React.createClass
             </div>
           </div>
         </div>
-        <JamDetails jam={this.props.jam} roster={this.props.roster} jamSelected={this.props.jamSelected} teamType={this.props.teamType} mainMenuHandler={this.props.mainMenuHandler} nextJamHandler={this.props.nextJamHandler} prevJamHandler={this.props.prevJamHandler} />
+        <JamDetails jam={this.props.jam} roster={this.props.roster} jamSelected={this.props.jamSelected} teamType={this.props.teamType} mainMenuHandler={this.props.mainMenuHandler} nextJamHandler={this.props.nextJamHandler} prevJamHandler={this.props.prevJamHandler} updateTeamPoints={this.props.updateTeamPoints} />
         {/* depending on the team and jam selected pass in the jam as props */}
       </div>`
     )

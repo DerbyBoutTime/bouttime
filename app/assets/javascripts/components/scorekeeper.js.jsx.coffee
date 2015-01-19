@@ -1,11 +1,34 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.Scorekeeper = React.createClass
+  getTeamPoints: (team)->
+    points = 0
+    team.jamStates.map (jam) =>
+      jam.passStates.map (pass) =>
+        points += pass.points
+    return points
+
+  getStandardOptions: (opts = {}) ->
+    std_opts =
+      time: new Date()
+      role: 'Scorekeeper'
+      state: this.state
+    $.extend(std_opts, opts)
+
+  updateTeamPoints: (team) ->
+    if team == "home"
+      points = this.state.homeAttributes.points = this.getTeamPoints(this.state.homeAttributes)
+    else
+      points = this.state.awayAttributes.points = this.getTeamPoints(this.state.awayAttributes)
+    this.setState(this.state)
+    dispatcher.trigger "scorekeeper.set_team_points", this.getStandardOptions(team: team, points: points)
+
   # click event handlers
   handleToggleTeam: (e) ->
     this.state.homeAttributes.isSelected = !this.state.homeAttributes.isSelected
     this.state.awayAttributes.isSelected = !this.state.awayAttributes.isSelected
     this.setState(this.state)
+
   getInitialState: () ->
     this.props = exports.wftda.functions.camelize(this.props)
     # make sure one of the tabs isSelected
@@ -88,7 +111,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <JamsList jams={this.state.awayAttributes.jamStates} teamType="away" roster={this.state.awayAttributes.skaterStates} />
+          <JamsList jams={this.state.awayAttributes.jamStates} teamType="away" roster={this.state.awayAttributes.skaterStates} updateTeamPoints={this.updateTeamPoints.bind(this, "away")} />
         </div>
         <div className={homeContainerClass} id="home-team">
           <div className="row stats gutters-xs">
@@ -117,7 +140,7 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <JamsList jams={this.state.homeAttributes.jamStates} teamType="home" roster={this.state.homeAttributes.skaterStates} />
+          <JamsList jams={this.state.homeAttributes.jamStates} teamType="home" roster={this.state.homeAttributes.skaterStates} updateTeamPoints={this.updateTeamPoints.bind(this, "home")} />
         </div>
       </div>
     </div>`

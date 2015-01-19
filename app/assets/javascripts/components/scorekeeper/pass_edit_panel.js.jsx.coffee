@@ -34,6 +34,7 @@ exports.PassEditPanel = React.createClass
   handleSetPoints: (points) ->
     this.state.pass.points = points
     dispatcher.trigger "scorekeeper.set_points", this.getStandardOptions(points: points)
+    this.props.updateTeamPoints(this.props.teamType)
 
   getInitialState: () ->
     this.state = this.props

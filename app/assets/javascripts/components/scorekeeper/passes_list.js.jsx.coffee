@@ -9,6 +9,7 @@ exports.PassesList = React.createClass
         teamType: this.props.teamType
         roster: this.props.roster
         jamNumber: this.props.jamNumber
+        updateTeamPoints: this.props.updateTeamPoints
       )
     passComponents.push(
       PassItemFactory(
@@ -17,6 +18,7 @@ exports.PassesList = React.createClass
         teamType: this.props.teamType
         roster: this.props.roster
         jamNumber: this.props.jamNumber
+        updateTeamPoints: this.props.updateTeamPoints
       )
     )
 

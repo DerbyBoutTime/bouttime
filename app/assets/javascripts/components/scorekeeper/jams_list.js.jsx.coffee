@@ -31,6 +31,7 @@ exports.JamsList = React.createClass
         mainMenuHandler: this.handleMainMenu.bind(this, jam.jamNumber)
         nextJamHandler: this.handleNextJam.bind(this, jam.jamNumber)
         prevJamHandler: this.handlePreviousJam.bind(this, jam.jamNumber)
+        updateTeamPoints: this.props.updateTeamPoints
         jamSelected: this.state.jamSelected
         roster: this.props.roster
 
@@ -44,6 +45,7 @@ exports.JamsList = React.createClass
         mainMenuHandler: this.handleMainMenu.bind(this, this.props.jams.length+1)
         nextJamHandler: this.handleNextJam.bind(this, this.props.jams.length+1)
         prevJamHandler: this.handlePreviousJam.bind(this, this.props.jams.length+1)
+        updateTeamPoints: this.props.updateTeamPoints
         jamSelected: this.state.jamSelected
         roster: this.props.roster
     )

@@ -46,6 +46,6 @@ exports.JamDetails = React.createClass
               </div>
             </div>
           </div>
-          <PassesList jamNumber={this.props.jam.jamNumber} passes={this.props.jam.passStates} teamType={this.props.teamType} roster={this.props.roster} />
+          <PassesList jamNumber={this.props.jam.jamNumber} passes={this.props.jam.passStates} teamType={this.props.teamType} roster={this.props.roster} updateTeamPoints={this.props.updateTeamPoints} />
       </div>`
     )
