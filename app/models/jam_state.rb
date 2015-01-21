@@ -20,4 +20,12 @@
 class JamState < ActiveRecord::Base
   belongs_to :team_state
   has_many :pass_states, -> { order('pass_number ASC') }
+
+  before_create :set_jam_number
+
+  private
+
+  def set_jam_number
+    self.jam_number = self.team_state.jam_states.count + 1
+  end
 end

@@ -25,7 +25,7 @@
 class TeamState < ActiveRecord::Base
   belongs_to :jammer, class_name: "JammerState"
   has_one :game_state
-  has_many :jam_states
+  has_many :jam_states, -> { order('jam_number ASC') }
   has_many :pass_states, through: :jam_states
 
   accepts_nested_attributes_for :jammer, :pass_states, :jam_states

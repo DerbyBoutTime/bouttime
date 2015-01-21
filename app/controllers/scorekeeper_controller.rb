@@ -1,4 +1,13 @@
 class ScorekeeperController < WebsocketController
+  def create_jam
+    puts "#{event.name}"
+    team_type = message[:team] == "home" ? :home : :away
+    jam_state = @game_state.send(team_type).jam_states.build
+    jam_state.save!
+
+    broadcast_message :update, @game_state.reload.as_json
+  end
+
   def set_team_points
     team = message["team"] == "home" ? @game_state.home : @game_state.away
     team.points = message["points"]

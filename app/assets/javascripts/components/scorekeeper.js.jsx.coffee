@@ -39,8 +39,15 @@ exports.Scorekeeper = React.createClass
       homeAttributes: this.props.homeAttributes
       awayAttributes: this.props.awayAttributes
       jamSelected: null
+
+  componentWillReceiveProps: (props) ->
+    this.state.homeAttributes.jamStates = props.homeAttributes.jamStates
+    this.state.awayAttributes.jamStates = props.awayAttributes.jamStates
+    this.setState(this.state)
+
   componentDidMount: () ->
     # ...
+
   render: () ->
     homeActiveTeamClass = cx
       'home': true
