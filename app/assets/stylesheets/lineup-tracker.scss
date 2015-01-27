@@ -13,6 +13,11 @@
       background-color: $gray;
       color: $near-black;
       font-size: 0.8em;
+      padding:0;
+      &.selected {
+        background-color: $muted-gray;
+        color: $white;
+      }
     }
   }
 
@@ -55,6 +60,8 @@
 
     .box {
       color: $gray;
+      background-color: $white;
+      padding:0;
     }
 
     .box-injury {
@@ -71,11 +78,13 @@
     .actions-edit {
       background-color: $near-black;
       color: $white;
+      padding: 0;
     }
 
     .actions-undo {
       background-color: $gray;
       color: $near-black;
+      padding: 0;
     }
   }
 }
