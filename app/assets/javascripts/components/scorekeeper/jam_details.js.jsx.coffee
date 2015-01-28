@@ -1,6 +1,18 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.JamDetails = React.createClass
+  totalPoints: () ->
+    points = 0
+    this.props.jam.passStates.map (pass) =>
+      points += pass.points
+    return points
+
+  getInitialState: () ->
+    this.state = this.props
+
+  componentWillReceiveProps: (props) ->
+    # ...
+
   render: () ->
     nodeId = "#{this.props.teamType}-team-jam-#{this.props.jam.jamNumber}-details"
     jqNodeId = "##{nodeId}"
@@ -41,7 +53,7 @@ exports.JamDetails = React.createClass
               </div>
               <div className="col-sm-3 col-xs-3 text-right">
                 <div className="jam-total-score">
-                  <strong>0</strong>
+                  <strong>{this.totalPoints()}</strong>
                 </div>
               </div>
             </div>
