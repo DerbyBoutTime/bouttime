@@ -1,4 +1,5 @@
 .lineup-tracker {
+
   .jam-details {
     margin-top: 4px;
   }
@@ -10,10 +11,7 @@
     }
 
     .jam-detail-no-pivot, .jam-detail-star-pass {
-      background-color: $gray;
-      color: $near-black;
       font-size: 0.8em;
-      padding:0;
       &.selected {
         background-color: $muted-gray;
         color: $white;
@@ -35,8 +33,9 @@
     }
 
     .skater-selector {
-      background-color: $gray;
-      color: $light-gray;
+      background-color: $light-gray;
+      border-color: $light-gray;
+      color: $gray;
     }
 
     .skater-injury {
@@ -61,7 +60,7 @@
     .box {
       color: $gray;
       background-color: $white;
-      padding:0;
+      border: 1px solid $gray
     }
 
     .box-injury {
@@ -78,13 +77,14 @@
     .actions-edit {
       background-color: $near-black;
       color: $white;
-      padding: 0;
     }
-
-    .actions-undo {
-      background-color: $gray;
-      color: $near-black;
-      padding: 0;
-    }
+  }
+  .btn {
+    border-radius: 2px;
+    font-size: 1.1em;
+    line-height: 30px;
+    padding: 0;
+    background-color: $light-gray;
+    color: $near-black;
   }
 }

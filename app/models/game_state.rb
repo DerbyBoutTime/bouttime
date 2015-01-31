@@ -67,7 +67,65 @@ class GameState < ActiveRecord::Base
           is_lead: false,
           name: "Nattie Long Legs",
           number: "504"
-        }
+        },
+        roster_attributes: [
+          {
+            name: "Wild Cherri",
+            number: "6"
+          },
+          {
+            name: "Rebel Yellow",
+            number: "12AM"
+          },
+          {
+            name: "Agent Maulder",
+            number: "X13",
+          },
+          {
+            name: "Alassin Sane",
+            number: "1973"
+          },
+          {
+            name: "Amelia Scareheart",
+            number: "B52"
+          },
+          {
+            name: "Belle of the Brawl",
+            number: "32"
+          },
+          {
+            name: "Bruze Orman",
+            number: "850"
+          },
+          {
+            name: "ChokeCherry",
+            number: "86"
+          },
+          {
+            name: "Hollicidal",
+            number: "1013"
+          },
+          {
+            name: "Jammunition",
+            number: "50CAL"
+          },
+          {
+            name: "Jean-Juke Picard",
+            number: "1701"
+          },
+          {
+            name: "Madditude Adjustment",
+            number: "23"
+          },
+          {
+            name: "Nattie Long Legs",
+            number: "504"
+          },
+          {
+            name: "Ozzie Kamakazi",
+            number: "747"
+          }
+        ]
       },
       away_attributes: {
         name: "Gotham Rollergirls",
@@ -85,7 +143,65 @@ class GameState < ActiveRecord::Base
           is_lead: true,
           name: "Bonnie Thunders",
           number: "340"
-        }
+        },
+        roster_attributes: [
+          {
+            name: "Ana Bollocks",
+            number: "00"
+          },
+          {
+            name: "Bonita Apple Bomb",
+            number: "4500º"
+          },
+          {
+            name: "Bonnie Thunders",
+            number: "340"
+          },
+          {
+            name: "Caf Fiend",
+            number: "314"
+          },
+          {
+            name: "Claire D. Way",
+            number: "1984"
+          },
+          {
+            name: "Davey Blockit",
+            number: "929"
+          },
+          {
+            name: "Donna Matrix",
+            number: "2"
+          },
+          {
+            name: "Fast and Luce",
+            number: "17"
+          },
+          {
+            name: "Fisti Cuffs",
+            number: "241"
+          },
+          {
+            name: "Hyper Lynx",
+            number: "404"
+          },
+          {
+            name: "Mick Swagger",
+            number: "53"
+          },
+          {
+            name: "Miss Tea Maven",
+            number: "1706"
+          },
+          {
+            name: "OMG WTF",
+            number: "753"
+          },
+          {
+            name: "Puss 'n Glutes",
+            number: "999 Lives"
+          }
+        ]
       }
     })
   end
@@ -100,11 +216,12 @@ class GameState < ActiveRecord::Base
           include: {
             jammer_attributes: {except: [:created_at, :updated_at]},
             pass_states: {},
-            jam_states: {}
+            jam_states: {},
+            roster_attributes: {except: [:created_at, :updated_at]}
           },
           except: [:created_at, :updated_at]
         },
-        :away_attributes => {include: [:jammer_attributes, :pass_states, :jam_states], except: [:created_at, :updated_at]},
+        :away_attributes => {include: [:jammer_attributes, :pass_states, :jam_states, :roster_attributes], except: [:created_at, :updated_at]},
         :jam_clock_attributes => {except: [:created_at, :updated_at]},
         :period_clock_attributes => {except: [:created_at, :updated_at]},
         :game => {}
