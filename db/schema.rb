@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150129193829) do
+ActiveRecord::Schema.define(version: 20150203052150) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,6 +68,45 @@ ActiveRecord::Schema.define(version: 20150129193829) do
     t.string   "name"
     t.string   "number"
     t.boolean  "is_lead"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "lineup_states", force: true do |t|
+    t.integer  "jam_number"
+    t.boolean  "jam_ended"
+    t.integer  "game_state_id"
+    t.integer  "home_state_id"
+    t.integer  "away_state_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "lineup_states", ["away_state_id"], name: "index_lineup_states_on_away_state_id", using: :btree
+  add_index "lineup_states", ["game_state_id"], name: "index_lineup_states_on_game_state_id", using: :btree
+  add_index "lineup_states", ["home_state_id"], name: "index_lineup_states_on_home_state_id", using: :btree
+
+  create_table "lineup_status_states", force: true do |t|
+    t.string   "pivot"
+    t.string   "blocker1"
+    t.string   "blocker2"
+    t.string   "blocker3"
+    t.string   "jammer"
+    t.integer  "lineup_team_state_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "lineup_status_states", ["lineup_team_state_id"], name: "index_lineup_status_states_on_lineup_team_state_id", using: :btree
+
+  create_table "lineup_team_states", force: true do |t|
+    t.boolean  "no_pivot"
+    t.boolean  "star_pass"
+    t.string   "pivot_number"
+    t.string   "blocker1_number"
+    t.string   "blocker2_number"
+    t.string   "blocker3_number"
+    t.string   "jammer_number"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

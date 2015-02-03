@@ -60,6 +60,7 @@ WebsocketRails::EventMap.describe do
   end
 
   namespace :lineup_tracker do
+    subscribe :update, 'lineup_tracker#update'
     subscribe :toggle_star_pass, 'event_log#log'
     subscribe :toggle_pivot, 'event_log#log'
     subscribe :set_jammer, 'event_log#log'
