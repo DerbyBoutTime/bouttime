@@ -8,7 +8,7 @@ exports.JamItem = React.createClass
     jqNodeId = "##{nodeId}"
 
     return(
-      `<div className="row gutters-xs" id={nodeId} onClick={this.handleJamSelection}>
+      <div className="row gutters-xs" id={nodeId} onClick={this.handleJamSelection}>
         <div className="col-sm-2 col-xs-2">
           <div className="jam text-center">
             {this.props.number}
@@ -39,5 +39,5 @@ exports.JamItem = React.createClass
             10
           </div>
         </div>
-      </div>`
+      </div>
     )

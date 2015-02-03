@@ -10,7 +10,7 @@ exports.PassItem = React.createClass
     editPassId = "#{this.props.teamType}-team-edit-pass-#{this.props.pass.passNumber}"
     jqEditPassId = "##{editPassId}"
 
-    `<div aria-multiselectable="true" id={nodeId}>
+    <div aria-multiselectable="true" id={nodeId}>
       <div className="columns">
         <div className="row gutters-xs">
           <div className="col-sm-2 col-xs-2">
@@ -72,4 +72,4 @@ exports.PassItem = React.createClass
         </div>
       </div>
       <PassEditPanel pass={this.props.pass} teamType={this.props.teamType} editPassId={editPassId}/>
-    </div>`
+    </div>

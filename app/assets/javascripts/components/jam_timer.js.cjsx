@@ -417,7 +417,7 @@ exports.JamTimer = React.createClass
       'bar': true
       'active': this.state.awayAttributes.isTakingTimeout && this.state.awayAttributes.timeouts == 0
       'inactive': this.state.awayAttributes.timeouts < 1
-    `<div className="jam-timer">
+    <div className="jam-timer">
         <div className="row text-center">
           <div className="col-md-2 col-xs-2">
             <div className="timeout-bars home">
@@ -548,4 +548,4 @@ exports.JamTimer = React.createClass
             </button>
           </div>
         </div>
-    </div>`
+    </div>

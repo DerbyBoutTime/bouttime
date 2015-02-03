@@ -7,7 +7,7 @@ exports.JamsList = React.createClass
       JamItemFactory({key: this.props.jamNumber, number: this.props.jamNumber, skater: this.props.jammerAttributes.number, teamType: this.props.teamType})
     jamComponents.push(JamItemFactory({key: "0", number: this.props.jams.length+1, skater: "Skater", teamType: this.props.teamType}))
     return(
-      `<div className="jams">
+      <div className="jams">
         <div className="headers">
           <div className="row gutters-xs">
             <div className="col-sm-2 col-xs-2">
@@ -28,5 +28,5 @@ exports.JamsList = React.createClass
           {jamComponents}
         </div>
       </div>
-      `
+      
     )
