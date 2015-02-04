@@ -32,7 +32,7 @@ exports.Navbar = React.createClass
       'active': this.state.tab == "penalty_whiteboard"
     announcersFeedCS = cx
       'active': this.state.tab == "announcers_feed"
-    `<div className="navbar">
+    <div className="navbar">
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-sm-12">
@@ -89,4 +89,4 @@ exports.Navbar = React.createClass
           </div>
         </div>
       </div>
-    </div>`
+    </div>

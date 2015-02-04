@@ -6,4 +6,4 @@ exports.PenaltyTracker = React.createClass
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
   render: () ->
-    `<div className="penalty-tracker"></div>`
+    <div className="penalty-tracker"></div>
