@@ -108,7 +108,7 @@ exports.Scoreboard = React.createClass
       'glyphicon': true
       'glyphicon-star': true
       'hidden': !this.props.homeAttributes.jammerAttributes.isLead
-    `<div className="scoreboard" id="scoreboard">
+    <div className="scoreboard" id="scoreboard">
       <section className="team home">
         <div className="logo">
           <img src={this.props.homeAttributes.logo} />
@@ -198,4 +198,4 @@ exports.Scoreboard = React.createClass
       </section>
       <section className={adsCS}></section>
       <section className={flyinsCS}></section>
-    </div>`
+    </div>

@@ -149,7 +149,7 @@ exports.LineupTracker = React.createClass
       'away': true
       'hidden-xs': !this.props.awayAttributes.isSelected
 
-    `<div className="lineup-tracker">
+    <div className="lineup-tracker">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
           <div className="team-name" style={this.props.awayAttributes.colorBarStyle} onClick={this.handleToggleTeam}>
@@ -172,8 +172,7 @@ exports.LineupTracker = React.createClass
           </div>
         </div>
       </div>
-      {this.state.lineupStatesAttributes.map(function(lineupState, jamIndex){
-        return (
+      {this.state.lineupStatesAttributes.map (lineupState, jamIndex) ->
           <div className="row gutters-xs jam-details" key={jamIndex}>
             <div className="col-sm-6 col-xs-12" id="away-team">
               <JamDetail
@@ -198,8 +197,7 @@ exports.LineupTracker = React.createClass
                 selectSkaterHandler={this.selectSkater.bind(this, jamIndex, 'home')} />
             </div>
           </div>
-        )
-      }, this)}
+      , this}
       <div className="row gutters-xs actions">
         <div className="col-sm-6 col-xs-6">
           <button className="actions-action actions-edit text-center btn btn-block" onClick={this.endJam}>
@@ -213,7 +211,7 @@ exports.LineupTracker = React.createClass
         </div>
       </div>
       <SkaterSelectorDialog roster={this.state.selectorContext.roster} buttonHandler={this.state.selectorContext.buttonHandler} style={this.state.selectorContext.style} />
-    </div>`
+    </div>
 
 exports.JamDetail = React.createClass
   propTypes:
@@ -246,7 +244,7 @@ exports.JamDetail = React.createClass
       'gutters-xs': true
       'actions': true
 
-    `<div>
+    <div>
       <div className="row gutters-xs jam-detail">
         <div className="col-sm-8 col-xs-8">
           <div className="jam-detail-number boxed-good">
@@ -302,13 +300,11 @@ exports.JamDetail = React.createClass
           <SkaterSelector number={this.props.data.jammerNumber} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "jammer")} />
         </div>
       </div>
-      {this.props.data.lineupStatusStatesAttributes.map(function(row, rowIndex) {
-        return (
-          <LineupBoxRow key={rowIndex} data={row} boxHandler={this.props.boxHandler.bind(this, rowIndex)} />
-        )
-      }, this)}
+      {this.props.data.lineupStatusStatesAttributes.map (row, rowIndex) ->
+        <LineupBoxRow key={rowIndex} data={row} boxHandler={this.props.boxHandler.bind(this, rowIndex)} /> 
+      , this }
       <LineupBoxRow key={this.props.data.lineupStatusStatesAttributes.length} boxHandler={this.props.boxHandler.bind(this, this.props.data.lineupStatusStatesAttributes.length)} />
-    </div>`
+    </div>
 
 exports.SkaterSelector = React.createClass
   propTypes:
@@ -320,13 +316,13 @@ exports.SkaterSelector = React.createClass
     if this.props.number
       this.props.number
     else
-      `<span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>`
+      <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
 
 
   render: () ->
-    `<button className="skater-selector text-center btn btn-block" data-toggle="modal" style={this.props.number ? this.props.style : {}} data-target="#roster-modal" onClick={this.props.buttonHandler}>
+    <button className="skater-selector text-center btn btn-block" data-toggle="modal" style={if this.props.number then this.props.style else {}} data-target="#roster-modal" onClick={this.props.buttonHandler}>
       <strong>{this.buttonContent()}</strong>
-    </button>`
+    </button>
 
 exports.SkaterSelectorDialog = React.createClass
   propTypes:
@@ -335,7 +331,7 @@ exports.SkaterSelectorDialog = React.createClass
     style: React.PropTypes.object
 
   render: () ->
-    `<div className="modal fade" id="roster-modal">
+    <div className="modal fade" id="roster-modal">
       <div className="modal-dialog">
         <div className="modal-content">
           <div className="modal-header">
@@ -343,15 +339,13 @@ exports.SkaterSelectorDialog = React.createClass
             <h4 className="modal-title">Select Skater</h4>
           </div>
           <div className="modal-body">
-            {this.props.roster.map(function(skater, rosterIndex){
-              return(
+            {this.props.roster.map (skater, rosterIndex) ->
                 <button key={rosterIndex} className="btn btn-block" style={this.props.style} data-dismiss="modal" onClick={this.props.buttonHandler.bind(this, rosterIndex)}><strong>{skater.name} - {skater.number}</strong></button>
-              )
-            }, this)}
+            , this}
           </div>
         </div>
       </div>
-    </div>`
+    </div>
 
 exports.LineupBoxRow = React.createClass
   getDefaultProps: () ->
@@ -363,7 +357,7 @@ exports.LineupBoxRow = React.createClass
       jammer: 'clear'
 
   render: () ->
-    `<div className="row gutters-xs boxes">
+    <div className="row gutters-xs boxes">
         <div className="col-sm-2 col-xs-2 col-sm-offest-2 col-xs-offset-2">
           <LineupBox status={this.props.data.pivot} boxHandler={this.props.boxHandler.bind(this, 'pivot')} />
         </div>
@@ -379,7 +373,7 @@ exports.LineupBoxRow = React.createClass
         <div className="col-sm-2 col-xs-2">
           <LineupBox status={this.props.data.jammer} boxHandler={this.props.boxHandler.bind(this, 'jammer')} />
         </div>
-      </div>`
+      </div>
 
 
 exports.LineupBox = React.createClass
@@ -391,17 +385,16 @@ exports.LineupBox = React.createClass
 
   boxContent: () ->
     switch this.props.status
-      when 'clear' then `<span>&nbsp;</span>`
-      when null then `<span>&nbsp;</span>`
+      when 'clear' then <span>&nbsp;</span>
+      when null then <span>&nbsp;</span>
       when 'went_to_box' then '/'
       when 'went_to_box_and_released' then 'X'
-      when 'injured' then `<span className="glyphicon glyphicon-paperclip"></span>`
+      when 'injured' then <span className="glyphicon glyphicon-paperclip"></span>
       when 'sat_in_box' then  'S'
       when 'sat_in_box_and_released' then '$'
 
   render: () ->
-    `<button className="box text-center btn btn-block btn-box" onClick={this.props.boxHandler}>
+    <button className="box text-center btn btn-block btn-box" onClick={this.props.boxHandler}>
       <strong>{this.boxContent()}</strong>
-    </button>`
-
+    </button>
 

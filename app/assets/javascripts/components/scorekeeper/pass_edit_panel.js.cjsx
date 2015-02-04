@@ -3,7 +3,7 @@ exports.PassEditPanel = React.createClass
   render: () ->
     if this.props.pass.passNumber == 1
       return(
-        `<div className="panel">
+        <div className="panel">
           <div className="edit-pass first-pass collapse" id={this.props.editPassId}>
             <div className="row gutters-xs">
               <div className="col-sm-2 col-xs-2 col-sm-offset-1 col-xs-offset-1">
@@ -50,11 +50,11 @@ exports.PassEditPanel = React.createClass
               </div>
             </div>
           </div>
-        </div>`
+        </div>
       )
     else
       return(
-        `<div className="panel">
+        <div className="panel">
           <div className="edit-pass second-pass collapse" id={this.props.editPassId}>
             <div className="row gutters-xs">
               <div className="col-sm-2 col-xs-2 col-sm-offset-1 col-xs-offset-1">
@@ -121,5 +121,5 @@ exports.PassEditPanel = React.createClass
               </div>
             </div>
           </div>
-        </div>`
+        </div>
       )

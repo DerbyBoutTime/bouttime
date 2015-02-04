@@ -6,4 +6,4 @@ exports.PenaltyWhiteboard = React.createClass
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
   render: () ->
-    `<div className="penalty-whiteboard"></div>`
+    <div className="penalty-whiteboard"></div>

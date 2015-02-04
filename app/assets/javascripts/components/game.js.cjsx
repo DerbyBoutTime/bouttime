@@ -23,7 +23,7 @@ exports.Game = React.createClass
     penaltyWhiteboard   = React.createElement(PenaltyWhiteboard, this.state)
     announcersFeed      = React.createElement(AnnouncersFeed, this.state)
     gameNotes           = React.createElement(GameNotes, this.state)
-    `<div className="game" data-tab={this.state.tab}>
+    <div className="game" data-tab={this.state.tab}>
       <header>
         <div className="container-fluid">
           <Titlebar />
@@ -49,4 +49,4 @@ exports.Game = React.createClass
         {announcersFeed}
         {gameNotes}
       </div>
-    </div>`
+    </div>
