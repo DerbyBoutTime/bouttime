@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150203052150) do
+ActiveRecord::Schema.define(version: 20150204062448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -128,15 +128,20 @@ ActiveRecord::Schema.define(version: 20150203052150) do
 
   add_index "pass_states", ["jam_state_id"], name: "index_pass_states_on_jam_state_id", using: :btree
 
-  create_table "skater_states", force: true do |t|
+  create_table "rosters", force: true do |t|
+    t.integer "team_state_id"
+    t.integer "skater_id"
+  end
+
+  add_index "rosters", ["skater_id"], name: "index_rosters_on_skater_id", using: :btree
+  add_index "rosters", ["team_state_id"], name: "index_rosters_on_team_state_id", using: :btree
+
+  create_table "skaters", force: true do |t|
     t.string   "name"
     t.string   "number"
-    t.integer  "team_state_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  add_index "skater_states", ["team_state_id"], name: "index_skater_states_on_team_state_id", using: :btree
 
   create_table "team_states", force: true do |t|
     t.string   "name"

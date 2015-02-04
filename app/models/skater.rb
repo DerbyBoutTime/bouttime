@@ -10,6 +10,6 @@
 #  updated_at    :datetime
 #
 
-class SkaterState < ActiveRecord::Base
-  belongs_to :team_state
+class Skater < ActiveRecord::Base
+  has_and_belongs_to_many :team_states, join_table: 'rosters'
 end
