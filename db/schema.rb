@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150204062448) do
+ActiveRecord::Schema.define(version: 20150204085557) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,8 +60,20 @@ ActiveRecord::Schema.define(version: 20150204062448) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_selected",   default: false
+    t.boolean  "no_pivot"
+    t.boolean  "star_pass"
+    t.integer  "pivot_id"
+    t.integer  "blocker1_id"
+    t.integer  "blocker2_id"
+    t.integer  "blocker3_id"
+    t.integer  "jammer_id"
   end
 
+  add_index "jam_states", ["blocker1_id"], name: "index_jam_states_on_blocker1_id", using: :btree
+  add_index "jam_states", ["blocker2_id"], name: "index_jam_states_on_blocker2_id", using: :btree
+  add_index "jam_states", ["blocker3_id"], name: "index_jam_states_on_blocker3_id", using: :btree
+  add_index "jam_states", ["jammer_id"], name: "index_jam_states_on_jammer_id", using: :btree
+  add_index "jam_states", ["pivot_id"], name: "index_jam_states_on_pivot_id", using: :btree
   add_index "jam_states", ["team_state_id"], name: "index_jam_states_on_team_state_id", using: :btree
 
   create_table "jammer_states", force: true do |t|
@@ -72,44 +84,19 @@ ActiveRecord::Schema.define(version: 20150204062448) do
     t.datetime "updated_at"
   end
 
-  create_table "lineup_states", force: true do |t|
-    t.integer  "jam_number"
-    t.boolean  "jam_ended"
-    t.integer  "game_state_id"
-    t.integer  "home_state_id"
-    t.integer  "away_state_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "lineup_states", ["away_state_id"], name: "index_lineup_states_on_away_state_id", using: :btree
-  add_index "lineup_states", ["game_state_id"], name: "index_lineup_states_on_game_state_id", using: :btree
-  add_index "lineup_states", ["home_state_id"], name: "index_lineup_states_on_home_state_id", using: :btree
-
-  create_table "lineup_status_states", force: true do |t|
+  create_table "lineup_statuses", force: true do |t|
     t.string   "pivot"
     t.string   "blocker1"
     t.string   "blocker2"
     t.string   "blocker3"
     t.string   "jammer"
-    t.integer  "lineup_team_state_id"
+    t.integer  "jam_state_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "order"
   end
 
-  add_index "lineup_status_states", ["lineup_team_state_id"], name: "index_lineup_status_states_on_lineup_team_state_id", using: :btree
-
-  create_table "lineup_team_states", force: true do |t|
-    t.boolean  "no_pivot"
-    t.boolean  "star_pass"
-    t.string   "pivot_number"
-    t.string   "blocker1_number"
-    t.string   "blocker2_number"
-    t.string   "blocker3_number"
-    t.string   "jammer_number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
+  add_index "lineup_statuses", ["jam_state_id"], name: "index_lineup_statuses_on_jam_state_id", using: :btree
 
   create_table "pass_states", force: true do |t|
     t.integer  "pass_number"

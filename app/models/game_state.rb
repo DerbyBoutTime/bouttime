@@ -21,14 +21,12 @@ class GameState < ActiveRecord::Base
   belongs_to :away, class_name: "TeamState"
   belongs_to :jam_clock, class_name: "ClockState"
   belongs_to :period_clock, class_name: "ClockState"
-  has_many :lineup_states
 
-  accepts_nested_attributes_for :home, :away, :period_clock, :jam_clock, :lineup_states
+  accepts_nested_attributes_for :home, :away, :period_clock, :jam_clock
   alias_method :home_attributes, :home
   alias_method :away_attributes, :away
   alias_method :period_clock_attributes, :period_clock
   alias_method :jam_clock_attributes, :jam_clock
-  alias_method :lineup_states_attributes, :lineup_states
 
   #enum tab: %i[jam_timer lineup_tracker scorekeeper penalty_tracker penalty_box_timer game_notes scoreboard penalty_whiteboard announcers]
   enum state: %i[pregame halftime jam lineup timeout unofficial_final final]
@@ -62,39 +60,36 @@ class GameState < ActiveRecord::Base
     state.to_s.humanize.upcase
   end
 
+  def except_time_stamps
+    { except: [:created_at, :updated_at] } 
+  end
+
+  def team_state_json_options
+    {
+      include: {
+        jammer_attributes: except_time_stamps,
+        pass_states: except_time_stamps,
+        skaters: except_time_stamps,
+        jam_states: {include: {
+          lineup_statuses: except_time_stamps,
+          pivot: except_time_stamps,
+          blocker1: except_time_stamps,
+          blocker2: except_time_stamps,
+          blocker3: except_time_stamps,
+          jammer: except_time_stamps
+        }}.merge(except_time_stamps),
+      }
+    }.merge(except_time_stamps)
+  end
+
   def as_json
-    h = super(include: {
-        :home_attributes => {
-          include: {
-            jammer_attributes: {except: [:created_at, :updated_at]},
-            pass_states: {},
-            jam_states: {},
-          },
-          except: [:created_at, :updated_at]
-        },
-        :away_attributes => {include: [:jammer_attributes, :pass_states, :jam_states], except: [:created_at, :updated_at]},
-        :jam_clock_attributes => {except: [:created_at, :updated_at]},
-        :period_clock_attributes => {except: [:created_at, :updated_at]},
-        :lineup_states_attributes => { 
-          include: {
-            home_state_attributes: {
-              include: {
-                lineup_status_states_attributes: { except: [:created_at, :updated_at, :id] }
-              },
-              except: [:created_at, :updated_at, :id]
-            },
-            away_state_attributes: {
-              include: {
-                lineup_status_states_attributes: { except: [:created_at, :updated_at, :id] }
-              },
-              except: [:created_at, :updated_at, :id]
-            }
-          },
-          except: [:created_at, :updated_at, :id]
-        },
-        :game => {}
-      })
-    h
+    super(include: {
+      :home_attributes => team_state_json_options,
+      :away_attributes => team_state_json_options,
+      :jam_clock_attributes => except_time_stamps,
+      :period_clock_attributes => except_time_stamps,
+      :game => {}
+    })
   end
 
   def to_json(options = {})
@@ -108,10 +103,4 @@ class GameState < ActiveRecord::Base
     self.build_home if self.home.nil?
     self.build_away if self.away.nil?
   end
-
-  def init_lineups
-    self.lineup_states.build(jam_number: 1) if self.lineup_states.empty?
-  end
-
-  after_initialize :init_teams, :init_lineups
 end
