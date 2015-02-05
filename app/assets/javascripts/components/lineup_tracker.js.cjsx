@@ -20,10 +20,8 @@ exports.LineupTracker = React.createClass
   pushState: () ->
     this.stateStack.push($.extend(true, {}, this.state))
 
-  toggleTeam: () ->
-    switch this.state.selectedTeam
-      when 'away' then this.state.selectedTeam = 'home'
-      when 'home' then this.state.selectedTeam = 'away'
+  selectTeam: (team) ->
+    this.state.selectedTeam = team
     this.setState(this.state)
 
   undo: () ->
@@ -131,20 +129,20 @@ exports.LineupTracker = React.createClass
 
   render: () ->
     homeActiveTeamClass = cx
-      'hidden-xs': this.state.selectedTeam is 'home'
+      'hidden-xs': this.state.selectedTeam != 'home'
 
     awayActiveTeamClass = cx
-      'hidden-xs': this.state.selectedTeam is 'away'
+      'hidden-xs': this.state.selectedTeam != 'away'
 
     <div className="lineup-tracker">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
-          <button className="team-name btn btn-block" style={this.props.awayAttributes.colorBarStyle} onClick={this.toggleTeam}>
+          <button className="team-name btn btn-block" style={this.props.awayAttributes.colorBarStyle} onClick={this.selectTeam.bind(this, 'away')}>
             {this.props.awayAttributes.name}
           </button>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <button className="team-name btn btn-block" style={this.props.homeAttributes.colorBarStyle} onClick={this.toggleTeam}>
+          <button className="team-name btn btn-block" style={this.props.homeAttributes.colorBarStyle} onClick={this.selectTeam.bind(this, 'home')}>
             {this.props.homeAttributes.name}
           </button>
         </div>
