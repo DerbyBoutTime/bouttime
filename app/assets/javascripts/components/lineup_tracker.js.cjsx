@@ -10,6 +10,7 @@ exports.LineupTracker = React.createClass
     selectorContext:
       roster: []
       buttonHandler: this.selectSkater.bind(this, 0, 'away', 'pivot')
+    selectedTeam: 'away'
 
   buildOptions: () ->
     role: 'Lineup Tracker'
@@ -18,6 +19,12 @@ exports.LineupTracker = React.createClass
 
   pushState: () ->
     this.stateStack.push($.extend(true, {}, this.state))
+
+  toggleTeam: () ->
+    switch this.state.selectedTeam
+      when 'away' then this.state.selectedTeam = 'home'
+      when 'home' then this.state.selectedTeam = 'away'
+    this.setState(this.state)
 
   undo: () ->
     previousState = this.stateStack.pop()
@@ -124,24 +131,22 @@ exports.LineupTracker = React.createClass
 
   render: () ->
     homeActiveTeamClass = cx
-      'home': true
-      'hidden-xs': !this.props.homeAttributes.isSelected
+      'hidden-xs': this.state.selectedTeam is 'home'
 
     awayActiveTeamClass = cx
-      'away': true
-      'hidden-xs': !this.props.awayAttributes.isSelected
+      'hidden-xs': this.state.selectedTeam is 'away'
 
     <div className="lineup-tracker">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.props.awayAttributes.colorBarStyle} onClick={this.handleToggleTeam}>
+          <button className="team-name btn btn-block" style={this.props.awayAttributes.colorBarStyle} onClick={this.toggleTeam}>
             {this.props.awayAttributes.name}
-          </div>
+          </button>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <div className="team-name" style={this.props.homeAttributes.colorBarStyle} onClick={this.handleToggleTeam}>
+          <button className="team-name btn btn-block" style={this.props.homeAttributes.colorBarStyle} onClick={this.toggleTeam}>
             {this.props.homeAttributes.name}
-          </div>
+          </button>
         </div>
       </div>
       <div className="active-team">
@@ -155,7 +160,7 @@ exports.LineupTracker = React.createClass
         </div>
       </div>
         <div className="row gutters-xs jam-details">
-          <div className="col-sm-6 col-xs-12" id="away-team">
+          <div className={awayActiveTeamClass + " col-sm-6 col-xs-12"} id="away-team">
             {this.state.gameState.awayAttributes.jamStates.map (jamState, jamIndex) ->
               <JamDetail
                 key={jamIndex}
@@ -169,7 +174,7 @@ exports.LineupTracker = React.createClass
             , this }
             <LineupTrackerActions endHandler={this.endJam.bind(this, 'away')} undoHandler={this.undo}/>
           </div>
-          <div className="col-sm-6 col-xs-12 hidden-xs" id="home-team">
+          <div className={homeActiveTeamClass + " col-sm-6 col-xs-12"} id="home-team">
             {this.state.gameState.homeAttributes.jamStates.map (jamState, jamIndex) ->
               <JamDetail
                 key={jamIndex}
