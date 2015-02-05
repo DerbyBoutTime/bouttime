@@ -221,6 +221,10 @@ exports.JamDetail = React.createClass
     setSelectorContextHandler: React.PropTypes.func.isRequired
     selectSkaterHandler: React.PropTypes.func.isRequired
 
+  isInjured: (position) ->
+    this.props.jamState.lineupStatuses.some (status) ->
+      status[position] is 'injured'
+
   render: () ->
     noPivotButtonClass = cx
       'btn': true
@@ -282,19 +286,19 @@ exports.JamDetail = React.createClass
       </div>
       <div className="row gutters-xs skaters">
         <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2">
-          <SkaterSelector skater={this.props.jamState.pivot} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "pivot")} />
+          <SkaterSelector skater={this.props.jamState.pivot} injured={this.isInjured('pivot')} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "pivot")} />
         </div>
         <div className="col-sm-2 col-xs-2">
-          <SkaterSelector skater={this.props.jamState.blocker1} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "blocker1")} />
+          <SkaterSelector skater={this.props.jamState.blocker1} injured={this.isInjured('blocker1')} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "blocker1")} />
         </div>
         <div className="col-sm-2 col-xs-2">
-          <SkaterSelector skater={this.props.jamState.blocker2} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "blocker2")} />
+          <SkaterSelector skater={this.props.jamState.blocker2} injured={this.isInjured('blocker2')} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "blocker2")} />
         </div>
         <div className="col-sm-2 col-xs-2">
-          <SkaterSelector skater={this.props.jamState.blocker3} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "blocker3")} />
+          <SkaterSelector skater={this.props.jamState.blocker3} injured={this.isInjured('blocker3')} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "blocker3")} />
         </div>
         <div className="col-sm-2 col-xs-2">
-          <SkaterSelector skater={this.props.jamState.jammer} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "jammer")} />
+          <SkaterSelector skater={this.props.jamState.jammer} injured={this.isInjured('jammer')} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "jammer")} />
         </div>
       </div>
       {this.props.jamState.lineupStatuses.map (lineupStatus, statusIndex) ->
@@ -318,7 +322,10 @@ exports.SkaterSelector = React.createClass
 
 
   render: () ->
-    <button className="skater-selector text-center btn btn-block" data-toggle="modal" style={if this.props.skater then this.props.style else {}} data-target="#roster-modal" onClick={this.props.buttonHandler}>
+    injuryClass = cx
+      'skater-injury': this.props.injured
+
+    <button className={injuryClass + " skater-selector text-center btn btn-block"} data-toggle="modal" style={if this.props.skater and not this.props.injured then this.props.style else {}} data-target="#roster-modal" onClick={this.props.buttonHandler}>
       <strong>{this.buttonContent()}</strong>
     </button>
 
@@ -400,7 +407,10 @@ exports.LineupBox = React.createClass
       when 'sat_in_box_and_released' then '$'
 
   render: () ->
-    <button className="box text-center btn btn-block btn-box" onClick={this.props.boxHandler}>
+    injuryClass = cx
+      'box-injury': this.props.status is 'injured'
+
+    <button className={injuryClass + " box text-center btn btn-block btn-box"} onClick={this.props.boxHandler}>
       <strong>{this.boxContent()}</strong>
     </button>
 
