@@ -87,4 +87,19 @@
     background-color: $light-gray;
     color: $near-black;
   }
+
+  .skater-selector-dialog {
+    .skater-selector-dialog-btn {
+      position: relative;
+
+      .skater-number {
+        position: absolute;
+        left: 10px;
+      }
+    }
+    .selector-injury {
+      background-color: $pink;
+      color: $white;
+    }
+  }
 }

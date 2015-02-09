@@ -41,9 +41,9 @@ exports.LineupTracker = React.createClass
     jammer: null
     lineupStatuses: []
 
-  endJam: (team) ->
+  endJam: (teamType) ->
     this.pushState()
-    team = this.getTeamAttributes(team)
+    team = this.getTeamAttributes(teamType)
     lastJam = team.jamStates[team.jamStates.length - 1]
     newJam = this.getNewJam(lastJam.jamNumber + 1)
     positionsInBox = this.positionsInBox(lastJam)
@@ -113,11 +113,24 @@ exports.LineupTracker = React.createClass
     teamState.lineupStatuses[statusIndex][position] = this.statusTransition(currentStatus)
     this.setState(this.state)
 
-  setSelectorContext: (jamIndex, team, position) ->
+  setSelectorContext: (jamIndex, teamType, position) ->
+    team = this.getTeamAttributes(teamType)
+    jam = this.getJamState(jamIndex, teamType)
+
     this.state.selectorContext = 
-      roster: this.getTeamAttributes(team).skaters
-      buttonHandler: this.selectSkater.bind(this, jamIndex, team, position)
-      style: this.getTeamAttributes(team).colorBarStyle
+      roster: team.skaters.map (skater, skaterIndex) ->
+        skaterPosition = switch skater
+          when jam.pivot then 'pivot'
+          when jam.blocker1 then 'blocker1'
+          when jam.blocker2 then 'blocker2'
+          when jam.blocker3 then 'blocker3'
+          when jam.jammer then 'jammer'
+
+        skater: skater
+        isSelected: skaterPosition?
+        isInjured: skaterPosition? and jam.lineupStatuses.some (lineupStatus) -> lineupStatus[skaterPosition] is 'injured'
+      buttonHandler: this.selectSkater.bind(this, jamIndex, teamType, position)
+      style: team.colorBarStyle
     this.setState(this.state)
 
   selectSkater: (jamIndex, team, position, rosterIndex) ->
@@ -336,17 +349,32 @@ exports.SkaterSelectorDialog = React.createClass
     buttonHandler: React.PropTypes.func
     style: React.PropTypes.object
 
+  getDefaultProps: () ->
+    selectedSkaters: []
+    injuredSkaters: []
+
+  injuryClass: (rosterEntry) ->
+    cx
+      'selector-injury' : rosterEntry.isInjured
+
   render: () ->
     <div className="modal fade" id="roster-modal">
-      <div className="modal-dialog">
+      <div className="modal-dialog skater-selector-dialog">
         <div className="modal-content">
           <div className="modal-header">
             <button type="button" className="close" data-dismiss="modal"><span>&times;</span></button>
             <h4 className="modal-title">Select Skater</h4>
           </div>
           <div className="modal-body">
-            {this.props.roster.map (skater, rosterIndex) ->
-                <button key={rosterIndex} className="btn btn-block" style={this.props.style} data-dismiss="modal" onClick={this.props.buttonHandler.bind(this, rosterIndex)}><strong>{skater.name} - {skater.number}</strong></button>
+            {this.props.roster.map (rosterEntry, rosterIndex) ->
+                <button key={rosterIndex}
+                  className={this.injuryClass(rosterEntry) + " btn btn-block skater-selector-dialog-btn"}
+                  style={if rosterEntry.isSelected and not rosterEntry.isInjured then this.props.style}
+                  data-dismiss="modal"
+                  onClick={this.props.buttonHandler.bind(this, rosterIndex)}>
+                    <strong className="skater-number">{rosterEntry.skater.number}</strong>
+                    <strong className="skater-name">{rosterEntry.skater.name}</strong>
+                </button>
             , this}
           </div>
         </div>
