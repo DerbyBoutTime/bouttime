@@ -16,7 +16,7 @@ exports.Game = React.createClass
     # console.log "Jam Time: #{this.state.jamClockAttributes.display}"
     jamTimer            = React.createElement(JamTimer, this.state)
     lineupTracker       = React.createElement(LineupTracker, this.state)
-    # scorekeeper         = React.createElement(Scorekeeper, this.state)
+    scorekeeper         = React.createElement(Scorekeeper, this.state)
     penaltyTracker      = React.createElement(PenaltyTracker, this.state)
     penaltyBoxTimer     = React.createElement(PenaltyBoxTimer, this.state)
     scoreboard          = React.createElement(Scoreboard, this.state)
@@ -41,6 +41,7 @@ exports.Game = React.createClass
       <div className="container">
         {jamTimer}
         {lineupTracker}
+        {scorekeeper}
         {penaltyTracker}
         {penaltyBoxTimer}
         {scoreboard}
