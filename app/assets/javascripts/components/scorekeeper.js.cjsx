@@ -16,6 +16,18 @@ exports.Scorekeeper = React.createClass
       state: this.state
     $.extend(std_opts, opts)
 
+  getTeamState: (teamType) ->
+    switch teamType
+      when 'away' then this.state.gameState.awayAttributes
+      when 'home' then this.state.gameState.homeAttributes
+
+  getJamState: (teamType, jamIndex) ->
+    this.getTeamState(teamType).jamStates[jamIndex]
+
+  buildNewJam: (jamNumber) ->
+    jamNumber: jamNumber
+    passStates: []
+
   # Display actions
   selectTeam: (teamType) ->
     this.setState(selectedTeam: teamType)
@@ -28,6 +40,11 @@ exports.Scorekeeper = React.createClass
       points = this.state.gameState.awayAttributes.points = this.getTeamPoints(this.state.gameState.awayAttributes)
     this.setState(this.state)
     dispatcher.trigger "scorekeeper.set_team_points", this.getStandardOptions(team: team, points: points)
+
+  newJam: (teamType) ->
+    team = this.getTeamState(teamType)
+    team.jamStates.push(this.buildNewJam(team.jamStates.length + 1))
+    this.setState(this.state)
 
   # React callbacks
   getInitialState: () ->
@@ -88,7 +105,10 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <JamsList jams={this.state.gameState.awayAttributes.jamStates} teamType="away" roster={this.state.gameState.awayAttributes.skaterStates} updateTeamPoints={this.updateTeamPoints.bind(this, "away")} />
+          <JamsList 
+            teamState={this.getTeamState('away')}
+            newJamHandler={this.newJam.bind(this, 'away')}
+            updateTeamPoints={this.updateTeamPoints.bind(this, "away")} />
         </div>
         <div className={homeContainerClass} id="home-team">
           <div className="row stats gutters-xs">
@@ -117,7 +137,10 @@ exports.Scorekeeper = React.createClass
               </div>
             </div>
           </div>
-          <JamsList jams={this.state.gameState.homeAttributes.jamStates} teamType="home" roster={this.state.gameState.homeAttributes.skaterStates} updateTeamPoints={this.updateTeamPoints.bind(this, "home")} />
+          <JamsList 
+            teamState={this.getTeamState('home')}
+            newJamHandler={this.newJam.bind(this, 'home')}
+            updateTeamPoints={this.updateTeamPoints.bind(this, "home")} />
         </div>
       </div>
     </div>

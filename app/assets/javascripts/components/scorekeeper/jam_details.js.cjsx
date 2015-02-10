@@ -1,43 +1,39 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.JamDetails = React.createClass
+  displayName: 'JamDetails'
+  propType:
+    jamState: React.PropTypes.object.isRequired
+    mainMenuHandler: React.PropTypes.func
+    prevJamHandler: React.PropTypes.func
+    nextJamHandler: React.PropTypes.func
+
   totalPoints: () ->
     points = 0
-    this.props.jam.passStates.map (pass) =>
+    this.props.jamState.passStates.map (pass) =>
       points += pass.points
     return points
 
-  getInitialState: () ->
-    this.state = this.props
-
-  componentWillReceiveProps: (props) ->
-    # ...
-
   render: () ->
-    nodeId = "#{this.props.teamType}-team-jam-#{this.props.jam.jamNumber}-details"
-    jqNodeId = "##{nodeId}"
-    jamDetailsClassName = cx
-      'hidden-xs': this.props.jamSelected != this.props.jam.jamNumber
-
-    <div className={jamDetailsClassName}>
+    <div className="jam-details">
       <div className="links">
         <div className="row text-center gutters-xs">
           <div className="col-sm-6 col-xs-6">
-            <div className="link main-menu" onClick={this.props.mainMenuHandler}>
-              MAIN MENU
-            </div>
+            <button className="main-menu link btn btn-block" onClick={this.props.mainMenuHandler}>
+              Main Menu
+            </button>
           </div>
           <div className="col-sm-6 col-xs-6">
             <div className="row gutters-xs">
               <div className="col-sm-5 col-xs-5 col-sm-offset-1 col-xs-offset-1">
-                <div className="link prev" onClick={this.props.prevJamHandler}>
-                  PREV
-                </div>
+                <button className="prev link btn btn-block" onClick={this.props.prevJamHandler}>
+                  Prev
+                </button>
               </div>
               <div className="col-sm-6 col-xs-6">
-                <div className="link next" onClick={this.props.nextJamHandler}>
-                  NEXT
-                </div>
+                <button className="next link btn btn-block" onClick={this.props.nextJamHandler}>
+                  Next
+                </button>
               </div>
             </div>
           </div>
@@ -47,7 +43,7 @@ exports.JamDetails = React.createClass
         <div className="row gutters-xs">
           <div className="col-sm-3 col-xs-3 col-sm-offset-6 col-xs-offset-6">
             <div className="jam-number">
-              <strong>Jam {this.props.jam.jamNumber}</strong>
+              <strong>Jam {this.props.jamState.jamNumber}</strong>
             </div>
           </div>
           <div className="col-sm-3 col-xs-3 text-right">
@@ -57,9 +53,24 @@ exports.JamDetails = React.createClass
           </div>
         </div>
       </div>
-      <PassesList jamNumber={this.props.jam.jamNumber}
-        passes={this.props.jam.passStates}
-        teamType={this.props.teamType}
-        roster={this.props.roster}
-        updateTeamPoints={this.props.updateTeamPoints} />
+      <div className="passes">
+        <div className="headers">
+          <div className="row gutters-xs">
+            <div className="col-sm-2 col-xs-2">
+              Pass
+            </div>
+            <div className="col-sm-2 col-xs-2">
+              Skater
+            </div>
+            <div className="col-sm-2 col-xs-2"></div>
+            <div className="col-sm-2 col-xs-2 text-center">
+              Notes
+            </div>
+            <div className="col-sm-2 col-xs-2"></div>
+            <div className="col-sm-2 col-xs-2 text-center">
+              Points
+            </div>
+          </div>
+        </div>
+      </div>
     </div>

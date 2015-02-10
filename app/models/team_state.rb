@@ -55,5 +55,10 @@ class TeamState < ActiveRecord::Base
   def init_jammer
     self.build_jammer if self.jammer.nil?
   end
-  after_initialize :init_jammer
+
+  def init_jams
+    self.jam_states.build(jam_number: 1) if self.jam_states.empty?
+  end
+
+  after_initialize :init_jammer, :init_jams
 end

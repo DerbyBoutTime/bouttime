@@ -1,26 +1,23 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.JamItem = React.createClass
-  getInitialState: () ->
-    this.state = this.props
+  displayName: 'JamItem'
+  propTypes:
+    jamState: React.PropTypes.object.isRequired
+    selectionHandler: React.PropTypes.func
+    updateTeamPoints: React.PropTypes.func
 
   render: () ->
-    nodeId = "#{this.props.teamType}-team-jam-#{this.props.jam.jamNumber}"
-    jqNodeId = "##{nodeId}"
-    jamRowClassName = cx
-      'hidden': this.props.jamSelected
-      'row gutters-xs': true
-
     <div>
-      <div className={jamRowClassName} id={nodeId} onClick={this.props.selectionHandler} >
+      <div className="row gutters-xs" onClick={this.props.selectionHandler} >
         <div className="col-sm-2 col-xs-2">
           <div className="jam text-center">
-            {this.props.jam.jamNumber}
+            {this.props.jamState.jamNumber}
           </div>
         </div>
         <div className="col-sm-2 col-xs-2">
           <div className="skater">
-            {this.props.jam.skaterNumber}
+            Skater
           </div>
         </div>
         <div className="col-sm-2 col-xs-2">
@@ -40,16 +37,8 @@ exports.JamItem = React.createClass
         </div>
         <div className="col-sm-2 col-xs-2">
           <div className="points text-center">
-            10
+            {this.props.jamState.points || 0}
           </div>
         </div>
       </div>
-      <JamDetails jam={this.props.jam}
-        roster={this.props.roster}
-        jamSelected={this.props.jamSelected}
-        teamType={this.props.teamType}
-        mainMenuHandler={this.props.mainMenuHandler}
-        nextJamHandler={this.props.nextJamHandler}
-        prevJamHandler={this.props.prevJamHandler}
-        updateTeamPoints={this.props.updateTeamPoints} />
     </div>
