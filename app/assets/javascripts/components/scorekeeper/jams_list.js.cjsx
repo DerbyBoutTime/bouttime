@@ -26,7 +26,7 @@ exports.JamsList = React.createClass
       this.setState(this.state)
 
   getInitialState: () ->
-    this.state = this.props
+    jamSelected: null
 
   render: () ->
     JamItemFactory = React.createFactory(JamItem)
@@ -63,27 +63,24 @@ exports.JamsList = React.createClass
       'headers': true
       'hidden-xs': this.state.jamSelected
 
-    return(
-      <div className="jams">
-        <div className={jamHeadersClassName}>
-          <div className="row gutters-xs">
-            <div className="col-sm-2 col-xs-2">
-              <strong>Jam</strong>
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              <strong>Skater</strong>
-            </div>
-            <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2 text-center">
-              <strong>Notes</strong>
-            </div>
-            <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2 text-center">
-              <strong>Points</strong>
-            </div>
+    <div className="jams">
+      <div className={jamHeadersClassName}>
+        <div className="row gutters-xs">
+          <div className="col-sm-2 col-xs-2">
+            <strong>Jam</strong>
+          </div>
+          <div className="col-sm-2 col-xs-2">
+            <strong>Skater</strong>
+          </div>
+          <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2 text-center">
+            <strong>Notes</strong>
+          </div>
+          <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2 text-center">
+            <strong>Points</strong>
           </div>
         </div>
-        <div className="columns">
-          {jamComponents}
-        </div>
       </div>
-      
-    )
+      <div className="columns">
+        {jamComponents}
+      </div>
+    </div>
