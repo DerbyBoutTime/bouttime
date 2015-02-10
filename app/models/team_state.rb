@@ -51,20 +51,62 @@ class TeamState < ActiveRecord::Base
         number: "504"
       },
       skaters: [
-        Skater.find_by(name: "Wild Cherri"),
-        Skater.find_by(name: "Rebel Yellow"),
-        Skater.find_by(name: "Agent Maulder"),
-        Skater.find_by(name: "Alassin Sane"),
-        Skater.find_by(name: "Amelia Scareheart"),
-        Skater.find_by(name: "Belle of the Brawl"),
-        Skater.find_by(name: "Bruze Orman"),
-        Skater.find_by(name: "ChokeCherry"),
-        Skater.find_by(name: "Hollicidal"),
-        Skater.find_by(name: "Jammunition"),
-        Skater.find_by(name: "Jean-Juke Picard"),
-        Skater.find_by(name: "Madditude Adjustment"),
-        Skater.find_by(name: "Nattie Long Legs"),
-        Skater.find_by(name: "Ozzie Kamakazi")
+        Skater.find_or_create_by({
+          name: "Wild Cherri",
+          number: "6"
+        }),
+        Skater.find_or_create_by({
+          name: "Rebel Yellow",
+          number: "12AM"
+        }),
+        Skater.find_or_create_by({
+          name: "Agent Maulder",
+          number: "X13",
+        }),
+        Skater.find_or_create_by({
+          name: "Alassin Sane",
+          number: "1973"
+        }),
+        Skater.find_or_create_by({
+          name: "Amelia Scareheart",
+          number: "B52"
+        }),
+        Skater.find_or_create_by({
+          name: "Belle of the Brawl",
+          number: "32"
+        }),
+        Skater.find_or_create_by({
+          name: "Bruze Orman",
+          number: "850"
+        }),
+        Skater.find_or_create_by({
+          name: "ChokeCherry",
+          number: "86"
+        }),
+        Skater.find_or_create_by({
+          name: "Hollicidal",
+          number: "1013"
+        }),
+        Skater.find_or_create_by({
+          name: "Jammunition",
+          number: "50CAL"
+        }),
+        Skater.find_or_create_by({
+          name: "Jean-Juke Picard",
+          number: "1701"
+        }),
+        Skater.find_or_create_by({
+          name: "Madditude Adjustment",
+          number: "23"
+        }),
+        Skater.find_or_create_by({
+          name: "Nattie Long Legs",
+          number: "504"
+        }),
+        Skater.find_or_create_by({
+          name: "Ozzie Kamakazi",
+          number: "747"
+        })
       ]
     })
   end
@@ -88,20 +130,62 @@ class TeamState < ActiveRecord::Base
         number: "340"
       },
       skaters: [
-        Skater.find_by(name: "Ana Bollocks"),
-        Skater.find_by(name: "Bonita Apple Bomb"),
-        Skater.find_by(name: "Bonnie Thunders"),
-        Skater.find_by(name: "Caf Fiend"),
-        Skater.find_by(name: "Claire D. Way"),
-        Skater.find_by(name: "Davey Blockit"),
-        Skater.find_by(name: "Donna Matrix"),
-        Skater.find_by(name: "Fast and Luce"),
-        Skater.find_by(name: "Fisti Cuffs"),
-        Skater.find_by(name: "Hyper Lynx"),
-        Skater.find_by(name: "Mick Swagger"),
-        Skater.find_by(name: "Miss Tea Maven"),
-        Skater.find_by(name: "OMG WTF"),
-        Skater.find_by(name: "Puss 'n Glutes")
+        Skater.find_or_create_by({
+          name: "Ana Bollocks",
+          number: "00"
+        }),
+        Skater.find_or_create_by({
+          name: "Bonita Apple Bomb",
+          number: "4500º"
+        }),
+        Skater.find_or_create_by({
+          name: "Bonnie Thunders",
+          number: "340"
+        }),
+        Skater.find_or_create_by({
+          name: "Caf Fiend",
+          number: "314"
+        }),
+        Skater.find_or_create_by({
+          name: "Claire D. Way",
+          number: "1984"
+        }),
+        Skater.find_or_create_by({
+          name: "Davey Blockit",
+          number: "929"
+        }),
+        Skater.find_or_create_by({
+          name: "Donna Matrix",
+          number: "2"
+        }),
+        Skater.find_or_create_by({
+          name: "Fast and Luce",
+          number: "17"
+        }),
+        Skater.find_or_create_by({
+          name: "Fisti Cuffs",
+          number: "241"
+        }),
+        Skater.find_or_create_by({
+          name: "Hyper Lynx",
+          number: "404"
+        }),
+        Skater.find_or_create_by({
+          name: "Mick Swagger",
+          number: "53"
+        }),
+        Skater.find_or_create_by({
+          name: "Miss Tea Maven",
+          number: "1706"
+        }),
+        Skater.find_or_create_by({
+          name: "OMG WTF",
+          number: "753"
+        }),
+        Skater.find_or_create_by({
+          name: "Puss 'n Glutes",
+          number: "999 Lives"
+        })
       ]
     })
   end
