@@ -64,7 +64,7 @@ exports.JamsList = React.createClass
       'hidden-xs': this.state.jamSelected
 
     return(
-      `<div className="jams">
+      <div className="jams">
         <div className={jamHeadersClassName}>
           <div className="row gutters-xs">
             <div className="col-sm-2 col-xs-2">
@@ -85,5 +85,5 @@ exports.JamsList = React.createClass
           {jamComponents}
         </div>
       </div>
-      `
+      
     )

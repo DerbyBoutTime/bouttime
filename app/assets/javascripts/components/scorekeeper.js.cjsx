@@ -67,7 +67,7 @@ exports.Scorekeeper = React.createClass
       'col-xs-12': true
       'hidden-xs': !this.state.awayAttributes.isSelected
 
-    `<div className="scorekeeper">
+    <div className="scorekeeper">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
           <div className="team-name" style={this.state.awayAttributes.colorBarStyle} onClick={this.handleToggleTeam}>
@@ -150,4 +150,4 @@ exports.Scorekeeper = React.createClass
           <JamsList jams={this.state.homeAttributes.jamStates} teamType="home" roster={this.state.homeAttributes.skaterStates} updateTeamPoints={this.updateTeamPoints.bind(this, "home")} />
         </div>
       </div>
-    </div>`
+    </div>

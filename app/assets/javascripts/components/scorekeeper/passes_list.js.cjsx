@@ -22,7 +22,7 @@ exports.PassesList = React.createClass
       )
     )
 
-    `<div className="passes">
+    <div className="passes">
       <div className="headers">
         <div className="row gutters-xs">
           <div className="col-sm-2 col-xs-2">
@@ -42,4 +42,4 @@ exports.PassesList = React.createClass
         </div>
       </div>
       {passComponents}
-    </div>`
+    </div>

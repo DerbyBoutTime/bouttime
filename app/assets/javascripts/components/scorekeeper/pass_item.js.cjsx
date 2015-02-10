@@ -22,14 +22,14 @@ exports.SelectRoster = React.createClass
     this.state
 
   componentDidMount: () ->
-    this.state.options.push(`<option key={"null"} value="__blank">Skater</option>`)
+    this.state.options.push(<option key={"null"} value="__blank">Skater</option>)
     this.props.roster.map (skater) =>
-      this.state.options.push(`<option key={skater.number} value={skater.number}>{skater.name}</option>`)
+      this.state.options.push(<option key={skater.number} value={skater.number}>{skater.name}</option>)
 
   render: () ->
-    `<select className="form-control" value={this.state.pass.skaterNumber} onChange={this.handleSelection}>
+    <select className="form-control" value={this.state.pass.skaterNumber} onChange={this.handleSelection}>
       {this.state.options}
-    </select>`
+    </select>
 
 exports.PassItem = React.createClass
   getInitialState: () ->
@@ -63,7 +63,7 @@ exports.PassItem = React.createClass
       'lost': true
       'text-center': true
 
-    `<div aria-multiselectable="true" id={nodeId}>
+    <div aria-multiselectable="true" id={nodeId}>
       <div className="columns">
         <div className="row gutters-xs">
           <div className="col-sm-2 col-xs-2">
@@ -125,4 +125,4 @@ exports.PassItem = React.createClass
         </div>
       </div>
       <PassEditPanel {...this.props} editPassId={editPassId}/>
-    </div>`
+    </div>

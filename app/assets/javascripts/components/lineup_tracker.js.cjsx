@@ -37,7 +37,7 @@ exports.LineupTracker = React.createClass
       'away': true
       'hidden-xs': !this.state.awayAttributes.isSelected
 
-    `<div className="lineup-tracker">
+    <div className="lineup-tracker">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
           <div className="boxed-good team-name" style={this.state.awayAttributes.colorBarStyle} onClick={this.handleToggleTeam}>
@@ -284,4 +284,4 @@ exports.LineupTracker = React.createClass
           </div>
         </div>
       </div>
-    </div>`
+    </div>

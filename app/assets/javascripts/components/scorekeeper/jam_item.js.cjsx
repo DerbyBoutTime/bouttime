@@ -12,7 +12,7 @@ exports.JamItem = React.createClass
       'row gutters-xs': true
 
     return(
-      `<div>
+      <div>
         <div className={jamRowClassName} id={nodeId} onClick={this.props.selectionHandler} >
           <div className="col-sm-2 col-xs-2">
             <div className="jam text-center">
@@ -46,6 +46,6 @@ exports.JamItem = React.createClass
           </div>
         </div>
         <JamDetails jam={this.props.jam} roster={this.props.roster} jamSelected={this.props.jamSelected} teamType={this.props.teamType} mainMenuHandler={this.props.mainMenuHandler} nextJamHandler={this.props.nextJamHandler} prevJamHandler={this.props.prevJamHandler} updateTeamPoints={this.props.updateTeamPoints} />
-        {/* depending on the team and jam selected pass in the jam as props */}
-      </div>`
+        {### depending on the team and jam selected pass in the jam as props ###}
+      </div>
     )
