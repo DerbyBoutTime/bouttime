@@ -12,10 +12,10 @@
 
 require "test_helper"
 
-describe SkaterState do
-  let(:skater_state) { SkaterState.new }
+describe Skater do
+  let(:skater) { Skater.new }
 
   it "must be valid" do
-    skater_state.must_be :valid?
+    skater.must_be :valid?
   end
 end
