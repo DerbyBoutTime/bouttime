@@ -3,32 +3,47 @@ exports = exports ? this
 exports.LineupTracker = React.createClass
   displayName: 'LineupTracker'
 
+  #React callbacks
   getInitialState: () ->
     this.props = exports.wftda.functions.camelize(this.props)
     this.stateStack = []
     gameState: this.props
     selectorContext:
       roster: []
-      buttonHandler: this.selectSkater.bind(this, 0, 'away', 'pivot')
+      buttonHandler: this.setSkater.bind(this, 0, 'away', 'pivot')
     selectedTeam: 'away'
 
-  buildOptions: () ->
-    role: 'Lineup Tracker'
-    timestamp: Date.now
-    state: this.state.gameState
+  #Helper functions
+  buildOptions: (opts = {}) ->
+    stdOpts =
+      role: 'Lineup Tracker'
+      timestamp: Date.now
+      state: this.state.gameState
+      options: opts
+    $.extend(stdOpts, opts)
 
-  pushState: () ->
-    this.stateStack.push($.extend(true, {}, this.state))
+  pushState: (eventName, eventOptions) ->
+    this.stateStack.push
+      gameState: $.extend(true, {}, this.state.gameState)
+      eventName: eventName
+      eventOptions: $.extend(true, {}, eventOptions)
 
-  selectTeam: (team) ->
-    this.state.selectedTeam = team
-    this.setState(this.state)
+  getJamState: (jamIndex, team) ->
+    switch team
+      when 'away' then this.state.gameState.awayAttributes.jamStates[jamIndex]
+      when 'home' then this.state.gameState.homeAttributes.jamStates[jamIndex]
 
-  undo: () ->
-    previousState = this.stateStack.pop()
-    if previousState
-      this.state = previousState
-      this.setState(this.state)
+  getTeamAttributes: (team) ->
+    switch team
+      when 'away' then this.state.gameState.awayAttributes
+      when 'home' then this.state.gameState.homeAttributes
+
+  positionsInBox: (jam) ->
+    positions = []
+    for row in jam.lineupStatuses
+      for position, status of row
+        positions.push(position) if status in ['went_to_box', 'sat_in_box']
+    positions
 
   getNewJam: (jamNumber) ->
     jamNumber: jamNumber
@@ -41,50 +56,6 @@ exports.LineupTracker = React.createClass
     jammer: null
     lineupStatuses: []
 
-  endJam: (teamType) ->
-    this.pushState()
-    team = this.getTeamAttributes(teamType)
-    lastJam = team.jamStates[team.jamStates.length - 1]
-    newJam = this.getNewJam(lastJam.jamNumber + 1)
-    positionsInBox = this.positionsInBox(lastJam)
-    if positionsInBox.length > 0
-      newJam.lineupStatuses[0] = {}
-      for position in positionsInBox
-        newJam[position] = lastJam[position]
-        newJam.lineupStatuses[0][position] = 'sat_in_box'
-    team.jamStates.push(newJam)
-    this.setState(this.state)
-
-  positionsInBox: (jam) ->
-    positions = []
-    for row in jam.lineupStatuses
-      for position, status of row
-        positions.push(position) if status in ['went_to_box', 'sat_in_box']
-    positions
-
-
-  getJamState: (jamIndex, team) ->
-    switch team
-      when 'away' then this.state.gameState.awayAttributes.jamStates[jamIndex]
-      when 'home' then this.state.gameState.homeAttributes.jamStates[jamIndex]
-
-  getTeamAttributes: (team) ->
-    switch team
-      when 'away' then this.state.gameState.awayAttributes
-      when 'home' then this.state.gameState.homeAttributes
-
-  toggleNoPivot: (jamIndex, team) ->
-    this.pushState()
-    teamState = this.getJamState(jamIndex, team)
-    teamState.noPivot = !teamState.noPivot
-    this.setState(this.state)
-
-
-  toggleStarPass: (jamIndex, team) ->
-    this.pushState()
-    teamState = this.getJamState(jamIndex, team)
-    teamState.starPass = !teamState.starPass
-    this.setState(this.state)
 
   statusTransition: (status) ->
     switch status
@@ -96,21 +67,9 @@ exports.LineupTracker = React.createClass
       when 'injured' then 'clear'
       else 'clear'
 
-  toggleBox: (jamIndex, team, statusIndex, position) ->
-    this.pushState()
-
-    teamState = this.getJamState(jamIndex, team)
-
-    # Make a new row if need be
-    if statusIndex >= teamState.lineupStatuses.length
-      teamState.lineupStatuses[statusIndex] = {pivot: 'clear', blocker1: 'clear', blocker2: 'clear', blocker3: 'clear', jammer: 'clear' }
-
-    # Initialize position to clear
-    if not teamState.lineupStatuses[statusIndex][position]
-      teamState.lineupStatuses[statusIndex][position] = 'clear'
-
-    currentStatus = teamState.lineupStatuses[statusIndex][position]
-    teamState.lineupStatuses[statusIndex][position] = this.statusTransition(currentStatus)
+  #Display actions
+  selectTeam: (team) ->
+    this.state.selectedTeam = team
     this.setState(this.state)
 
   setSelectorContext: (jamIndex, teamType, position) ->
@@ -129,16 +88,112 @@ exports.LineupTracker = React.createClass
         skater: skater
         isSelected: skaterPosition?
         isInjured: skaterPosition? and jam.lineupStatuses.some (lineupStatus) -> lineupStatus[skaterPosition] is 'injured'
-      buttonHandler: this.selectSkater.bind(this, jamIndex, teamType, position)
+      buttonHandler: this.setSkater.bind(this, jamIndex, teamType, position)
       style: team.colorBarStyle
     this.setState(this.state)
 
-  selectSkater: (jamIndex, team, position, rosterIndex) ->
-    this.pushState()
-    jamState = this.getJamState(jamIndex, team)
-    teamAttributes = this.getTeamAttributes(team)
+  #Data actions
+  toggleNoPivot: (jamIndex, teamType) ->
+    eventName = "lineup_tracker.toggle_no_pivot"
+    eventOptions = this.buildOptions(
+      jamIndex: jamIndex
+      teamType: teamType
+    )
+    this.pushState(eventName, eventOptions)
+
+    teamState = this.getJamState(jamIndex, teamType)
+    teamState.noPivot = !teamState.noPivot
+    this.setState(this.state)
+
+    exports.dispatcher.trigger eventName, eventOptions
+
+  toggleStarPass: (jamIndex, teamType) ->
+    eventName = "lineup_tracker.toggle_star_pass"
+    eventOptions = this.buildOptions(
+      jamIndex: jamIndex
+      teamType: teamType
+    )
+    this.pushState(eventName, eventOptions)
+
+    teamState = this.getJamState(jamIndex, teamType)
+    teamState.starPass = !teamState.starPass
+    this.setState(this.state)
+
+    exports.dispatcher.trigger eventName, eventOptions
+
+  setSkater: (jamIndex, teamType, position, rosterIndex) ->
+    eventName = "lineup_tracker.set_skater"
+    eventOptions = this.buildOptions(
+      jamIndex: jamIndex
+      teamType: teamType
+      position: position
+      rosterIndex: rosterIndex
+    )
+    this.pushState(eventName, eventOptions)
+
+    jamState = this.getJamState(jamIndex, teamType)
+    teamAttributes = this.getTeamAttributes(teamType)
     jamState[position] = teamAttributes.skaters[rosterIndex]
     this.setState(this.state)
+
+    exports.dispatcher.trigger eventName, eventOptions
+
+  setLineupStatus: (jamIndex, teamType, statusIndex, position) ->
+    eventName = "lineup_tracker.set_lineup_status"
+    eventOptions = this.buildOptions(
+      jamIndex: jamIndex
+      teamType: teamType
+      statusIndex: statusIndex
+      position: position
+    )
+    this.pushState(eventName, eventOptions)
+
+    teamState = this.getJamState(jamIndex, teamType)
+
+    # Make a new row if need be
+    if statusIndex >= teamState.lineupStatuses.length
+      teamState.lineupStatuses[statusIndex] = {pivot: 'clear', blocker1: 'clear', blocker2: 'clear', blocker3: 'clear', jammer: 'clear', order: statusIndex }
+
+    # Initialize position to clear
+    if not teamState.lineupStatuses[statusIndex][position]
+      teamState.lineupStatuses[statusIndex][position] = 'clear'
+
+    currentStatus = teamState.lineupStatuses[statusIndex][position]
+    teamState.lineupStatuses[statusIndex][position] = this.statusTransition(currentStatus)
+    this.setState(this.state)
+
+    exports.dispatcher.trigger eventName, eventOptions 
+
+  endJam: (teamType) ->
+    eventName="lineup_tracker.end_jam"
+    eventOptions = this.buildOptions(
+      teamType: teamType
+    )
+    this.pushState(eventName, eventOptions)
+
+    team = this.getTeamAttributes(teamType)
+    lastJam = team.jamStates[team.jamStates.length - 1]
+    newJam = this.getNewJam(lastJam.jamNumber + 1)
+    positionsInBox = this.positionsInBox(lastJam)
+    if positionsInBox.length > 0
+      newJam.lineupStatuses[0] = {}
+      for position in positionsInBox
+        newJam[position] = lastJam[position]
+        newJam.lineupStatuses[0][position] = 'sat_in_box'
+    team.jamStates.push(newJam)
+    this.setState(this.state)
+
+    exports.dispatcher.trigger eventName, eventOptions
+
+  undo: () ->
+    frame = this.stateStack.pop()
+    if frame
+      previousGameState = frame.gameState
+      previousEventName = frame.eventName
+      previousEventOptions = frame.eventOptions
+
+      this.setState(gameState: previousGameState)
+      exports.dispatcher.trigger previousEventName, previousEventOptions
 
   render: () ->
     homeActiveTeamClass = cx
@@ -179,9 +234,9 @@ exports.LineupTracker = React.createClass
                 jamState={jamState}
                 noPivotHandler={this.toggleNoPivot.bind(this, jamIndex, 'away')}
                 starPassHandler={this.toggleStarPass.bind(this, jamIndex, 'away')}
-                boxHandler={this.toggleBox.bind(this, jamIndex, 'away')}
+                lineupStatusHandler={this.setLineupStatus.bind(this, jamIndex, 'away')}
                 setSelectorContextHandler={this.setSelectorContext.bind(this, jamIndex, 'away')}
-                selectSkaterHandler={this.selectSkater.bind(this, jamIndex, 'away')} />
+                selectSkaterHandler={this.setSkater.bind(this, jamIndex, 'away')} />
             , this }
             <LineupTrackerActions endHandler={this.endJam.bind(this, 'away')} undoHandler={this.undo}/>
           </div>
@@ -193,9 +248,9 @@ exports.LineupTracker = React.createClass
                 jamState={jamState}
                 noPivotHandler={this.toggleNoPivot.bind(this, jamIndex, 'home')}
                 starPassHandler={this.toggleStarPass.bind(this, jamIndex, 'home')}
-                boxHandler={this.toggleBox.bind(this, jamIndex, 'home')}
+                lineupStatusHandler={this.setLineupStatus.bind(this, jamIndex, 'home')}
                 setSelectorContextHandler={this.setSelectorContext.bind(this, jamIndex, 'home')}
-                selectSkaterHandler={this.selectSkater.bind(this, jamIndex, 'home')} />
+                selectSkaterHandler={this.setSkater.bind(this, jamIndex, 'home')} />
             , this }
             <LineupTrackerActions endHandler={this.endJam.bind(this, 'home')} undoHandler={this.undo}/>
           </div>
@@ -230,7 +285,7 @@ exports.JamDetail = React.createClass
     jamState: React.PropTypes.object.isRequired
     noPivotHandler: React.PropTypes.func.isRequired
     starPassHandler: React.PropTypes.func.isRequired
-    boxHandler: React.PropTypes.func.isRequired
+    lineupStatusHandler: React.PropTypes.func.isRequired
     setSelectorContextHandler: React.PropTypes.func.isRequired
     selectSkaterHandler: React.PropTypes.func.isRequired
 
@@ -315,9 +370,9 @@ exports.JamDetail = React.createClass
         </div>
       </div>
       {this.props.jamState.lineupStatuses.map (lineupStatus, statusIndex) ->
-        <LineupBoxRow key={statusIndex} lineupStatus=lineupStatus boxHandler={this.props.boxHandler.bind(this, statusIndex)} /> 
+        <LineupBoxRow key={statusIndex} lineupStatus=lineupStatus lineupStatusHandler={this.props.lineupStatusHandler.bind(this, statusIndex)} /> 
       , this }
-      <LineupBoxRow key={this.props.jamState.lineupStatuses.length} boxHandler={this.props.boxHandler.bind(this, this.props.jamState.lineupStatuses.length)} />
+      <LineupBoxRow key={this.props.jamState.lineupStatuses.length} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, this.props.jamState.lineupStatuses.length)} />
     </div>
 
 exports.SkaterSelector = React.createClass
@@ -398,19 +453,19 @@ exports.LineupBoxRow = React.createClass
   render: () ->
     <div className="row gutters-xs boxes">
         <div className="col-sm-2 col-xs-2 col-sm-offest-2 col-xs-offset-2">
-          <LineupBox status={this.props.lineupStatus.pivot} boxHandler={this.props.boxHandler.bind(this, 'pivot')} />
+          <LineupBox status={this.props.lineupStatus.pivot} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, 'pivot')} />
         </div>
         <div className="col-sm-2 col-xs-2">
-          <LineupBox status={this.props.lineupStatus.blocker1} boxHandler={this.props.boxHandler.bind(this, 'blocker1')} />
+          <LineupBox status={this.props.lineupStatus.blocker1} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, 'blocker1')} />
         </div>
         <div className="col-sm-2 col-xs-2">
-          <LineupBox status={this.props.lineupStatus.blocker2} boxHandler={this.props.boxHandler.bind(this, 'blocker2')} />
+          <LineupBox status={this.props.lineupStatus.blocker2} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, 'blocker2')} />
         </div>
         <div className="col-sm-2 col-xs-2">
-          <LineupBox status={this.props.lineupStatus.blocker3} boxHandler={this.props.boxHandler.bind(this, 'blocker3')} />
+          <LineupBox status={this.props.lineupStatus.blocker3} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, 'blocker3')} />
         </div>
         <div className="col-sm-2 col-xs-2">
-          <LineupBox status={this.props.lineupStatus.jammer} boxHandler={this.props.boxHandler.bind(this, 'jammer')} />
+          <LineupBox status={this.props.lineupStatus.jammer} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, 'jammer')} />
         </div>
       </div>
 
@@ -438,7 +493,7 @@ exports.LineupBox = React.createClass
     injuryClass = cx
       'box-injury': this.props.status is 'injured'
 
-    <button className={injuryClass + " box text-center btn btn-block btn-box"} onClick={this.props.boxHandler}>
+    <button className={injuryClass + " box text-center btn btn-block btn-box"} onClick={this.props.lineupStatusHandler}>
       <strong>{this.boxContent()}</strong>
     </button>
 

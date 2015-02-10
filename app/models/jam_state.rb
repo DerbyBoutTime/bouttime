@@ -33,4 +33,6 @@ class JamState < ActiveRecord::Base
   belongs_to :jammer, class_name: 'Skater'
   has_many :pass_states
   has_many :lineup_statuses
+
+  accepts_nested_attributes_for :lineup_statuses
 end
