@@ -1,102 +1,63 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.PassEditPanel = React.createClass
-  getStandardOptions: (opts = {}) ->
-    std_opts =
-      time: new Date()
-      role: 'Scorekeeper'
-      passNumber: this.props.pass.passNumber
-      team: this.props.teamType
-      jamNumber: this.props.jamNumber
-      state: this.state
-    $.extend(std_opts, opts)
-
-  toggleInjury: (e) ->
-    this.state.pass.injury = !this.state.pass.injury
-    dispatcher.trigger "scorekeeper.toggle_injury", this.getStandardOptions()
-
-  toggleNopass: (e) ->
-    this.state.pass.nopass = !this.state.pass.nopass
-    dispatcher.trigger "scorekeeper.toggle_nopass", this.getStandardOptions()
-
-  toggleCalloff: (e) ->
-    this.state.pass.calloff = !this.state.pass.calloff
-    dispatcher.trigger "scorekeeper.toggle_calloff", this.getStandardOptions()
-
-  toggleLostLead: (e) ->
-    this.state.pass.lostLead = !this.state.pass.lostLead
-    dispatcher.trigger "scorekeeper.toggle_lost_lead", this.getStandardOptions()
-
-  toggleLead: (e) ->
-    this.state.pass.lead = !this.state.pass.lead
-    dispatcher.trigger "scorekeeper.toggle_lead", this.getStandardOptions()
-
-  handleSetPoints: (points) ->
-    this.state.pass.points = points
-    dispatcher.trigger "scorekeeper.set_points", this.getStandardOptions(points: points)
-    this.props.updateTeamPoints(this.props.teamType)
-
-  getInitialState: () ->
-    this.state = this.props
-    this.state
-
   render: () ->
     injuryClass = cx
-      'selected': this.state.pass.injury
+      'selected': this.props.passState.injury
       'notes': true
       'injury': true
       'text-center': true
     nopassClass = cx
-      'selected': this.state.pass.nopass
+      'selected': this.props.passState.nopass
       'notes': true
       'no-pass': true
       'text-center': true
     callClass = cx
-      'selected': this.state.pass.calloff
+      'selected': this.props.passState.calloff
       'notes': true
       'call': true
       'text-center': true
     lostClass = cx
-      'selected': this.state.pass.lostLead
+      'selected': this.props.passState.lostLead
       'notes': true
       'lost': true
       'text-center': true
     leadClass = cx
-      'selected': this.state.pass.lead
+      'selected': this.props.passState.lead
       'notes': true
       'note-lead': true
       'text-center': true
     zeroClass = cx
       'zero': true
       'text-center': true
-      'selected': this.state.pass.points == 0
+      'selected': this.props.passState.points == 0
     oneClass = cx
       'one': true
       'text-center': true
-      'selected': this.state.pass.points == 1
+      'selected': this.props.passState.points == 1
     twoClass = cx
       'two': true
       'text-center': true
-      'selected': this.state.pass.points == 2
+      'selected': this.props.passState.points == 2
     threeClass = cx
       'three': true
       'text-center': true
-      'selected': this.state.pass.points == 3
+      'selected': this.props.passState.points == 3
     fourClass = cx
       'four': true
       'text-center': true
-      'selected': this.state.pass.points == 4
+      'selected': this.props.passState.points == 4
     fiveClass = cx
       'five': true
       'text-center': true
-      'selected': this.state.pass.points == 5
+      'selected': this.props.passState.points == 5
     sixClass = cx
       'six': true
       'text-center': true
-      'selected': this.state.pass.points == 6
+      'selected': this.props.passState.points == 6
 
 
-    if this.props.pass.passNumber == 1
+    if this.props.passState.passNumber == 1
       <div className="panel">
         <div className="edit-pass first-pass collapse" id={this.props.editPassId}>
           <div className="row gutters-xs">
@@ -106,17 +67,17 @@ exports.PassEditPanel = React.createClass
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className={injuryClass} onClick={this.toggleInjury}>
+              <div className={injuryClass} onClick={this.props.actions.toggleInjury}>
                 Injury
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className={leadClass} onClick={this.toggleLead}>
+              <div className={leadClass} onClick={this.props.actions.toggleLead}>
                 Lead
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className={callClass} onClick={this.toggleCalloff}>
+              <div className={callClass} onClick={this.props.actions.toggleCalloff}>
                 Call
               </div>
             </div>
@@ -128,17 +89,17 @@ exports.PassEditPanel = React.createClass
           </div>
           <div className="row gutters-xs">
             <div className="col-sm-2 col-xs-2 col-sm-offset-3 col-xs-offset-3">
-              <div className={zeroClass} onClick={this.handleSetPoints.bind(this, 0)}>
+              <div className={zeroClass} onClick={this.props.actions.setPoints.bind(this, 0)}>
                 0
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className={oneClass} onClick={this.handleSetPoints.bind(this, 1)}>
+              <div className={oneClass} onClick={this.props.actions.setPoints.bind(this, 1)}>
                 1
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className={nopassClass} onClick={this.toggleNopass}>
+              <div className={nopassClass} onClick={this.props.actions.toggleNopass}>
                 No P.
               </div>
             </div>
@@ -155,17 +116,17 @@ exports.PassEditPanel = React.createClass
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className={injuryClass} onClick={this.toggleInjury}>
+              <div className={injuryClass} onClick={this.props.actions.toggleInjury}>
                 Injury
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className={lostClass} onClick={this.toggleLostLead}>
+              <div className={lostClass} onClick={this.props.actions.toggleLostLead}>
                 Lost
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className={callClass} onClick={this.toggleCalloff}>
+              <div className={callClass} onClick={this.props.actions.toggleCalloff}>
                 Call
               </div>
             </div>
@@ -177,37 +138,37 @@ exports.PassEditPanel = React.createClass
           </div>
           <div className="row gutters-xs">
             <div className="col-sm-1 col-xs-1 col-sm-offset-2 col-xs-offset-2">
-              <div className={zeroClass} onClick={this.handleSetPoints.bind(this, 0)}>
+              <div className={zeroClass} onClick={this.props.actions.setPoints.bind(this, 0)}>
                 0
               </div>
             </div>
             <div className="col-sm-1 col-xs-1">
-              <div className={oneClass} onClick={this.handleSetPoints.bind(this, 1)}>
+              <div className={oneClass} onClick={this.props.actions.setPoints.bind(this, 1)}>
                 1
               </div>
             </div>
             <div className="col-sm-1 col-xs-1">
-              <div className={twoClass} onClick={this.handleSetPoints.bind(this, 2)}>
+              <div className={twoClass} onClick={this.props.actions.setPoints.bind(this, 2)}>
                 2
               </div>
             </div>
             <div className="col-sm-1 col-xs-1">
-              <div className={threeClass} onClick={this.handleSetPoints.bind(this, 3)}>
+              <div className={threeClass} onClick={this.props.actions.setPoints.bind(this, 3)}>
                 3
               </div>
             </div>
             <div className="col-sm-1 col-xs-1">
-              <div className={fourClass} onClick={this.handleSetPoints.bind(this, 4)}>
+              <div className={fourClass} onClick={this.props.actions.setPoints.bind(this, 4)}>
                 4
               </div>
             </div>
             <div className="col-sm-1 col-xs-1">
-              <div className={fiveClass} onClick={this.handleSetPoints.bind(this, 5)}>
+              <div className={fiveClass} onClick={this.props.actions.setPoints.bind(this, 5)}>
                 5
               </div>
             </div>
             <div className="col-sm-1 col-xs-1">
-              <div className={sixClass} onClick={this.handleSetPoints.bind(this, 6)}>
+              <div className={sixClass} onClick={this.props.actions.setPoints.bind(this, 6)}>
                 6
               </div>
             </div>

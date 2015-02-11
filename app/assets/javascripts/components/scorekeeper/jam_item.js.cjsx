@@ -5,7 +5,12 @@ exports.JamItem = React.createClass
   propTypes:
     jamState: React.PropTypes.object.isRequired
     selectionHandler: React.PropTypes.func
-    updateTeamPoints: React.PropTypes.func
+
+  totalPoints: () ->
+    points = 0
+    this.props.jamState.passStates.map (pass) =>
+      points += pass.points || 0
+    return points
 
   render: () ->
     <div>
@@ -37,7 +42,7 @@ exports.JamItem = React.createClass
         </div>
         <div className="col-sm-2 col-xs-2">
           <div className="points text-center">
-            {this.props.jamState.points || 0}
+            {this.totalPoints()}
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ exports.JamDetails = React.createClass
   displayName: 'JamDetails'
   propType:
     jamState: React.PropTypes.object.isRequired
+    actions: React.PropTypes.object.isRequired
     mainMenuHandler: React.PropTypes.func
     prevJamHandler: React.PropTypes.func
     nextJamHandler: React.PropTypes.func
@@ -11,11 +12,11 @@ exports.JamDetails = React.createClass
   totalPoints: () ->
     points = 0
     this.props.jamState.passStates.map (pass) =>
-      points += pass.points
+      points += pass.points || 0
     return points
 
   render: () ->
-    <div className="jam-details">
+    <div className="jam-details-container">
       <div className="links">
         <div className="row text-center gutters-xs">
           <div className="col-sm-6 col-xs-6">
@@ -53,24 +54,6 @@ exports.JamDetails = React.createClass
           </div>
         </div>
       </div>
-      <div className="passes">
-        <div className="headers">
-          <div className="row gutters-xs">
-            <div className="col-sm-2 col-xs-2">
-              Pass
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              Skater
-            </div>
-            <div className="col-sm-2 col-xs-2"></div>
-            <div className="col-sm-2 col-xs-2 text-center">
-              Notes
-            </div>
-            <div className="col-sm-2 col-xs-2"></div>
-            <div className="col-sm-2 col-xs-2 text-center">
-              Points
-            </div>
-          </div>
-        </div>
-      </div>
+      <PassesList passStates={this.props.jamState.passStates}
+        actions={this.props.actions}/>
     </div>

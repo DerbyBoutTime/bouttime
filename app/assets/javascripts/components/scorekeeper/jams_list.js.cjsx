@@ -4,8 +4,16 @@ exports.JamsList = React.createClass
   displayName: 'JamsList'
   propTypes:
     teamState: React.PropTypes.object.isRequired
-    newJamHandler: React.PropTypes.func
-    updateTeamPoints: React.PropTypes.func
+    actions: React.PropTypes.object.isRequired
+
+  bindActions: (jamIndex) ->
+    Object.keys(this.props.actions).map((key) ->
+      key: key
+      value: this.props.actions[key].bind(this, jamIndex)
+    , this).reduce((actions, action) ->
+      actions[action.key] = action.value
+      actions
+    , {})
 
   selectedJam: () ->
     this.props.teamState.jamStates[this.state.jamSelected || 0]
@@ -15,7 +23,7 @@ exports.JamsList = React.createClass
 
   handleJamSelection: (jamIndex, newJam) ->
     if newJam
-      this.props.newJamHandler()
+      this.props.actions.newJam(jamNumber: this.props.teamState.jamStates.length + 1, passStates: [])
     this.setState(jamSelected: jamIndex)
 
   handleNextJam: () ->
@@ -37,7 +45,6 @@ exports.JamsList = React.createClass
         key: jamIndex
         jamState: jamState
         selectionHandler: this.handleJamSelection.bind(this, jamIndex, false)
-        updateTeamPoints: this.props.updateTeamPoints
 
     # add a blank jam for adding a next jam
     jamComponents.push(
@@ -45,7 +52,6 @@ exports.JamsList = React.createClass
         key: this.props.teamState.jamStates.length
         jamState: {jamNumber: this.props.teamState.jamStates.length+1, passStates: []}
         selectionHandler: this.handleJamSelection.bind(this, this.props.teamState.jamStates.length, true)
-        updateTeamPoints: this.props.updateTeamPoints
     )
 
     jamsContainerClass = cx
@@ -81,6 +87,7 @@ exports.JamsList = React.createClass
       <div className={passesContainerClass}>
         <JamDetails
           jamState={this.selectedJam()}
+          actions={this.bindActions(this.state.jamSelected)}
           mainMenuHandler={this.handleMainMenu}
           prevJamHandler={this.handlePreviousJam}
           nextJamHandler={this.handleNextJam} />

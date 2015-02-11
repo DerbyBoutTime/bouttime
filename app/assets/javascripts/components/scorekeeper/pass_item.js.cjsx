@@ -1,79 +1,54 @@
 cx = React.addons.classSet
 exports = exports ? this
-exports.SelectRoster = React.createClass
-  getStandardOptions: (opts = {}) ->
-    std_opts =
-      time: new Date()
-      role: 'Scorekeeper'
-      passNumber: this.props.pass.passNumber
-      team: this.props.teamType
-      jamNumber: this.props.jamNumber
-      state: this.state
-    $.extend(std_opts, opts)
-
-  handleSelection: (e) ->
-    skaterNumber = e.target.value
-    this.state.pass.skaterNumber = skaterNumber
-    dispatcher.trigger "scorekeeper.set_jammer", this.getStandardOptions(skaterNumber: skaterNumber)
-
-  getInitialState: () ->
-    this.state = this.props
-    this.state.options = []
-    this.state
-
-  componentDidMount: () ->
-    this.state.options.push(<option key={"null"} value="__blank">Skater</option>)
-    this.props.roster.map (skater) =>
-      this.state.options.push(<option key={skater.number} value={skater.number}>{skater.name}</option>)
-
-  render: () ->
-    <select className="form-control" value={this.state.pass.skaterNumber} onChange={this.handleSelection}>
-      {this.state.options}
-    </select>
 
 exports.PassItem = React.createClass
-  getInitialState: () ->
-    this.state = this.props
-    this.state.options = []
-    this.state
+  displayName: 'PassItem'
+  propType:
+    passState: React.PropTypes.object.isRequired
+    actions: React.PropTypes.object.isRequired
+
+  decrementPassNumber: () ->
+    passNumber = this.props.passState.passNumber
+    if passNumber > 1
+      this.props.actions.setPassNumber(passNumber - 1)
+
+  incrementPassNumber: () ->
+    passNumber = this.props.passState.passNumber
+    this.props.actions.setPassNumber(passNumber + 1)
 
   render: () ->
-    nodeId = "#{this.props.teamType}-team-pass-#{this.props.pass.passNumber}"
-    jqNodeId = "##{nodeId}"
-
-    editPassNumberId = "#{this.props.teamType}-team-edit-pass-number-#{this.props.pass.passNumber}"
-    jqEditPassNumberId = "##{editPassNumberId}"
-
-    editPassId = "#{this.props.teamType}-team-edit-pass-#{this.props.pass.passNumber}"
-    jqEditPassId = "##{editPassId}"
-
     injuryClass = cx
-      'selected': this.state.pass.injury
+      'selected': this.props.passState.injury
       'notes': true
       'injury': true
       'text-center': true
+
     callClass = cx
-      'selected': this.state.pass.calloff
+      'selected': this.props.passState.calloff
       'notes': true
       'call': true
       'text-center': true
+
     lostClass = cx
-      'selected': this.state.pass.lostLead
+      'selected': this.props.passState.lostLead
       'notes': true
       'lost': true
       'text-center': true
 
-    <div aria-multiselectable="true" id={nodeId}>
+    editPassNumberId = "edit-pass-number#{exports.wftda.functions.uniqueId()}"
+    editPassId = "edit-pass-#{exports.wftda.functions.uniqueId()}"
+
+    <div aria-multiselectable="true">
       <div className="columns">
         <div className="row gutters-xs">
           <div className="col-sm-2 col-xs-2">
-            <div aria-controls={jqEditPassNumberId} aria-expanded="false" className="pass text-center" data-parent={jqNodeId} data-toggle="collapse" href={jqEditPassNumberId}>
-              {this.props.pass.passNumber}
-            </div>
+            <button className="pass btn btn-block" data-toggle="collapse" data-target={"##{editPassNumberId}"} aria-expanded="false" aria-controls={editPassNumberId} >
+              {this.props.passState.passNumber}
+            </button>
           </div>
           <div className="col-sm-2 col-xs-2">
             <div className="skater">
-              <SelectRoster {...this.props} />
+              Skater
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
@@ -92,9 +67,9 @@ exports.PassItem = React.createClass
             </div>
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div aria-controls={jqEditPassId} aria-expanded="false" className="points text-center" data-parent={jqNodeId} data-toggle="collapse" href={jqEditPassId}>
-              {this.props.pass.points || 0}
-            </div>
+            <button className="points btn btn-block" data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId} >
+              {this.props.passState.points || 0}
+            </button>
           </div>
         </div>
       </div>
@@ -107,12 +82,12 @@ exports.PassItem = React.createClass
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className="minus text-center">
+              <div className="minus text-center" onClick={this.decrementPassNumber}>
                 <span aria-hidden="true" className="glyphicon glyphicon-minus"></span>
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className="plus text-center">
+              <div className="plus text-center" onClick={this.incrementPassNumber}>
                 <span aria-hidden="true" className="glyphicon glyphicon-plus"></span>
               </div>
             </div>

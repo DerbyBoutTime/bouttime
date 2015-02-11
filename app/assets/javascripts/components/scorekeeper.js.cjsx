@@ -1,14 +1,67 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.Scorekeeper = React.createClass
-  # Helper functions
-  getTeamPoints: (team)->
-    points = 0
-    team.jamStates.map (jam) =>
-      jam.passStates.map (pass) =>
-        points += pass.points
-    return points
+  displayName: 'Scorekeeper'
 
+  componentWillMount: () ->
+    this.actions = 
+      newJam: (teamType, jam) ->
+        team = this.getTeamState(teamType)
+        team.jamStates.push(jam)
+        this.setState(this.state)
+
+      newPass: (teamType, jamIndex, pass) ->
+        jam = this.getJamState(teamType, jamIndex)
+        jam.passStates.push(pass)
+        this.setState(this.state)
+
+      toggleInjury: (teamType, jamIndex, passIndex) ->
+        pass = this.getPassState(teamType, jamIndex, passIndex)
+        pass.injury = !pass.injury
+        dispatcher.trigger "scorekeeper.toggle_injury", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
+        this.setState(this.state)
+
+      toggleNopass: (teamType, jamIndex, passIndex) ->
+        pass = this.getPassState(teamType, jamIndex, passIndex)
+        pass.nopass = !pass.nopass
+        dispatcher.trigger "scorekeeper.toggle_nopass", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
+        this.setState(this.state)
+
+      toggleCalloff: (teamType, jamIndex, passIndex) ->
+        pass = this.getPassState(teamType, jamIndex, passIndex)
+        pass.calloff = !pass.calloff
+        dispatcher.trigger "scorekeeper.toggle_calloff", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
+        this.setState(this.state)
+
+      toggleLostLead: (teamType, jamIndex, passIndex) ->
+        pass = this.getPassState(teamType, jamIndex, passIndex)
+        pass.lostLead = !pass.lostLead
+        dispatcher.trigger "scorekeeper.toggle_lost_lead", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
+        this.setState(this.state)
+
+      toggleLead: (teamType, jamIndex, passIndex) ->
+        pass = this.getPassState(teamType, jamIndex, passIndex)
+        pass.lead = !pass.lead
+        dispatcher.trigger "scorekeeper.toggle_lead", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
+        this.setState(this.state)
+
+      setPoints: (teamType, jamIndex, passIndex, points) ->
+        pass = this.getPassState(teamType, jamIndex, passIndex)
+        pass.points = points
+        dispatcher.trigger "scorekeeper.set_points", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
+        this.setState(this.state)
+
+      setPassNumber: (teamType, jamIndex, passIndex, passNumber) ->
+        pass = this.getPassState(teamType, jamIndex, passIndex)
+        pass.passNumber = passNumber
+        dispatcher.trigger "scorekeeper.set_pass_number", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passInex: passIndex)
+        this.setState(this.state)
+
+  # Display actions
+  selectTeam: (teamType) ->
+    this.setState(selectedTeam: teamType)
+
+  # Helper functions
   getStandardOptions: (opts = {}) ->
     std_opts =
       time: new Date()
@@ -24,27 +77,33 @@ exports.Scorekeeper = React.createClass
   getJamState: (teamType, jamIndex) ->
     this.getTeamState(teamType).jamStates[jamIndex]
 
+  getPassState: (teamType, jamIndex, passIndex) ->
+    jam = this.getJamState(teamType, jamIndex)
+    if jam.passStates.length == passIndex
+      lastPass = jam.passStates[jam.passStates.length - 1]
+      jam.passStates.push(passNumber: if lastPass? then lastPass.passNumber + 1 else 1)
+    jam.passStates[passIndex]
+
+  getTeamPoints: (teamType)->
+    team = this.getTeamState(teamType)
+    points = 0
+    team.jamStates.map (jam) =>
+      jam.passStates.map (pass) =>
+        points += pass.points || 0
+    return points
+
   buildNewJam: (jamNumber) ->
     jamNumber: jamNumber
     passStates: []
 
-  # Display actions
-  selectTeam: (teamType) ->
-    this.setState(selectedTeam: teamType)
-
-  # Data actions
-  updateTeamPoints: (team) ->
-    if team == "home"
-      points = this.state.gameState.homeAttributes.points = this.getTeamPoints(this.state.gameState.homeAttributes)
-    else
-      points = this.state.gameState.awayAttributes.points = this.getTeamPoints(this.state.gameState.awayAttributes)
-    this.setState(this.state)
-    dispatcher.trigger "scorekeeper.set_team_points", this.getStandardOptions(team: team, points: points)
-
-  newJam: (teamType) ->
-    team = this.getTeamState(teamType)
-    team.jamStates.push(this.buildNewJam(team.jamStates.length + 1))
-    this.setState(this.state)
+  bindActions: (teamType) ->
+    Object.keys(this.actions).map((key) ->
+      key: key
+      value: this.actions[key].bind(this, teamType)
+    , this).reduce((actions, action) ->
+      actions[action.key] = action.value
+      actions
+    , {})
 
   # React callbacks
   getInitialState: () ->
@@ -99,7 +158,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>{this.state.gameState.awayAttributes.points}</strong>
+                    <strong>{this.getTeamPoints('away')}</strong>
                   </div>
                 </div>
               </div>
@@ -107,8 +166,7 @@ exports.Scorekeeper = React.createClass
           </div>
           <JamsList 
             teamState={this.getTeamState('away')}
-            newJamHandler={this.newJam.bind(this, 'away')}
-            updateTeamPoints={this.updateTeamPoints.bind(this, "away")} />
+            actions={this.bindActions('away')} />
         </div>
         <div className={homeContainerClass} id="home-team">
           <div className="row stats gutters-xs">
@@ -131,7 +189,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Game Total</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>{this.state.gameState.homeAttributes.points}</strong>
+                    <strong>{this.getTeamPoints('home')}</strong>
                   </div>
                 </div>
               </div>
@@ -139,8 +197,7 @@ exports.Scorekeeper = React.createClass
           </div>
           <JamsList 
             teamState={this.getTeamState('home')}
-            newJamHandler={this.newJam.bind(this, 'home')}
-            updateTeamPoints={this.updateTeamPoints.bind(this, "home")} />
+            actions={this.bindActions('home')} />
         </div>
       </div>
     </div>
