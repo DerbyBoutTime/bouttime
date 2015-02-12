@@ -7,7 +7,7 @@ exports.PassesList = React.createClass
 
   nextPass: (passIndex) ->
     pass = this.props.passStates[passIndex]
-    this.props.actions.newPass(passNumber: pass.passNumber + 1) if passIndex is this.props.passStates.length - 1
+    this.props.actions.newPass(passNumber: pass.passNumber + 1, sort: passIndex + 1) if passIndex is this.props.passStates.length - 1
 
   bindActions: (passIndex) ->
     Object.keys(this.props.actions).map((key) ->

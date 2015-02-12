@@ -11,11 +11,13 @@ exports.Scorekeeper = React.createClass
 
         if jam.jamNumber > this.state.gameState.jamNumber
           this.state.gameState.jamNumber = jam.jamNumber
+        dispatcher.trigger "scorekeeper.new_jam", this.getStandardOptions(teamType: teamType)
         this.setState(this.state)
 
       newPass: (teamType, jamIndex, pass) ->
         jam = this.getJamState(teamType, jamIndex)
         jam.passStates.push(pass)
+        dispatcher.trigger "scorekeeper.new_pass", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex)
         this.setState(this.state)
 
       toggleInjury: (teamType, jamIndex, passIndex) ->
@@ -57,7 +59,7 @@ exports.Scorekeeper = React.createClass
       setPassNumber: (teamType, jamIndex, passIndex, passNumber) ->
         pass = this.getPassState(teamType, jamIndex, passIndex)
         pass.passNumber = passNumber
-        dispatcher.trigger "scorekeeper.set_pass_number", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passInex: passIndex)
+        dispatcher.trigger "scorekeeper.set_pass_number", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         this.setState(this.state)
 
   # Display actions
@@ -69,7 +71,7 @@ exports.Scorekeeper = React.createClass
     std_opts =
       time: new Date()
       role: 'Scorekeeper'
-      state: this.state
+      state: this.state.gameState
     $.extend(std_opts, opts)
 
   getTeamState: (teamType) ->

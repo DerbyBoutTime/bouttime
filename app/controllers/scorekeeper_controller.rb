@@ -1,74 +1,111 @@
 class ScorekeeperController < WebsocketController
-  def create_jam
-    puts "#{event.name}"
-    team_type = message[:team] == "home" ? :home : :away
-    jam_state = @game_state.send(team_type).jam_states.build
-    jam_state.save!
+  def new_jam
+    local_team, client_team = get_team
+    client_jam = client_team[:jam_states].last
+    attrs = {
+      jam_number: client_jam[:jam_number],
+      pass_states_attributes: client_jam[:pass_states]
+    }
+    local_team.jam_states.create attrs
 
-    broadcast_message :update, @game_state.reload.as_json
+    @game_state.update jam_number: @client_state[:jam_number]
+
+    @game_state.reload
+    broadcast_message :update, @game_state.as_json
   end
 
-  def set_team_points
-    team = message["team"] == "home" ? @game_state.home : @game_state.away
-    team.points = message["points"]
-    team.save!
+  def new_pass
+    local_jam, client_jam = get_jam
+    local_jam.pass_states.create client_jam[:pass_states].last
 
+    @game_state.reload
     broadcast_message :update, @game_state.as_json
   end
 
   def set_points
-    @pass_state = @game_state.find_or_initialize_pass_state_by(message)
-    @pass_state.points = message["points"].to_i
-    @pass_state.save!
+    local_pass, client_pass = get_pass
+    local_pass.update points: client_pass[:points].to_i
 
+    @game_state.reload
     broadcast_message :update, @game_state.as_json
   end
 
-  def toggle_nopass
-    @pass_state = @game_state.find_or_initialize_pass_state_by(message)
-    @pass_state.nopass = !@pass_state.nopass
-    @pass_state.save!
+  def set_pass_number
+    local_pass, client_pass = get_pass
+    local_pass.update pass_number: client_pass[:pass_number]
 
+    @game_state.reload
+    broadcast_message :updates, @game_state.as_json
+  end
+
+  def toggle_nopass
+    local_pass, client_pass = get_pass
+    local_pass.update nopass: client_pass[:nopass]
+
+    @game_state.reload
     broadcast_message :update, @game_state.as_json
   end
 
   def toggle_lead
-    @pass_state = @game_state.find_or_initialize_pass_state_by(message)
-    @pass_state.lead = !@pass_state.lead
-    @pass_state.save!
+    local_pass, client_pass = get_pass
+    local_pass.update lead: client_pass[:lead]
 
+    @game_state.reload
     broadcast_message :update, @game_state.as_json
   end
 
   def toggle_injury
-    @pass_state = @game_state.find_or_initialize_pass_state_by(message)
-    @pass_state.injury = !@pass_state.injury
-    @pass_state.save!
+    local_pass, client_pass = get_pass
+    local_pass.update injury: client_pass[:injury]
 
+    @game_state.reload
     broadcast_message :update, @game_state.as_json
   end
 
   def toggle_calloff
-    @pass_state = @game_state.find_or_initialize_pass_state_by(message)
-    @pass_state.calloff = !@pass_state.calloff
-    @pass_state.save!
+    local_pass, client_pass = get_pass
+    local_pass.update calloff: client_pass[:calloff]
 
+    @game_state.reload
     broadcast_message :update, @game_state.as_json
   end
 
   def toggle_lost_lead
-    @pass_state = @game_state.find_or_initialize_pass_state_by(message)
-    @pass_state.lost_lead = !@pass_state.lost_lead
-    @pass_state.save!
+    local_pass, client_pass = get_pass
+    local_pass.update lost_lead: client_pass[:lost_lead]
 
+    @game_state.reload
     broadcast_message :update, @game_state.as_json
   end
 
-  def set_jammer
-    @pass_state = @game_state.find_or_initialize_pass_state_by(message)
-    @pass_state.skater_number = message["skaterNumber"]
-    @pass_state.save!
+  private
 
-    broadcast_message :update, @game_state.as_json
+  def get_team
+    team_type = @message[:team_type]
+    case team_type
+    when 'home'
+      [@game_state.home, @client_state[:home_attributes]]
+    when 'away'
+      [@game_state.away, @client_state[:away_attributes]]
+    end
+  end
+
+  def get_jam
+    jam_index = @message[:jam_index]
+    local_team, client_team = get_team
+
+    client_jam = client_team[:jam_states][jam_index]
+    local_jam = local_team.jam_states.find_by(jam_number: client_jam[:jam_number])
+
+    [local_jam, client_jam]
+  end
+
+  def get_pass
+    pass_index = @message[:pass_index]
+    local_jam, client_jam = get_jam
+    client_pass = client_jam[:pass_states][pass_index]
+    local_pass = local_jam.pass_states.find_by(sort: pass_index)
+
+    [local_pass, client_pass]
   end
 end

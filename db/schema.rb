@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150106111344) do
+ActiveRecord::Schema.define(version: 20150212175515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -72,6 +72,20 @@ ActiveRecord::Schema.define(version: 20150106111344) do
     t.datetime "updated_at"
   end
 
+  create_table "lineup_statuses", force: true do |t|
+    t.string   "pivot"
+    t.string   "blocker1"
+    t.string   "blocker2"
+    t.string   "blocker3"
+    t.string   "jammer"
+    t.integer  "jam_state_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "order"
+  end
+
+  add_index "lineup_statuses", ["jam_state_id"], name: "index_lineup_statuses_on_jam_state_id", using: :btree
+
   create_table "pass_states", force: true do |t|
     t.integer  "pass_number"
     t.string   "skater_number"
@@ -85,9 +99,25 @@ ActiveRecord::Schema.define(version: 20150106111344) do
     t.datetime "updated_at"
     t.integer  "jam_state_id"
     t.boolean  "is_selected",   default: false
+    t.integer  "sort"
   end
 
   add_index "pass_states", ["jam_state_id"], name: "index_pass_states_on_jam_state_id", using: :btree
+
+  create_table "rosters", force: true do |t|
+    t.integer "team_state_id"
+    t.integer "skater_id"
+  end
+
+  add_index "rosters", ["skater_id"], name: "index_rosters_on_skater_id", using: :btree
+  add_index "rosters", ["team_state_id"], name: "index_rosters_on_team_state_id", using: :btree
+
+  create_table "skaters", force: true do |t|
+    t.string   "name"
+    t.string   "number"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "team_states", force: true do |t|
     t.string   "name"

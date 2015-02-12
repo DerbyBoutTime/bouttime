@@ -66,3 +66,6 @@ gem "minitest-stub_any_instance", group: [:test]
 
 # deployment
 gem "capistrano-rails", group: [:development]
+
+# annotations
+gem "annotate", group: [:development]

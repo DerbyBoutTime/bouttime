@@ -19,9 +19,11 @@
 
 class JamState < ActiveRecord::Base
   belongs_to :team_state
-  has_many :pass_states, -> { order('pass_number ASC') }
+  has_many :pass_states, -> { order('sort ASC') }
 
   before_create :set_jam_number
+
+  accepts_nested_attributes_for :pass_states
 
   private
 
@@ -30,7 +32,7 @@ class JamState < ActiveRecord::Base
   end
 
   def init_passes
-  	self.pass_states.build(pass_number: 1) if self.pass_states.empty?
+  	self.pass_states.build(pass_number: 1, sort: 0) if self.pass_states.empty?
   end
 
   after_initialize :init_passes
