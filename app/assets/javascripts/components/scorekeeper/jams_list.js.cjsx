@@ -23,7 +23,7 @@ exports.JamsList = React.createClass
 
   handleJamSelection: (jamIndex, newJam) ->
     if newJam
-      this.props.actions.newJam(jamNumber: this.props.teamState.jamStates.length + 1, passStates: [])
+      this.props.actions.newJam(jamNumber: this.props.teamState.jamStates.length + 1, passStates: [passNumber: 1])
     this.setState(jamSelected: jamIndex)
 
   handleNextJam: () ->

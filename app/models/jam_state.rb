@@ -28,4 +28,10 @@ class JamState < ActiveRecord::Base
   def set_jam_number
     self.jam_number = self.team_state.jam_states.count + 1
   end
+
+  def init_passes
+  	self.pass_states.build(pass_number: 1) if self.pass_states.empty?
+  end
+
+  after_initialize :init_passes
 end

@@ -8,6 +8,9 @@ exports.Scorekeeper = React.createClass
       newJam: (teamType, jam) ->
         team = this.getTeamState(teamType)
         team.jamStates.push(jam)
+
+        if jam.jamNumber > this.state.gameState.jamNumber
+          this.state.gameState.jamNumber = jam.jamNumber
         this.setState(this.state)
 
       newPass: (teamType, jamIndex, pass) ->
@@ -78,11 +81,7 @@ exports.Scorekeeper = React.createClass
     this.getTeamState(teamType).jamStates[jamIndex]
 
   getPassState: (teamType, jamIndex, passIndex) ->
-    jam = this.getJamState(teamType, jamIndex)
-    if jam.passStates.length == passIndex
-      lastPass = jam.passStates[jam.passStates.length - 1]
-      jam.passStates.push(passNumber: if lastPass? then lastPass.passNumber + 1 else 1)
-    jam.passStates[passIndex]
+    this.getJamState(teamType, jamIndex).passStates[passIndex]
 
   getTeamPoints: (teamType)->
     team = this.getTeamState(teamType)
@@ -146,7 +145,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Current Jam</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right current-jam-score">
-                    <strong>{this.props.jamNumber}</strong>
+                    <strong>{this.state.gameState.jamNumber}</strong>
                   </div>
                 </div>
               </div>
@@ -177,7 +176,7 @@ exports.Scorekeeper = React.createClass
                     <strong>Current Jam</strong>
                   </div>
                   <div className="col-sm-2 col-xs-2 text-right current-jam-score">
-                    <strong>{this.props.jamNumber}</strong>
+                    <strong>{this.state.gameState.jamNumber}</strong>
                   </div>
                 </div>
               </div>

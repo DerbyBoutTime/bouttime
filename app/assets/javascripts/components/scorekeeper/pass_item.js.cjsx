@@ -6,6 +6,7 @@ exports.PassItem = React.createClass
   propType:
     passState: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
+    lastPass: React.PropTypes.boolean
 
   decrementPassNumber: () ->
     passNumber = this.props.passState.passNumber
@@ -15,6 +16,18 @@ exports.PassItem = React.createClass
   incrementPassNumber: () ->
     passNumber = this.props.passState.passNumber
     this.props.actions.setPassNumber(passNumber + 1)
+
+  getNotes: () ->
+    pass = this.props.passState
+    flags =
+      injury: pass.injury
+      nopass: pass.nopass
+      calloff: pass.calloff
+      lost: pass.lostLead
+      lead: pass.lead
+
+    Object.keys(flags).filter (key) ->
+      flags[key]
 
   render: () ->
     injuryClass = cx
@@ -38,6 +51,8 @@ exports.PassItem = React.createClass
     editPassNumberId = "edit-pass-number#{exports.wftda.functions.uniqueId()}"
     editPassId = "edit-pass-#{exports.wftda.functions.uniqueId()}"
 
+    notes = this.getNotes()
+
     <div aria-multiselectable="true">
       <div className="columns">
         <div className="row gutters-xs">
@@ -47,28 +62,22 @@ exports.PassItem = React.createClass
             </button>
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div className="skater">
-              Skater
-            </div>
+            <button className="skater btn btn-block">
+              <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>              
+            </button>
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div className={injuryClass}>
-              Injury
-            </div>
+            <ScoreNote note={notes[0]} />
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div className={callClass}>
-              Call
-            </div>
+            <ScoreNote note={notes[1]} />
           </div>
           <div className="col-sm-2 col-xs-2">
-            <div className={lostClass}>
-              Lost
-            </div>
+            <ScoreNote note={notes[2]} />
           </div>
           <div className="col-sm-2 col-xs-2">
             <button className="points btn btn-block" data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId} >
-              {this.props.passState.points || 0}
+              <strong>{this.props.passState.points || 0}</strong>
             </button>
           </div>
         </div>
@@ -77,24 +86,24 @@ exports.PassItem = React.createClass
         <div className="edit-pass-number collapse" id={editPassNumberId}>
           <div className="row gutters-xs">
             <div className="col-sm-1 col-xs-1">
-              <div className="remove text-center">
+              <button className="remove btn btn-block"  data-toggle='collapse' data-target={"##{editPassNumberId}"}>
                 <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
-              </div>
+              </button>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className="minus text-center" onClick={this.decrementPassNumber}>
+              <button className="minus btn btn-block" onClick={this.decrementPassNumber}>
                 <span aria-hidden="true" className="glyphicon glyphicon-minus"></span>
-              </div>
+              </button>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className="plus text-center" onClick={this.incrementPassNumber}>
+              <button className="plus btn btn-block" onClick={this.incrementPassNumber}>
                 <span aria-hidden="true" className="glyphicon glyphicon-plus"></span>
-              </div>
+              </button>
             </div>
             <div className="col-sm-1 col-xs-1">
-              <div className="ok text-center">
+              <button className="ok btn btn-block" onClick={this.props.nextPass} data-toggle='collapse' data-target={"##{editPassNumberId}"}>
                 <span aria-hidden="true" className="glyphicon glyphicon-ok"></span>
-              </div>
+              </button>
             </div>
           </div>
         </div>

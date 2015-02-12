@@ -5,6 +5,10 @@ exports.PassesList = React.createClass
     passStates: React.PropTypes.array.isRequired
     actions: React.PropTypes.object.isRequired
 
+  nextPass: (passIndex) ->
+    pass = this.props.passStates[passIndex]
+    this.props.actions.newPass(passNumber: pass.passNumber + 1) if passIndex is this.props.passStates.length - 1
+
   bindActions: (passIndex) ->
     Object.keys(this.props.actions).map((key) ->
       key: key
@@ -21,14 +25,8 @@ exports.PassesList = React.createClass
         key: passIndex
         passState: passState
         actions: this.bindActions(passIndex)
+        nextPass: this.nextPass.bind(this, passIndex)
       )
-    passComponents.push(
-      PassItemFactory(
-        key: this.props.passStates.length
-        passState: { passNumber: this.props.passStates.length + 1 }
-        actions: this.bindActions(this.props.passStates.length)
-      )
-    )
 
     <div className="passes">
       <div className="headers">
