@@ -1,9 +1,19 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.PenaltyTracker = React.createClass
-  componentDidMount: () ->
-    $dom = $(this.getDOMNode())
+  displayName: 'PenaltyTracker'
+  
   getInitialState: () ->
-    exports.wftda.functions.camelize(this.props)
+    componentId: exports.wftda.functions.uniqueId()
+    gameState: exports.wftda.functions.camelize(this.props)
+
   render: () ->
-    <div className="penalty-tracker"></div>
+    awayElement = <TeamPenalties teamState=this.state.gameState.awayAttributes />
+    homeElement = <TeamPenalties teamState=this.state.gameState.homeAttributes />
+    <div className="penalty-tracker">
+      <TeamSelector
+        awayAttributes={this.state.gameState.awayAttributes}
+        awayElement={awayElement}
+        homeAttributes={this.state.gameState.homeAttributes}
+        homeElement={homeElement} />
+   	</div>
