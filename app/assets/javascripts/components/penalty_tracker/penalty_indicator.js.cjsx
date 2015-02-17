@@ -4,7 +4,7 @@ exports.PenaltyIndicator = React.createClass
 
   propTypes:
     penaltyNumber: React.PropTypes.number.isRequired
-    penalty: React.PropTypes.object
+    penaltyState: React.PropTypes.object
 
   displayNumber: () ->
     switch this.props.penaltyNumber
@@ -12,6 +12,6 @@ exports.PenaltyIndicator = React.createClass
       else this.props.penaltyNumber
 
   render: () ->
-    <div class='penalty-indicator'>
+    <div className='penalty-indicator'>
       {this.displayNumber()}
     </div>

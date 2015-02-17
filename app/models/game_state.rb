@@ -60,7 +60,7 @@ class GameState < ActiveRecord::Base
     state.to_s.humanize.upcase
   end
 
-  def penalties_json
+  def penalties
     Penalty.demo.map{|p| p.as_json}
   end
 
@@ -101,7 +101,7 @@ class GameState < ActiveRecord::Base
         :period_clock_attributes => except_time_stamps,
         :game => {}
       },
-      methods: :penalties_json
+      methods: :penalties
     )
   end
 

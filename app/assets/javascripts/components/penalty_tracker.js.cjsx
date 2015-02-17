@@ -9,8 +9,9 @@ exports.PenaltyTracker = React.createClass
     componentId: exports.wftda.functions.uniqueId()
 
   render: () ->
-    awayElement = <TeamPenalties teamState=this.state.gameState.awayAttributes />
-    homeElement = <TeamPenalties teamState=this.state.gameState.homeAttributes />
+    awayElement = <TeamPenalties teamState={this.state.gameState.awayAttributes} penalties={this.state.gameState.penalties}/>
+    homeElement = <TeamPenalties teamState={this.state.gameState.homeAttributes} penalties={this.state.gameState.penalties}/>
+    
     <div className="penalty-tracker">
       <TeamSelector
         awayAttributes={this.state.gameState.awayAttributes}
