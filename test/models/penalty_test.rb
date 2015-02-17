@@ -1,20 +1,21 @@
 # == Schema Information
 #
-# Table name: skaters
+# Table name: penalties
 #
 #  id         :integer          not null, primary key
 #  name       :string(255)
-#  number     :string(255)
+#  code       :string(255)
+#  sort       :integer
 #  created_at :datetime
 #  updated_at :datetime
 #
 
 require "test_helper"
 
-describe Skater do
-  let(:skater) { Skater.new }
+describe Penalty do
+  let(:penalty) { Penalty.new }
 
   it "must be valid" do
-    skater.must_be :valid?
+    penalty.must_be :valid?
   end
 end

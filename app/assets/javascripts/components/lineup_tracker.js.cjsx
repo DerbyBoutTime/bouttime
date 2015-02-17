@@ -38,6 +38,12 @@ exports.LineupTracker = React.createClass
       when 'away' then this.state.gameState.awayAttributes
       when 'home' then this.state.gameState.homeAttributes
 
+  getLineup: (teamType, jamIndex) ->
+    jam = this.getJamState(jamIndex, teamType)
+    positions = [jam.pivot, jam.blocker1, jam.blocker2, jam.blocker3, jam.jammer]
+    positions.filter (position) ->
+      position?
+
   positionsInBox: (jam) ->
     positions = []
     for row in jam.lineupStatuses
@@ -78,16 +84,13 @@ exports.LineupTracker = React.createClass
 
     this.state.selectorContext = 
       roster: team.skaters.map (skater, skaterIndex) ->
-        skaterPosition = switch skater
-          when jam.pivot then 'pivot'
-          when jam.blocker1 then 'blocker1'
-          when jam.blocker2 then 'blocker2'
-          when jam.blocker3 then 'blocker3'
-          when jam.jammer then 'jammer'
+
+        inLineup = skater.number in this.getLineup(teamType, jamIndex).map (s) -> s.number
 
         skater: skater
-        isSelected: skaterPosition?
-        isInjured: skaterPosition? and jam.lineupStatuses.some (lineupStatus) -> lineupStatus[skaterPosition] is 'injured'
+        isSelected: inLineup
+        isInjured: inLineup and jam.lineupStatuses.some (lineupStatus) -> lineupStatus[skaterPosition] is 'injured'
+      , this
       buttonHandler: this.setSkater.bind(this, jamIndex, teamType, position)
       style: team.colorBarStyle
     this.setState(this.state)
@@ -121,19 +124,18 @@ exports.LineupTracker = React.createClass
 
     exports.dispatcher.trigger eventName, eventOptions
 
-  setSkater: (jamIndex, teamType, position, rosterIndex) ->
+  setSkater: (jamIndex, teamType, position, skaterIndex) ->
     eventName = "lineup_tracker.set_skater"
     eventOptions = this.buildOptions(
       jamIndex: jamIndex
       teamType: teamType
       position: position
-      rosterIndex: rosterIndex
     )
     this.pushState(eventName, eventOptions)
 
     jamState = this.getJamState(jamIndex, teamType)
     teamAttributes = this.getTeamAttributes(teamType)
-    jamState[position] = teamAttributes.skaters[rosterIndex]
+    jamState[position] = teamAttributes.skaters[skaterIndex]
     this.setState(this.state)
 
     exports.dispatcher.trigger eventName, eventOptions

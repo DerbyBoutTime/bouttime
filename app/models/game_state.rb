@@ -60,6 +60,10 @@ class GameState < ActiveRecord::Base
     state.to_s.humanize.upcase
   end
 
+  def penalties_json
+    Penalty.demo.map{|p| p.as_json}
+  end
+
   def except_time_stamps
     { except: [:created_at, :updated_at] } 
   end
@@ -70,6 +74,12 @@ class GameState < ActiveRecord::Base
         jammer_attributes: except_time_stamps,
         pass_states: except_time_stamps,
         skaters: except_time_stamps,
+        skater_states: { include: {
+          skater: except_time_stamps,
+          penalty_states: { include: {
+            penalty: except_time_stamps
+          }}.merge(except_time_stamps)
+        }}.merge(except_time_stamps),
         jam_states: {include: {
           lineup_statuses: except_time_stamps,
           pivot: except_time_stamps,
@@ -83,13 +93,16 @@ class GameState < ActiveRecord::Base
   end
 
   def as_json
-    super(include: {
-      :home_attributes => team_state_json_options,
-      :away_attributes => team_state_json_options,
-      :jam_clock_attributes => except_time_stamps,
-      :period_clock_attributes => except_time_stamps,
-      :game => {}
-    })
+    super(
+      include: {
+        :home_attributes => team_state_json_options,
+        :away_attributes => team_state_json_options,
+        :jam_clock_attributes => except_time_stamps,
+        :period_clock_attributes => except_time_stamps,
+        :game => {}
+      },
+      methods: :penalties_json
+    )
   end
 
   def to_json(options = {})

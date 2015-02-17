@@ -10,5 +10,5 @@
 #
 
 class Skater < ActiveRecord::Base
-  has_and_belongs_to_many :team_states, join_table: 'rosters'
+  has_and_belongs_to_many :team_states, join_table: 'skater_states'
 end

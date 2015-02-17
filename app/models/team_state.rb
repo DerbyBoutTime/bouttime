@@ -27,7 +27,8 @@ class TeamState < ActiveRecord::Base
   has_one :game_state
   has_many :jam_states
   has_many :pass_states, through: :jam_states
-  has_and_belongs_to_many :skaters, join_table: 'rosters'
+  has_many :skater_states
+  has_and_belongs_to_many :skaters, join_table: 'skater_states'
 
   accepts_nested_attributes_for :jammer, :pass_states, :jam_states
   alias_method :jammer_attributes, :jammer

@@ -37,7 +37,6 @@ class LineupTrackerController < WebsocketRails::BaseController
     team_type = @message[:team_type]
     jam_index = @message[:jam_index]
     position = @message[:position]
-    roster_index = @message[:roster_index]
 
     local_team, client_team = get_team(team_type)
     local_jam, client_jam = get_jam(local_team, client_team, jam_index)

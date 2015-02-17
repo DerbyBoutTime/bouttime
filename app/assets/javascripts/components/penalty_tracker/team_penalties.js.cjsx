@@ -12,11 +12,11 @@ exports.TeamPenalties = React.createClass
 
   render: () ->
     <div className="team-penalties">
-      {this.props.teamState.skaters.map (skater, skaterIndex) ->
+      {this.props.teamState.skaterStates.map (skaterState, skaterIndex) ->
         <div key={skaterIndex} className='row gutters-xs'>
           <div className='col-xs-3 col-sm-3'>
             <button className='btn btn-block' onClick={this.selectSkater.bind(this, skaterIndex)}>
-              <strong>{skater.number}</strong>
+              <strong>{skaterState.skater.number}</strong>
             </button>
           </div>
           <div className='col-xs-1 col-sm-1'>
