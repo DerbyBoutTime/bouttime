@@ -24,5 +24,6 @@
 //= require camelize
 //= require functions
 //= require displays/scorekeeper
+//= require mixins/mixins
 //= require components/components
 React.initializeTouchEvents(true);

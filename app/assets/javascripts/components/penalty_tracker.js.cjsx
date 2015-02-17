@@ -2,10 +2,11 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.PenaltyTracker = React.createClass
   displayName: 'PenaltyTracker'
+
+  mixins: [GameStateMixin]
   
   getInitialState: () ->
     componentId: exports.wftda.functions.uniqueId()
-    gameState: exports.wftda.functions.camelize(this.props)
 
   render: () ->
     awayElement = <TeamPenalties teamState=this.state.gameState.awayAttributes />
