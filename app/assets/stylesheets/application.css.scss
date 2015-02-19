@@ -13,6 +13,7 @@ $gray-base: $near-black;
 @import "header";
 @import "jam-timer";
 @import "lineup-tracker";
+@import "penalty-tracker";
 @import "scoreboard";
 @import "scorekeeper";
 
@@ -26,6 +27,21 @@ $gray-base: $near-black;
   border-radius: 0;
 }
 
+.boxed-good {
+  border: 1px solid $gray;
+  border-radius: 2px;
+  font-size: 1.1em;
+  line-height: 30px;
+}
+
+.btn-boxed{
+  @extend .boxed-good;
+  padding: 0;
+  border-color: transparent;
+  background-color: $light-gray;
+  color: $near-black;
+}
+
 .btn-default {
   padding: 10px 5px;
   font-size: 0.85em;
@@ -35,6 +51,10 @@ $gray-base: $near-black;
   }
   background-color: $light-gray;
   color: $near-black;
+}
+
+.top-buffer {
+  margin-top: 4px;
 }
 
 .game{
@@ -65,10 +85,4 @@ $gray-base: $near-black;
   &[data-tab="announcers_feed"] .announcers-feed {
     display: block;
   }
-}
-.boxed-good {
-  border: 1px solid $gray;
-  border-radius: 2px;
-  font-size: 1.1em;
-  line-height: 30px;
 }

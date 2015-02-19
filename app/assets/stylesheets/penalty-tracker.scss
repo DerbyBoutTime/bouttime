@@ -1,0 +1,51 @@
+.penalty-tracker {
+  .penalty-indicator {
+    text-align: center;
+    border: 1px solid $gray;
+    border-radius: 2px;
+    background-color: $white;
+    color: $gray;
+    text-transform: uppercase;
+  }
+	.team-penalties {
+    .penalties-summary {
+      .penalty-indicator {
+        margin-top: 5px;
+      }
+    }
+    .skater-penalties {
+      .actions {
+        .action {
+          background-color: $near-black;
+          color: $white;
+          position: relative;
+          &.apply .icon {
+            position: absolute;
+            left: 10px;
+            top: 7px;
+          }
+          &.cancel .icon {
+            position: absolute;
+            right: 10px;
+            top: 8px;
+          }
+        }
+      }
+      .penalty-controls {
+        .penalty-control {
+          width: 32px;
+          .jam-number {
+            color: $near-black;
+            font-size: 0.6em;
+            text-align: center;
+          }
+        }
+        .penalty-7 {
+          float: right;
+        }
+      }
+      .penalties-list {
+      }
+    }
+  }
+}

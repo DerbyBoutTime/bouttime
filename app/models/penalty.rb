@@ -31,7 +31,7 @@ class Penalty < ActiveRecord::Base
         sort: 2
       }),
       Penalty.find_or_create_by({
-        name: 'Skating Out of Bounds',
+        name: 'Skating Out of Bnds.',
         code: 'S',
         sort: 3
       }),
