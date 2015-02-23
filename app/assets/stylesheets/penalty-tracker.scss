@@ -39,6 +39,11 @@
             font-size: 0.6em;
             text-align: center;
           }
+          .penalty-indicator-wrapper {
+            .penalty-indicator {
+              border: 0px;
+            }
+          }
         }
         .penalty-7 {
           float: right;

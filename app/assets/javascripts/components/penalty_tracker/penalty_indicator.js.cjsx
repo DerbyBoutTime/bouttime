@@ -5,13 +5,19 @@ exports.PenaltyIndicator = React.createClass
   propTypes:
     penaltyNumber: React.PropTypes.number.isRequired
     penaltyState: React.PropTypes.object
+    teamStyle: React.PropTypes.object.isRequired
+    leftEarly: React.PropTypes.bool
+
+  getDefaultProps: () ->
+    leftEarly: false
+
+  displayContent: () ->
+    if this.props.penaltyState? and this.props.penaltyState.penalty? then this.props.penaltyState.penalty.code else this.displayNumber()
 
   displayNumber: () ->
-    switch this.props.penaltyNumber
-      when 7 then 'Left Early'
-      else this.props.penaltyNumber
+    if this.props.leftEarly then 'Left Early' else this.props.penaltyNumber
 
   render: () ->
-    <div className='penalty-indicator'>
-      {this.displayNumber()}
+    <div className='penalty-indicator' style={this.props.teamStyle if this.props.penaltyState?}>
+      {this.displayContent()}
     </div>

@@ -13,3 +13,6 @@ exports.GameStateMixin =
 
   getPassState: (teamType, jamIndex, passIndex) ->
     this.getJamState(teamType, jamIndex).passStates[passIndex]
+
+  getSkaterState: (teamType, skaterIndex) ->
+    this.getTeamState(teamType).skaterStates[skaterIndex]
