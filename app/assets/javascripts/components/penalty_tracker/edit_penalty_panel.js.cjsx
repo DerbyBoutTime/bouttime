@@ -1,4 +1,4 @@
-cs = React.addons.classSet
+cx = React.addons.classSet
 exports = exports ? this
 exports.EditPenaltyPanel = React.createClass
   displayName: 'EditPenaltyPanel'
@@ -28,20 +28,25 @@ exports.EditPenaltyPanel = React.createClass
         dirty: false
 
   render: () ->
-    <div className='edit-penalty collapse' id='edit-penalty-panel'>
+    classArgs = 
+      'edit-penalty collapse': true
+    classArgs["penalty-#{this.props.penalty.sort}"] = true
+    containerClass = cx classArgs
+
+    <div className={containerClass} id='edit-penalty-panel'>
       <div className='row gutters-xs'>
-        <div className='col-sm-1 col-xs-1'>
+        <div className='col-sm-1 col-xs-1 col-sm-offset-1 col-xs-offset-1'>
           <button className='btn btn-block btn-boxed apply' onClick={this.props.applyHandler.bind(null, this.state.jamNumber)}>
             <span className='glyphicon glyphicon-ok'></span>
           </button>
         </div>
         <div className='col-sm-8 col-xs-8'>
-          <div className='jam-number-control'>
-            <button className='minus' onClick={this.decrementJamNumber}>
+          <div className='jam-number-control boxed-good'>
+            <button className='btn btn-boxed minus' onClick={this.decrementJamNumber}>
               <span className='glyphicon glyphicon-minus'></span>
             </button>
             <strong>Jam {this.state.jamNumber}</strong>
-            <button className='plus' onClick={this.incrementJamNumber}>
+            <button className='btn btn-boxed plus' onClick={this.incrementJamNumber}>
               <span className='glyphicon glyphicon-plus'></span>
             </button>  
           </div>

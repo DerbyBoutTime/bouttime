@@ -7,12 +7,14 @@
     color: $gray;
     text-transform: uppercase;
   }
+
 	.team-penalties {
     .penalties-summary {
       .penalty-indicator {
         margin-top: 5px;
       }
     }
+
     .skater-penalties {
       .actions {
         .action {
@@ -31,9 +33,9 @@
           }
         }
       }
+
       .penalty-controls {
         .penalty-control {
-          width: 32px;
           .jam-number {
             color: $near-black;
             font-size: 0.6em;
@@ -45,11 +47,52 @@
             }
           }
         }
-        .penalty-7 {
-          float: right;
-        }
       }
-      .penalties-list {
+
+      .edit-penalty {
+        $column-offset: 13.8888889%;
+        &.penalty-1 {
+          @include border-arrow($column-offset * 0.5)
+        }
+        &.penalty-2 {
+          @include border-arrow($column-offset * 1.5)
+        }
+        &.penalty-3 {
+          @include border-arrow($column-offset * 2.5)
+        }
+        &.penalty-4 {
+          @include border-arrow($column-offset * 3.5)
+        }
+        &.penalty-5 {
+          @include border-arrow($column-offset * 4.5)
+        }
+        &.penalty-6 {
+          @include border-arrow($column-offset * 5.5)
+        }
+        &.penalty-7 {
+          @include border-arrow($column-offset * 6 + 8.3333333%)
+        }
+        .jam-number-control {
+          background-color: $white;
+          text-align: center;
+          width:100%;
+
+          .plus, .minus {
+            background-color: transparent;
+            color: $gray;
+          }
+          .plus {
+            float: right;
+          }
+          .minus {
+            float: left;
+          }
+        }
+
+        .apply, .cancel {
+          background-color: $near-black;
+          color: $white;
+        }
       }
     }
   }
