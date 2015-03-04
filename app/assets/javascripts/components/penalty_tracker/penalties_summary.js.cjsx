@@ -10,6 +10,12 @@ exports.PenaltiesSummary = React.createClass
     selectionHandler: React.PropTypes.func
     hidden: React.PropTypes.bool
 
+
+  
+  findPenalty: (skaterState, penaltyNumber) ->
+    matches = (penalty for penalty in skaterState.penaltyStates when penalty.sort is penaltyNumber)
+    matches[0]
+
   render: () ->
     containerClass = cx
       'penalties-summary': true
@@ -26,43 +32,43 @@ exports.PenaltiesSummary = React.createClass
           <div className='col-xs-1 col-sm-1'>
             <PenaltyIndicator
               penaltyNumber={1}
-              penaltyState={skaterState.penaltyStates[0]}
+              penaltyState={this.findPenalty(skaterState, 1)}
               teamStyle={this.props.teamStyle}/>
           </div>
           <div className='col-xs-1 col-sm-1'>
             <PenaltyIndicator
               penaltyNumber={2}
-              penaltyState={skaterState.penaltyStates[1]}
+              penaltyState={this.findPenalty(skaterState, 2)}
               teamStyle={this.props.teamStyle} />
           </div>
           <div className='col-xs-1 col-sm-1'>
             <PenaltyIndicator
               penaltyNumber={3}
-              penaltyState={skaterState.penaltyStates[2]}
+              penaltyState={this.findPenalty(skaterState, 3)}
               teamStyle={this.props.teamStyle} />
           </div>
           <div className='col-xs-1 col-sm-1'>
             <PenaltyIndicator
               penaltyNumber={4}
-              penaltyState={skaterState.penaltyStates[3]}
+              penaltyState={this.findPenalty(skaterState, 4)}
               teamStyle={this.props.teamStyle} />
           </div>
           <div className='col-xs-1 col-sm-1'>
             <PenaltyIndicator
               penaltyNumber={5}
-              penaltyState={skaterState.penaltyStates[4]}
+              penaltyState={this.findPenalty(skaterState, 5)}
               teamStyle={this.props.teamStyle} />
           </div>
           <div className='col-xs-1 col-sm-1'>
             <PenaltyIndicator
               penaltyNumber={6}
-              penaltyState={skaterState.penaltyStates[5]}
+              penaltyState={this.findPenalty(skaterState, 6)}
               teamStyle={this.props.teamStyle} />
           </div>
           <div className='col-xs-3 col-sm-3'>
             <PenaltyIndicator
               penaltyNumber={7}
-              penaltyState={skaterState.penaltyStates[6]}
+              penaltyState={this.findPenalty(skaterState, 7)}
               teamStyle={this.props.teamStyle}
               leftEarly={true} />
           </div>

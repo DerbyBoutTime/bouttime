@@ -13,4 +13,5 @@
 
 class PenaltyState < ActiveRecord::Base
   belongs_to :penalty
+  belongs_to :skater_state
 end
