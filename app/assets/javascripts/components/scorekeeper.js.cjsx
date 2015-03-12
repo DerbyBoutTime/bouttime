@@ -32,7 +32,7 @@ exports.Scorekeeper = React.createClass
       'away': true
       'hidden-xs': !this.state.awayAttributes.isSelected
 
-    `<div className="scorekeeper">
+    <div className="scorekeeper">
       <div className="row teams text-center gutters-xs">
         <div className="col-sm-6 col-xs-6">
           <div className="team-name" style={this.state.awayAttributes.colorBarStyle} onClick={this.handleToggleTeam}>
@@ -191,4 +191,4 @@ exports.Scorekeeper = React.createClass
           <PassesList passes={this.state.homeAttributes.passStates} teamType="home" />
         </div>
       </div>
-    </div>`
+    </div>

@@ -6,7 +6,7 @@ exports.Titlebar = React.createClass
   getInitialState: () ->
     exports.wftda.functions.camelize(this.props)
   render: () ->
-    `<div className="title-bar">
+    <div className="title-bar">
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-sm-12">
@@ -24,4 +24,4 @@ exports.Titlebar = React.createClass
           </div>
         </div>
       </div>
-    </div>`
+    </div>

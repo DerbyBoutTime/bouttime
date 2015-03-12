@@ -5,7 +5,7 @@ exports.PassesList = React.createClass
     passComponents = this.props.passes.map (pass) =>
       PassItemFactory({pass: pass, key: pass.number, teamType: this.props.teamType})
 
-    `<div className="passes">
+    <div className="passes">
       <div className="headers">
         <div className="row gutters-xs">
           <div className="col-sm-2 col-xs-2">
@@ -25,4 +25,4 @@ exports.PassesList = React.createClass
         </div>
       </div>
       {passComponents}
-    </div>`
+    </div>
