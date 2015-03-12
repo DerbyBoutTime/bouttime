@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(version: 20150217220348) do
   end
 
   create_table "game_states", force: true do |t|
-    t.integer  "state"
-    t.integer  "jam_number"
-    t.integer  "period_number"
+    t.integer  "state",           limit: 2
+    t.integer  "jam_number",      limit: 2
+    t.integer  "period_number",   limit: 2
     t.integer  "home_id"
     t.integer  "away_id"
     t.datetime "created_at"
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(version: 20150217220348) do
     t.datetime "updated_at"
     t.integer  "jam_state_id"
     t.boolean  "is_selected",   default: false
+    t.integer  "sort"
   end
 
   add_index "pass_states", ["jam_state_id"], name: "index_pass_states_on_jam_state_id", using: :btree

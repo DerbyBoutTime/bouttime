@@ -35,4 +35,19 @@ class JamState < ActiveRecord::Base
   has_many :lineup_statuses
 
   accepts_nested_attributes_for :lineup_statuses
+
+  accepts_nested_attributes_for :pass_states
+
+  private
+
+  def set_jam_number
+    self.jam_number = self.team_state.jam_states.count + 1
+  end
+
+  def init_passes
+    self.pass_states.build(pass_number: 1, sort: 0) if self.pass_states.empty?
+  end
+
+  before_create :set_jam_number
+  after_initialize :init_passes
 end

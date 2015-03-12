@@ -39,6 +39,12 @@
 }
 
 .scorekeeper {
+  .btn{
+    border-radius:2px;
+    font-size: 1.1em;
+    line-height: 30px;
+    padding: 0;
+  }
   .stats {
     margin-top: 4px;
   }
@@ -67,6 +73,10 @@
     .columns {
       margin-top: 4px;
 
+      .jam-row{
+        margin-top: 4px;
+      }
+
       .col-sm-2, .col-xs-2 {
         /*& > div {*/
           /*background-color: $gray;*/
@@ -78,10 +88,8 @@
 
         .jam, .pass {
           background-color: $near-black;
-          border-radius: 2px;
+          border-color: $near-black;
           color: $white;
-          /*height: 30px;*/
-          line-height: 30px;
         }
         .skater {
           background-color: $gray;
@@ -104,6 +112,12 @@
           }
           &.lost {
           }
+          &.selected {
+            background-color: $near-black;
+            border-color: $near-black;
+            color: $gray;
+          }
+
         }
         .points {
           background-color: $gray;
@@ -159,10 +173,8 @@
 
     .link {
       background-color: $near-black;
-      border-radius: 2px;
       color: $white;
-      /*height: 30px;*/
-      line-height: 30px;
+      text-transform: uppercase;
     }
   }
 
@@ -172,12 +184,6 @@
     .row:nth-child(2) {
       margin-top: 4px;
     }
-
-    .row {
-      .zero, .one, .two, .three, .four, .five, .six {
-        background-color: $white;
-      }
-    }
   }
 
   .edit-pass-number {
@@ -186,6 +192,7 @@
     .row {
       .minus, .plus {
         background-color: $white;
+        color: $near-black;
       }
     }
   }
@@ -199,8 +206,20 @@
       }
 
       .notes {
-        &.call, &.injury, &.lost, &.note-lead, &.no-pass {
-          background-color: $gray;
+        background-color: $gray;
+        color: $near-black;
+        &.selected{
+          background-color: $near-black;
+          color: $gray;
+        }
+      }
+
+      .scores {
+        background-color: $white;
+        color: $near-black;
+        &.selected {
+          background-color: $near-black;
+          color: $gray;
         }
       }
 

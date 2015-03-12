@@ -72,7 +72,6 @@ class GameState < ActiveRecord::Base
     {
       include: {
         jammer_attributes: except_time_stamps,
-        pass_states: except_time_stamps,
         skaters: except_time_stamps,
         skater_states: { include: {
           skater: except_time_stamps,
@@ -81,6 +80,7 @@ class GameState < ActiveRecord::Base
           }}.merge(except_time_stamps)
         }}.merge(except_time_stamps),
         jam_states: {include: {
+          pass_states: except_time_stamps,
           lineup_statuses: except_time_stamps,
           pivot: except_time_stamps,
           blocker1: except_time_stamps,
@@ -108,6 +108,17 @@ class GameState < ActiveRecord::Base
   def to_json(options = {})
     hash = self.as_json
     JSON.pretty_generate(hash, options)
+  end
+
+
+  def find_or_initialize_pass_state_by(attrs)
+    team = attrs["team"]
+    jam_number = attrs["jamNumber"]
+    pass_number = attrs["passNumber"]
+    self.send(team).
+      jam_states.
+      find_by(jam_number: jam_number).
+      pass_states.find_or_initialize_by(pass_number: pass_number)
   end
 
   private

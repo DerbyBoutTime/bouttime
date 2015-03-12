@@ -19,4 +19,8 @@
 
 class PassState < ActiveRecord::Base
   belongs_to :jam_state
+
+  after_save if: :points_changed? do |pass_state|
+    pass_state.jam_state.team_state.update_points
+  end
 end

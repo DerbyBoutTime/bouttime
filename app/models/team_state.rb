@@ -25,7 +25,7 @@
 class TeamState < ActiveRecord::Base
   belongs_to :jammer, class_name: "JammerState"
   has_one :game_state
-  has_many :jam_states
+  has_many :jam_states, -> { order('jam_number ASC') }
   has_many :pass_states, through: :jam_states
   has_many :skater_states
   has_and_belongs_to_many :skaters, join_table: 'skater_states'
@@ -204,6 +204,10 @@ class TeamState < ActiveRecord::Base
       color: self.text_color,
       backgroundColor: self.color
     }
+  end
+
+  def update_points
+    self.update_column :points, (self.pass_states.pluck :points).compact.sum
   end
 
   private
