@@ -68,9 +68,9 @@ class GameState < ActiveRecord::Base
     {
       include: {
         jammer_attributes: except_time_stamps,
-        pass_states: except_time_stamps,
         skaters: except_time_stamps,
         jam_states: {include: {
+          pass_states: except_time_stamps,
           lineup_statuses: except_time_stamps,
           pivot: except_time_stamps,
           blocker1: except_time_stamps,
