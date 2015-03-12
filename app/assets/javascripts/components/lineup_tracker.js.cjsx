@@ -372,7 +372,7 @@ exports.JamDetail = React.createClass
         </div>
       </div>
       {this.props.jamState.lineupStatuses.map (lineupStatus, statusIndex) ->
-        <LineupBoxRow key={statusIndex} lineupStatus=lineupStatus lineupStatusHandler={this.props.lineupStatusHandler.bind(this, statusIndex)} /> 
+        <LineupBoxRow key={statusIndex} lineupStatus=lineupStatus lineupStatusHandler={this.props.lineupStatusHandler.bind(this, statusIndex)} />
       , this }
       <LineupBoxRow key={this.props.jamState.lineupStatuses.length} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, this.props.jamState.lineupStatuses.length)} />
     </div>
@@ -474,7 +474,7 @@ exports.LineupBoxRow = React.createClass
 
 exports.LineupBox = React.createClass
   displayName: 'LineupBox'
-  
+
   propTypes:
     status: React.PropTypes.string
 
