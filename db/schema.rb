@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217220348) do
+ActiveRecord::Schema.define(version: 20150212175515) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(version: 20150217220348) do
   end
 
   create_table "game_states", force: true do |t|
-    t.integer  "state"
-    t.integer  "jam_number"
-    t.integer  "period_number"
+    t.integer  "state",           limit: 2
+    t.integer  "jam_number",      limit: 2
+    t.integer  "period_number",   limit: 2
     t.integer  "home_id"
     t.integer  "away_id"
     t.datetime "created_at"
@@ -116,33 +116,13 @@ ActiveRecord::Schema.define(version: 20150217220348) do
 
   add_index "pass_states", ["jam_state_id"], name: "index_pass_states_on_jam_state_id", using: :btree
 
-  create_table "penalties", force: true do |t|
-    t.string   "name"
-    t.string   "code"
-    t.integer  "sort"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "penalty_states", force: true do |t|
-    t.integer  "skater_state_id"
-    t.integer  "penalty_id"
-    t.integer  "sort"
-    t.integer  "jam_number"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "penalty_states", ["penalty_id"], name: "index_penalty_states_on_penalty_id", using: :btree
-  add_index "penalty_states", ["skater_state_id"], name: "index_penalty_states_on_skater_state_id", using: :btree
-
-  create_table "skater_states", force: true do |t|
+  create_table "rosters", force: true do |t|
     t.integer "team_state_id"
     t.integer "skater_id"
   end
 
-  add_index "skater_states", ["skater_id"], name: "index_skater_states_on_skater_id", using: :btree
-  add_index "skater_states", ["team_state_id"], name: "index_skater_states_on_team_state_id", using: :btree
+  add_index "rosters", ["skater_id"], name: "index_rosters_on_skater_id", using: :btree
+  add_index "rosters", ["team_state_id"], name: "index_rosters_on_team_state_id", using: :btree
 
   create_table "skaters", force: true do |t|
     t.string   "name"

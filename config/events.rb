@@ -62,12 +62,11 @@ WebsocketRails::EventMap.describe do
   end
 
   namespace :lineup_tracker do
-    subscribe :toggle_star_pass, 'event_log#log'
-    subscribe :toggle_pivot, 'event_log#log'
-    subscribe :set_jammer, 'event_log#log'
-    subscribe :set_pivot, 'event_log#log'
-    subscribe :set_blocker, 'event_log#log'
-    subscribe :set_skater_state, 'event_log#log'
+    subscribe :toggle_star_pass, 'lineup_tracker#toggle_star_pass'
+    subscribe :toggle_no_pivot, 'lineup_tracker#toggle_no_pivot'
+    subscribe :set_skater, 'lineup_tracker#set_skater'
+    subscribe :set_lineup_status, 'lineup_tracker#set_lineup_status'
+    subscribe :end_jam, 'lineup_tracker#end_jam'
   end
 
   namespace :penalty_tracker do

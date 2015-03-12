@@ -51,42 +51,8 @@ class GameState < ActiveRecord::Base
         time: 0,
         display: "0"
       },
-      home_attributes: {
-        name: "Atlanta Rollergirls",
-        initials: "ARG",
-        color: "#2082a6",
-        text_color: "#ffffff",
-        logo: "/assets/team_logos/Atlanta.png",
-        points: 0,
-        jam_points: 0,
-        is_taking_official_review: false,
-        is_taking_timeout: false,
-        has_official_review: true,
-        timeouts: 3,
-        jammer_attributes: {
-          is_lead: false,
-          name: "Nattie Long Legs",
-          number: "504"
-        }
-      },
-      away_attributes: {
-        name: "Gotham Rollergirls",
-        initials: "GRG",
-        color: "#f50031",
-        text_color: "#ffffff",
-        logo: "/assets/team_logos/Gotham.png",
-        points: 0,
-        jam_points: 0,
-        is_taking_official_review: false,
-        is_taking_timeout: false,
-        has_official_review: true,
-        timeouts: 3,
-        jammer_attributes: {
-          is_lead: true,
-          name: "Bonnie Thunders",
-          number: "340"
-        }
-      }
+      home: TeamState.demo_home,
+      away: TeamState.demo_away
     })
   end
 
@@ -94,35 +60,36 @@ class GameState < ActiveRecord::Base
     state.to_s.humanize.upcase
   end
 
+  def except_time_stamps
+    { except: [:created_at, :updated_at] } 
+  end
+
+  def team_state_json_options
+    {
+      include: {
+        jammer_attributes: except_time_stamps,
+        pass_states: except_time_stamps,
+        skaters: except_time_stamps,
+        jam_states: {include: {
+          lineup_statuses: except_time_stamps,
+          pivot: except_time_stamps,
+          blocker1: except_time_stamps,
+          blocker2: except_time_stamps,
+          blocker3: except_time_stamps,
+          jammer: except_time_stamps
+        }}.merge(except_time_stamps),
+      }
+    }.merge(except_time_stamps)
+  end
+
   def as_json
-    h = super(include: {
-        :home_attributes => {
-          include: {
-            jammer_attributes: {except: [:created_at, :updated_at]},
-            jam_states: {include: {pass_states: {except: [:created_at, :updated_at]}}, except: [:created_at, :updated_at]}
-          },
-          except: [:created_at, :updated_at]
-        },
-        :away_attributes => {
-          include: {
-            jammer_attributes: {except: [:created_at, :updated_at]},
-            jam_states: {include: {pass_states: {except: [:created_at, :updated_at]}}, except: [:created_at, :updated_at]}
-          },
-          except: [:created_at, :updated_at]
-        },
-        :jam_clock_attributes => {except: [:created_at, :updated_at]},
-        :period_clock_attributes => {except: [:created_at, :updated_at]},
-        :game => {}
-      })
-    h["home_attributes"].merge!(
-      "skater_states" => [
-        {"number" => '36A', "name" => '"Shock"Ira'},
-        {"number" => '72', name: '\'Lil Diablo'} ] )
-    h["away_attributes"].merge!(
-      "skater_states" => [
-        {"number" => '2 cups', "name" => 'ZackaRonni N\' Cheese'},
-        {"number" => '74', "name" => 'Zombetty'} ] )
-    h
+    super(include: {
+      :home_attributes => team_state_json_options,
+      :away_attributes => team_state_json_options,
+      :jam_clock_attributes => except_time_stamps,
+      :period_clock_attributes => except_time_stamps,
+      :game => {}
+    })
   end
 
   def to_json(options = {})
@@ -147,5 +114,4 @@ class GameState < ActiveRecord::Base
     self.build_home if self.home.nil?
     self.build_away if self.away.nil?
   end
-  after_initialize :init_teams
 end
