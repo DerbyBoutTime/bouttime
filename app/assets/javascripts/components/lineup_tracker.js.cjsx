@@ -76,7 +76,7 @@ exports.LineupTracker = React.createClass
     team = this.getTeamAttributes(teamType)
     jam = this.getJamState(jamIndex, teamType)
 
-    this.state.selectorContext = 
+    this.state.selectorContext =
       roster: team.skaters.map (skater, skaterIndex) ->
         skaterPosition = switch skater
           when jam.pivot then 'pivot'
@@ -162,7 +162,7 @@ exports.LineupTracker = React.createClass
     teamState.lineupStatuses[statusIndex][position] = this.statusTransition(currentStatus)
     this.setState(this.state)
 
-    exports.dispatcher.trigger eventName, eventOptions 
+    exports.dispatcher.trigger eventName, eventOptions
 
   endJam: (teamType) ->
     eventName="lineup_tracker.end_jam"
@@ -370,7 +370,7 @@ exports.JamDetail = React.createClass
         </div>
       </div>
       {this.props.jamState.lineupStatuses.map (lineupStatus, statusIndex) ->
-        <LineupBoxRow key={statusIndex} lineupStatus=lineupStatus lineupStatusHandler={this.props.lineupStatusHandler.bind(this, statusIndex)} /> 
+        <LineupBoxRow key={statusIndex} lineupStatus=lineupStatus lineupStatusHandler={this.props.lineupStatusHandler.bind(this, statusIndex)} />
       , this }
       <LineupBoxRow key={this.props.jamState.lineupStatuses.length} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, this.props.jamState.lineupStatuses.length)} />
     </div>
@@ -472,7 +472,7 @@ exports.LineupBoxRow = React.createClass
 
 exports.LineupBox = React.createClass
   displayName: 'LineupBox'
-  
+
   propTypes:
     status: React.PropTypes.string
 

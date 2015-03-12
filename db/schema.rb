@@ -32,9 +32,9 @@ ActiveRecord::Schema.define(version: 20150204085557) do
   end
 
   create_table "game_states", force: true do |t|
-    t.integer  "state"
-    t.integer  "jam_number"
-    t.integer  "period_number"
+    t.integer  "state",           limit: 2
+    t.integer  "jam_number",      limit: 2
+    t.integer  "period_number",   limit: 2
     t.integer  "home_id"
     t.integer  "away_id"
     t.datetime "created_at"
