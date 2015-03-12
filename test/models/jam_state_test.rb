@@ -15,6 +15,13 @@
 #  created_at    :datetime
 #  updated_at    :datetime
 #  is_selected   :boolean          default(FALSE)
+#  no_pivot      :boolean
+#  star_pass     :boolean
+#  pivot_id      :integer
+#  blocker1_id   :integer
+#  blocker2_id   :integer
+#  blocker3_id   :integer
+#  jammer_id     :integer
 #
 
 require "test_helper"
