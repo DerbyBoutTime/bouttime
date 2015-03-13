@@ -66,19 +66,21 @@ exports.PassItem = React.createClass
               <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>              
             </button>
           </div>
-          <div className="col-sm-2 col-xs-2">
-            <ScoreNote note={notes[0]} />
-          </div>
-          <div className="col-sm-2 col-xs-2">
-            <ScoreNote note={notes[1]} />
-          </div>
-          <div className="col-sm-2 col-xs-2">
-            <ScoreNote note={notes[2]} />
-          </div>
-          <div className="col-sm-2 col-xs-2">
-            <button className="points btn btn-block" data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId} >
-              <strong>{this.props.passState.points || 0}</strong>
-            </button>
+          <div data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId}>
+            <div className="col-sm-2 col-xs-2">
+              <ScoreNote note={notes[0]} />
+            </div>
+            <div className="col-sm-2 col-xs-2">
+              <ScoreNote note={notes[1]} />
+            </div>
+            <div className="col-sm-2 col-xs-2">
+              <ScoreNote note={notes[2]} />
+            </div>
+            <div className="col-sm-2 col-xs-2">
+              <div className="points boxed-good text-center">
+                <strong>{this.props.passState.points || 0}</strong>
+              </div>
+            </div>
           </div>
         </div>
       </div>
