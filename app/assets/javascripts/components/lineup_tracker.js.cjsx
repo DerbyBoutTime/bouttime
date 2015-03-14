@@ -11,7 +11,6 @@ exports.LineupTracker = React.createClass
     selectorContext:
       roster: []
       buttonHandler: this.setSkater.bind(this, 0, 'away', 'pivot')
-    selectedTeam: 'away'
 
   #Helper functions
   buildOptions: (opts = {}) ->
@@ -28,7 +27,7 @@ exports.LineupTracker = React.createClass
       eventName: eventName
       eventOptions: $.extend(true, {}, eventOptions)
 
-  getJamState: (jamIndex, team) ->
+  getJamState: (team, jamIndex) ->
     switch team
       when 'away' then this.state.gameState.awayAttributes.jamStates[jamIndex]
       when 'home' then this.state.gameState.homeAttributes.jamStates[jamIndex]
@@ -39,7 +38,7 @@ exports.LineupTracker = React.createClass
       when 'home' then this.state.gameState.homeAttributes
 
   getLineup: (teamType, jamIndex) ->
-    jam = this.getJamState(jamIndex, teamType)
+    jam = this.getJamState(teamType, jamIndex)
     positions = [jam.pivot, jam.blocker1, jam.blocker2, jam.blocker3, jam.jammer]
     positions.filter (position) ->
       position?
@@ -78,9 +77,9 @@ exports.LineupTracker = React.createClass
     this.state.selectedTeam = team
     this.setState(this.state)
 
-  setSelectorContext: (jamIndex, teamType, position) ->
+  setSelectorContext: (teamType, jamIndex, position) ->
     team = this.getTeamAttributes(teamType)
-    jam = this.getJamState(jamIndex, teamType)
+    jam = this.getJamState(teamType, jamIndex)
 
     this.state.selectorContext = 
       roster: team.skaters.map (skater, skaterIndex) ->
@@ -91,12 +90,12 @@ exports.LineupTracker = React.createClass
         isSelected: inLineup
         isInjured: inLineup and jam.lineupStatuses.some (lineupStatus) -> lineupStatus[skaterPosition] is 'injured'
       , this
-      buttonHandler: this.setSkater.bind(this, jamIndex, teamType, position)
+      buttonHandler: this.setSkater.bind(this, teamType, jamIndex, position)
       style: team.colorBarStyle
     this.setState(this.state)
 
   #Data actions
-  toggleNoPivot: (jamIndex, teamType) ->
+  toggleNoPivot: (teamType, jamIndex) ->
     eventName = "lineup_tracker.toggle_no_pivot"
     eventOptions = this.buildOptions(
       jamIndex: jamIndex
@@ -104,13 +103,13 @@ exports.LineupTracker = React.createClass
     )
     this.pushState(eventName, eventOptions)
 
-    teamState = this.getJamState(jamIndex, teamType)
+    teamState = this.getJamState(teamType, jamIndex)
     teamState.noPivot = !teamState.noPivot
     this.setState(this.state)
 
     exports.dispatcher.trigger eventName, eventOptions
 
-  toggleStarPass: (jamIndex, teamType) ->
+  toggleStarPass: (teamType, jamIndex) ->
     eventName = "lineup_tracker.toggle_star_pass"
     eventOptions = this.buildOptions(
       jamIndex: jamIndex
@@ -118,13 +117,13 @@ exports.LineupTracker = React.createClass
     )
     this.pushState(eventName, eventOptions)
 
-    teamState = this.getJamState(jamIndex, teamType)
+    teamState = this.getJamState(teamType, jamIndex)
     teamState.starPass = !teamState.starPass
     this.setState(this.state)
 
     exports.dispatcher.trigger eventName, eventOptions
 
-  setSkater: (jamIndex, teamType, position, skaterIndex) ->
+  setSkater: (teamType, jamIndex, position, skaterIndex) ->
     eventName = "lineup_tracker.set_skater"
     eventOptions = this.buildOptions(
       jamIndex: jamIndex
@@ -133,14 +132,14 @@ exports.LineupTracker = React.createClass
     )
     this.pushState(eventName, eventOptions)
 
-    jamState = this.getJamState(jamIndex, teamType)
+    jamState = this.getJamState(teamType, jamIndex)
     teamAttributes = this.getTeamAttributes(teamType)
     jamState[position] = teamAttributes.skaters[skaterIndex]
     this.setState(this.state)
 
     exports.dispatcher.trigger eventName, eventOptions
 
-  setLineupStatus: (jamIndex, teamType, statusIndex, position) ->
+  setLineupStatus: (teamType, jamIndex, statusIndex, position) ->
     eventName = "lineup_tracker.set_lineup_status"
     eventOptions = this.buildOptions(
       jamIndex: jamIndex
@@ -150,7 +149,7 @@ exports.LineupTracker = React.createClass
     )
     this.pushState(eventName, eventOptions)
 
-    teamState = this.getJamState(jamIndex, teamType)
+    teamState = this.getJamState(teamType, jamIndex)
 
     # Make a new row if need be
     if statusIndex >= teamState.lineupStatuses.length
@@ -198,66 +197,62 @@ exports.LineupTracker = React.createClass
       exports.dispatcher.trigger previousEventName, previousEventOptions
 
   render: () ->
-    homeActiveTeamClass = cx
-      'hidden-xs': this.state.selectedTeam != 'home'
+    awayElement = <TeamLineup 
+      teamState={this.props.awayAttributes}
+      noPivotHandler={this.toggleNoPivot.bind(this, 'away')}
+      starPassHandler={this.toggleStarPass.bind(this, 'away')}
+      lineupStatusHandler={this.setLineupStatus.bind(this, 'away')}
+      setSelectorContextHandler={this.setSelectorContext.bind(this, 'away')}
+      selectSkaterHandler={this.setSkater.bind(this,'away')}
+      endHandler={this.endJam.bind(this, 'away')}
+      undoHandler={this.undo} />
 
-    awayActiveTeamClass = cx
-      'hidden-xs': this.state.selectedTeam != 'away'
+    homeElement = <TeamLineup
+      teamState={this.props.homeAttributes}
+      noPivotHandler={this.toggleNoPivot.bind(this, 'home')}
+      starPassHandler={this.toggleStarPass.bind(this, 'home')}
+      lineupStatusHandler={this.setLineupStatus.bind(this, 'home')}
+      setSelectorContextHandler={this.setSelectorContext.bind(this, 'home')}
+      selectSkaterHandler={this.setSkater.bind(this, 'home')}
+      endHandler={this.endJam.bind(this, 'home')}
+      undoHandler={this.undo} />
 
     <div className="lineup-tracker">
-      <div className="row teams text-center gutters-xs">
-        <div className="col-sm-6 col-xs-6">
-          <button className="team-name btn btn-block" style={this.props.awayAttributes.colorBarStyle} onClick={this.selectTeam.bind(this, 'away')}>
-            {this.props.awayAttributes.name}
-          </button>
-        </div>
-        <div className="col-sm-6 col-xs-6">
-          <button className="team-name btn btn-block" style={this.props.homeAttributes.colorBarStyle} onClick={this.selectTeam.bind(this, 'home')}>
-            {this.props.homeAttributes.name}
-          </button>
-        </div>
-      </div>
-      <div className="active-team">
-        <div className="row gutters-xs">
-          <div className="col-sm-6 col-xs-6">
-            <div className={awayActiveTeamClass}></div>
-          </div>
-          <div className="col-sm-6 col-xs-6">
-            <div className={homeActiveTeamClass}></div>
-          </div>
-        </div>
-      </div>
-        <div className="row gutters-xs jam-details">
-          <div className={awayActiveTeamClass + " col-sm-6 col-xs-12"} id="away-team">
-            {this.state.gameState.awayAttributes.jamStates.map (jamState, jamIndex) ->
-              <JamDetail
-                key={jamIndex}
-                teamAttributes={this.props.awayAttributes}
-                jamState={jamState}
-                noPivotHandler={this.toggleNoPivot.bind(this, jamIndex, 'away')}
-                starPassHandler={this.toggleStarPass.bind(this, jamIndex, 'away')}
-                lineupStatusHandler={this.setLineupStatus.bind(this, jamIndex, 'away')}
-                setSelectorContextHandler={this.setSelectorContext.bind(this, jamIndex, 'away')}
-                selectSkaterHandler={this.setSkater.bind(this, jamIndex, 'away')} />
-            , this }
-            <LineupTrackerActions endHandler={this.endJam.bind(this, 'away')} undoHandler={this.undo}/>
-          </div>
-          <div className={homeActiveTeamClass + " col-sm-6 col-xs-12"} id="home-team">
-            {this.state.gameState.homeAttributes.jamStates.map (jamState, jamIndex) ->
-              <JamDetail
-                key={jamIndex}
-                teamAttributes={this.props.homeAttributes}
-                jamState={jamState}
-                noPivotHandler={this.toggleNoPivot.bind(this, jamIndex, 'home')}
-                starPassHandler={this.toggleStarPass.bind(this, jamIndex, 'home')}
-                lineupStatusHandler={this.setLineupStatus.bind(this, jamIndex, 'home')}
-                setSelectorContextHandler={this.setSelectorContext.bind(this, jamIndex, 'home')}
-                selectSkaterHandler={this.setSkater.bind(this, jamIndex, 'home')} />
-            , this }
-            <LineupTrackerActions endHandler={this.endJam.bind(this, 'home')} undoHandler={this.undo}/>
-          </div>
-        </div>
+      <TeamSelector
+        awayAttributes={this.state.gameState.awayAttributes}
+        awayElement={awayElement}
+        homeAttributes={this.state.gameState.homeAttributes}
+        homeElement={homeElement} />
       <SkaterSelectorDialog roster={this.state.selectorContext.roster} buttonHandler={this.state.selectorContext.buttonHandler} style={this.state.selectorContext.style} />
+    </div>
+
+        
+exports.TeamLineup = React.createClass
+  displayName: 'TeamLineup'
+  propTypes:
+    teamState: React.PropTypes.object.isRequired
+    noPivotHandler: React.PropTypes.func.isRequired
+    starPassHandler: React.PropTypes.func.isRequired
+    lineupStatusHandler: React.PropTypes.func.isRequired
+    setSelectorContextHandler: React.PropTypes.func.isRequired
+    selectSkaterHandler: React.PropTypes.func.isRequired
+    endHandler: React.PropTypes.func.isRequired
+    undoHandler: React.PropTypes.func.isRequired
+
+  render: ()->
+    <div className="jam-details">
+      {this.props.teamState.jamStates.map (jamState, jamIndex) ->
+        <JamDetail
+          key={jamIndex}
+          teamAttributes={this.props.teamState}
+          jamState={jamState}
+          noPivotHandler={this.props.noPivotHandler.bind(this, jamIndex)}
+          starPassHandler={this.props.starPassHandler.bind(this, jamIndex)}
+          lineupStatusHandler={this.props.lineupStatusHandler.bind(this, jamIndex)}
+          setSelectorContextHandler={this.props.setSelectorContextHandler.bind(this, jamIndex)}
+          selectSkaterHandler={this.props.selectSkaterHandler.bind(this, jamIndex)} />
+      , this }
+      <LineupTrackerActions endHandler={this.props.endHandler} undoHandler={this.props.undoHandler}/>
     </div>
 
 exports.LineupTrackerActions = React.createClass

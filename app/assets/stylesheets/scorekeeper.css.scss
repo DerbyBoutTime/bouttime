@@ -10,34 +10,6 @@
   }
 }
 
-.scorekeeper, .lineup-tracker {
-  .team-name {
-    border: 1px solid $gray;
-    border-radius: 2px;
-    color: $white;
-    /*height: 30px;*/
-    line-height: 30px;
-    /*min-width: 16px;*/
-
-    &.away {
-      background-color: $away-team-bg-color;
-    }
-
-    &.home {
-      background-color: $home-team-bg-color;
-    }
-  }
-
-  .active-team {
-    margin-top: 4px;
-
-    .away, .home {
-      border: 2px solid $gray;
-      border-radius: 2px;
-    }
-  }
-}
-
 .scorekeeper {
   .btn{
     border-radius:2px;
