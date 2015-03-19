@@ -52,6 +52,8 @@ exports.JamsList = React.createClass
       JamItemFactory
         key: jamIndex
         jamState: jamState
+        actions: this.bindActions(jamIndex)
+        style: this.props.teamState.colorBarStyle
         selectionHandler: this.handleJamSelection.bind(this, jamIndex, false)
 
     # add a blank jam for adding a next jam
@@ -59,6 +61,8 @@ exports.JamsList = React.createClass
       JamItemFactory
         key: this.props.teamState.jamStates.length
         jamState: {jamNumber: this.props.teamState.jamStates.length+1, passStates: []}
+        actions: this.bindActions(this.props.teamState.jamStates.length)
+        style: this.props.teamState.colorBarStyle
         selectionHandler: this.handleJamSelection.bind(this, this.props.teamState.jamStates.length, true)
     )
 

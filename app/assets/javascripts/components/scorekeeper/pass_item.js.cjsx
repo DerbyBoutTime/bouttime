@@ -4,8 +4,13 @@ exports = exports ? this
 exports.PassItem = React.createClass
   displayName: 'PassItem'
   propType:
+    jamState: React.PropTypes.object.isRequired
     passState: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
+
+  isInjured: (position) ->
+    this.props.jamState.lineupStatuses? and this.props.jamState.lineupStatuses.some (status) ->
+      status[position] is 'injured'
 
   decrementPassNumber: () ->
     passNumber = this.props.passState.passNumber
@@ -52,6 +57,8 @@ exports.PassItem = React.createClass
 
     notes = this.getNotes()
 
+    skater = if this.props.passState.skaterNumber? then {number: this.props.passState.skaterNumber} else null
+
     <div aria-multiselectable="true">
       <div className="columns">
         <div className="row gutters-xs">
@@ -61,10 +68,13 @@ exports.PassItem = React.createClass
             </button>
           </div>
           <div className="col-sm-2 col-xs-2">
-            <button className="skater btn btn-block">
-              <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>              
-            </button>
-          </div>
+            <SkaterSelector
+              skater={skater}
+              injured={this.isInjured('jammer')}
+              style={this.props.style}
+              setSelectorContext={this.props.setSelectorContext}
+              selectHandler={this.props.actions.setSkater} />
+            </div>
           <div data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId}>
             <div className="col-sm-2 col-xs-2">
               <ScoreNote note={notes[0]} />

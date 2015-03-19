@@ -19,11 +19,12 @@ exports.PenaltyTracker = React.createClass
     $.extend(stdOpts, opts)
   
   getInitialState: () ->
+    gameState: this.props.gameState
     componentId: exports.wftda.functions.uniqueId()
 
   render: () ->
-    awayElement = <TeamPenalties teamState={this.state.gameState.awayAttributes} penalties={this.state.gameState.penalties} currentJamNumber={this.props.jamNumber} applyHandler={this.updatePenaltyStates.bind(this, 'away')}/>
-    homeElement = <TeamPenalties teamState={this.state.gameState.homeAttributes} penalties={this.state.gameState.penalties} currentJamNumber={this.props.jamNumber} applyHandler={this.updatePenaltyStates.bind(this, 'home')}/>
+    awayElement = <TeamPenalties teamState={this.state.gameState.awayAttributes} penalties={this.state.gameState.penalties} currentJamNumber={this.props.gameState.jamNumber} applyHandler={this.updatePenaltyStates.bind(this, 'away')}/>
+    homeElement = <TeamPenalties teamState={this.state.gameState.homeAttributes} penalties={this.state.gameState.penalties} currentJamNumber={this.props.gameState.jamNumber} applyHandler={this.updatePenaltyStates.bind(this, 'home')}/>
     
     <div className="penalty-tracker">
       <TeamSelector

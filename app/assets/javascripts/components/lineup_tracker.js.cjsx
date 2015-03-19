@@ -5,12 +5,8 @@ exports.LineupTracker = React.createClass
 
   #React callbacks
   getInitialState: () ->
-    this.props = exports.wftda.functions.camelize(this.props)
     this.stateStack = []
-    gameState: this.props
-    selectorContext:
-      roster: []
-      buttonHandler: this.setSkater.bind(this, 0, 'away', 'pivot')
+    gameState: this.props.gameState
 
   #Helper functions
   buildOptions: (opts = {}) ->
@@ -36,12 +32,6 @@ exports.LineupTracker = React.createClass
     switch team
       when 'away' then this.state.gameState.awayAttributes
       when 'home' then this.state.gameState.homeAttributes
-
-  getLineup: (teamType, jamIndex) ->
-    jam = this.getJamState(teamType, jamIndex)
-    positions = [jam.pivot, jam.blocker1, jam.blocker2, jam.blocker3, jam.jammer]
-    positions.filter (position) ->
-      position?
 
   positionsInBox: (jam) ->
     positions = []
@@ -75,23 +65,6 @@ exports.LineupTracker = React.createClass
   #Display actions
   selectTeam: (team) ->
     this.state.selectedTeam = team
-    this.setState(this.state)
-
-  setSelectorContext: (teamType, jamIndex, position) ->
-    team = this.getTeamAttributes(teamType)
-    jam = this.getJamState(teamType, jamIndex)
-
-    this.state.selectorContext = 
-      roster: team.skaters.map (skater, skaterIndex) ->
-
-        inLineup = skater.number in this.getLineup(teamType, jamIndex).map (s) -> s.number
-
-        skater: skater
-        isSelected: inLineup
-        isInjured: inLineup and jam.lineupStatuses.some (lineupStatus) -> lineupStatus[skaterPosition] is 'injured'
-      , this
-      buttonHandler: this.setSkater.bind(this, teamType, jamIndex, position)
-      style: team.colorBarStyle
     this.setState(this.state)
 
   #Data actions
@@ -198,21 +171,21 @@ exports.LineupTracker = React.createClass
 
   render: () ->
     awayElement = <TeamLineup 
-      teamState={this.props.awayAttributes}
+      teamState={this.props.gameState.awayAttributes}
       noPivotHandler={this.toggleNoPivot.bind(this, 'away')}
       starPassHandler={this.toggleStarPass.bind(this, 'away')}
       lineupStatusHandler={this.setLineupStatus.bind(this, 'away')}
-      setSelectorContextHandler={this.setSelectorContext.bind(this, 'away')}
+      setSelectorContextHandler={this.props.setSelectorContext.bind(null, 'away')}
       selectSkaterHandler={this.setSkater.bind(this,'away')}
       endHandler={this.endJam.bind(this, 'away')}
       undoHandler={this.undo} />
 
     homeElement = <TeamLineup
-      teamState={this.props.homeAttributes}
+      teamState={this.props.gameState.homeAttributes}
       noPivotHandler={this.toggleNoPivot.bind(this, 'home')}
       starPassHandler={this.toggleStarPass.bind(this, 'home')}
       lineupStatusHandler={this.setLineupStatus.bind(this, 'home')}
-      setSelectorContextHandler={this.setSelectorContext.bind(this, 'home')}
+      setSelectorContextHandler={this.props.setSelectorContext.bind(null, 'home')}
       selectSkaterHandler={this.setSkater.bind(this, 'home')}
       endHandler={this.endJam.bind(this, 'home')}
       undoHandler={this.undo} />
@@ -223,7 +196,6 @@ exports.LineupTracker = React.createClass
         awayElement={awayElement}
         homeAttributes={this.state.gameState.homeAttributes}
         homeElement={homeElement} />
-      <SkaterSelectorDialog roster={this.state.selectorContext.roster} buttonHandler={this.state.selectorContext.buttonHandler} style={this.state.selectorContext.style} />
     </div>
 
         
@@ -351,86 +323,46 @@ exports.JamDetail = React.createClass
       </div>
       <div className="row gutters-xs skaters">
         <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2">
-          <SkaterSelector skater={this.props.jamState.pivot} injured={this.isInjured('pivot')} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "pivot")} />
+          <SkaterSelector
+            skater={this.props.jamState.pivot}
+            injured={this.isInjured('pivot')}
+            style={this.props.teamAttributes.colorBarStyle}
+            setSelectorContext={this.props.setSelectorContextHandler}
+            selectHandler={this.props.selectSkaterHandler.bind(this, 'pivot')} />
         </div>
         <div className="col-sm-2 col-xs-2">
-          <SkaterSelector skater={this.props.jamState.blocker1} injured={this.isInjured('blocker1')} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "blocker1")} />
-        </div>
+          <SkaterSelector
+            skater={this.props.jamState.blocker1}
+            injured={this.isInjured('blocker1')}
+            style={this.props.teamAttributes.colorBarStyle}
+            setSelectorContext={this.props.setSelectorContextHandler}
+            selectHandler={this.props.selectSkaterHandler.bind(this, 'blocker1')} />        </div>
         <div className="col-sm-2 col-xs-2">
-          <SkaterSelector skater={this.props.jamState.blocker2} injured={this.isInjured('blocker2')} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "blocker2")} />
-        </div>
+          <SkaterSelector
+            skater={this.props.jamState.blocker2}
+            injured={this.isInjured('blocker2')}
+            style={this.props.teamAttributes.colorBarStyle}
+            setSelectorContext={this.props.setSelectorContextHandler}
+            selectHandler={this.props.selectSkaterHandler.bind(this, 'blocker2')} />        </div>
         <div className="col-sm-2 col-xs-2">
-          <SkaterSelector skater={this.props.jamState.blocker3} injured={this.isInjured('blocker3')} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "blocker3")} />
-        </div>
+          <SkaterSelector
+            skater={this.props.jamState.blocker3}
+            injured={this.isInjured('blocker3')}
+            style={this.props.teamAttributes.colorBarStyle}
+            setSelectorContext={this.props.setSelectorContextHandler}
+            selectHandler={this.props.selectSkaterHandler.bind(this, 'blocker3')} />        </div>
         <div className="col-sm-2 col-xs-2">
-          <SkaterSelector skater={this.props.jamState.jammer} injured={this.isInjured('jammer')} style={this.props.teamAttributes.colorBarStyle} buttonHandler={this.props.setSelectorContextHandler.bind(this, "jammer")} />
-        </div>
+          <SkaterSelector
+            skater={this.props.jamState.jammer}
+            injured={this.isInjured('jammer')}
+            style={this.props.teamAttributes.colorBarStyle}
+            setSelectorContext={this.props.setSelectorContextHandler}
+            selectHandler={this.props.selectSkaterHandler.bind(this, 'jammer')} />        </div>
       </div>
       {this.props.jamState.lineupStatuses.map (lineupStatus, statusIndex) ->
         <LineupBoxRow key={statusIndex} lineupStatus=lineupStatus lineupStatusHandler={this.props.lineupStatusHandler.bind(this, statusIndex)} />
       , this }
       <LineupBoxRow key={this.props.jamState.lineupStatuses.length} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, this.props.jamState.lineupStatuses.length)} />
-    </div>
-
-exports.SkaterSelector = React.createClass
-  displayName: 'SkaterSelector'
-  propTypes:
-    skater: React.PropTypes.object
-    style: React.PropTypes.object
-    buttonHandler: React.PropTypes.func.isRequired
-
-  buttonContent: () ->
-    if this.props.skater
-      this.props.skater.number
-    else
-      <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-
-
-  render: () ->
-    injuryClass = cx
-      'skater-injury': this.props.injured
-
-    <button className={injuryClass + " skater-selector text-center btn btn-block"} data-toggle="modal" style={if this.props.skater and not this.props.injured then this.props.style else {}} data-target="#roster-modal" onClick={this.props.buttonHandler}>
-      <strong>{this.buttonContent()}</strong>
-    </button>
-
-exports.SkaterSelectorDialog = React.createClass
-  displayName: 'SkaterSelectorDialog'
-  propTypes:
-    roster: React.PropTypes.array.isRequired
-    buttonHandler: React.PropTypes.func
-    style: React.PropTypes.object
-
-  getDefaultProps: () ->
-    selectedSkaters: []
-    injuredSkaters: []
-
-  injuryClass: (rosterEntry) ->
-    cx
-      'selector-injury' : rosterEntry.isInjured
-
-  render: () ->
-    <div className="modal fade" id="roster-modal">
-      <div className="modal-dialog skater-selector-dialog">
-        <div className="modal-content">
-          <div className="modal-header">
-            <button type="button" className="close" data-dismiss="modal"><span>&times;</span></button>
-            <h4 className="modal-title">Select Skater</h4>
-          </div>
-          <div className="modal-body">
-            {this.props.roster.map (rosterEntry, rosterIndex) ->
-                <button key={rosterIndex}
-                  className={this.injuryClass(rosterEntry) + " btn btn-block skater-selector-dialog-btn"}
-                  style={if rosterEntry.isSelected and not rosterEntry.isInjured then this.props.style}
-                  data-dismiss="modal"
-                  onClick={this.props.buttonHandler.bind(this, rosterIndex)}>
-                    <strong className="skater-number">{rosterEntry.skater.number}</strong>
-                    <strong className="skater-name">{rosterEntry.skater.name}</strong>
-                </button>
-            , this}
-          </div>
-        </div>
-      </div>
     </div>
 
 exports.LineupBoxRow = React.createClass

@@ -1,6 +1,10 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.Game = React.createClass
+  displayName: 'Game'
+
+  mixins: [GameStateMixin]
+
   componentDidMount: () ->
     $dom = $(this.getDOMNode())
     $dom.on 'click', 'ul.nav li', null, (evt) =>
@@ -8,22 +12,26 @@ exports.Game = React.createClass
         tab: evt.currentTarget.dataset.tabName
     exports.dispatcher.bind 'update', (state) =>
       console.log "Update received"
-      this.setState(exports.wftda.functions.camelize(state))
+      this.setState(gameState: exports.wftda.functions.camelize(state))
+  
   getInitialState: () ->
-    $.extend exports.wftda.functions.camelize(this.props),
-      tab: "jam_timer"
+    gameState = exports.wftda.functions.camelize(this.props)
+    gameState: gameState
+    tab: "jam_timer"
+    skaterSelectorContext:
+      teamState: gameState.awayAttributes
+      jamState: gameState.awayAttributes.jamStates[0]
+      selectHandler: () ->
+
+  setSelectorContext: (teamType, jamIndex, selectHandler) ->
+    this.setState
+      skaterSelectorContext:
+        teamState: this.getTeamState(teamType)
+        jamState: this.getJamState(teamType, jamIndex)
+        selectHandler: selectHandler
+
   render: () ->
-    # console.log "Jam Time: #{this.state.jamClockAttributes.display}"
-    jamTimer            = React.createElement(JamTimer, this.state)
-    lineupTracker       = React.createElement(LineupTracker, this.state)
-    scorekeeper         = React.createElement(Scorekeeper, this.state)
-    penaltyTracker      = React.createElement(PenaltyTracker, this.state)
-    penaltyBoxTimer     = React.createElement(PenaltyBoxTimer, this.state)
-    scoreboard          = React.createElement(Scoreboard, this.state)
-    penaltyWhiteboard   = React.createElement(PenaltyWhiteboard, this.state)
-    announcersFeed      = React.createElement(AnnouncersFeed, this.state)
-    gameNotes           = React.createElement(GameNotes, this.state)
-    <div className="game" data-tab={this.state.tab}>
+    <div ref="game" className="game" data-tab={this.state.tab}>
       <header>
         <div className="container-fluid">
           <Titlebar />
@@ -39,14 +47,15 @@ exports.Game = React.createClass
         </div>
       </header>
       <div className="container">
-        {jamTimer}
-        {lineupTracker}
-        {scorekeeper}
-        {penaltyTracker}
-        {penaltyBoxTimer}
-        {scoreboard}
-        {penaltyWhiteboard}
-        {announcersFeed}
-        {gameNotes}
+        <JamTimer {...this.state} />
+        <LineupTracker {...this.state} setSelectorContext={this.setSelectorContext} />
+        <Scorekeeper {...this.state} setSelectorContext={this.setSelectorContext} />
+        <PenaltyTracker {...this.state} />
+        <PenaltyBoxTimer {...this.state} />
+        <Scoreboard {...this.state} />
+        <PenaltyWhiteboard {...this.state} />
+        <AnnouncersFeed {...this.state} />
+        <GameNotes {...this.state} />
       </div>
+      <SkaterSelectorModal {...this.state.skaterSelectorContext} />
     </div>

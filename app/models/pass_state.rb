@@ -15,6 +15,7 @@
 #  updated_at    :datetime
 #  jam_state_id  :integer
 #  is_selected   :boolean          default(FALSE)
+#  sort          :integer
 #
 
 class PassState < ActiveRecord::Base

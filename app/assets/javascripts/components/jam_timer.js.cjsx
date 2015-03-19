@@ -1,30 +1,30 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.JamTimer = React.createClass
+  displayName: 'JamTimer'
   getInitialState: () ->
-    this.props = exports.wftda.functions.camelize(this.props)
     state =
-      id: this.props.id
+      id: this.props.gameState.id
       componentId: exports.wftda.functions.uniqueId()
-      state: this.props.state
-      jamNumber: this.props.jamNumber
-      periodNumber: this.props.periodNumber
-      jamClockAttributes: this.props.jamClockAttributes
-        # display: this.props.jamClockAttributes.display
-        # time: this.props.jamClockAttributes.time
-        # tick: this.props.jamClockAttributes.tick
-      periodClockAttributes: this.props.periodClockAttributes
-        # display: this.props.periodClockAttributes.display
-        # time: this.props.periodClockAttributes.time
-        # tick: this.props.periodClockAttributes.tick
-      homeAttributes: this.props.homeAttributes
-        # timeouts: this.props.homeAttributes.timeouts
-        # hasOfficialReview: this.props.homeAttributes.hasOfficialReview
-        # officialReviewsRetained: this.props.homeAttributes.officialReviewsRetained
-      awayAttributes: this.props.awayAttributes
-        # timeouts: this.props.awayAttributes.timeouts
-        # hasOfficialReview: this.props.awayAttributes.hasOfficialReview
-        # officialReviewsRetained: this.props.awayAttributes.officialReviewsRetained
+      state: this.props.gameState.state
+      jamNumber: this.props.gameState.jamNumber
+      periodNumber: this.props.gameState.periodNumber
+      jamClockAttributes: this.props.gameState.jamClockAttributes
+        # display: this.props.gameState.jamClockAttributes.display
+        # time: this.props.gameState.jamClockAttributes.time
+        # tick: this.props.gameState.jamClockAttributes.tick
+      periodClockAttributes: this.props.gameState.periodClockAttributes
+        # display: this.props.gameState.periodClockAttributes.display
+        # time: this.props.gameState.periodClockAttributes.time
+        # tick: this.props.gameState.periodClockAttributes.tick
+      homeAttributes: this.props.gameState.homeAttributes
+        # timeouts: this.props.gameState.homeAttributes.timeouts
+        # hasOfficialReview: this.props.gameState.homeAttributes.hasOfficialReview
+        # officialReviewsRetained: this.props.gameState.homeAttributes.officialReviewsRetained
+      awayAttributes: this.props.gameState.awayAttributes
+        # timeouts: this.props.gameState.awayAttributes.timeouts
+        # hasOfficialReview: this.props.gameState.awayAttributes.hasOfficialReview
+        # officialReviewsRetained: this.props.gameState.awayAttributes.officialReviewsRetained
   componentWillReceiveProps: (nextProps) ->
 
   buildOptions: (opts = {}) ->

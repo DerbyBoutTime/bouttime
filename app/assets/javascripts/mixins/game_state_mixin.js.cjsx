@@ -1,8 +1,5 @@
 exports = exports ? this
 exports.GameStateMixin = 
-	getInitialState: () ->
-    gameState: exports.wftda.functions.camelize(this.props)
-
   getTeamState: (teamType) ->
     switch teamType
       when 'away' then this.state.gameState.awayAttributes

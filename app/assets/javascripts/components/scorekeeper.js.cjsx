@@ -55,7 +55,7 @@ exports.Scorekeeper = React.createClass
         pass = this.getPassState(teamType, jamIndex, passIndex)
         pass.points = points
         if passIndex is jam.passStates.length - 1
-          this.actions.newPass.call(this, teamType, jamIndex, {passNumber: pass.passNumber + 1, sort: jam.jamNumber + 1})
+          this.actions.newPass.call(this, teamType, jamIndex, {passNumber: pass.passNumber + 1, sort: pass.sort + 1 ,skaterNumber: pass.skaterNumber})
         dispatcher.trigger "scorekeeper.set_points", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         this.setState(this.state)
 
@@ -64,6 +64,17 @@ exports.Scorekeeper = React.createClass
         pass.passNumber = passNumber
         dispatcher.trigger "scorekeeper.set_pass_number", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         this.setState(this.state)
+
+      setSkater: (teamType, jamIndex, passIndex, skaterIndex) ->
+        team = this.getTeamState(teamType)
+        pass = this.getPassState(teamType, jamIndex, passIndex)
+        skater = team.skaterStates[skaterIndex].skater
+        pass.skaterNumber = skater.number
+        dispatcher.trigger "scorekeeper.set_skater_number", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
+        this.setState(this.state)
+
+      setSelectorContext: (teamType, jamIndex, selectHandler) ->
+        this.props.setSelectorContext(teamType, jamIndex, selectHandler)
 
   # Display actions
   selectTeam: (teamType) ->
@@ -105,7 +116,7 @@ exports.Scorekeeper = React.createClass
   getInitialState: () ->
     this.props = exports.wftda.functions.camelize(this.props)
     componentId: exports.wftda.functions.uniqueId()
-    gameState: this.props
+    gameState: this.props.gameState
     selectedTeam: 'away'
 
   render: () ->

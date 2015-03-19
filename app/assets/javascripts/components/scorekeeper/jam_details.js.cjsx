@@ -50,6 +50,6 @@ exports.JamDetails = React.createClass
           </div>
         </div>
       </div>
-      <PassesList passStates={this.props.jamState.passStates}
+      <PassesList jamState={this.props.jamState}
         actions={this.props.actions}/>
     </div>
