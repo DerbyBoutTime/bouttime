@@ -35,7 +35,15 @@ class ScorekeeperController < WebsocketController
     local_pass.update pass_number: client_pass[:pass_number]
 
     @game_state.reload
-    broadcast_message :updates, @game_state.as_json
+    broadcast_message :update, @game_state.as_json
+  end
+
+  def set_skater_number
+    local_pass, client_pass = get_pass
+    local_pass.update skater_number: client_pass[:skater_number]
+
+    @game_state.reload
+    broadcast_message :update, @game_state.as_json
   end
 
   def toggle_nopass
@@ -104,7 +112,7 @@ class ScorekeeperController < WebsocketController
     pass_index = @message[:pass_index]
     local_jam, client_jam = get_jam
     client_pass = client_jam[:pass_states][pass_index]
-    local_pass = local_jam.pass_states.find_by(sort: pass_index)
+    local_pass = local_jam.pass_states.find_by(sort: client_pass[:sort])
 
     [local_pass, client_pass]
   end

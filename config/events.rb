@@ -59,6 +59,7 @@ WebsocketRails::EventMap.describe do
     subscribe :set_pass_number, 'scorekeeper#set_pass_number'
     subscribe :new_jam, 'scorekeeper#new_jam'
     subscribe :new_pass, 'scorekeeper#new_pass'
+    subscribe :set_skater_number, 'scorekeeper#set_skater_number'
   end
 
   namespace :lineup_tracker do

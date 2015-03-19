@@ -4,6 +4,6 @@ exports.AnnouncersFeed = React.createClass
   componentDidMount: () ->
     $dom = $(this.getDOMNode())
   getInitialState: () ->
-    exports.wftda.functions.camelize(this.props)
+    this.props
   render: () ->
     <div className="announcers-feed"></div>

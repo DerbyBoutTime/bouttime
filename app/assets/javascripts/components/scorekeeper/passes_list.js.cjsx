@@ -2,7 +2,7 @@ exports = exports ? this
 exports.PassesList = React.createClass
   displayName: 'PassesList'
   propTypes:
-    passStates: React.PropTypes.array.isRequired
+    jamState: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
 
   bindActions: (passIndex) ->
@@ -16,11 +16,13 @@ exports.PassesList = React.createClass
 
   render: () ->
     PassItemFactory = React.createFactory(PassItem)
-    passComponents = this.props.passStates.map (passState, passIndex) =>
+    passComponents = this.props.jamState.passStates.map (passState, passIndex) =>
       PassItemFactory(
         key: passIndex
+        jamState: this.props.jamState
         passState: passState
         actions: this.bindActions(passIndex)
+        setSelectorContext: this.props.actions.setSelectorContext #Without binding passIndex
       )
 
     <div className="passes">

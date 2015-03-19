@@ -27,6 +27,10 @@ exports.JamItem = React.createClass
 
   render: () ->
     notes = this.getNotes()
+
+    jammer = this.props.jamState.jammer
+    jammerNumber = if jammer? then jammer.number else <span>&nbsp;</span>
+
     <div className="jam-row">
       <div className="row gutters-xs" onClick={this.props.selectionHandler} >
         <div className="col-sm-2 col-xs-2">
@@ -35,8 +39,8 @@ exports.JamItem = React.createClass
           </div>
         </div>
         <div className="col-sm-2 col-xs-2">
-          <div className="skater boxed-good">
-            Skater
+          <div className='boxed-good text-center'>
+            <strong>{jammerNumber}</strong>
           </div>
         </div>
         <div className="col-sm-2 col-xs-2">
