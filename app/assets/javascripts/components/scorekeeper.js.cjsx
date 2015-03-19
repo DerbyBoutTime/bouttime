@@ -85,14 +85,6 @@ exports.Scorekeeper = React.createClass
   getPassState: (teamType, jamIndex, passIndex) ->
     this.getJamState(teamType, jamIndex).passStates[passIndex]
 
-  getTeamPoints: (teamType)->
-    team = this.getTeamState(teamType)
-    points = 0
-    team.jamStates.map (jam) =>
-      jam.passStates.map (pass) =>
-        points += pass.points || 0
-    return points
-
   buildNewJam: (jamNumber) ->
     jamNumber: jamNumber
     passStates: []
@@ -114,91 +106,19 @@ exports.Scorekeeper = React.createClass
     selectedTeam: 'away'
 
   render: () ->
-    homeContainerClass = cx
-      'col-sm-6': true
-      'col-xs-12': true
-      'hidden-xs': this.state.selectedTeam != 'home'
-
-    awayContainerClass = cx
-      'col-sm-6': true
-      'col-xs-12': true
-      'hidden-xs': this.state.selectedTeam != 'away'
+    awayElement = <JamsList 
+      jamNumber={this.state.gameState.jamNumber}
+      teamState={this.getTeamState('away')}
+      actions={this.bindActions('away')} />
+    homeElement = <JamsList 
+      jamNumber={this.state.gameState.jamNumber}
+      teamState={this.getTeamState('home')}
+      actions={this.bindActions('home')} />
 
     <div className="scorekeeper">
-      <div className="row teams text-center gutters-xs">
-        <div className="col-sm-6 col-xs-6">
-          <button className="team-name btn btn-block" style={this.props.awayAttributes.colorBarStyle} onClick={this.selectTeam.bind(this, 'away')}>
-            {this.state.gameState.awayAttributes.name}
-          </button>
-        </div>
-        <div className="col-sm-6 col-xs-6">
-          <button className="team-name btn btn-block" style={this.props.homeAttributes.colorBarStyle} onClick={this.selectTeam.bind(this, 'home')}>
-            {this.state.gameState.homeAttributes.name}
-          </button>
-        </div>
-      </div>
-      <div className="row gutters-xs">
-        <div className={awayContainerClass} id="away-team">
-          <div className="row stats gutters-xs">
-            <div className="col-sm-6 col-xs-6">
-              <div className="stat current-jam">
-                <div className="row gutters-xs">
-                  <div className="col-sm-8 col-xs-8 col-sm-offset-1 col-xs-offset-1">
-                    <strong>Current Jam</strong>
-                  </div>
-                  <div className="col-sm-2 col-xs-2 text-right current-jam-score">
-                    <strong>{this.state.gameState.jamNumber}</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-sm-6 col-xs-6">
-              <div className="stat game-total">
-                <div className="row gutters-xs">
-                  <div className="col-sm-8 col-xs-8 col-sm-offset-1 col-xs-offset-1">
-                    <strong>Game Total</strong>
-                  </div>
-                  <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>{this.getTeamPoints('away')}</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <JamsList 
-            teamState={this.getTeamState('away')}
-            actions={this.bindActions('away')} />
-        </div>
-        <div className={homeContainerClass} id="home-team">
-          <div className="row stats gutters-xs">
-            <div className="col-sm-6 col-xs-6">
-              <div className="stat current-jam">
-                <div className="row gutters-xs">
-                  <div className="col-sm-8 col-xs-8 col-sm-offset-1 col-xs-offset-1">
-                    <strong>Current Jam</strong>
-                  </div>
-                  <div className="col-sm-2 col-xs-2 text-right current-jam-score">
-                    <strong>{this.state.gameState.jamNumber}</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="col-sm-6 col-xs-6">
-              <div className="stat game-total">
-                <div className="row gutters-xs">
-                  <div className="col-sm-8 col-xs-8 col-sm-offset-1 col-xs-offset-1">
-                    <strong>Game Total</strong>
-                  </div>
-                  <div className="col-sm-2 col-xs-2 text-right game-total-score">
-                    <strong>{this.getTeamPoints('home')}</strong>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <JamsList 
-            teamState={this.getTeamState('home')}
-            actions={this.bindActions('home')} />
-        </div>
-      </div>
+      <TeamSelector
+        awayAttributes={this.state.gameState.awayAttributes}
+        awayElement={awayElement}
+        homeAttributes={this.state.gameState.homeAttributes}
+        homeElement={homeElement} />
     </div>

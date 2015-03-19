@@ -15,6 +15,14 @@ exports.JamsList = React.createClass
       actions
     , {})
 
+  getTeamPoints: ()->
+    team = this.props.teamState
+    points = 0
+    team.jamStates.map (jam) =>
+      jam.passStates.map (pass) =>
+        points += pass.points || 0
+    return points
+
   selectedJam: () ->
     this.props.teamState.jamStates[this.state.jamSelected || 0]
 
@@ -62,7 +70,33 @@ exports.JamsList = React.createClass
       'passes-container': true
       'hidden': not this.state.jamSelected?
 
-    <div>
+    <div className="jams-list">
+      <div className="row stats gutters-xs">
+        <div className="col-sm-6 col-xs-6">
+          <div className="stat current-jam">
+            <div className="row gutters-xs">
+              <div className="col-sm-8 col-xs-8 col-sm-offset-1 col-xs-offset-1">
+                <strong>Current Jam</strong>
+              </div>
+              <div className="col-sm-2 col-xs-2 text-right current-jam-score">
+                <strong>{this.props.jamNumber}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-sm-6 col-xs-6">
+          <div className="stat game-total">
+            <div className="row gutters-xs">
+              <div className="col-sm-8 col-xs-8 col-sm-offset-1 col-xs-offset-1">
+                <strong>Game Total</strong>
+              </div>
+              <div className="col-sm-2 col-xs-2 text-right game-total-score">
+                <strong>{this.getTeamPoints('away')}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className={jamsContainerClass}>
         <div className="headers">
           <div className="row gutters-xs">

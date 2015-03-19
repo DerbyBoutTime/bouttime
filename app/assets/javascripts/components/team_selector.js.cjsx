@@ -21,15 +21,18 @@ exports.TeamSelector = React.createClass
     selectedTeam: 'away'
 
   render: () ->
+    displayBoth = window.matchMedia('(min-width: 768px)').matches
+    awayStyle = if this.state.selectedTeam is 'away' or displayBoth then this.props.awayAttributes.colorBarStyle else {}
+    homeStyle = if this.state.selectedTeam is 'home' or displayBoth then this.props.homeAttributes.colorBarStyle else {}
     <div className="team-selector">
       <div className="row teams gutters-xs">
         <div className="col-sm-6 col-xs-6">
-          <button className="team-name btn btn-block btn-boxed" style={this.props.awayAttributes.colorBarStyle} onClick={this.selectTeam.bind(this, 'away')}>
+          <button className="team-name btn btn-block btn-boxed" style={awayStyle} onClick={this.selectTeam.bind(this, 'away')}>
             {this.props.awayAttributes.name}
           </button>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <button className="team-name btn btn-block btn-boxed" style={this.props.homeAttributes.colorBarStyle} onClick={this.selectTeam.bind(this, 'home')}>
+          <button className="team-name btn btn-block btn-boxed" style={homeStyle} onClick={this.selectTeam.bind(this, 'home')}>
             {this.props.homeAttributes.name}
           </button>
         </div>
