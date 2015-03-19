@@ -1,9 +1,6 @@
 @mixin border-arrow($left) {
   background-color: $muted-gray;
-  padding-bottom: 14px;
-  padding-top: 14px;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding: 14px;
   margin-top: 18px;
   position: relative;
 

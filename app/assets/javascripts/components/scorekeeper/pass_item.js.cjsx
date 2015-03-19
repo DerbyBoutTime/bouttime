@@ -6,7 +6,6 @@ exports.PassItem = React.createClass
   propType:
     passState: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
-    lastPass: React.PropTypes.boolean
 
   decrementPassNumber: () ->
     passNumber = this.props.passState.passNumber

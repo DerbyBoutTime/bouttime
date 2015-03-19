@@ -5,10 +5,6 @@ exports.PassesList = React.createClass
     passStates: React.PropTypes.array.isRequired
     actions: React.PropTypes.object.isRequired
 
-  nextPass: (passIndex) ->
-    pass = this.props.passStates[passIndex]
-    this.props.actions.newPass(passNumber: pass.passNumber + 1, sort: passIndex + 1) if passIndex is this.props.passStates.length - 1
-
   bindActions: (passIndex) ->
     Object.keys(this.props.actions).map((key) ->
       key: key
@@ -25,7 +21,6 @@ exports.PassesList = React.createClass
         key: passIndex
         passState: passState
         actions: this.bindActions(passIndex)
-        nextPass: this.nextPass.bind(this, passIndex)
       )
 
     <div className="passes">
