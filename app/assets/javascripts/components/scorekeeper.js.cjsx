@@ -51,8 +51,11 @@ exports.Scorekeeper = React.createClass
         this.setState(this.state)
 
       setPoints: (teamType, jamIndex, passIndex, points) ->
+        jam = this.getJamState(teamType, jamIndex)
         pass = this.getPassState(teamType, jamIndex, passIndex)
         pass.points = points
+        if passIndex is jam.passStates.length - 1
+          this.actions.newPass.call(this, teamType, jamIndex, {passNumber: pass.passNumber + 1, sort: jam.jamNumber + 1})
         dispatcher.trigger "scorekeeper.set_points", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         this.setState(this.state)
 
