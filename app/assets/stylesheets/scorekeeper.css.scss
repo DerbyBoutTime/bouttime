@@ -1,3 +1,17 @@
+.fade-hide {
+  position:absolute;
+  left:0;
+  right:0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0.15s;
+  &.in {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.15s;
+  }
+}
+
 .row {
   &.gutters-xs {
     margin-right: -2px;
