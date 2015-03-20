@@ -237,7 +237,7 @@ exports.LineupTrackerActions = React.createClass
     <div className="row gutters-xs actions">
         <div className="col-sm-6 col-xs-6">
           <button className="actions-action actions-edit text-center btn btn-block" onClick={this.props.endHandler}>
-            END
+            NEXT JAM
           </button>
         </div>
         <div className="col-sm-6 col-xs-6">
@@ -282,8 +282,8 @@ exports.JamDetail = React.createClass
       'gutters-xs': true
       'actions': true
 
-    <div>
-      <div className="row gutters-xs jam-detail">
+    <div className="jam-detail">
+      <div className="row gutters-xs">
         <div className="col-sm-8 col-xs-8">
           <div className="jam-detail-number boxed-good">
             <div className="row gutters-xs">
@@ -306,6 +306,9 @@ exports.JamDetail = React.createClass
       </div>
       <div className="row gutters-xs positions">
         <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2 text-center">
+          <strong>J</strong>
+        </div>
+        <div className="col-sm-2 col-xs-2 text-center">
           <strong>Pivot</strong>
         </div>
         <div className="col-sm-2 col-xs-2 text-center">
@@ -317,12 +320,16 @@ exports.JamDetail = React.createClass
         <div className="col-sm-2 col-xs-2 text-center">
           <strong>B3</strong>
         </div>
-        <div className="col-sm-2 col-xs-2 text-center">
-          <strong>J</strong>
-        </div>
       </div>
       <div className="row gutters-xs skaters">
         <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2">
+          <SkaterSelector
+            skater={this.props.jamState.jammer}
+            injured={this.isInjured('jammer')}
+            style={this.props.teamAttributes.colorBarStyle}
+            setSelectorContext={this.props.setSelectorContextHandler}
+            selectHandler={this.props.selectSkaterHandler.bind(this, 'jammer')} />        </div>
+        <div className="col-sm-2 col-xs-2">
           <SkaterSelector
             skater={this.props.jamState.pivot}
             injured={this.isInjured('pivot')}
@@ -351,13 +358,6 @@ exports.JamDetail = React.createClass
             style={this.props.teamAttributes.colorBarStyle}
             setSelectorContext={this.props.setSelectorContextHandler}
             selectHandler={this.props.selectSkaterHandler.bind(this, 'blocker3')} />        </div>
-        <div className="col-sm-2 col-xs-2">
-          <SkaterSelector
-            skater={this.props.jamState.jammer}
-            injured={this.isInjured('jammer')}
-            style={this.props.teamAttributes.colorBarStyle}
-            setSelectorContext={this.props.setSelectorContextHandler}
-            selectHandler={this.props.selectSkaterHandler.bind(this, 'jammer')} />        </div>
       </div>
       {this.props.jamState.lineupStatuses.map (lineupStatus, statusIndex) ->
         <LineupBoxRow key={statusIndex} lineupStatus=lineupStatus lineupStatusHandler={this.props.lineupStatusHandler.bind(this, statusIndex)} />
@@ -382,6 +382,9 @@ exports.LineupBoxRow = React.createClass
   render: () ->
     <div className="row gutters-xs boxes">
         <div className="col-sm-2 col-xs-2 col-sm-offest-2 col-xs-offset-2">
+          <LineupBox status={this.props.lineupStatus.jammer} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, 'jammer')} />
+        </div>
+        <div className="col-sm-2 col-xs-2">
           <LineupBox status={this.props.lineupStatus.pivot} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, 'pivot')} />
         </div>
         <div className="col-sm-2 col-xs-2">
@@ -392,9 +395,6 @@ exports.LineupBoxRow = React.createClass
         </div>
         <div className="col-sm-2 col-xs-2">
           <LineupBox status={this.props.lineupStatus.blocker3} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, 'blocker3')} />
-        </div>
-        <div className="col-sm-2 col-xs-2">
-          <LineupBox status={this.props.lineupStatus.jammer} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, 'jammer')} />
         </div>
       </div>
 
