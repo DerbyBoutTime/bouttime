@@ -36,10 +36,12 @@ exports.JamsList = React.createClass
 
   handleNextJam: () ->
     if this.state.jamSelected < this.props.teamState.jamStates.length - 1
+      $('.scorekeeper .collapse.in').collapse('hide')
       this.setState(jamSelected: this.state.jamSelected + 1)
 
   handlePreviousJam: () ->
     if this.state.jamSelected > 0
+      $('.scorekeeper .collapse.in').collapse('hide')
       this.setState(jamSelected: this.state.jamSelected - 1)
 
   getInitialState: () ->
