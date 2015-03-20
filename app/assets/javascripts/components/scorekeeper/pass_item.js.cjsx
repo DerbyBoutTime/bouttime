@@ -21,6 +21,9 @@ exports.PassItem = React.createClass
     passNumber = this.props.passState.passNumber
     this.props.actions.setPassNumber(passNumber + 1)
 
+  hidePanels: () ->
+    $('.scorekeeper .collapse.in').collapse('hide');
+
   getNotes: () ->
     pass = this.props.passState
     flags =
@@ -63,7 +66,7 @@ exports.PassItem = React.createClass
       <div className="columns">
         <div className="row gutters-xs">
           <div className="col-sm-2 col-xs-2">
-            <button className="pass btn btn-block" data-toggle="collapse" data-target={"##{editPassNumberId}"} aria-expanded="false" aria-controls={editPassNumberId} >
+            <button className="pass btn btn-block" data-toggle="collapse" data-target={"##{editPassNumberId}"} aria-expanded="false" aria-controls={editPassNumberId} onClick={this.hidePanels} >
               {this.props.passState.passNumber}
             </button>
           </div>
@@ -75,7 +78,7 @@ exports.PassItem = React.createClass
               setSelectorContext={this.props.setSelectorContext}
               selectHandler={this.props.actions.setSkater} />
             </div>
-          <div data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId}>
+          <div data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId} onClick={this.hidePanels}>
             <div className="col-sm-2 col-xs-2">
               <ScoreNote note={notes[0]} />
             </div>
