@@ -237,7 +237,7 @@ exports.LineupTrackerActions = React.createClass
     <div className="row gutters-xs actions">
         <div className="col-sm-6 col-xs-6">
           <button className="actions-action actions-edit text-center btn btn-block" onClick={this.props.endHandler}>
-            END
+            NEXT JAM
           </button>
         </div>
         <div className="col-sm-6 col-xs-6">
