@@ -282,8 +282,8 @@ exports.JamDetail = React.createClass
       'gutters-xs': true
       'actions': true
 
-    <div>
-      <div className="row gutters-xs jam-detail">
+    <div className="jam-detail">
+      <div className="row gutters-xs">
         <div className="col-sm-8 col-xs-8">
           <div className="jam-detail-number boxed-good">
             <div className="row gutters-xs">
