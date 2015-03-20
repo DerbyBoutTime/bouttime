@@ -67,12 +67,12 @@ exports.JamsList = React.createClass
     )
 
     jamsContainerClass = cx
-      'jams': true
-      'hidden': this.state.jamSelected?
+      'jams fade-hide': true
+      'in': !this.state.jamSelected?
 
     passesContainerClass = cx
-      'passes-container': true
-      'hidden': not this.state.jamSelected?
+      'passes-container fade-hide': true
+      'in': this.state.jamSelected?
 
     <div className="jams-list">
       <div className="row stats gutters-xs">
