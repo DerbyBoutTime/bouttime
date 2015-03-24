@@ -3,7 +3,7 @@ exports = exports ? this
 exports.PenaltyTracker = React.createClass
   displayName: 'PenaltyTracker'
 
-  mixins: [GameStateMixin]
+  mixins: [GameStateMixin, CopyGameStateMixin]
 
   updatePenaltyStates: (teamType, skaterIndex, penaltyStates) ->
     skater = this.getSkaterState(teamType, skaterIndex)
@@ -19,7 +19,6 @@ exports.PenaltyTracker = React.createClass
     $.extend(stdOpts, opts)
   
   getInitialState: () ->
-    gameState: this.props.gameState
     componentId: exports.wftda.functions.uniqueId()
 
   render: () ->

@@ -3,6 +3,8 @@ exports = exports ? this
 exports.Scorekeeper = React.createClass
   displayName: 'Scorekeeper'
 
+  mixins: [CopyGameStateMixin]
+
   componentWillMount: () ->
     this.actions = 
       newJam: (teamType, jam) ->
@@ -116,9 +118,7 @@ exports.Scorekeeper = React.createClass
 
   # React callbacks
   getInitialState: () ->
-    this.props = exports.wftda.functions.camelize(this.props)
     componentId: exports.wftda.functions.uniqueId()
-    gameState: this.props.gameState
     selectedTeam: 'away'
 
   render: () ->
