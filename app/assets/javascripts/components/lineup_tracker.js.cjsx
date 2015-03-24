@@ -3,10 +3,11 @@ exports = exports ? this
 exports.LineupTracker = React.createClass
   displayName: 'LineupTracker'
 
+  mixins: [CopyGameStateMixin]
+
   #React callbacks
   getInitialState: () ->
     this.stateStack = []
-    gameState: this.props.gameState
 
   #Helper functions
   buildOptions: (opts = {}) ->
