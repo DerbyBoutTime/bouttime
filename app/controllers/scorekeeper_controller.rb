@@ -30,9 +30,12 @@ class ScorekeeperController < WebsocketController
     broadcast_message :update, @game_state.as_json
   end
 
-  def set_pass_number
-    local_pass, client_pass = get_pass
-    local_pass.update pass_number: client_pass[:pass_number]
+  def reorder_pass
+    local_jam, client_jam = get_jam
+    client_jam[:pass_states].each do |client_pass|
+      local_pass = PassState.find(client_pass[:id])
+      local_pass.update pass_number: client_pass[:pass_number]
+    end
 
     @game_state.reload
     broadcast_message :update, @game_state.as_json

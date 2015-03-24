@@ -3,7 +3,8 @@ exports = exports ? this
 
 exports.PassItem = React.createClass
   displayName: 'PassItem'
-  propType:
+
+  propTypes:
     jamState: React.PropTypes.object.isRequired
     passState: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
@@ -11,15 +12,6 @@ exports.PassItem = React.createClass
   isInjured: (position) ->
     this.props.jamState.lineupStatuses? and this.props.jamState.lineupStatuses.some (status) ->
       status[position] is 'injured'
-
-  decrementPassNumber: () ->
-    passNumber = this.props.passState.passNumber
-    if passNumber > 1
-      this.props.actions.setPassNumber(passNumber - 1)
-
-  incrementPassNumber: () ->
-    passNumber = this.props.passState.passNumber
-    this.props.actions.setPassNumber(passNumber + 1)
 
   hidePanels: () ->
     $('.scorekeeper .collapse.in').collapse('hide');
@@ -35,6 +27,10 @@ exports.PassItem = React.createClass
 
     Object.keys(flags).filter (key) ->
       flags[key]
+
+
+  preventDefault: (evt) ->
+    evt.preventDefault()
 
   render: () ->
     injuryClass = cx
@@ -55,69 +51,49 @@ exports.PassItem = React.createClass
       'lost': true
       'text-center': true
 
-    editPassNumberId = "edit-pass-number#{exports.wftda.functions.uniqueId()}"
     editPassId = "edit-pass-#{exports.wftda.functions.uniqueId()}"
 
     notes = this.getNotes()
 
     skater = if this.props.passState.skaterNumber? then {number: this.props.passState.skaterNumber} else null
 
-    <div aria-multiselectable="true">
+    <div aria-multiselectable="true" draggable='true' onDragStart={this.props.dragHandler} onDragOver={this.preventDefault} onDrop={this.props.dropHandler} onMouseDown={this.props.mouseDownHandler}>
       <div className="columns">
         <div className="row gutters-xs">
-          <div className="col-sm-2 col-xs-2">
-            <button className="pass btn btn-block" data-toggle="collapse" data-target={"##{editPassNumberId}"} aria-expanded="false" aria-controls={editPassNumberId} onClick={this.hidePanels} >
-              {this.props.passState.passNumber}
-            </button>
+          <div className="col-sm-1 col-xs-1">
+            <div className="drag-handle">
+              <span className="glyphicon glyphicon-th-list" />
+            </div>
           </div>
-          <div className="col-sm-2 col-xs-2">
-            <SkaterSelector
-              skater={skater}
-              injured={this.isInjured('jammer')}
-              style={this.props.style}
-              setSelectorContext={this.props.setSelectorContext}
-              selectHandler={this.props.actions.setSkater} />
-            </div>
-          <div data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId} onClick={this.hidePanels}>
+          <div className="col-sm-11 col-xs-11">
             <div className="col-sm-2 col-xs-2">
-              <ScoreNote note={notes[0]} />
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              <ScoreNote note={notes[1]} />
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              <ScoreNote note={notes[2]} />
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              <div className="points boxed-good text-center">
-                <strong>{this.props.passState.points || 0}</strong>
+              <div className="pass boxed-good text-center" >
+                {this.props.passState.passNumber}
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div className="panel">
-        <div className="edit-pass-number collapse" id={editPassNumberId}>
-          <div className="row gutters-xs">
-            <div className="col-sm-1 col-xs-1">
-              <button className="remove btn btn-block"  data-toggle='collapse' data-target={"##{editPassNumberId}"}>
-                <span aria-hidden="true" className="glyphicon glyphicon-remove"></span>
-              </button>
-            </div>
             <div className="col-sm-2 col-xs-2">
-              <button className="minus btn btn-block" onClick={this.decrementPassNumber}>
-                <span aria-hidden="true" className="glyphicon glyphicon-minus"></span>
-              </button>
-            </div>
-            <div className="col-sm-2 col-xs-2">
-              <button className="plus btn btn-block" onClick={this.incrementPassNumber}>
-                <span aria-hidden="true" className="glyphicon glyphicon-plus"></span>
-              </button>
-            </div>
-            <div className="col-sm-1 col-xs-1">
-              <button className="ok btn btn-block" onClick={this.props.nextPass} data-toggle='collapse' data-target={"##{editPassNumberId}"}>
-                <span aria-hidden="true" className="glyphicon glyphicon-ok"></span>
-              </button>
+              <SkaterSelector
+                skater={skater}
+                injured={this.isInjured('jammer')}
+                style={this.props.style}
+                setSelectorContext={this.props.setSelectorContext}
+                selectHandler={this.props.actions.setSkater} />
+              </div>
+            <div data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId} onClick={this.hidePanels}>
+              <div className="col-sm-2 col-xs-2">
+                <ScoreNote note={notes[0]} />
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <ScoreNote note={notes[1]} />
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <ScoreNote note={notes[2]} />
+              </div>
+              <div className="col-sm-2 col-xs-2">
+                <div className="points boxed-good text-center">
+                  <strong>{this.props.passState.points || 0}</strong>
+                </div>
+              </div>            
             </div>
           </div>
         </div>

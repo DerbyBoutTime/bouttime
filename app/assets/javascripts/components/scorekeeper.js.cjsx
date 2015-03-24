@@ -59,10 +59,12 @@ exports.Scorekeeper = React.createClass
         dispatcher.trigger "scorekeeper.set_points", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         this.setState(this.state)
 
-      setPassNumber: (teamType, jamIndex, passIndex, passNumber) ->
-        pass = this.getPassState(teamType, jamIndex, passIndex)
-        pass.passNumber = passNumber
-        dispatcher.trigger "scorekeeper.set_pass_number", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
+      reorderPass: (teamType, jamIndex, sourcePassIndex, targetPassIndex) ->
+        jam = this.getJamState(teamType, jamIndex)
+        list = jam.passStates
+        list.splice(targetPassIndex, 0, list.splice(sourcePassIndex, 1)[0])
+        pass.passNumber = i + 1 for pass, i in list
+        dispatcher.trigger "scorekeeper.reorder_pass", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex)
         this.setState(this.state)
 
       setSkater: (teamType, jamIndex, passIndex, skaterIndex) ->

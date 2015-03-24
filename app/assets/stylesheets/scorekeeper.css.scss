@@ -113,6 +113,11 @@
           line-height: 30px;
         }
       }
+      .drag-handle {
+        text-align:center;
+        line-height: 30px;
+        cursor: move;
+      }
     }
 
     // because collapse requires a .panel to work with data-parent,

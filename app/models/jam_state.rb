@@ -31,7 +31,7 @@ class JamState < ActiveRecord::Base
   belongs_to :blocker2, class_name: 'Skater'
   belongs_to :blocker3, class_name: 'Skater'
   belongs_to :jammer, class_name: 'Skater'
-  has_many :pass_states, -> {order 'sort ASC'}
+  has_many :pass_states, -> {order 'pass_number ASC'}
   has_many :lineup_statuses
 
   accepts_nested_attributes_for :lineup_statuses
