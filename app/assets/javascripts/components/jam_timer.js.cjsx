@@ -175,7 +175,7 @@ exports.JamTimer = React.createClass
       this.state.periodClockAttributes.time = exports.wftda.constants.PERIOD_DURATION_IN_MS
     this.state.jamNumber = this.state.jamNumber + 1
   stopJam: () ->
-    this.stopClocks()
+    this.stopJamClock()
     this.startLineupClock()
   startLineupClock: () ->
     this.clearTimeouts()
@@ -238,7 +238,7 @@ exports.JamTimer = React.createClass
     this.state.jamNumber =  parseInt(num)
   startTimeout: () ->
     this.stopClocks()
-    this.state.jamClockAttributes.time = exports.wftda.constants.LINEUP_DURATION_IN_MS
+    this.state.jamClockAttributes.time = exports.wftda.constants.TIMEOUT_DURATION_IN_MS
     this.startJamClock()
     this.state.state = "timeout"
     this.state.timeout = null
