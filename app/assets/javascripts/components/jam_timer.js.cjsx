@@ -85,9 +85,13 @@ exports.JamTimer = React.createClass
       exports.dispatcher.trigger "jam_timer.mark_as_away_team_review", this.buildOptions()
       console.log("mark as away team official review")
     $dom.on 'click', '.ended-by-time-btn', null, (evt) =>
+      $(".jam-explanation-section .btn").removeClass("btn-selected")
+      $(evt.currentTarget).addClass("btn-selected")
       exports.dispatcher.trigger "jam_timer.mark_as_ended_by_time", this.buildOptions()
       console.log("mark as ended by time")
     $dom.on 'click', '.jam-called-btn', null, (evt) =>
+      $(".jam-explanation-section .btn").removeClass("btn-selected")
+      $(evt.currentTarget).addClass("btn-selected")
       exports.dispatcher.trigger "jam_timer.mark_as_ended_by_calloff", this.buildOptions()
       console.log("mark as ended by calloff")
     # Receive Events
@@ -182,7 +186,7 @@ exports.JamTimer = React.createClass
       @state.homeAttributes.jamStates.push jamNumber: i
 
   stopJam: () ->
-    this.stopClocks()
+    this.stopJamClock()
     this.startLineupClock()
   startLineupClock: () ->
     this.clearTimeouts()
@@ -245,7 +249,7 @@ exports.JamTimer = React.createClass
     this.state.jamNumber =  parseInt(num)
   startTimeout: () ->
     this.stopClocks()
-    this.state.jamClockAttributes.time = exports.wftda.constants.LINEUP_DURATION_IN_MS
+    this.state.jamClockAttributes.time = exports.wftda.constants.TIMEOUT_DURATION_IN_MS
     this.startJamClock()
     this.state.state = "timeout"
     this.state.timeout = null

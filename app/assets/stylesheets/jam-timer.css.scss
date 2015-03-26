@@ -73,6 +73,10 @@
     }
     background-color: $light-gray;
     color: $near-black;
+    &.btn-selected {
+      background-color: $dark-gray;
+      color: $white;
+    }
   }
   .period-clock {
     @extend .clock;
