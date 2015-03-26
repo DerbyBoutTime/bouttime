@@ -5,6 +5,7 @@
   text-transform: uppercase;
   margin-top: 1em;
   margin-bottom: 0.5em;
+  font-size: 0.85em;
   @media (min-width: $screen-sm-min){
     font-size: 1.55em;
   }
@@ -31,6 +32,7 @@
     @include make-sm-column(4);
   }
   .clocks {
+    padding: 0;
     * {
       text-align: center;
     }
@@ -44,7 +46,8 @@
       }
     }
     .period-number, .jam-number {
-      margin-top: -10px;
+      margin-top: -5px;
+      font-size: 2em;
       @media (min-width: $screen-sm-min) {
         font-size: 3em;
       }
@@ -54,7 +57,9 @@
       font-weight: bold;
     }
     .jam-points-wrapper {
+      display: none;
       @media (min-width: $screen-sm-min){
+        display: block;
         padding: 2em 1em 0 1em;
       }
       @media (min-width: $screen-md-min){
@@ -97,7 +102,9 @@
     }
     .period-jam-counts {
       margin: 0px 20px;
-      border-bottom: 2px solid $muted-gray;
+      @media (min-width: $screen-tablet){
+        border-bottom: 2px solid $muted-gray;
+      }
       @include clearfix;
       .jam, .period {
         @include make-xs-column(6);
@@ -112,7 +119,10 @@
     }
     .period-clock .clock {
       font-weight: lighter;
-      border-bottom: 2px solid $muted-gray;
+      @media (min-width: $screen-tablet){
+        border-bottom: 2px solid $muted-gray;
+      }
+      font-size: 2em;
       @media (min-width: $screen-sm-min) {
         font-size: 4.25em;
       }
@@ -125,6 +135,7 @@
     .jam-clock .clock {
       font-weight: bolder;
       color: $near-black;
+      font-size: 2em;
       @media (min-width: $screen-sm-min){
         font-size: 5em;
       }
@@ -180,6 +191,7 @@
   }
 
   .jammer {
+      display: flex;
       @media (min-width: $screen-sm-min){
         font-size: 1.625em;
       }
@@ -193,6 +205,7 @@
     }
   .name {
     min-height: 2em;
+    font-size: 1.15em;
     @media (min-width: $screen-sm-min){
       font-size: 1.625em;
     }
@@ -209,6 +222,7 @@
     @include clearfix;
     .name {
       float: left !important;
+      flex-grow: 1;
       @media (min-width: $screen-sm-min){
         font-size: 0.80em;
         margin-top: 0.25em;
@@ -221,6 +235,9 @@
       }
     }
     .lead-status {
+      .glyphicon {
+        margin-top: 4px;
+      }
       @media (min-width: $screen-sm-min){font-size: 1.25em;}
       @media (min-width: $screen-md-min){font-size: 1.5em;}
     }
@@ -230,10 +247,11 @@
     .lead-status {
       color: $home-team-bg-color;
       float: right !important;
+      order: 2;
     }
     .name {
       float: right !important;
-      margin-right: 1em;
+      order: 1;
     }
   }
   .away-team-jammer {
@@ -243,11 +261,11 @@
     }
     .name {
       float: left !important;
-      margin-left: 1em;
     }
   }
 
   .score {
+    font-size: 6em;
     @media (min-width: $screen-sm-min){
       font-size: 9em;
     }
@@ -266,6 +284,7 @@
   .timeouts {
     @include clearfix;
     @include make-row;
+    margin:0;
     &.home-team-timeouts .timeout-bar {
       float: right !important;
       background-color: $home-team-bg-color;
@@ -319,6 +338,48 @@
       background-color: $alert-color;
       color: $near-black;
       @include make-sm-column(12);
+    }
+  }
+  @media (max-width: -1px + $screen-tablet){
+    display: flex;
+    flex-direction: column;
+    .team.home {
+      order: 2;
+      width: 50%;
+    }
+    .team.away {
+      order: 3;
+      width: 50%;
+      left: 50%;
+      transform: translateY(-100%);
+    }
+    .clocks {
+      order: 1;
+    }
+    .alerts {
+      order: 4;
+    }
+    .ads {
+      order: 5;
+    }
+    .fly-ins {
+      order: 6;
+    }
+    .clocks .clocks-border {
+      display: flex;
+      border-radius: 0px;
+      border-left: none;
+      border-right: none;
+      padding: 0;
+      .period-jam-counts, .period-clock, .jam-clock {
+        flex: 1 0px;
+      }
+      .period-clock {
+        padding-top: 0 !important;
+      }
+      .period-jam-counts .period, .period-jam-counts .jam {
+        padding: 0;
+      }
     }
   }
 }

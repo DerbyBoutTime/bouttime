@@ -40,6 +40,12 @@ header {
       }
     }
   }
+  .nav > li > a > img {
+    width: 28px;
+    @media (min-width: $screen-tablet){
+      width: auto;
+    }
+  }
 
   .logo {
     .container {

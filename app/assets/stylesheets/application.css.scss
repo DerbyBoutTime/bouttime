@@ -68,6 +68,9 @@ $gray-base: $near-black;
   .jam-timer, .lineup-tracker, .scorekeeper, .penalty-tracker, .penalty-box-timer, .scoreboard, .penalty-whiteboard, .announcers-feed {
     display: none;
   }
+  .navbar {
+    margin-bottom: 0px;
+  }
   &[data-tab="jam_timer"] .jam-timer {
     display: block;
   }
@@ -85,6 +88,9 @@ $gray-base: $near-black;
   }
   &[data-tab="scoreboard"] .scoreboard {
     display: block;
+    @media (max-width: -1px + $screen-tablet){
+      display: flex;
+    }
   }
   &[data-tab="penalty_whiteboard"] .penalty-whiteboard {
     display: block;

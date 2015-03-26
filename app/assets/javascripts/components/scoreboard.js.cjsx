@@ -133,8 +133,8 @@ exports.Scoreboard = React.createClass
         <div className="clocks-border">
           <div className="period-jam-counts">
             <div className="period">
-              <label className="hidden-xs hidden-sm">Period</label>
-              <label className="visible-sm-block">Per</label>
+              <label className="hidden-xs">Period</label>
+              <label className="visible-xs-block">Per</label>
               <div className="number period-number">{this.props.gameState.periodNumber}</div>
             </div>
             <div className="jam">
@@ -143,7 +143,7 @@ exports.Scoreboard = React.createClass
             </div>
           </div>
           <div className="period-clock">
-            <label className="hidden">Period Clock</label>
+            <label className="visible-xs-block">Game</label>
             <div className="clock period-clock">{this.props.gameState.periodClockAttributes.display}</div>
           </div>
           <div className="jam-clock">
