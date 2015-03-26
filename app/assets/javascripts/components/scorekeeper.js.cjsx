@@ -6,7 +6,7 @@ exports.Scorekeeper = React.createClass
   mixins: [CopyGameStateMixin]
 
   componentWillMount: () ->
-    this.actions = 
+    this.actions =
       newJam: (teamType, jam) ->
         team = this.getTeamState(teamType)
         team.jamStates.push(jam)
@@ -122,11 +122,11 @@ exports.Scorekeeper = React.createClass
     selectedTeam: 'away'
 
   render: () ->
-    awayElement = <JamsList 
+    awayElement = <JamsList
       jamNumber={this.state.gameState.jamNumber}
       teamState={this.getTeamState('away')}
       actions={this.bindActions('away')} />
-    homeElement = <JamsList 
+    homeElement = <JamsList
       jamNumber={this.state.gameState.jamNumber}
       teamState={this.getTeamState('home')}
       actions={this.bindActions('home')} />

@@ -4,8 +4,37 @@
   50% { background-color: $alert-color; }
   100%   { background-color: $inactive-color; }
 }
+
+.clock {
+  @extend .well-sm;
+  @extend .well;
+  font-size: 3em;
+  text-align: center;
+  @media (min-width: $screen-md-min) {
+    font-size: 4.5em;
+  }
+  padding: 3px;
+  span.subseconds{
+    font-size: 0.8em;
+  }
+}
+
 .jam-timer {
   margin-bottom: 15px;
+  .period-clock {
+    @extend .clock;
+    background-color: $white;
+    font-weight: lighter;
+    margin-bottom: 10px;
+  }
+  .jam-clock {
+    @extend .clock;
+    border: none;
+    font-weight: bold;
+    background-color: $light-gray;
+    color: $near-black;
+    margin-bottom: 10px;
+  }
   .away .bar, .away .btn {
     color: $away-team-text-color;
     background-color: $away-team-bg-color;
@@ -52,18 +81,6 @@
       height: 19px;
     }
   }
-  .clock {
-    @extend .well-sm;
-    @extend .well;
-    font-size: 3em;
-    @media (min-width: $screen-md-min) {
-      font-size: 4.5em;
-    }
-    padding: 3px;
-    span.subseconds{
-      font-size: 0.8em;
-    }
-  }
   .btn {
     padding: 10px 5px;
     font-size: 0.85em;
@@ -74,23 +91,9 @@
     background-color: $light-gray;
     color: $near-black;
     &.btn-selected {
-      background-color: $dark-gray;
+      background-color: $near-black;
       color: $white;
     }
-  }
-  .period-clock {
-    @extend .clock;
-    background-color: $white;
-    font-weight: lighter;
-    margin-bottom: 10px;
-  }
-  .jam-clock {
-    @extend .clock;
-    border: none;
-    font-weight: bold;
-    background-color: $light-gray;
-    color: $near-black;
-    margin-bottom: 10px;
   }
   .official-timeout {
 

@@ -9,6 +9,7 @@ $gray-base: $near-black;
 @import "bootstrap";
 
 @import "mixins/border-arrow";
+@import "mixins/vertical-align";
 
 @import "header";
 @import "jam-timer";
@@ -16,6 +17,7 @@ $gray-base: $near-black;
 @import "penalty-tracker";
 @import "scoreboard";
 @import "scorekeeper";
+@import "penalty-box-timer";
 
 //Some additional resets
 *:focus {

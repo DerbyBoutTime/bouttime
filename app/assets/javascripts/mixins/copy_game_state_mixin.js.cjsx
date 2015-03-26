@@ -1,5 +1,5 @@
 exports = exports ? this
-exports.CopyGameStateMixin = 
+exports.CopyGameStateMixin =
   getInitialState: () ->
     gameState: this.props.gameState
 

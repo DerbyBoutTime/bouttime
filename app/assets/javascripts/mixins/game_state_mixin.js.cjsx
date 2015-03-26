@@ -1,5 +1,5 @@
 exports = exports ? this
-exports.GameStateMixin = 
+exports.GameStateMixin =
   getTeamState: (teamType) ->
     switch teamType
       when 'away' then this.state.gameState.awayAttributes
