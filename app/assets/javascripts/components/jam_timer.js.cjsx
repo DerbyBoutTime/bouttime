@@ -143,9 +143,10 @@ exports.JamTimer = React.createClass
     this.state.periodClockAttributes.time = this.state.periodClockAttributes.time - periodDelta
     this.state.periodClockAttributes.time = 0 if this.state.periodClockAttributes.time < 0
     this.state.periodClockAttributes.display = this.formatPeriodClock()
-    dispatcher.trigger "jam_timer.period_tick", this.buildOptions
-      state:
-        periodClockAttributes: this.state.periodClockAttributes
+    @setState(@state)
+    # dispatcher.trigger "jam_timer.period_tick", this.buildOptions
+    #   state:
+    #     periodClockAttributes: this.state.periodClockAttributes
   tickJamClock: () ->
     #console.log("tick jam clock")
     stopTick = Date.now()
@@ -154,10 +155,11 @@ exports.JamTimer = React.createClass
     this.state.jamClockAttributes.time = this.state.jamClockAttributes.time - jamDelta
     this.state.jamClockAttributes.time = 0 if this.state.jamClockAttributes.time < 0
     this.state.jamClockAttributes.display = this.formatJamClock()
-    dispatcher.trigger "jam_timer.jam_tick", this.buildOptions
-      state:
-        id: this.state.id
-        jamClockAttributes: this.state.jamClockAttributes
+    @setState(@state)
+    # dispatcher.trigger "jam_timer.jam_tick", this.buildOptions
+    #   state:
+    #     id: this.state.id
+    #     jamClockAttributes: this.state.jamClockAttributes
   clearJammers: () ->
     this.state.homeAttributes.jammer = {}
     this.state.awayAttributes.jammer = {}
@@ -174,6 +176,11 @@ exports.JamTimer = React.createClass
       this.state.periodNumber = this.state.periodNumber + 1
       this.state.periodClockAttributes.time = exports.wftda.constants.PERIOD_DURATION_IN_MS
     this.state.jamNumber = this.state.jamNumber + 1
+    for i in [@state.awayAttributes.jamStates.length+1 .. @state.jamNumber] by 1
+      @state.awayAttributes.jamStates.push jamNumber: i
+    for i in [@state.homeAttributes.jamStates.length+1 .. @state.jamNumber] by 1
+      @state.homeAttributes.jamStates.push jamNumber: i
+
   stopJam: () ->
     this.stopClocks()
     this.startLineupClock()
