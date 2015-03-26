@@ -49,11 +49,11 @@ header {
     img {
       position: absolute;
       top: -25px;
-      right: 5%;
-      z-index: 9999;
+      right: 0.5em;
+      z-index: 1;
 
       @media (max-width: $screen-xs-max) {
-        top: 2px;
+        top: -25px;
       }
     }
   }
