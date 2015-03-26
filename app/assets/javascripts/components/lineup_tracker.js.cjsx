@@ -216,7 +216,7 @@ exports.TeamLineup = React.createClass
     <div className="jam-details">
       {this.props.teamState.jamStates.map (jamState, jamIndex) ->
         <JamDetail
-          key={jamIndex}
+          key={jamState.jamNumber}
           teamAttributes={this.props.teamState}
           jamState={jamState}
           noPivotHandler={this.props.noPivotHandler.bind(this, jamIndex)}
