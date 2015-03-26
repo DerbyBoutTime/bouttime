@@ -17,6 +17,11 @@ $gray-base: $near-black;
 @import "scoreboard";
 @import "scorekeeper";
 
+//Some additional resets
+*:focus {
+  outline: 0 !important;
+}
+
 //Hide test DOM
 #UUT {
   display: none;

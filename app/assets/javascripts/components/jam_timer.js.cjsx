@@ -85,9 +85,13 @@ exports.JamTimer = React.createClass
       exports.dispatcher.trigger "jam_timer.mark_as_away_team_review", this.buildOptions()
       console.log("mark as away team official review")
     $dom.on 'click', '.ended-by-time-btn', null, (evt) =>
+      $(".jam-explanation-section .btn").removeClass("btn-selected")
+      $(evt.currentTarget).addClass("btn-selected")
       exports.dispatcher.trigger "jam_timer.mark_as_ended_by_time", this.buildOptions()
       console.log("mark as ended by time")
     $dom.on 'click', '.jam-called-btn', null, (evt) =>
+      $(".jam-explanation-section .btn").removeClass("btn-selected")
+      $(evt.currentTarget).addClass("btn-selected")
       exports.dispatcher.trigger "jam_timer.mark_as_ended_by_calloff", this.buildOptions()
       console.log("mark as ended by calloff")
     # Receive Events
