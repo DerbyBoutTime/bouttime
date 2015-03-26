@@ -30,7 +30,8 @@ class TeamState < ActiveRecord::Base
   has_many :skater_states
   has_and_belongs_to_many :skaters, join_table: 'skater_states'
 
-  accepts_nested_attributes_for :jammer, :pass_states, :jam_states
+  accepts_nested_attributes_for :jammer, :pass_states
+  accepts_nested_attributes_for :jam_states, reject_if: :reject_jam_states
   alias_method :jammer_attributes, :jammer
 
   def self.demo_home
@@ -211,6 +212,10 @@ class TeamState < ActiveRecord::Base
   end
 
   private
+
+  def reject_jam_states(attributes)
+    self.jam_states.any? {|jam| jam.jam_number == attributes[:jam_number]}
+  end
 
   def init_jammer
     self.build_jammer if self.jammer.nil?

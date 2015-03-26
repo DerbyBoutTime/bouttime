@@ -33,22 +33,8 @@ class JamTimerController < WebsocketRails::BaseController
       state: @state[:state],
       jam_number: @state[:jam_number],
       period_number: @state[:period_number],
-      home_attributes: {
-        id: @state[:home_attributes][:id],
-        timeouts: @state[:home_attributes][:timeouts],
-        is_taking_timeout: @state[:home_attributes][:is_taking_timeout],
-        has_official_review: @state[:home_attributes][:has_official_review],
-        is_taking_official_review: @state[:home_attributes][:is_taking_official_review],
-        jam_points: @state[:home_attributes][:jam_points]
-      },
-      away_attributes: {
-        id: @state[:away_attributes][:id],
-        timeouts: @state[:away_attributes][:timeouts],
-        is_taking_timeout: @state[:away_attributes][:is_taking_timeout],
-        has_official_review: @state[:away_attributes][:has_official_review],
-        is_taking_official_review: @state[:away_attributes][:is_taking_official_review],
-        jam_points: @state[:away_attributes][:jam_points]
-      }
+      home_attributes: team_attributes(@state[:home_attributes]),
+      away_attributes: team_attributes(@state[:away_attributes])
     }
     puts "#{event.name} for GS##{@game_state.id}", attrs
     @game_state.update_attributes!(attrs)
@@ -287,6 +273,28 @@ class JamTimerController < WebsocketRails::BaseController
   end
 
   private
+
+  def team_attributes(team_state)
+    team_state[:jam_states_attributes] = team_state[:jam_states] unless team_state[:jam_states].nil?
+    team_state.delete :jam_states
+
+    team_state[:jam_states_attributes].each do |jam|
+      jam[:pass_states_attributes] = jam[:pass_states] unless jam[:pass_states].nil?
+      jam.delete :pass_states
+      jam[:lineup_statuses_attributes] = jam[:lineup_statuses] unless jam[:lineup_statuses].nil?
+      jam.delete :lineup_statuses
+    end
+
+    {
+      id: team_state[:id],
+      timeouts: team_state[:timeouts],
+      is_taking_timeout: team_state[:is_taking_timeout],
+      has_official_review: team_state[:has_official_review],
+      is_taking_official_review: team_state[:is_taking_official_review],
+      jam_points: team_state[:jam_points],
+      jam_states_attributes: team_state[:jam_states_attributes]
+    }
+  end
 
   def sanitize(klass, attributes)
     attributes.reject{|k,v| !klass.attribute_names.include?(k.to_s) }
