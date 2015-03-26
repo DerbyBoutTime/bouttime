@@ -4,12 +4,16 @@
 }
 .penalty-box-timer {
   .period-clock {
+    @extend .well-sm;
+    @extend .well;
     @extend .clock;
     background-color: $white;
     font-weight: lighter;
     margin-bottom: 10px;
   }
   .jam-clock {
+    @extend .well-sm;
+    @extend .well;
     @extend .clock;
     border: none;
     font-weight: bold;

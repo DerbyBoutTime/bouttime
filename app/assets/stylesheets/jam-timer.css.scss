@@ -6,8 +6,6 @@
 }
 
 .clock {
-  @extend .well-sm;
-  @extend .well;
   font-size: 3em;
   text-align: center;
   @media (min-width: $screen-md-min) {
@@ -22,12 +20,16 @@
 .jam-timer {
   margin-bottom: 15px;
   .period-clock {
+    @extend .well-sm;
+    @extend .well;
     @extend .clock;
     background-color: $white;
     font-weight: lighter;
     margin-bottom: 10px;
   }
   .jam-clock {
+    @extend .well-sm;
+    @extend .well;
     @extend .clock;
     border: none;
     font-weight: bold;
