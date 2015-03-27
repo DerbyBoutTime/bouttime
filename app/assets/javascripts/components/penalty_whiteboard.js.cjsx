@@ -6,4 +6,6 @@ exports.PenaltyWhiteboard = React.createClass
   getInitialState: () ->
     this.props
   render: () ->
-    <div className="penalty-whiteboard"></div>
+    <div className="penalty-whiteboard">
+      <span>Whiteboard</span>
+    </div>

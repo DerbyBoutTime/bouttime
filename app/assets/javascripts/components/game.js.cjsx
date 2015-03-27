@@ -10,10 +10,16 @@ exports.Game = React.createClass
     $dom.on 'click', 'ul.nav li', null, (evt) =>
       this.setState
         tab: evt.currentTarget.dataset.tabName
+    $dom.on 'click', '#setup', null, (evt) =>
+      this.setState
+        tab: "game_setup"
+    $dom.on 'click', '#login', null, (evt) =>
+      this.setState
+        tab: "login"
     exports.dispatcher.bind 'update', (state) =>
       console.log "Update received"
       this.setState(gameState: exports.wftda.functions.camelize(state))
-  
+
   getInitialState: () ->
     gameState = exports.wftda.functions.camelize(this.props)
     gameState: gameState
@@ -56,6 +62,8 @@ exports.Game = React.createClass
         <PenaltyWhiteboard {...this.state} />
         <AnnouncersFeed {...this.state} />
         <GameNotes {...this.state} />
+        <GameSetup {...this.state} />
+        <Login />
       </div>
       <SkaterSelectorModal {...this.state.skaterSelectorContext} />
     </div>

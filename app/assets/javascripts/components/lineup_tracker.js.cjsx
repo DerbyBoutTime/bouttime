@@ -137,10 +137,10 @@ exports.LineupTracker = React.createClass
     teamState.lineupStatuses[statusIndex][position] = this.statusTransition(currentStatus)
     this.setState(this.state)
 
-    exports.dispatcher.trigger eventName, eventOptions 
+    exports.dispatcher.trigger eventName, eventOptions
 
   endJam: (teamType) ->
-    eventName="lineup_tracker.end_jam"
+    eventName = "lineup_tracker.end_jam"
     eventOptions = this.buildOptions(
       teamType: teamType
     )
@@ -171,7 +171,7 @@ exports.LineupTracker = React.createClass
       exports.dispatcher.trigger previousEventName, previousEventOptions
 
   render: () ->
-    awayElement = <TeamLineup 
+    awayElement = <TeamLineup
       teamState={this.props.gameState.awayAttributes}
       noPivotHandler={this.toggleNoPivot.bind(this, 'away')}
       starPassHandler={this.toggleStarPass.bind(this, 'away')}
@@ -199,7 +199,7 @@ exports.LineupTracker = React.createClass
         homeElement={homeElement} />
     </div>
 
-        
+
 exports.TeamLineup = React.createClass
   displayName: 'TeamLineup'
   propTypes:

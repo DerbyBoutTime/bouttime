@@ -1,4 +1,9 @@
-.margin-top-05 { margin-top: 0.5em; }
+.margin-top-05 {
+  margin-top: 0.25em;
+  @media (min-width: $screen-tablet){
+    margin-top: 0.5em;
+  }
+}
 @keyframes active-animation {
   0%   { background-color: $inactive-color; }
   50% { background-color: $alert-color; }
@@ -35,7 +40,10 @@
     font-weight: bold;
     background-color: $light-gray;
     color: $near-black;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
+    @media (min-width: $screen-tablet){
+      margin-bottom: 10px;
+    }
   }
   .away .bar, .away .btn {
     color: $away-team-text-color;

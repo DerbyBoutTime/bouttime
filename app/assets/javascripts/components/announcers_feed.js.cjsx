@@ -6,4 +6,6 @@ exports.AnnouncersFeed = React.createClass
   getInitialState: () ->
     this.props
   render: () ->
-    <div className="announcers-feed"></div>
+    <div className="announcers-feed">
+      <span>Announcers Feed</span>
+    </div>

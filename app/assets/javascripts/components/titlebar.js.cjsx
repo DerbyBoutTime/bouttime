@@ -16,7 +16,10 @@ exports.Titlebar = React.createClass
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a href="#"> Sign In</a>
+                  <a id="login" href="#"> Sign In</a>
+                </li>
+                <li>
+                  <a id="setup" href="#"> Setup</a>
                 </li>
               </ul>
             </div>

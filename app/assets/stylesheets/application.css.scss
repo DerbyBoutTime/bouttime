@@ -65,7 +65,7 @@ $gray-base: $near-black;
 }
 
 .game{
-  .jam-timer, .lineup-tracker, .scorekeeper, .penalty-tracker, .penalty-box-timer, .scoreboard, .penalty-whiteboard, .announcers-feed {
+  .login, .jam-timer, .lineup-tracker, .scorekeeper, .penalty-tracker, .penalty-box-timer, .scoreboard, .penalty-whiteboard, .announcers-feed, .game-setup {
     display: none;
   }
   .navbar {
@@ -96,6 +96,12 @@ $gray-base: $near-black;
     display: block;
   }
   &[data-tab="announcers_feed"] .announcers-feed {
+    display: block;
+  }
+  &[data-tab="game_setup"] .game-setup {
+    display: block;
+  }
+  &[data-tab="login"] .login {
     display: block;
   }
 }

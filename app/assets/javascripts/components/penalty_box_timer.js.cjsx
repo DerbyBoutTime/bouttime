@@ -48,6 +48,7 @@ exports.PenaltyBoxTimer = React.createClass
           <div className="col-xs-6">
             <div className="row gutters-xs spacer-xs">
               <div className="col-xs-12">
+
                 <button className="btn btn-lg btn-block select-skater-button">
                   <span>Skater Name</span>
                   <span className="glyphicon glyphicon-chevron-down"></span>

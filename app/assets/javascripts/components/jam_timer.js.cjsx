@@ -148,9 +148,9 @@ exports.JamTimer = React.createClass
     this.state.periodClockAttributes.time = 0 if this.state.periodClockAttributes.time < 0
     this.state.periodClockAttributes.display = this.formatPeriodClock()
     @setState(@state)
-    # dispatcher.trigger "jam_timer.period_tick", this.buildOptions
-    #   state:
-    #     periodClockAttributes: this.state.periodClockAttributes
+    dispatcher.trigger "jam_timer.period_tick", this.buildOptions
+      state:
+        periodClockAttributes: this.state.periodClockAttributes
   tickJamClock: () ->
     #console.log("tick jam clock")
     stopTick = Date.now()
@@ -160,10 +160,10 @@ exports.JamTimer = React.createClass
     this.state.jamClockAttributes.time = 0 if this.state.jamClockAttributes.time < 0
     this.state.jamClockAttributes.display = this.formatJamClock()
     @setState(@state)
-    # dispatcher.trigger "jam_timer.jam_tick", this.buildOptions
-    #   state:
-    #     id: this.state.id
-    #     jamClockAttributes: this.state.jamClockAttributes
+    dispatcher.trigger "jam_timer.jam_tick", this.buildOptions
+      state:
+        id: this.state.id
+        jamClockAttributes: this.state.jamClockAttributes
   clearJammers: () ->
     this.state.homeAttributes.jammer = {}
     this.state.awayAttributes.jammer = {}
