@@ -2,12 +2,6 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.PenaltyClock = React.createClass
   displayName: "PenaltyClock"
-  propTypes:
-    state: React.PropTypes.object.isRequired
-    skater: React.PropTypes.object.isRequired
-    alert: React.PropTypes.object.isRequired
-    served: React.PropTypes.object.isRequired
-    clock: React.PropTypes.object.isRequired
   render: () ->
     <div className="penalty-clock">
       <div className="skater-wrapper">
