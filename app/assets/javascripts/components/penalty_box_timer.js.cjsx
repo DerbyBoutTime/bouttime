@@ -43,29 +43,31 @@ exports.PenaltyBoxTimer = React.createClass
           </button>
         </div>
       </div>
-      <div className="row gutters-xs margin-top-05">
-        <div className="col-xs-6">
-          <div className="row gutters-xs spacer-xs">
-            <div className="col-xs-12">
-              <button className="btn btn-lg btn-block select-skater-button">
-                <span>Skater Name</span>
-                <span className="glyphicon glyphicon-chevron-down"></span>
-              </button>
+      <section className="individual-clocks">
+        <div className="row gutters-xs margin-top-05">
+          <div className="col-xs-6">
+            <div className="row gutters-xs spacer-xs">
+              <div className="col-xs-12">
+                <button className="btn btn-lg btn-block select-skater-button">
+                  <span>Skater Name</span>
+                  <span className="glyphicon glyphicon-chevron-down"></span>
+                </button>
+              </div>
+            </div>
+            <div className="row gutters-xs spacer-xs">
+              <div className="col-xs-6">
+                <button className="btn btn-lg btn-block .select-skater-button">Left Early</button>
+              </div>
+              <div className="col-xs-6">
+                <button className="btn btn-lg btn-block .select-skater-button">
+                  <span className="glyphicon glyphicon-ok"></span>
+                </button>
+              </div>
             </div>
           </div>
-          <div className="row gutters-xs spacer-xs">
-            <div className="col-xs-6">
-              <button className="btn btn-lg btn-block .select-skater-button">Left Early</button>
-            </div>
-            <div className="col-xs-6">
-              <button className="btn btn-lg btn-block .select-skater-button">
-                <span className="glyphicon glyphicon-ok"></span>
-              </button>
-            </div>
+          <div className="col-xs-6">
+            <div className="clock">00</div>
           </div>
         </div>
-        <div className="col-xs-6">
-          <div className="clock">00</div>
-        </div>
-      </div>
+      </section>
     </div>

@@ -3,6 +3,12 @@
   margin-bottom: 2px;
 }
 .penalty-box-timer {
+  .individual-clocks {
+    .clock {
+      border: 2px solid $gray;
+      border-radius: 20px;
+    }
+  }
   .period-clock {
     @extend .well-sm;
     @extend .well;
