@@ -7,7 +7,7 @@ exports.PenaltyBoxTimer = React.createClass
     $dom = $(this.getDOMNode())
   render: () ->
     <div className="penalty-box-timer">
-      <div className="row gutters-xs">
+      <div className="row gutters-xs hidden-xs hidden-sm">
         <div className="col-xs-6">
           <strong className="clearfix">
             <span className="pull-left">
