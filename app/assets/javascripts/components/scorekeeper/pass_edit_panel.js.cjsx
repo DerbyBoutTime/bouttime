@@ -7,40 +7,40 @@ exports.PassEditPanel = React.createClass
     $("##{this.props.editPassId}").collapse('hide')
   render: () ->
     injuryClass = cx
-      'btn btn-block notes injury': true
+      'bt-btn notes injury': true
       'selected': this.props.passState.injury
     nopassClass = cx
-      'btn btn-block notes no-pass': true
+      'bt-btn notes no-pass': true
       'selected': this.props.passState.nopass
     callClass = cx
-      'btn btn-block notes call': true
+      'bt-btn notes call': true
       'selected': this.props.passState.calloff
     lostClass = cx
-      'btn btn-block notes lost': true
+      'bt-btn notes lost': true
       'selected': this.props.passState.lostLead
     leadClass = cx
-      'btn btn-block notes note-lead': true
+      'bt-btn notes note-lead': true
       'selected': this.props.passState.lead
     zeroClass = cx
-      'btn btn-block scores zero': true
+      'bt-btn scores zero': true
       'selected': this.props.passState.points == 0
     oneClass = cx
-      'btn btn-block scores one': true
+      'bt-btn scores one': true
       'selected': this.props.passState.points == 1
     twoClass = cx
-      'btn btn-block scores two': true
+      'bt-btn scores two': true
       'selected': this.props.passState.points == 2
     threeClass = cx
-      'btn btn-block scores three': true
+      'bt-btn scores three': true
       'selected': this.props.passState.points == 3
     fourClass = cx
-      'btn btn-block scores four': true
+      'bt-btn scores four': true
       'selected': this.props.passState.points == 4
     fiveClass = cx
-      'btn btn-block scores five': true
+      'bt-btn scores five': true
       'selected': this.props.passState.points == 5
     sixClass = cx
-      'btn btn-block scores six': true
+      'bt-btn scores six': true
       'selected': this.props.passState.points == 6
     if this.props.passState.passNumber == 1
       <div className="panel">

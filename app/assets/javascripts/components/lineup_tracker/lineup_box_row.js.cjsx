@@ -13,7 +13,7 @@ exports.LineupBoxRow = React.createClass
       jammer: 'clear'
   render: () ->
     <div className="row gutters-xs boxes">
-        <div className="col-sm-2 col-xs-2 col-sm-offest-2 col-xs-offset-2">
+        <div className="col-sm-2 col-xs-2 col-xs-offset-1">
           <LineupBox status={this.props.lineupStatus.jammer} lineupStatusHandler={this.props.lineupStatusHandler.bind(this, 'jammer')} />
         </div>
         <div className="col-sm-2 col-xs-2">

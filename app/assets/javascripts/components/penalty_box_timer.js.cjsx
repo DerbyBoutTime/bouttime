@@ -26,10 +26,10 @@ exports.PenaltyBoxTimer = React.createClass
       </div>
       <div className="row gutters-xs">
         <div className="col-xs-6">
-          <button className="btn btn-lg btn-block undo-btn">UNDO</button>
+          <button className="bt-btn undo-btn">UNDO</button>
         </div>
         <div className="col-xs-6">
-          <button className="btn btn-lg btn-block edit-btn">
+          <button className="bt-btn edit-btn">
             <span>EDIT</span>
             <i className="glyphicon glyphicon-pencil"></i>
           </button>
@@ -37,37 +37,17 @@ exports.PenaltyBoxTimer = React.createClass
       </div>
       <div className="row gutters-xs margin-top-05">
         <div className="col-xs-offset-6 col-xs-6">
-          <button className="btn btn-lg btn-block .jammer-swap-button">
+          <button className="bt-btn .jammer-swap-button">
             <span className="glyphicon glyphicon-star" aria-hidden="true"></span>
             <span>Jammer</span>
           </button>
         </div>
       </div>
-      <section className="individual-clocks">
-        <div className="row gutters-xs margin-top-05">
-          <div className="col-xs-6">
-            <div className="row gutters-xs spacer-xs">
-              <div className="col-xs-12">
-                <button className="btn btn-lg btn-block select-skater-button">
-                  <span>Skater Name</span>
-                  <span className="glyphicon glyphicon-chevron-down"></span>
-                </button>
-              </div>
-            </div>
-            <div className="row gutters-xs spacer-xs">
-              <div className="col-xs-6">
-                <button className="btn btn-lg btn-block .select-skater-button">Left Early</button>
-              </div>
-              <div className="col-xs-6">
-                <button className="btn btn-lg btn-block .select-skater-button">
-                  <span className="glyphicon glyphicon-ok"></span>
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="col-xs-6">
-            <div className="clock">00</div>
-          </div>
-        </div>
+      <section className="penalty-clocks">
+        <PenaltyClock />
+        <PenaltyClock />
+        <PenaltyClock />
+        <PenaltyClock />
+        <PenaltyClock />
       </section>
     </div>

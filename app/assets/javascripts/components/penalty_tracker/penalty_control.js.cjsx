@@ -14,7 +14,7 @@ exports.PenaltyControl = React.createClass
       <div className='jam-number'>
         <strong>{this.jamNumberDisplay()}</strong>
       </div>
-      <button className='btn btn-block btn-boxed penalty-indicator-wrapper' onClick={this.props.clickHandler}>
+      <button className='bt-btn btn-boxed penalty-indicator-wrapper' onClick={this.props.clickHandler}>
         <PenaltyIndicator {...this.props}/>
       </button>
     </div>

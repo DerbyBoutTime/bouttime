@@ -470,7 +470,7 @@ exports.JamTimer = React.createClass
         </div>
         <div className={timeoutSectionCS}>
           <div className="col-xs-12">
-            <button className="btn btn-block timeout-btn">TIMEOUT</button>
+            <button className="bt-btn timeout-btn">TIMEOUT</button>
           </div>
         </div>
         <div className={timeoutExplanationSectionCS}>
@@ -478,12 +478,12 @@ exports.JamTimer = React.createClass
             <div className="home">
               <div className="row">
                 <div className="col-md-12 col-xs-12">
-                  <button className="btn btn-block timeout-btn">TIMEOUT</button>
+                  <button className="bt-btn timeout-btn">TIMEOUT</button>
                 </div>
               </div>
               <div className="row margin-top-05">
                 <div className="col-md-12 col-xs-12">
-                  <button className="btn btn-block review-btn">
+                  <button className="bt-btn review-btn">
                     <span className="hidden-xs">OFFICIAL REVIEW</span>
                     <span className="visible-xs-inline">REVIEW</span>
                   </button>
@@ -492,7 +492,7 @@ exports.JamTimer = React.createClass
             </div>
           </div>
           <div className="col-md-4 col-xs-4">
-            <button className="btn btn-lg btn-block official-timeout-btn">
+            <button className="bt-btn official-timeout-btn">
               <div>OFFICIAL</div>
               <div>TIMEOUT</div>
             </button>
@@ -501,12 +501,12 @@ exports.JamTimer = React.createClass
             <div className="away">
               <div className="row">
                 <div className="col-md-12 col-xs-12">
-                  <button className="btn btn-block timeout-btn">TIMEOUT</button>
+                  <button className="bt-btn timeout-btn">TIMEOUT</button>
                 </div>
               </div>
               <div className="row margin-top-05">
                 <div className="col-md-12 col-xs-12">
-                  <button className="btn btn-block review-btn">
+                  <button className="bt-btn review-btn">
                     <span className="hidden-xs">OFFICIAL REVIEW</span>
                     <span className="visible-xs-inline">REVIEW</span>
                   </button>
@@ -517,42 +517,42 @@ exports.JamTimer = React.createClass
         </div>
         <div className={undoSectionCS}>
           <div className="col-xs-12">
-            <button className="btn btn-lg btn-block undo-btn">UNDO</button>
+            <button className="bt-btn undo-btn">UNDO</button>
           </div>
         </div>
         <div className={startClockSectionCS}>
           <div className="col-xs-12">
-            <button className="btn btn-lg btn-block start-clock-btn">START CLOCK</button>
+            <button className="bt-btn start-clock-btn">START CLOCK</button>
           </div>
         </div>
         <div className={stopClockSectionCS}>
           <div className="col-xs-12">
-            <button className="btn btn-lg btn-block stop-clock-btn">STOP CLOCK</button>
+            <button className="bt-btn stop-clock-btn">STOP CLOCK</button>
           </div>
         </div>
         <div className={startJamSectionCS}>
           <div className="col-xs-12">
-            <button className="btn btn-lg btn-block start-jam-btn">START JAM</button>
+            <button className="bt-btn start-jam-btn">START JAM</button>
           </div>
         </div>
         <div className={stopJamSectionCS}>
           <div className="col-xs-12">
-            <button className="btn btn-lg btn-block stop-jam-btn">STOP JAM</button>
+            <button className="bt-btn stop-jam-btn">STOP JAM</button>
           </div>
         </div>
         <div className={startLineupSectionCS}>
           <div className="col-xs-12 start-lineup-section">
-            <button className="btn btn-lg btn-block start-lineup-btn">START LINEUP</button>
+            <button className="bt-btn start-lineup-btn">START LINEUP</button>
           </div>
         </div>
         <div className={jamExplanationSectionCS}>
           <div className="col-xs-6">
-            <button className="btn btn-lg btn-block jam-called-btn">
+            <button className="bt-btn jam-called-btn">
               JAM CALLED
             </button>
           </div>
           <div className="col-xs-6">
-            <button className="btn btn-lg btn-block ended-by-time-btn">
+            <button className="bt-btn ended-by-time-btn">
               ENDED BY TIME
             </button>
           </div>

@@ -65,25 +65,25 @@ exports.JamsList = React.createClass
       'in': this.state.jamSelected?
     <div className="jams-list">
       <div className="row stats gutters-xs">
-        <div className="col-sm-6 col-xs-6">
+        <div className="col-xs-6">
           <div className="stat current-jam">
             <div className="row gutters-xs">
               <div className="col-sm-8 col-xs-8 col-sm-offset-1 col-xs-offset-1">
                 <strong>Current Jam</strong>
               </div>
-              <div className="col-sm-2 col-xs-2 text-right current-jam-score">
+              <div className="col-xs-2 text-right current-jam-score">
                 <strong>{this.props.jamNumber}</strong>
               </div>
             </div>
           </div>
         </div>
-        <div className="col-sm-6 col-xs-6">
+        <div className="col-xs-6">
           <div className="stat game-total">
             <div className="row gutters-xs">
               <div className="col-sm-8 col-xs-8 col-sm-offset-1 col-xs-offset-1">
                 <strong>Game Total</strong>
               </div>
-              <div className="col-sm-2 col-xs-2 text-right game-total-score">
+              <div className="col-xs-2 text-right game-total-score">
                 <strong>{this.getTeamPoints('away')}</strong>
               </div>
             </div>
@@ -93,16 +93,16 @@ exports.JamsList = React.createClass
       <div className={jamsContainerClass}>
         <div className="headers">
           <div className="row gutters-xs">
-            <div className="col-sm-2 col-xs-2">
+            <div className="col-xs-2">
               <strong>Jam</strong>
             </div>
-            <div className="col-sm-2 col-xs-2">
+            <div className="col-xs-2">
               <strong>Skater</strong>
             </div>
-            <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2 text-center">
+            <div className="col-xs-2 col-xs-offset-1 text-center">
               <strong>Notes</strong>
             </div>
-            <div className="col-sm-2 col-xs-2 col-sm-offset-2 col-xs-offset-2 text-center">
+            <div className="col-xs-2 col-xs-offset-1 text-center">
               <strong>Points</strong>
             </div>
           </div>

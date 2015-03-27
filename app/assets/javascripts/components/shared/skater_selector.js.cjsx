@@ -17,7 +17,7 @@ exports.SkaterSelector = React.createClass
     injuryClass = cx
       'skater-injury': this.props.injured
     <button
-      className={injuryClass + " skater-selector text-center btn btn-block"}
+      className={injuryClass + " skater-selector text-center bt-btn"}
       data-toggle="modal"
       style={if this.props.skater and not this.props.injured then this.props.style else {}}
       data-target="#skater-selector-modal"
@@ -42,7 +42,7 @@ exports.SkaterSelectorModal = React.createClass
   buttonClass: (skater) ->
     cx
       'selector-injury' : this.isInjured(skater)
-      'btn btn-block skater-selector-dialog-btn': true
+      'bt-btn skater-selector-dialog-btn': true
   render: () ->
     <div className="modal fade" id="skater-selector-modal">
       <div className="modal-dialog skater-selector-dialog">

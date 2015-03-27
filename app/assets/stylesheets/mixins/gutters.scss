@@ -1,0 +1,8 @@
+@mixin gutters-xs() {
+  margin-right: -2px;
+  margin-left: -2px;
+  [class^="col-"], [class*=" col-"] {
+    padding-right: 2px;
+    padding-left: 2px;
+  }
+}

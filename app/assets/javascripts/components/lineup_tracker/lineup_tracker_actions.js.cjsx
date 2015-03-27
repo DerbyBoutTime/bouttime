@@ -8,12 +8,12 @@ exports.LineupTrackerActions = React.createClass
   render: () ->
     <div className="row gutters-xs actions">
         <div className="col-sm-6 col-xs-6">
-          <button className="actions-action actions-edit text-center btn btn-block" onClick={this.props.endHandler}>
+          <button className="actions-action actions-edit text-center bt-btn" onClick={this.props.endHandler}>
             NEXT JAM
           </button>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <button className="actions-action actions-undo text-center btn btn-block" onClick={this.props.undoHandler}>
+          <button className="actions-action actions-undo text-center bt-btn" onClick={this.props.undoHandler}>
             <strong>UNDO</strong>
           </button>
         </div>

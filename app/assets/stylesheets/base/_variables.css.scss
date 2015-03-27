@@ -10,7 +10,15 @@
 }
 // This will prevent navbar getting collapsed for extra small screen sizes:
 $grid-float-breakpoint: 320px;
+
 // Typography
 $font-size-base: 14px;
+
 // Panels
 $panel-body-padding: 5px;
+
+// Design variables
+$minimum-touch-target: 40px;
+
+//Bootstrap overrides
+$grid-gutter-width : 16px;

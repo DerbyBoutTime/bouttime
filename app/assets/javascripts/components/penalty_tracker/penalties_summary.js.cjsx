@@ -20,7 +20,7 @@ exports.PenaltiesSummary = React.createClass
       {this.props.teamState.skaterStates.map (skaterState, skaterIndex) ->
         <div key={skaterIndex} className='row gutters-xs top-buffer'>
           <div className='col-xs-3 col-sm-3'>
-            <button className='btn btn-block btn-boxed' onClick={this.props.selectionHandler.bind(null, skaterIndex)}>
+            <button className='bt-btn btn-boxed' onClick={this.props.selectionHandler.bind(null, skaterIndex)}>
               <strong>{skaterState.skater.number}</strong>
             </button>
           </div>

@@ -7,6 +7,9 @@ $gray-base: $near-black;
 @import "bootstrap";
 @import "mixins/border-arrow";
 @import "mixins/vertical-align";
+@import "mixins/gutters";
+@import "mixins/margins";
+@import "mixins/buttons";
 @import "header";
 @import "jam-timer";
 @import "lineup-tracker";
@@ -38,6 +41,9 @@ $gray-base: $near-black;
   border-color: transparent;
   background-color: $light-gray;
   color: $near-black;
+}
+.bt-btn {
+  @include bt-button;
 }
 .btn-default {
   padding: 10px 5px;

@@ -11,6 +11,7 @@
     @media (min-width: $screen-tablet){
       font-size: 1.0em;
     }
+    line-height: $minimum-touch-target;
   }
 	.team-penalties {
     .penalties-summary {

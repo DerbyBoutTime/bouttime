@@ -22,12 +22,12 @@ exports.TeamSelector = React.createClass
     <div className="team-selector">
       <div className="row teams gutters-xs">
         <div className="col-sm-6 col-xs-6">
-          <button className="team-name btn btn-block btn-boxed" style={awayStyle} onClick={this.selectTeam.bind(this, 'away')}>
+          <button className="team-name bt-btn btn-boxed" style={awayStyle} onClick={this.selectTeam.bind(this, 'away')}>
             {this.props.awayAttributes.name}
           </button>
         </div>
         <div className="col-sm-6 col-xs-6">
-          <button className="team-name btn btn-block btn-boxed" style={homeStyle} onClick={this.selectTeam.bind(this, 'home')}>
+          <button className="team-name bt-btn btn-boxed" style={homeStyle} onClick={this.selectTeam.bind(this, 'home')}>
             {this.props.homeAttributes.name}
           </button>
         </div>

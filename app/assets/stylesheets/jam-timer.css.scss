@@ -1,8 +1,5 @@
 .margin-top-05 {
-  margin-top: 0.25em;
-  @media (min-width: $screen-tablet){
-    margin-top: 0.5em;
-  }
+  @include margin-xs;
 }
 @keyframes active-animation {
   0%   { background-color: $inactive-color; }
@@ -87,20 +84,6 @@
       border-radius: 6px;
       font-weight: bold;
       height: 19px;
-    }
-  }
-  .btn {
-    padding: 10px 5px;
-    font-size: 0.85em;
-    @media (min-width: $screen-sm-min) {
-      padding: 15px;
-      font-size: inherit;
-    }
-    background-color: $light-gray;
-    color: $near-black;
-    &.btn-selected {
-      background-color: $near-black;
-      color: $white;
     }
   }
   .official-timeout {

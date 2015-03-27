@@ -70,19 +70,19 @@ exports.SkaterPenalties = React.createClass
       <div className={containerClass}>
         <div className='row gutters-xs top-buffer actions' >
           <div className='col-sm-6 col-xs-6'>
-            <button className='btn btn-block btn-boxed action apply' onClick={this.props.applyHandler.bind(null, this.state.workingSkaterState)} >
+            <button className='bt-btn btn-boxed action apply' onClick={this.props.applyHandler.bind(null, this.state.workingSkaterState)} >
               <span className='icon glyphicon glyphicon-ok'></span><strong>Apply</strong>
             </button>
           </div>
           <div className='col-sm-6 col-xs-6'>
-            <button className='btn btn-block btn-boxed action cancel' onClick={this.props.cancelHandler}>
+            <button className='bt-btn btn-boxed action cancel' onClick={this.props.cancelHandler}>
               <span className='icon glyphicon glyphicon-remove'></span><strong>Cancel</strong>
             </button>
           </div>
         </div>
         <div className='row gutters-xs top-buffer'>
           <div className='col-sm-2 col-xs-2'>
-            <div className='btn btn-block btn-boxed' style={this.props.teamStyle}>
+            <div className='bt-btn btn-boxed' style={this.props.teamStyle}>
               <strong>{this.props.skaterState.skater.number}</strong>
             </div>
           </div>
@@ -152,12 +152,12 @@ exports.SkaterPenalties = React.createClass
           {this.props.penalties[0...-1].map((penalty, penaltyIndex) ->
             <div key={penaltyIndex} className='penalty'>
               <div className='col-xs-1 col-sm-1'>
-                <button className='penalty-code btn btn-block btn-boxed' onClick={this.setPenalty.bind(this, penaltyIndex)}>
+                <button className='penalty-code bt-btn btn-boxed' onClick={this.setPenalty.bind(this, penaltyIndex)}>
                   <strong>{penalty.code}</strong>
                 </button>
               </div>
               <div className='col-xs-5 col-sm-5'>
-                <button className='penalty-name btn btn-block btn-boxed' onClick={this.setPenalty.bind(this, penaltyIndex)}>
+                <button className='penalty-name bt-btn btn-boxed' onClick={this.setPenalty.bind(this, penaltyIndex)}>
                   <strong>{penalty.name}</strong>
                 </button>
               </div>
@@ -169,12 +169,12 @@ exports.SkaterPenalties = React.createClass
           }
           <div className='row gutters-xs top-buffer'>
             <div className='col-xs-1 col-sm-1'>
-              <button className='penalty-code btn btn-block btn-boxed' onClick={this.setPenalty.bind(this, this.props.penalties.length - 1)}>
+              <button className='penalty-code bt-btn btn-boxed' onClick={this.setPenalty.bind(this, this.props.penalties.length - 1)}>
                 <strong>{this.props.penalties[this.props.penalties.length - 1].code}</strong>
               </button>
             </div>
             <div className='col-xs-11 col-sm-11'>
-              <button className='penalty-name btn btn-block btn-boxed' onClick={this.setPenalty.bind(this, this.props.penalties.length - 1)}>
+              <button className='penalty-name bt-btn btn-boxed' onClick={this.setPenalty.bind(this, this.props.penalties.length - 1)}>
                 <strong>{this.props.penalties[this.props.penalties.length - 1].name} - Expulsion</strong>
               </button>
             </div>

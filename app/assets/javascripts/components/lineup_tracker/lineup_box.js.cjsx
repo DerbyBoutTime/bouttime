@@ -18,6 +18,6 @@ exports.LineupBox = React.createClass
   render: () ->
     injuryClass = cx
       'box-injury': this.props.status is 'injured'
-    <button className={injuryClass + " box text-center btn btn-block btn-box"} onClick={this.props.lineupStatusHandler}>
+    <button className={injuryClass + " box text-center bt-btn btn-box"} onClick={this.props.lineupStatusHandler}>
       <strong>{this.boxContent()}</strong>
     </button>

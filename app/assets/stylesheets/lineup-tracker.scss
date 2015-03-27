@@ -9,7 +9,6 @@
       color: $white;
     }
     .jam-detail-no-pivot, .jam-detail-star-pass {
-      font-size: 0.8em;
       &.selected {
         background-color: $muted-gray;
         color: $white;
@@ -32,7 +31,7 @@
       color: $gray;
     }
     .skater-injury {
-      background-color: white;
+      background-color: $white;
       border: 5px solid $pink;
       border-radius: 10px;
       color: $pink;
@@ -64,14 +63,6 @@
       background-color: $near-black;
       color: $white;
     }
-  }
-  .btn {
-    border-radius: 2px;
-    font-size: 1.1em;
-    line-height: 30px;
-    padding: 0;
-    background-color: $light-gray;
-    color: $near-black;
   }
   .skater-selector-dialog {
     .skater-selector-dialog-btn {

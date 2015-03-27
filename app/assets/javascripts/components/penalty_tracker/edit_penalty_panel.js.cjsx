@@ -28,7 +28,7 @@ exports.EditPenaltyPanel = React.createClass
     <div className={containerClass} id='edit-penalty-panel'>
       <div className='row gutters-xs'>
         <div className='col-sm-1 col-xs-1 col-sm-offset-1 col-xs-offset-1'>
-          <button className='btn btn-block btn-boxed apply' onClick={this.props.applyHandler.bind(null, this.state.jamNumber)}>
+          <button className='bt-btn btn-boxed apply' onClick={this.props.applyHandler.bind(null, this.state.jamNumber)}>
             <span className='glyphicon glyphicon-ok'></span>
           </button>
         </div>
@@ -44,7 +44,7 @@ exports.EditPenaltyPanel = React.createClass
           </div>
         </div>
         <div className='col-sm-1 col-xs-1'>
-          <button className='btn btn-block btn-boxed cancel' onClick={this.props.cancelHandler}>
+          <button className='bt-btn btn-boxed cancel' onClick={this.props.cancelHandler}>
             <span className='glyphicon glyphicon-remove'></span>
           </button>
         </div>

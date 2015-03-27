@@ -3,10 +3,30 @@
   margin-bottom: 2px;
 }
 .penalty-box-timer {
-  .individual-clocks {
+  .penalty-clocks {
+    .skater-wrapper {
+      @include make-row;
+      @include make-xs-column(6);
+      @include gutters-xs;
+    }
+    .penalty-clock {
+      @include make-row;
+      @include margin-xs;
+      @include gutters-xs;
+    }
     .clock {
       border: 2px solid $gray;
       border-radius: 20px;
+      font-size: 4em;
+    }
+    .served-button, .left-early-button {
+      @include bt-button;
+      @include make-xs-column(6);
+    }
+    .skater-data, .skater-dropdown {
+      @include make-row;
+      @include margin-xs;
+      padding: 0 2px;
     }
   }
   .period-clock {
@@ -27,14 +47,6 @@
     color: $near-black;
     margin-bottom: 10px;
   }
-  .btn {
-    border-radius: 2px;
-    font-size: 1.1em;
-    line-height: 30px;
-    padding: 0;
-    background-color: $light-gray;
-    color: $near-black;
-  }
   .edit-btn {
     >.glyphicon{
       padding-left: 1em;
@@ -50,6 +62,7 @@
     .glyphicon {
       @include vertical-align;
       position: absolute;
+      top: 25%;
       right: 0.5em;
     }
   }

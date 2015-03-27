@@ -11,23 +11,10 @@
     transition-delay: 0.15s;
   }
 }
-.row {
-  &.gutters-xs {
-    margin-right: -2px;
-    margin-left: -2px;
-  }
-  &.gutters-xs [class^="col-"], &.gutters-xs [class*=" col-"] {
-    padding-right: 2px;
-    padding-left: 2px;
-  }
+.row.gutters-xs {
+  @include gutters-xs;
 }
 .scorekeeper {
-  .btn{
-    border-radius:2px;
-    font-size: 1.1em;
-    line-height: 30px;
-    padding: 0;
-  }
   .stats {
     margin-top: 4px;
   }

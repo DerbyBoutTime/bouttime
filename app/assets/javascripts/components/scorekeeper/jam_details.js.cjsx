@@ -18,17 +18,17 @@ exports.JamDetails = React.createClass
       <div className="links">
         <div className="row text-center gutters-xs">
           <div className="col-sm-6 col-xs-6">
-            <button className="main-menu link btn btn-block" onClick={this.props.mainMenuHandler}>
+            <button className="main-menu link bt-btn" onClick={this.props.mainMenuHandler}>
               Main Menu
             </button>
           </div>
           <div className="col-sm-3 col-xs-3">
-           <button className="prev link btn btn-block" onClick={this.props.prevJamHandler}>
+           <button className="prev link bt-btn" onClick={this.props.prevJamHandler}>
               Prev
             </button>
           </div>
           <div className="col-sm-3 col-xs-3">
-            <button className="next link btn btn-block" onClick={this.props.nextJamHandler}>
+            <button className="next link bt-btn" onClick={this.props.nextJamHandler}>
               Next
             </button>
           </div>
