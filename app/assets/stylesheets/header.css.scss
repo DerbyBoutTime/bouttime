@@ -41,9 +41,9 @@ header {
     }
   }
   .nav > li > a > img {
-    width: 28px;
-    @media (min-width: $screen-tablet){
-      width: auto;
+    width: 25px;
+    @media (min-width: $screen-phone){
+      width: 32px;
     }
   }
 

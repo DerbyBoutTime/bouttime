@@ -6,6 +6,11 @@
     background-color: $white;
     color: $gray;
     text-transform: uppercase;
+    white-space: nowrap;
+    font-size: 0.8em;
+    @media (min-width: $screen-tablet){
+      font-size: 1.0em;
+    }
   }
 
 	.team-penalties {
