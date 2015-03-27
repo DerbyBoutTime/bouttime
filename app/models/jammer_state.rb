@@ -9,6 +9,5 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
-
 class JammerState < ActiveRecord::Base
 end

@@ -4,7 +4,6 @@ class CreateJammerStates < ActiveRecord::Migration
       t.string :name
       t.string :number
       t.boolean :is_lead
-
       t.timestamps
     end
   end

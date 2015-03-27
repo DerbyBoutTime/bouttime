@@ -10,7 +10,6 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #
-
 class PenaltyState < ActiveRecord::Base
   belongs_to :penalty
   belongs_to :skater_state

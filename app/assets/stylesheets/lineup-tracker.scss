@@ -1,16 +1,13 @@
 .lineup-tracker {
-
   .jam-details {
     margin-top: 4px;
   }
-
   .jam-detail {
     margin-bottom:4px;
     .jam-detail-number {
       background-color: $near-black;
       color: $white;
     }
-
     .jam-detail-no-pivot, .jam-detail-star-pass {
       font-size: 0.8em;
       &.selected {
@@ -19,26 +16,21 @@
       }
     }
   }
-
   .positions {
     color: $near-black;
     margin-top: 4px;
   }
-
   .skaters {
     margin-top: 4px;
-
     .skater {
       background-color: $blue;
       color: $white;
     }
-
     .skater-selector {
       background-color: $light-gray;
       border-color: $light-gray;
       color: $gray;
     }
-
     .skater-injury {
       background-color: white;
       border: 5px solid $pink;
@@ -47,34 +39,27 @@
       line-height: 22px;
     }
   }
-
   .boxes {
     margin-top: 4px;
-
     .box-toggle {
       color: $gray;
       font-size: 0.7em;
       line-height: 15px;
       margin-top: 15px;
     }
-
     .box {
       color: $gray;
       background-color: $white;
       border: 1px solid $gray
     }
-
     .box-injury {
       color: $pink;
     }
   }
-
   .actions {
     margin-top: 14px;
-
     .actions-action {
     }
-
     .actions-edit {
       background-color: $near-black;
       color: $white;
@@ -88,11 +73,9 @@
     background-color: $light-gray;
     color: $near-black;
   }
-
   .skater-selector-dialog {
     .skater-selector-dialog-btn {
       position: relative;
-
       .skater-number {
         position: absolute;
         left: 10px;

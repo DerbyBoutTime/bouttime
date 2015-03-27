@@ -2,24 +2,19 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.TeamSelector = React.createClass
   displayName: 'TeamSelector'
-
   propTypes:
     awayAttributes: React.PropTypes.object.isRequired
     awayElement: React.PropTypes.element.isRequired
     homeAttributes: React.PropTypes.object.isRequired
     homeElement: React.PropTypes.element.isRequired
-
   selectTeam: (teamType) ->
     this.setState(selectedTeam: teamType)
-
   containerClass: (teamType) ->
     cx
       'col-sm-6 col-xs-12': true
       'hidden-xs': this.state.selectedTeam != teamType
-
   getInitialState: () ->
     selectedTeam: 'away'
-
   render: () ->
     displayBoth = window.matchMedia('(min-width: 768px)').matches
     awayStyle = if this.state.selectedTeam is 'away' or displayBoth then this.props.awayAttributes.colorBarStyle else {}

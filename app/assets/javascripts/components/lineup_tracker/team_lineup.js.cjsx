@@ -11,7 +11,6 @@ exports.TeamLineup = React.createClass
     selectSkaterHandler: React.PropTypes.func.isRequired
     endHandler: React.PropTypes.func.isRequired
     undoHandler: React.PropTypes.func.isRequired
-
   render: ()->
     <div className="jam-details">
       {this.props.teamState.jamStates.map (jamState, jamIndex) ->

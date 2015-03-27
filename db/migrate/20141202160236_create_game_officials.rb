@@ -4,7 +4,6 @@ class CreateGameOfficials < ActiveRecord::Migration
       t.references :game, index: true
       t.references :official, index: true
       t.string :position
-
       t.timestamps
     end
   end

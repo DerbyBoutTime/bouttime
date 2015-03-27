@@ -5,13 +5,11 @@ exports.JamItem = React.createClass
   propTypes:
     jamState: React.PropTypes.object.isRequired
     selectionHandler: React.PropTypes.func
-
   totalPoints: () ->
     points = 0
     this.props.jamState.passStates.map (pass) =>
       points += pass.points || 0
     return points
-
   getNotes: () ->
     jam = this.props.jamState
     flags = jam.passStates.reduce (prev, pass) ->
@@ -21,16 +19,12 @@ exports.JamItem = React.createClass
       lost: prev.lost  or pass.lostLead
       lead: prev.lead or pass.lead
     , {}
-
     Object.keys(flags).filter (key) ->
       flags[key]
-
   render: () ->
     notes = this.getNotes()
-
     jammer = this.props.jamState.jammer
     jammerNumber = if jammer? then jammer.number else <span>&nbsp;</span>
-
     <div className="jam-row">
       <div className="row gutters-xs" onClick={this.props.selectionHandler} >
         <div className="col-sm-2 col-xs-2">

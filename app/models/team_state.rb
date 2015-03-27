@@ -21,7 +21,6 @@
 #  text_color                :string(255)
 #  is_selected               :boolean          default(FALSE)
 #
-
 class TeamState < ActiveRecord::Base
   belongs_to :jammer, class_name: "JammerState"
   has_one :game_state
@@ -29,11 +28,9 @@ class TeamState < ActiveRecord::Base
   has_many :pass_states, through: :jam_states
   has_many :skater_states
   has_and_belongs_to_many :skaters, join_table: 'skater_states'
-
   accepts_nested_attributes_for :jammer, :pass_states
   accepts_nested_attributes_for :jam_states, reject_if: :reject_jam_states
   alias_method :jammer_attributes, :jammer
-
   def self.demo_home
     self.new({
       name: "Atlanta Rollergirls",
@@ -112,7 +109,6 @@ class TeamState < ActiveRecord::Base
       ]
     })
   end
-
   def self.demo_away
     self.new({
       name: "Gotham Rollergirls",
@@ -191,39 +187,30 @@ class TeamState < ActiveRecord::Base
       ]
     })
   end
-
   def as_json
     super(include: [:jammer_attributes, :jam_states, :pass_states, :skaters], methods: [:color_bar_style])
   end
-
   def to_json(options = {})
      JSON.pretty_generate(self.as_json, options)
   end
-
   def color_bar_style
     {
       color: self.text_color,
       backgroundColor: self.color
     }
   end
-
   def update_points
     self.update_column :points, (self.pass_states.pluck :points).compact.sum
   end
-
   private
-
   def reject_jam_states(attributes)
     self.jam_states.any? {|jam| jam.jam_number == attributes[:jam_number]}
   end
-
   def init_jammer
     self.build_jammer if self.jammer.nil?
   end
-
   def init_jams
     self.jam_states.build(jam_number: 1) if self.jam_states.empty?
   end
-
   after_initialize :init_jammer, :init_jams
 end

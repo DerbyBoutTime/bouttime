@@ -7,7 +7,6 @@ class CreateLineupStatusStates < ActiveRecord::Migration
       t.string :blocker_3
       t.string :jammer
       t.references :lineup_team_state, index: true
-
       t.timestamps
     end
   end

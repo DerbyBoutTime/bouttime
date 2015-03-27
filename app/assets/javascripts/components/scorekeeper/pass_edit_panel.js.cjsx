@@ -2,11 +2,9 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.PassEditPanel = React.createClass
   displayName: 'PassEditPanel'
-
   setPoints: (points) ->
     this.props.actions.setPoints(points)
     $("##{this.props.editPassId}").collapse('hide')
-
   render: () ->
     injuryClass = cx
       'btn btn-block notes injury': true
@@ -44,7 +42,6 @@ exports.PassEditPanel = React.createClass
     sixClass = cx
       'btn btn-block scores six': true
       'selected': this.props.passState.points == 6
-
     if this.props.passState.passNumber == 1
       <div className="panel">
         <div className="edit-pass first-pass collapse" id={this.props.editPassId}>

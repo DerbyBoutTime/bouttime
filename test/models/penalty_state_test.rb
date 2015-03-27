@@ -10,12 +10,9 @@
 #  created_at      :datetime
 #  updated_at      :datetime
 #
-
 require "test_helper"
-
 describe PenaltyState do
   let(:penalty_state) { PenaltyState.new }
-
   it "must be valid" do
     penalty_state.must_be :valid?
   end

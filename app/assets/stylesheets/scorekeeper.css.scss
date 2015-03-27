@@ -11,19 +11,16 @@
     transition-delay: 0.15s;
   }
 }
-
 .row {
   &.gutters-xs {
     margin-right: -2px;
     margin-left: -2px;
   }
-
   &.gutters-xs [class^="col-"], &.gutters-xs [class*=" col-"] {
     padding-right: 2px;
     padding-left: 2px;
   }
 }
-
 .scorekeeper {
   .btn{
     border-radius:2px;
@@ -34,7 +31,6 @@
   .stats {
     margin-top: 4px;
   }
-
   .current-jam, .game-total {
     color: $near-black;
     border: 1px solid $gray;
@@ -43,26 +39,20 @@
     /*height: 30px;*/
     line-height: 30px;
     /*min-width: 16px;*/
-
     .current-jam-score, .game-total-score {
       font-size: 1.3em;
       font-weight: bolder;
     }
   }
-
   .jams, .passes {
     margin-top: 4px;
-
     .headers {
     }
-
     .columns {
       margin-top: 4px;
-
       .jam-row{
         margin-top: 4px;
       }
-
       .col-sm-2, .col-xs-2 {
         /*& > div {*/
           /*background-color: $gray;*/
@@ -71,7 +61,6 @@
           height: 30px;
           /*line-height: 30px;*/
         /*}*/
-
         .jam, .pass {
           background-color: $near-black;
           border-color: $near-black;
@@ -91,7 +80,6 @@
           color: $near-black;
           /*height: 30px;*/
           line-height: 30px;
-
           &.injury {
           }
           &.call {
@@ -103,7 +91,6 @@
             border-color: $near-black;
             color: $gray;
           }
-
         }
         .points {
           background-color: $gray;
@@ -119,7 +106,6 @@
         cursor: move;
       }
     }
-
     // because collapse requires a .panel to work with data-parent,
     // https://github.com/twbs/bootstrap/blob/a577f1922ee7054a97b455ccfaa16857cb2b79fc/js/collapse.js#L49,
     // but we don't want the .panel styles.
@@ -128,58 +114,46 @@
       margin-bottom: 0;
     }
   }
-
   .jam-details {
     color: $near-black;
     font-size: 1.2em;
     margin-top: 4px;
-
     & > .row > div:first-child {
       padding-left: 0px;
       padding-right: 0px;
     }
-
     & > .row > div:last-child {
       padding-left: 0px;
     }
-
     .jam-number, .jam-total-score {
       background-color: $gray;
       /*height: 30px;*/
       line-height: 30px;
       /*min-width: 16px;*/
     }
-
     .jam-number {
       padding-left: 5%;
     }
-
     .jam-total-score {
       padding-right: 5%;
     }
   }
-
   .links {
     margin-top: 4px;
-
     .link {
       background-color: $near-black;
       color: $white;
       text-transform: uppercase;
     }
   }
-
   .edit-pass {
     @include border-arrow(95%);
-
     .row:nth-child(2) {
       margin-top: 4px;
     }
   }
-
   .edit-pass-number {
     @include border-arrow(5%);
-
     .row {
       .minus, .plus {
         background-color: $white;
@@ -187,7 +161,6 @@
       }
     }
   }
-
   .edit-pass, .edit-pass-number {
     .row {
       & > div > div {
@@ -195,7 +168,6 @@
         /*height: 30px;*/
         line-height: 30px;
       }
-
       .notes {
         background-color: $gray;
         color: $near-black;
@@ -204,7 +176,6 @@
           color: $gray;
         }
       }
-
       .scores {
         background-color: $white;
         color: $near-black;
@@ -213,7 +184,6 @@
           color: $gray;
         }
       }
-
       .remove, .ok {
         background-color: $near-black;
         color: $white;

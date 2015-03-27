@@ -4,7 +4,6 @@ class CreateOfficials < ActiveRecord::Migration
       t.string :certification
       t.string :league
       t.string :name
-
       t.timestamps
     end
   end

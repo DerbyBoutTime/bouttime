@@ -9,7 +9,6 @@
   50% { background-color: $alert-color; }
   100%   { background-color: $inactive-color; }
 }
-
 .clock {
   font-size: 3em;
   text-align: center;
@@ -21,7 +20,6 @@
     font-size: 0.8em;
   }
 }
-
 .jam-timer {
   margin-bottom: 15px;
   .period-clock {
@@ -106,6 +104,5 @@
     }
   }
   .official-timeout {
-
   }
 }

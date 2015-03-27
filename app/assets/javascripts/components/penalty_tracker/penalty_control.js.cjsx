@@ -2,16 +2,13 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.PenaltyControl = React.createClass
   render: () ->
-
   propTypes:
     penaltyNumber: React.PropTypes.number.isRequired
     penaltyState: React.PropTypes.object
     clickHandler: React.PropTypes.func
     teamStyle: React.PropTypes.object.isRequired
-
   jamNumberDisplay: () ->
     if this.props.penaltyState? then "Jam #{this.props.penaltyState.jamNumber}" else "Jam"
-
   render: () ->
     <div className='penalty-control'>
       <div className='jam-number'>

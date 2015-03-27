@@ -5,7 +5,6 @@ exports.LineupTrackerActions = React.createClass
   propTypes:
     endHandler: React.PropTypes.func.isRequired
     undoHandler: React.PropTypes.func.isRequired
-
   render: () ->
     <div className="row gutters-xs actions">
         <div className="col-sm-6 col-xs-6">

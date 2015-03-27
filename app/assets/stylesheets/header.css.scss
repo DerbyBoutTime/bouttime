@@ -2,15 +2,12 @@ header {
   .container-fluid {
     padding: 0;
   }
-
   .title-bar {
     background-color: $pink;
     color: $white;
-
     .btn-default {
       background-color: $pink;
     }
-
     .dropdown-menu {
       margin-top: 0px;
       border-top-width: 0px;
@@ -20,12 +17,10 @@ header {
       border-color: $pink;
     }
   }
-
   .navbar {
     background-color: $near-black;
     min-height: 0;
   }
-
   .navbar-nav {
     li {
       &.active{
@@ -46,18 +41,15 @@ header {
       width: 32px;
     }
   }
-
   .logo {
     .container {
       position: relative;
     }
-
     img {
       position: absolute;
       top: -25px;
       right: 0.5em;
       z-index: 1;
-
       @media (max-width: $screen-xs-max) {
         top: -25px;
       }

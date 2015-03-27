@@ -4,7 +4,6 @@ exports.PassesList = React.createClass
   propTypes:
     jamState: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
-
   bindActions: (passIndex) ->
     Object.keys(this.props.actions).map((key) ->
       key: key
@@ -13,20 +12,16 @@ exports.PassesList = React.createClass
       actions[action.key] = action.value
       actions
     , {})
-
   mouseDownHandler: (evt) ->
     this.target = evt.target
-
   dragHandler: (passIndex, evt) ->
     if $(this.target).hasClass('drag-handle') or $(this.target).parents('.drag-handle').length > 0
       evt.dataTransfer.setData 'passIndex', passIndex
     else
       evt.preventDefault()
-
   dropHandler: (passIndex, evt) ->
     sourceIndex = evt.dataTransfer.getData 'passIndex'
     this.props.actions.reorderPass(sourceIndex, passIndex)
-
   render: () ->
     PassItemFactory = React.createFactory(PassItem)
     passComponents = this.props.jamState.passStates.map (passState, passIndex) =>
@@ -40,7 +35,6 @@ exports.PassesList = React.createClass
         dropHandler: this.dropHandler.bind(this, passIndex)
         mouseDownHandler: this.mouseDownHandler
       )
-
     <div className="passes">
       <div className="headers">
         <div className="row gutters-xs">

@@ -10,14 +10,11 @@ exports.SkaterPenalties = React.createClass
     cancelHandler: React.PropTypes.func
     teamStyle: React.PropTypes.object
     hidden: React.PropTypes.bool
-
   getInitialState: () ->
     workingSkaterState: $.extend(true, {}, this.props.skaterState)
     editingPenaltyNumber: null
-
   resetState: (callback) ->
     this.dirty = true
-
   componentWillReceiveProps: (nextProps) ->
     if this.dirty
       this.dirty = false
@@ -25,57 +22,46 @@ exports.SkaterPenalties = React.createClass
       this.setState
         workingSkaterState: $.extend(true, {}, nextProps.skaterState)
         editingPenaltyNumber: null
-  
+
   findPenalty: (penaltyNumber) ->
     matches = (penalty for penalty in this.state.workingSkaterState.penaltyStates when penalty.sort is penaltyNumber)
     matches[0]
-  
+
   getEditingPenalty: () ->
     this.findPenalty(this.state.editingPenaltyNumber)
-
   newPenaltyState: () ->
     jamNumber: this.props.currentJamNumber
     sort: this.state.editingPenaltyNumber
-
   editPenaltyState: (penaltyNumber) ->
     this.setState(editingPenaltyNumber: penaltyNumber)
     this.refs.editPenaltyPanel.resetState()
     $('#edit-penalty-panel').collapse('show')
-
   closeEdit: () ->
     this.setState(editingPenaltyNumber: null)
     $('#edit-penalty-panel').collapse('hide')
-
   toggleEdit: (penaltyNumber) ->
     if this.state.editingPenaltyNumber? then this.closeEdit() else this.editPenaltyState(penaltyNumber)
-
   setJamNumber: (jamNumber) ->
     editingPenalty = this.getEditingPenalty()
     if !editingPenalty?
       editingPenalty = this.newPenaltyState()
       this.state.workingSkaterState.penaltyStates.push(editingPenalty)
-
     editingPenalty.jamNumber = jamNumber
     this.setState(this.state)
     this.closeEdit()
-
   setPenalty: (penaltyIndex) ->
     return if !this.state.editingPenaltyNumber?
-
     selectedPenalty = this.props.penalties[penaltyIndex]
-
     editingPenaltyState = this.getEditingPenalty()
     if !editingPenaltyState?
       editingPenaltyState = this.newPenaltyState()
       this.state.workingSkaterState.penaltyStates.push(editingPenaltyState)
-
     if editingPenaltyState.penalty? and editingPenaltyState.penalty.name is selectedPenalty.name
       this.state.workingSkaterState.penaltyStates = this.state.workingSkaterState.penaltyStates.filter (ps) ->
         ps.sort isnt editingPenaltyState.sort
     else
       editingPenaltyState.penalty = selectedPenalty
     this.setState(this.state)
-
   render: () ->
     containerClass = cx
       'skater-penalties': true

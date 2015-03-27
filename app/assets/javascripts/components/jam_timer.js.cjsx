@@ -26,7 +26,6 @@ exports.JamTimer = React.createClass
         # hasOfficialReview: this.props.gameState.awayAttributes.hasOfficialReview
         # officialReviewsRetained: this.props.gameState.awayAttributes.officialReviewsRetained
   componentWillReceiveProps: (nextProps) ->
-
   buildOptions: (opts = {}) ->
     std_opts =
       role: 'Jam Timer'
@@ -184,7 +183,6 @@ exports.JamTimer = React.createClass
       @state.awayAttributes.jamStates.push jamNumber: i
     for i in [@state.homeAttributes.jamStates.length+1 .. @state.jamNumber] by 1
       @state.homeAttributes.jamStates.push jamNumber: i
-
   stopJam: () ->
     this.stopJamClock()
     this.startLineupClock()

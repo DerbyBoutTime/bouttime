@@ -21,12 +21,9 @@
 #  text_color                :string(255)
 #  is_selected               :boolean          default(FALSE)
 #
-
 require "test_helper"
-
 describe TeamState do
   let(:team_state) { TeamState.new }
-
   it "must be valid" do
     team_state.must_be :valid?
   end

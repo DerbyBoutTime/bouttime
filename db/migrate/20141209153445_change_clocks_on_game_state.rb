@@ -5,7 +5,6 @@ class ChangeClocksOnGameState < ActiveRecord::Migration
       t.change :period_clock, :string, length: 16
     end
   end
-
   def down
     change_table :game_states do |t|
       t.change :jam_clock, :integer

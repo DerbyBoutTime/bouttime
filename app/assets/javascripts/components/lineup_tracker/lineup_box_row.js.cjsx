@@ -2,10 +2,8 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.LineupBoxRow = React.createClass
   displayName: 'LineupBoxRow'
-
   propTypes:
     lineupStatus: React.PropTypes.object
-
   getDefaultProps: () ->
     lineupStatus:
       pivot: 'clear'
@@ -13,7 +11,6 @@ exports.LineupBoxRow = React.createClass
       blocker2: 'clear'
       blocker3: 'clear'
       jammer: 'clear'
-
   render: () ->
     <div className="row gutters-xs boxes">
         <div className="col-sm-2 col-xs-2 col-sm-offest-2 col-xs-offset-2">

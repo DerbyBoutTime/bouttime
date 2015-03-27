@@ -14,7 +14,6 @@ class DropIgrfTables < ActiveRecord::Migration
     drop_table :skaters
     drop_table :teams
     drop_table :venues
-
     remove_column :events, :game_id
     remove_column :game_states, :game_id
   end

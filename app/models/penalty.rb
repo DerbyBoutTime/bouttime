@@ -9,10 +9,9 @@
 #  created_at :datetime
 #  updated_at :datetime
 #
-
 class Penalty < ActiveRecord::Base
   has_and_belongs_to_many :skater_states
-  
+
 	def self.demo
     [
       Penalty.find_or_create_by({
@@ -102,7 +101,6 @@ class Penalty < ActiveRecord::Base
       }),
     ]
   end
-
   def as_json
     super(except: [:created_at, :updated_at])
   end

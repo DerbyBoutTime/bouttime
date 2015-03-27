@@ -13,7 +13,6 @@
 #  updated_at   :datetime
 #  order        :integer
 #
-
 class LineupStatus < ActiveRecord::Base
   belongs_to :jam_state
 end

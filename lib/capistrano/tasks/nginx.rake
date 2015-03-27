@@ -1,5 +1,4 @@
 class NginxRestartRequired < StandardError; end
-
 namespace :nginx do
   desc "Export"
   task :export do
@@ -15,7 +14,6 @@ namespace :nginx do
       end
     end
   end
-
   desc "Restart"
   task :restart do
     on roles(:web) do

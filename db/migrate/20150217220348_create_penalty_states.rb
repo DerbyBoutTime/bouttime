@@ -5,7 +5,6 @@ class CreatePenaltyStates < ActiveRecord::Migration
       t.references :penalty, index: true
       t.integer :sort
       t.integer :jam_number
-
       t.timestamps
     end
   end

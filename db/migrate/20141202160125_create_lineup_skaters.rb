@@ -4,7 +4,6 @@ class CreateLineupSkaters < ActiveRecord::Migration
       t.references :lineup, index: true
       t.references :skater, index: true
       t.string :role
-
       t.timestamps
     end
   end

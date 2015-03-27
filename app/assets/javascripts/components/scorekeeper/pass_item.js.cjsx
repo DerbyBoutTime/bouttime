@@ -1,21 +1,16 @@
 cx = React.addons.classSet
 exports = exports ? this
-
 exports.PassItem = React.createClass
   displayName: 'PassItem'
-
   propTypes:
     jamState: React.PropTypes.object.isRequired
     passState: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
-
   isInjured: (position) ->
     this.props.jamState.lineupStatuses? and this.props.jamState.lineupStatuses.some (status) ->
       status[position] is 'injured'
-
   hidePanels: () ->
     $('.scorekeeper .collapse.in').collapse('hide');
-
   getNotes: () ->
     pass = this.props.passState
     flags =
@@ -24,39 +19,29 @@ exports.PassItem = React.createClass
       calloff: pass.calloff
       lost: pass.lostLead
       lead: pass.lead
-
     Object.keys(flags).filter (key) ->
       flags[key]
-
-
   preventDefault: (evt) ->
     evt.preventDefault()
-
   render: () ->
     injuryClass = cx
       'selected': this.props.passState.injury
       'notes': true
       'injury': true
       'text-center': true
-
     callClass = cx
       'selected': this.props.passState.calloff
       'notes': true
       'call': true
       'text-center': true
-
     lostClass = cx
       'selected': this.props.passState.lostLead
       'notes': true
       'lost': true
       'text-center': true
-
     editPassId = "edit-pass-#{exports.wftda.functions.uniqueId()}"
-
     notes = this.getNotes()
-
     skater = if this.props.passState.skaterNumber? then {number: this.props.passState.skaterNumber} else null
-
     <div aria-multiselectable="true" draggable='true' onDragStart={this.props.dragHandler} onDragOver={this.preventDefault} onDrop={this.props.dropHandler} onMouseDown={this.props.mouseDownHandler}>
       <div className="columns">
         <div className="row gutters-xs">
@@ -93,7 +78,7 @@ exports.PassItem = React.createClass
                 <div className="points boxed-good text-center">
                   <strong>{this.props.passState.points || 0}</strong>
                 </div>
-              </div>            
+              </div>
             </div>
           </div>
         </div>

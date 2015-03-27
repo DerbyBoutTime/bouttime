@@ -17,12 +17,9 @@
 #  is_selected   :boolean          default(FALSE)
 #  sort          :integer
 #
-
 require "test_helper"
-
 describe PassState do
   let(:pass_state) { PassState.new }
-
   it "must be valid" do
     pass_state.must_be :valid?
   end

@@ -1,16 +1,12 @@
 @import "colors";
-
 //Bootstrap overrides
 $font-family-sans-serif: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $gray-base: $near-black;
-
 @import "base/variables";
 @import "bootstrap-sprockets";
 @import "bootstrap";
-
 @import "mixins/border-arrow";
 @import "mixins/vertical-align";
-
 @import "header";
 @import "jam-timer";
 @import "lineup-tracker";
@@ -18,29 +14,24 @@ $gray-base: $near-black;
 @import "scoreboard";
 @import "scorekeeper";
 @import "penalty-box-timer";
-
 //Some additional resets
 *:focus {
   outline: 0 !important;
 }
-
 //Hide test DOM
 #UUT {
   display: none;
 }
-
 .navbar {
   margin-bottom: 10px;
   border-radius: 0;
 }
-
 .boxed-good {
   border: 1px solid $gray;
   border-radius: 2px;
   font-size: 1.1em;
   line-height: 30px;
 }
-
 .btn-boxed{
   @extend .boxed-good;
   padding: 0;
@@ -48,7 +39,6 @@ $gray-base: $near-black;
   background-color: $light-gray;
   color: $near-black;
 }
-
 .btn-default {
   padding: 10px 5px;
   font-size: 0.85em;
@@ -59,11 +49,9 @@ $gray-base: $near-black;
   background-color: $light-gray;
   color: $near-black;
 }
-
 .top-buffer {
   margin-top: 4px;
 }
-
 .game{
   .login, .jam-timer, .lineup-tracker, .scorekeeper, .penalty-tracker, .penalty-box-timer, .scoreboard, .penalty-whiteboard, .announcers-feed, .game-setup {
     display: none;
@@ -105,7 +93,6 @@ $gray-base: $near-black;
     display: block;
   }
 }
-
 //Team Selector
 // .row.teams{
 //   display: block;

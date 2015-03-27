@@ -6,7 +6,6 @@
 #  team_state_id :integer
 #  skater_id     :integer
 #
-
 class SkaterState < ActiveRecord::Base
 	belongs_to :team_state
 	belongs_to :skater

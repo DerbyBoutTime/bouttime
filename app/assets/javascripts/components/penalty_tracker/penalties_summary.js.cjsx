@@ -2,7 +2,6 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.PenaltiesSummary = React.createClass
   displayName: 'PenaltiesSummary'
-
   propTypes:
     teamState: React.PropTypes.object.isRequired
     penalties: React.PropTypes.array.isRequired
@@ -10,17 +9,13 @@ exports.PenaltiesSummary = React.createClass
     selectionHandler: React.PropTypes.func
     hidden: React.PropTypes.bool
 
-
-  
   findPenalty: (skaterState, penaltyNumber) ->
     matches = (penalty for penalty in skaterState.penaltyStates when penalty.sort is penaltyNumber)
     matches[0]
-
   render: () ->
     containerClass = cx
       'penalties-summary': true
       'hidden': this.props.hidden
-
     <div className={containerClass} >
       {this.props.teamState.skaterStates.map (skaterState, skaterIndex) ->
         <div key={skaterIndex} className='row gutters-xs top-buffer'>

@@ -6,7 +6,6 @@ class CreateLineupStates < ActiveRecord::Migration
       t.references :game_state, index: true
       t.references :home_state, index: true
       t.references :away_state, index: true
-
       t.timestamps
     end
   end

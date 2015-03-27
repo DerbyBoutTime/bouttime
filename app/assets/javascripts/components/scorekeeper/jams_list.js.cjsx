@@ -5,7 +5,6 @@ exports.JamsList = React.createClass
   propTypes:
     teamState: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
-
   bindActions: (jamIndex) ->
     Object.keys(this.props.actions).map((key) ->
       key: key
@@ -14,7 +13,6 @@ exports.JamsList = React.createClass
       actions[action.key] = action.value
       actions
     , {})
-
   getTeamPoints: ()->
     team = this.props.teamState
     points = 0
@@ -22,31 +20,24 @@ exports.JamsList = React.createClass
       jam.passStates.map (pass) =>
         points += pass.points || 0
     return points
-
   selectedJam: () ->
     this.props.teamState.jamStates[this.state.jamSelected || 0]
-
   handleMainMenu: () ->
     this.setState(jamSelected: null)
-
   handleJamSelection: (jamIndex, newJam) ->
     if newJam
       this.props.actions.newJam(jamNumber: this.props.teamState.jamStates.length + 1, passStates: [passNumber: 1, sort: 0])
     this.setState(jamSelected: jamIndex)
-
   handleNextJam: () ->
     if this.state.jamSelected < this.props.teamState.jamStates.length - 1
       $('.scorekeeper .collapse.in').collapse('hide')
       this.setState(jamSelected: this.state.jamSelected + 1)
-
   handlePreviousJam: () ->
     if this.state.jamSelected > 0
       $('.scorekeeper .collapse.in').collapse('hide')
       this.setState(jamSelected: this.state.jamSelected - 1)
-
   getInitialState: () ->
     jamSelected: null
-
   render: () ->
     JamItemFactory = React.createFactory(JamItem)
     # jam's schema is same as jam_state table
@@ -57,7 +48,6 @@ exports.JamsList = React.createClass
         actions: this.bindActions(jamIndex)
         style: this.props.teamState.colorBarStyle
         selectionHandler: this.handleJamSelection.bind(this, jamIndex, false)
-
     # add a blank jam for adding a next jam
     jamComponents.push(
       JamItemFactory
@@ -67,15 +57,12 @@ exports.JamsList = React.createClass
         style: this.props.teamState.colorBarStyle
         selectionHandler: this.handleJamSelection.bind(this, this.props.teamState.jamStates.length, true)
     )
-
     jamsContainerClass = cx
       'jams fade-hide': true
       'in': !this.state.jamSelected?
-
     passesContainerClass = cx
       'passes-container fade-hide': true
       'in': this.state.jamSelected?
-
     <div className="jams-list">
       <div className="row stats gutters-xs">
         <div className="col-sm-6 col-xs-6">

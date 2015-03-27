@@ -8,13 +8,11 @@ exports.JamDetails = React.createClass
     mainMenuHandler: React.PropTypes.func
     prevJamHandler: React.PropTypes.func
     nextJamHandler: React.PropTypes.func
-
   totalPoints: () ->
     points = 0
     this.props.jamState.passStates.map (pass) =>
       points += pass.points || 0
     return points
-
   render: () ->
     <div className="jam-details-container">
       <div className="links">

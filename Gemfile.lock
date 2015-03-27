@@ -8,7 +8,6 @@ GIT
       execjs
       rails (>= 3.1)
       react-source (~> 0.13)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -255,10 +254,8 @@ GEM
       redis
       redis-objects
       thin
-
 PLATFORMS
   ruby
-
 DEPENDENCIES
   airbrake
   annotate

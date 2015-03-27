@@ -10,11 +10,9 @@ exports.JamDetail = React.createClass
     lineupStatusHandler: React.PropTypes.func.isRequired
     setSelectorContextHandler: React.PropTypes.func.isRequired
     selectSkaterHandler: React.PropTypes.func.isRequired
-
   isInjured: (position) ->
     this.props.jamState.lineupStatuses.some (status) ->
       status[position] is 'injured'
-
   render: () ->
     noPivotButtonClass = cx
       'btn': true
@@ -22,19 +20,16 @@ exports.JamDetail = React.createClass
       'jam-detail-no-pivot': true
       'toggle-pivot-btn': true
       'selected': this.props.jamState.noPivot
-
     starPassButtonClass = cx
       'btn': true
       'btn-block': true
       'jam-detail-star-pass': true
       'toggle-star-pass-btn': true
       'selected': this.props.jamState.starPass
-
     actionsClass = cx
       'row': true
       'gutters-xs': true
       'actions': true
-
     <div className="jam-detail">
       <div className="row gutters-xs">
         <div className="col-sm-8 col-xs-8">

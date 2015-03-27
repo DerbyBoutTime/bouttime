@@ -23,12 +23,9 @@
 #  blocker3_id   :integer
 #  jammer_id     :integer
 #
-
 require "test_helper"
-
 describe JamState do
   let(:jam_state) { JamState.new }
-
   it "must be valid" do
     jam_state.must_be :valid?
   end

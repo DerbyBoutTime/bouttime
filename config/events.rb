@@ -13,7 +13,6 @@ WebsocketRails::EventMap.describe do
   # The above will handle an event triggered on the client like `product.new`.
   subscribe :client_connected, 'event_log#client_connected'
   subscribe :client_disconnected, 'event_log#client_disconnected'
-
   namespace :jam_timer do
     subscribe :set_game_state_id, 'jam_timer#set_game_state_id'
     subscribe :jam_tick, 'jam_timer#jam_tick'
@@ -48,7 +47,6 @@ WebsocketRails::EventMap.describe do
     subscribe :mark_as_ended_by_time, 'event_log#log'
     subscribe :mark_as_ended_by_calloff, 'event_log#log'
   end
-
   namespace :scorekeeper do
     subscribe :toggle_lead, 'scorekeeper#toggle_lead'
     subscribe :toggle_lost_lead, 'scorekeeper#toggle_lost_lead'
@@ -61,7 +59,6 @@ WebsocketRails::EventMap.describe do
     subscribe :new_pass, 'scorekeeper#new_pass'
     subscribe :set_skater_number, 'scorekeeper#set_skater_number'
   end
-
   namespace :lineup_tracker do
     subscribe :toggle_star_pass, 'lineup_tracker#toggle_star_pass'
     subscribe :toggle_no_pivot, 'lineup_tracker#toggle_no_pivot'
@@ -69,14 +66,12 @@ WebsocketRails::EventMap.describe do
     subscribe :set_lineup_status, 'lineup_tracker#set_lineup_status'
     subscribe :end_jam, 'lineup_tracker#end_jam'
   end
-
   namespace :penalty_tracker do
     subscribe :set_penalty, 'event_log#log'
     subscribe :clear_penalaty, 'event_log#log'
     subscribe :update_penalty, 'event_log#log'
     subscribe :update_penalties, 'penalty_tracker#update_penalties'
   end
-
   namespace :penalty_box_timer do
     subscribe :set_skater, 'event_log#log'
     subscribe :mark_as_served, 'event_log#log'
@@ -85,7 +80,6 @@ WebsocketRails::EventMap.describe do
     subscribe :set_release_time, 'event_log#log'
     subscribe :toggle_timer, 'event_log#log'
   end
-
   namespace :head_nso do
     subscribe :set_home_team, 'event_log#log'
     subscribe :set_away_team, 'event_log#log'
@@ -99,19 +93,15 @@ WebsocketRails::EventMap.describe do
     subscribe :set_venue, 'event_log#log'
     subscribe :set_game_date, 'event_log#log'
   end
-
   namespace :scoreboard do
     #subscribe :heart_beat, 'event_log#log'
   end
-
   namespace :penalty_whiteboard do
     #subscribe :heart_beat, 'event_log#log'
   end
-
   namespace :announcers_feed do
     #subscribe :heart_beat, 'event_log#log'
   end
-
   namespace :global_bout_notes do
     subscribe :add_note, 'event_log#log'
     subscribe :update_note, 'event_log#log'

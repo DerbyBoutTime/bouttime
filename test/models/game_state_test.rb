@@ -14,12 +14,9 @@
 #  period_clock_id :integer
 #  timeout         :integer
 #
-
 require "test_helper"
-
 describe GameState do
   let(:game_state) { GameState.new }
-
   it "must be valid" do
     game_state.must_be :valid?
   end

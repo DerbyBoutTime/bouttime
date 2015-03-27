@@ -10,7 +10,6 @@ class CreateTeamStates < ActiveRecord::Migration
       t.boolean :is_taking_timeout
       t.integer :timeouts
       t.references :jammer, index: true
-
       t.timestamps
     end
   end

@@ -4,7 +4,6 @@ class CreateNewPenalties < ActiveRecord::Migration
       t.string :name
       t.string :code
       t.integer :sort
-
       t.timestamps
     end
   end

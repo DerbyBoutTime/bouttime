@@ -3,7 +3,6 @@ class JamTimerController < WebsocketRails::BaseController
   before_filter :set_state, except: :set_game_state_id
   def initialize_session
   end
-
   def set_game_state_id
     puts event.name, message
     if message[:game_state_id]
@@ -15,19 +14,16 @@ class JamTimerController < WebsocketRails::BaseController
     end
     puts "Switching to GS##{controller_store[:game_state_id]}"
   end
-
   def jam_tick
     #puts "#{event.name} for GS##{@game_state.id}", @state[:jam_clock_attributes]
     @game_state.update_attributes! jam_clock_attributes: @state[:jam_clock_attributes]
     broadcast_message :update, @game_state.as_json()
   end
-
   def period_tick
     #puts "#{event.name} for GS##{@game_state.id}", @state[:period_clock_attributes]
     @game_state.update_attributes! period_clock_attributes: @state[:period_clock_attributes]
     broadcast_message :update, @game_state.as_json()
   end
-
   def start_jam
     attrs = {
       state: @state[:state],
@@ -40,7 +36,6 @@ class JamTimerController < WebsocketRails::BaseController
     @game_state.update_attributes!(attrs)
     broadcast_message :update, @game_state.as_json()
   end
-
   def stop_jam
     attrs = {
       state: @state[:state],
@@ -75,7 +70,6 @@ class JamTimerController < WebsocketRails::BaseController
     @game_state.update_attributes!(attrs)
     broadcast_message :update, @game_state.as_json()
   end
-
   def start_lineup
     attrs = {
       state: @state[:state],
@@ -110,24 +104,20 @@ class JamTimerController < WebsocketRails::BaseController
     @game_state.update_attributes!(attrs)
     broadcast_message :update, @game_state.as_json()
   end
-
   # def start_clock
   #   attrs = {}
   #   puts "#{event.name} for GS##{@game_state.id}"
   #   @game_state.update_attributes!(attrs)
   #   broadcast_message :update, @game_state.as_json()
   # end
-
   # def stop_clock
   #   attrs = {}
   #   puts "#{event.name} for GS##{@game_state.id}"
   #   @game_state.update_attributes!(attrs)
   #   broadcast_message :update, @game_state.as_json()
   # end
-
   def undo
   end
-
   def start_timeout
     attrs = {
       state: @state[:state],
@@ -137,10 +127,8 @@ class JamTimerController < WebsocketRails::BaseController
     @game_state.update_attributes!(attrs)
     broadcast_message :update, @game_state.as_json()
   end
-
   def restore_official_review
   end
-
   def mark_as_official_timeout
     attrs = {
       state: @state[:state],
@@ -169,7 +157,6 @@ class JamTimerController < WebsocketRails::BaseController
     @game_state.update_attributes!(attrs)
     broadcast_message :update, @game_state.as_json()
   end
-
   def mark_as_home_team_timeout
     attrs = {
       state: @state[:state],
@@ -193,7 +180,6 @@ class JamTimerController < WebsocketRails::BaseController
     @game_state.update_attributes!(attrs)
     broadcast_message :update, @game_state.as_json()
   end
-
   def mark_as_home_team_review
     attrs = {
       state: @state[:state],
@@ -217,7 +203,6 @@ class JamTimerController < WebsocketRails::BaseController
     @game_state.update_attributes!(attrs)
     broadcast_message :update, @game_state.as_json()
   end
-
   def mark_as_away_team_timeout
     attrs = {
       state: @state[:state],
@@ -241,7 +226,6 @@ class JamTimerController < WebsocketRails::BaseController
     @game_state.update_attributes!(attrs)
     broadcast_message :update, @game_state.as_json()
   end
-
   def mark_as_away_team_review
     attrs = {
       state: @state[:state],
@@ -265,26 +249,20 @@ class JamTimerController < WebsocketRails::BaseController
     @game_state.update_attributes!(attrs)
     broadcast_message :update, @game_state.as_json()
   end
-
   def mark_as_ended_by_time
   end
-
   def mark_as_ended_by_calloff
   end
-
   private
-
   def team_attributes(team_state)
     team_state[:jam_states_attributes] = team_state[:jam_states] unless team_state[:jam_states].nil?
     team_state.delete :jam_states
-
     team_state[:jam_states_attributes].each do |jam|
       jam[:pass_states_attributes] = jam[:pass_states] unless jam[:pass_states].nil?
       jam.delete :pass_states
       jam[:lineup_statuses_attributes] = jam[:lineup_statuses] unless jam[:lineup_statuses].nil?
       jam.delete :lineup_statuses
     end
-
     {
       id: team_state[:id],
       timeouts: team_state[:timeouts],
@@ -295,16 +273,13 @@ class JamTimerController < WebsocketRails::BaseController
       jam_states_attributes: team_state[:jam_states_attributes]
     }
   end
-
   def sanitize(klass, attributes)
     attributes.reject{|k,v| !klass.attribute_names.include?(k.to_s) }
   end
-
   def set_game_state
     @game_state = GameState.find(controller_store[:game_state_id])
     # puts "Using gamestate: #{@game_state.id}"
   end
-
   def set_state
     @state = message[:state].deep_transform_keys{ |key| key.to_s.underscore.to_sym }
   end

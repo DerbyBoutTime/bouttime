@@ -1,5 +1,4 @@
 class ForemanRestartRequired < StandardError; end
-
 namespace :foreman do
   desc "Export"
   task :export do
@@ -16,7 +15,6 @@ namespace :foreman do
       end
     end
   end
-
   task :restart do
     on roles(:app) do
       host.properties.processes.each do |process|
@@ -24,7 +22,6 @@ namespace :foreman do
       end
     end
   end
-
   task :start do
     on roles(:app) do
       host.properties.processes.each do |process|
@@ -32,7 +29,6 @@ namespace :foreman do
       end
     end
   end
-
   task :stop do
     on roles(:app) do
       host.properties.processes.each do |process|

@@ -4,7 +4,6 @@ class CreatePasses < ActiveRecord::Migration
       t.references :lineup_skater, index: true
       t.integer :number
       t.integer :score
-
       t.timestamps
     end
   end

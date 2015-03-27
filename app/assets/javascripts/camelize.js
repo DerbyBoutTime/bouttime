@@ -1,13 +1,10 @@
 (function() {
   var exports;
-
   exports = exports != null ? exports : this;
-
   exports.wftda.functions.camelize = function(obj) {
         if (typeof obj === 'string') return camelCase(obj);
         return walk(obj);
     };
-
     function walk (obj) {
         if (!obj || typeof obj !== 'object') return obj;
         if (isDate(obj) || isRegex(obj)) return obj;
@@ -18,25 +15,20 @@
             return acc;
         }, {});
     }
-
     function camelCase(str) {
         return str.replace(/[_.-](\w|$)/g, function (_,x) {
             return x.toUpperCase();
         });
     }
-
     var isArray = Array.isArray || function (obj) {
         return Object.prototype.toString.call(obj) === '[object Array]';
     };
-
     var isDate = function (obj) {
         return Object.prototype.toString.call(obj) === '[object Date]';
     };
-
     var isRegex = function (obj) {
         return Object.prototype.toString.call(obj) === '[object RegExp]';
     };
-
     var has = Object.prototype.hasOwnProperty;
     var objectKeys = Object.keys || function (obj) {
         var keys = [];
@@ -45,7 +37,6 @@
         }
         return keys;
     };
-
     function map (xs, f) {
         if (xs.map) return xs.map(f);
         var res = [];
@@ -54,7 +45,6 @@
         }
         return res;
     }
-
     function reduce (xs, f, acc) {
         if (xs.reduce) return xs.reduce(f, acc);
         for (var i = 0; i < xs.length; i++) {

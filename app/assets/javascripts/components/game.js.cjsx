@@ -2,9 +2,7 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.Game = React.createClass
   displayName: 'Game'
-
   mixins: [GameStateMixin]
-
   componentDidMount: () ->
     $dom = $(this.getDOMNode())
     $dom.on 'click', 'ul.nav li', null, (evt) =>
@@ -19,7 +17,6 @@ exports.Game = React.createClass
     exports.dispatcher.bind 'update', (state) =>
       console.log "Update received"
       this.setState(gameState: exports.wftda.functions.camelize(state))
-
   getInitialState: () ->
     gameState = exports.wftda.functions.camelize(this.props)
     gameState: gameState
@@ -28,14 +25,12 @@ exports.Game = React.createClass
       teamState: gameState.awayAttributes
       jamState: gameState.awayAttributes.jamStates[0]
       selectHandler: () ->
-
   setSelectorContext: (teamType, jamIndex, selectHandler) ->
     this.setState
       skaterSelectorContext:
         teamState: this.getTeamState(teamType)
         jamState: this.getJamState(teamType, jamIndex)
         selectHandler: selectHandler
-
   render: () ->
     <div ref="game" className="game" data-tab={this.state.tab}>
       <header>

@@ -8,12 +8,9 @@
 #  updated_at :datetime
 #  time       :integer
 #
-
 require "test_helper"
-
 describe ClockState do
   let(:clock_state) { ClockState.new }
-
   # it "must be valid" do
   #   clock_state.must_be :valid?
   # end

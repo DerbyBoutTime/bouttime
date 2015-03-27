@@ -1,6 +1,5 @@
 exports = exports ? this
 cx = React.addons.classSet
-
 exports.SkaterSelector = React.createClass
   displayName: 'SkaterSelector'
   propTypes:
@@ -9,17 +8,14 @@ exports.SkaterSelector = React.createClass
     injured: React.PropTypes.bool
     setSelectorContext: React.PropTypes.func
     selectHandler: React.PropTypes.func
-
   buttonContent: () ->
     if this.props.skater
       this.props.skater.number
     else
       <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
-
   render: () ->
     injuryClass = cx
       'skater-injury': this.props.injured
-
     <button
       className={injuryClass + " skater-selector text-center btn btn-block"}
       data-toggle="modal"
@@ -28,31 +24,25 @@ exports.SkaterSelector = React.createClass
       onClick={this.props.setSelectorContext.bind(this, this.props.selectHandler)}>
       <strong>{this.buttonContent()}</strong>
     </button>
-
 exports.SkaterSelectorModal = React.createClass
   displayName: 'SkaterSelectorModal'
   propTypes:
     teamState: React.PropTypes.object.isRequired
     jamState: React.PropTypes.object.isRequired
     selectHandler: React.PropTypes.func
-
   getLineup: () ->
     jam = this.props.jamState
     positions = [jam.pivot, jam.blocker1, jam.blocker2, jam.blocker3, jam.jammer]
     positions.filter (position) ->
       position?
-
   inLineup: (skater) ->
     skater.number in this.getLineup().map (s) -> s.number
-
   isInjured: (skater) ->
     false
-
   buttonClass: (skater) ->
     cx
       'selector-injury' : this.isInjured(skater)
       'btn btn-block skater-selector-dialog-btn': true
-
   render: () ->
     <div className="modal fade" id="skater-selector-modal">
       <div className="modal-dialog skater-selector-dialog">

@@ -10,7 +10,6 @@ class CreateJamStates < ActiveRecord::Migration
       t.boolean :lost_lead
       t.boolean :calloff
       t.boolean :nopass
-
       t.timestamps
     end
   end

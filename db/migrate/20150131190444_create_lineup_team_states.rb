@@ -8,7 +8,6 @@ class CreateLineupTeamStates < ActiveRecord::Migration
       t.string :blocker_2_number
       t.string :blocker_3_number
       t.string :jammer_number
-
       t.timestamps
     end
   end

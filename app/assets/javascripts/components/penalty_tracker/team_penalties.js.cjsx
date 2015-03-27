@@ -7,24 +7,18 @@ exports.TeamPenalties = React.createClass
     penalties: React.PropTypes.array.isRequired
     currentJamNumber: React.PropTypes.number.isRequired
     applyHandler: React.PropTypes.func.isRequired
-
   getInitialState: () ->
     selectedSkaterIndex : null
-
   selectSkater: (skaterIndex) ->
     this.refs.skaterPenalties.resetState()
     this.setState(selectedSkaterIndex: skaterIndex)
-
   applySkaterPenalties:(workingSkaterState) ->
     this.props.applyHandler(this.state.selectedSkaterIndex, workingSkaterState.penaltyStates)
     this.setState(selectedSkaterIndex: null)
-
   cancelSkaterPenalties: () ->
     this.setState(selectedSkaterIndex: null)
-
   selectedSkater: () ->
     this.props.teamState.skaterStates[this.state.selectedSkaterIndex]
-
   render: () ->
     <div className="team-penalties">
       <PenaltiesSummary

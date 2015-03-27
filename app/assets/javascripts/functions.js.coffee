@@ -1,5 +1,4 @@
 exports = exports ? this
-
 #Sets Up the dispatcher
 exports.wftda.functions.connectDispatcher = () ->
   exports.dispatcherTimeout = setTimeout( ()->
@@ -13,20 +12,17 @@ exports.wftda.functions.connectDispatcher = () ->
     dispatcher.trigger 'jam_timer.set_game_state_id', wftda.functions.getParams()
 #Actually calls the dispatcher setup
 exports.wftda.functions.connectDispatcher()
-
 #Creates a pseudo unique Id
 exports.wftda.functions.uniqueId = (length=8) ->
   id = ""
   id += Math.random().toString(36).substr(2) while id.length < length
   id.substr 0, length
-
 #Pads a number
 exports.wftda.functions.pad = (num, digits) ->
   if num.toString().length < digits
     ("000" + num).substr(-digits)
   else
     num
-
 #Gets a URL Parameter non-obtusely
 exports.wftda.functions.getParams = ->
   query = window.location.search.substring(1)
@@ -36,7 +32,6 @@ exports.wftda.functions.getParams = ->
     [key, val] = v.split("=")
     params[key] = decodeURIComponent(val)
   params
-
 # Take time in seconds and offset in milliseconds and formats it as a string
 exports.wftda.functions.toClock = (time, offset = false) ->
   # hours = Math.floor(time / exports.wftda.constants.HOUR_IN_MS)
@@ -45,7 +40,6 @@ exports.wftda.functions.toClock = (time, offset = false) ->
   minutes = Math.floor(time / exports.wftda.constants.MINUTE_IN_MS)
   seconds = Math.floor((time % exports.wftda.constants.MINUTE_IN_MS) / exports.wftda.constants.SECOND_IN_MS)
   milliseconds = time % exports.wftda.constants.SECOND_IN_MS
-
   #Only Display signfication Sections
   strTime = ""
   if hours > 0

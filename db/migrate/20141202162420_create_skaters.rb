@@ -4,7 +4,6 @@ class CreateSkaters < ActiveRecord::Migration
       t.references :team, index: true
       t.string :name
       t.string :number
-
       t.timestamps
     end
   end

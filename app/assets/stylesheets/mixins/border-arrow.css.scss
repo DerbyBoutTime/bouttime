@@ -3,7 +3,6 @@
   padding: 14px;
   margin-top: 18px;
   position: relative;
-
   &:after, &:before {
     bottom: 100%;
     left: $left;
@@ -14,14 +13,12 @@
     position: absolute;
     pointer-events: none;
   }
-
   &:after {
     border-color: rgba(0, 0, 0, 0);
     border-bottom-color: $muted-gray;
     border-width: 10px;
     margin-left: -10px;
   }
-
   &:before {
     border-color: rgba(0, 0, 0, 0);
     border-bottom-color: $muted-gray;
