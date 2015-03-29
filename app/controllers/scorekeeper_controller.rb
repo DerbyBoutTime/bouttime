@@ -33,6 +33,8 @@ class ScorekeeperController < WebsocketController
     broadcast_message :update, @game_state.as_json
   end
   def set_skater_number
+    local_jam, client_jam = get_jam
+    local_jam.update jammer: Skater.find_by(number: client_jam[:jammer][:number])
     local_pass, client_pass = get_pass
     local_pass.update skater_number: client_pass[:skater_number]
     @game_state.reload
