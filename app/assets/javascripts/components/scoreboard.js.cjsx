@@ -5,6 +5,8 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.Scoreboard = React.createClass
   render: () ->
+    awayJam = this.props.gameState.awayAttributes.jamStates[this.props.gameState.jamNumber - 1]
+    homeJam = this.props.gameState.homeAttributes.jamStates[this.props.gameState.jamNumber - 1]
     # console.log "Period Time: #{this.props.gameState.periodClockAttributes.display}"
     adsCS = cx
       'ads': true
@@ -103,11 +105,11 @@ exports.Scoreboard = React.createClass
     awayJammerLeadCS = cx
       'glyphicon': true
       'glyphicon-star': true
-      'hidden': !this.props.gameState.awayAttributes.jammerAttributes.isLead
+      'hidden': not awayJam? or not awayJam.passStates[0]? or not awayJam.passStates[0].lead or awayJam.passStates.some (pass) -> pass.lostLead?
     homeJammerLeadCS = cx
       'glyphicon': true
       'glyphicon-star': true
-      'hidden': !this.props.gameState.homeAttributes.jammerAttributes.isLead
+      'hidden': not homeJam? or not homeJam.passStates[0]? or not homeJam.passStates[0].lead or homeJam.passStates.some (pass) -> pass.lostLead?
     <div className="scoreboard" id="scoreboard">
       <section className="team home">
         <div className="logo">
@@ -120,7 +122,7 @@ exports.Scoreboard = React.createClass
           <div className="lead-status">
             <span className={homeJammerLeadCS}></span>
           </div>
-          <div className="name">{this.props.gameState.homeAttributes.jammerAttributes.number} {this.props.gameState.homeAttributes.jammerAttributes.name}</div>
+          <div className="name">{if homeJam and homeJam.jammer then "#{homeJam.jammer.number} #{homeJam.jammer.name}"}</div>
         </div>
         <div className="timeouts home-team-timeouts">
           <div className={homeTeamOfficialReviewBarCS}></div>
@@ -167,7 +169,7 @@ exports.Scoreboard = React.createClass
           <div className="lead-status">
             <span className={awayJammerLeadCS}></span>
           </div>
-          <div className="name">{this.props.gameState.awayAttributes.jammerAttributes.number} {this.props.gameState.awayAttributes.jammerAttributes.name}</div>
+          <div className="name">{if awayJam and awayJam.jammer then "#{awayJam.jammer.number} #{awayJam.jammer.name}"}</div>
         </div>
         <div className="timeouts away-team-timeouts">
           <div className={awayTeamOfficialReviewBarCS}></div>
