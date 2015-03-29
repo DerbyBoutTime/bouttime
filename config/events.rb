@@ -70,7 +70,6 @@ WebsocketRails::EventMap.describe do
     subscribe :set_penalty, 'event_log#log'
     subscribe :clear_penalaty, 'event_log#log'
     subscribe :update_penalty, 'event_log#log'
-    subscribe :update_penalties, 'penalty_tracker#update_penalties'
   end
   namespace :penalty_box_timer do
     subscribe :set_skater, 'event_log#log'

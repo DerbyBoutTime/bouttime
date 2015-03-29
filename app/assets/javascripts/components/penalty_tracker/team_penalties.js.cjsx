@@ -5,20 +5,19 @@ exports.TeamPenalties = React.createClass
   propTypes:
     teamState: React.PropTypes.object.isRequired
     penalties: React.PropTypes.array.isRequired
-    currentJamNumber: React.PropTypes.number.isRequired
-    applyHandler: React.PropTypes.func.isRequired
+    actions: React.PropTypes.object.isRequired
   getInitialState: () ->
     selectedSkaterIndex : null
   selectSkater: (skaterIndex) ->
-    this.refs.skaterPenalties.resetState()
     this.setState(selectedSkaterIndex: skaterIndex)
-  applySkaterPenalties:(workingSkaterState) ->
-    this.props.applyHandler(this.state.selectedSkaterIndex, workingSkaterState.penaltyStates)
-    this.setState(selectedSkaterIndex: null)
-  cancelSkaterPenalties: () ->
-    this.setState(selectedSkaterIndex: null)
-  selectedSkater: () ->
-    this.props.teamState.skaterStates[this.state.selectedSkaterIndex]
+  bindActions: (skaterIndex) ->
+    Object.keys(this.props.actions).map((key) ->
+      key: key
+      value: this.props.actions[key].bind(this, skaterIndex)
+    , this).reduce((actions, action) ->
+      actions[action.key] = action.value
+      actions
+    , {})
   render: () ->
     <div className="team-penalties">
       <PenaltiesSummary
@@ -26,13 +25,17 @@ exports.TeamPenalties = React.createClass
         teamStyle={this.props.teamState.colorBarStyle}
         selectionHandler={this.selectSkater}
         hidden={this.state.selectedSkaterIndex?}/>
-      <SkaterPenalties
-        ref='skaterPenalties'
-        skaterState={this.selectedSkater()}
+      {this.props.teamState.skaterStates.map (skaterState, skaterIndex) ->
+        <SkaterPenalties
+          key={skaterIndex}
+          skaterState={this.props.teamState.skaterStates[skaterIndex]}
+          actions={this.bindActions(skaterIndex)}
+          teamStyle={this.props.teamState.colorBarStyle}
+          hidden={this.state.selectedSkaterIndex isnt skaterIndex}
+          backHandler={this.selectSkater.bind(this, null)}/>
+      , this}
+      <PenaltiesList
         penalties={this.props.penalties}
-        currentJamNumber={this.props.currentJamNumber}
-        applyHandler={this.applySkaterPenalties}
-        cancelHandler={this.cancelSkaterPenalties}
-        teamStyle={this.props.teamState.colorBarStyle}
-        hidden={!this.state.selectedSkaterIndex?}/>
+        actions={this.bindActions(this.state.selectedSkaterIndex)}
+        hidden={!this.state.selectedSkaterIndex?} />
     </div>
