@@ -59,9 +59,12 @@ exports.Scorekeeper = React.createClass
         this.setState(this.state)
       setSkater: (teamType, jamIndex, passIndex, skaterIndex) ->
         team = this.getTeamState(teamType)
+        jam = this.getJamState(teamType, jamIndex)
         pass = this.getPassState(teamType, jamIndex, passIndex)
         skater = team.skaterStates[skaterIndex].skater
         pass.skaterNumber = skater.number
+        if not jam.jammer?
+          jam.jammer = skater
         dispatcher.trigger "scorekeeper.set_skater_number", this.getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         this.setState(this.state)
       setSelectorContext: (teamType, jamIndex, selectHandler) ->
