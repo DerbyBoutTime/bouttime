@@ -30,6 +30,19 @@ exports.JamDetail = React.createClass
       'row': true
       'gutters-xs': true
       'actions': true
+    pivotHeaderClass = cx
+      'col-xs-2 text-center': true
+      'hidden': this.props.jamState.noPivot
+    blocker4HeaderClass = cx
+      'col-xs-2 text-center': true
+      'hidden': not this.props.jamState.noPivot
+    pivotColumnClass = cx
+      'col-xs-2': true
+      'hidden': this.props.jamState.noPivot
+    blocker4ColumnClass = cx
+      'col-xs-2': true
+      'hidden': not this.props.jamState.noPivot
+
     <div className="jam-detail">
       <div className="row gutters-xs">
         <div className="col-xs-6">
@@ -56,7 +69,7 @@ exports.JamDetail = React.createClass
         <div className="col-xs-2 col-xs-offset-1 text-center">
           <strong>J</strong>
         </div>
-        <div className="col-xs-2 text-center">
+        <div className={pivotHeaderClass}>
           <strong>Pivot</strong>
         </div>
         <div className="col-xs-2 text-center">
@@ -68,6 +81,9 @@ exports.JamDetail = React.createClass
         <div className="col-xs-2 text-center">
           <strong>B3</strong>
         </div>
+        <div className={blocker4HeaderClass}>
+          <strong>B4</strong>
+        </div>
       </div>
       <div className="row gutters-xs skaters">
         <div className="col-xs-2 col-xs-offset-1">
@@ -76,8 +92,9 @@ exports.JamDetail = React.createClass
             injured={this.isInjured('jammer')}
             style={this.props.teamAttributes.colorBarStyle}
             setSelectorContext={this.props.setSelectorContextHandler}
-            selectHandler={this.props.selectSkaterHandler.bind(this, 'jammer')} />        </div>
-        <div className="col-xs-2">
+            selectHandler={this.props.selectSkaterHandler.bind(this, 'jammer')} />
+        </div>
+        <div className={pivotColumnClass}>
           <SkaterSelector
             skater={this.props.jamState.pivot}
             injured={this.isInjured('pivot')}
@@ -91,21 +108,32 @@ exports.JamDetail = React.createClass
             injured={this.isInjured('blocker1')}
             style={this.props.teamAttributes.colorBarStyle}
             setSelectorContext={this.props.setSelectorContextHandler}
-            selectHandler={this.props.selectSkaterHandler.bind(this, 'blocker1')} />        </div>
+            selectHandler={this.props.selectSkaterHandler.bind(this, 'blocker1')} />
+        </div>
         <div className="col-xs-2">
           <SkaterSelector
             skater={this.props.jamState.blocker2}
             injured={this.isInjured('blocker2')}
             style={this.props.teamAttributes.colorBarStyle}
             setSelectorContext={this.props.setSelectorContextHandler}
-            selectHandler={this.props.selectSkaterHandler.bind(this, 'blocker2')} />        </div>
+            selectHandler={this.props.selectSkaterHandler.bind(this, 'blocker2')} />
+        </div>
         <div className="col-xs-2">
           <SkaterSelector
             skater={this.props.jamState.blocker3}
             injured={this.isInjured('blocker3')}
             style={this.props.teamAttributes.colorBarStyle}
             setSelectorContext={this.props.setSelectorContextHandler}
-            selectHandler={this.props.selectSkaterHandler.bind(this, 'blocker3')} />        </div>
+            selectHandler={this.props.selectSkaterHandler.bind(this, 'blocker3')} />
+        </div>
+        <div className={blocker4ColumnClass}>
+          <SkaterSelector
+            skater={this.props.jamState.pivot}
+            injured={this.isInjured('pivot')}
+            style={this.props.teamAttributes.colorBarStyle}
+            setSelectorContext={this.props.setSelectorContextHandler}
+            selectHandler={this.props.selectSkaterHandler.bind(this, 'pivot')} />
+        </div>
       </div>
       {this.props.jamState.lineupStatuses.map (lineupStatus, statusIndex) ->
         <LineupBoxRow key={statusIndex} lineupStatus=lineupStatus lineupStatusHandler={this.props.lineupStatusHandler.bind(this, statusIndex)} />
