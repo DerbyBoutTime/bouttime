@@ -9,5 +9,5 @@
 class SkaterState < ActiveRecord::Base
 	belongs_to :team_state
 	belongs_to :skater
-	has_many :penalty_states
+	has_many :penalty_states, -> { order('sort ASC') }
 end

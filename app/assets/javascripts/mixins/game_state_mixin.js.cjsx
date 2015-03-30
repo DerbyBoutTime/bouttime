@@ -10,3 +10,7 @@ exports.GameStateMixin =
     @getJamState(teamType, jamIndex).passStates[passIndex]
   getSkaterState: (teamType, skaterIndex) ->
     @getTeamState(teamType).skaterStates[skaterIndex]
+  getPenaltyState: (teamType, skaterIndex, penaltyStateIndex) ->
+    @getSkaterState(teamType, skaterIndex).penaltyStates[penaltyStateIndex]
+  getPenalty: (penaltyIndex) ->
+    @state.gameState.penalties[penaltyIndex]
