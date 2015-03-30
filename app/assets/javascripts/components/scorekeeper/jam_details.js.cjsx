@@ -10,7 +10,7 @@ exports.JamDetails = React.createClass
     nextJamHandler: React.PropTypes.func
   totalPoints: () ->
     points = 0
-    this.props.jamState.passStates.map (pass) =>
+    @props.jamState.passStates.map (pass) =>
       points += pass.points || 0
     return points
   render: () ->
@@ -18,17 +18,17 @@ exports.JamDetails = React.createClass
       <div className="links">
         <div className="row text-center gutters-xs">
           <div className="col-sm-6 col-xs-6">
-            <button className="main-menu link bt-btn" onClick={this.props.mainMenuHandler}>
+            <button className="main-menu link bt-btn" onClick={@props.mainMenuHandler}>
               Main Menu
             </button>
           </div>
           <div className="col-sm-3 col-xs-3">
-           <button className="prev link bt-btn" onClick={this.props.prevJamHandler}>
+           <button className="prev link bt-btn" onClick={@props.prevJamHandler}>
               Prev
             </button>
           </div>
           <div className="col-sm-3 col-xs-3">
-            <button className="next link bt-btn" onClick={this.props.nextJamHandler}>
+            <button className="next link bt-btn" onClick={@props.nextJamHandler}>
               Next
             </button>
           </div>
@@ -38,16 +38,16 @@ exports.JamDetails = React.createClass
         <div className="row gutters-xs">
           <div className="col-sm-3 col-xs-3 col-sm-offset-6 col-xs-offset-6">
             <div className="jam-number">
-              <strong>Jam {this.props.jamState.jamNumber}</strong>
+              <strong>Jam {@props.jamState.jamNumber}</strong>
             </div>
           </div>
           <div className="col-sm-3 col-xs-3 text-right">
             <div className="jam-total-score">
-              <strong>{this.totalPoints()}</strong>
+              <strong>{@totalPoints()}</strong>
             </div>
           </div>
         </div>
       </div>
-      <PassesList jamState={this.props.jamState}
-        actions={this.props.actions}/>
+      <PassesList jamState={@props.jamState}
+        actions={@props.actions}/>
     </div>

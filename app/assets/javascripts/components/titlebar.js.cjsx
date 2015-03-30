@@ -1,10 +1,11 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.Titlebar = React.createClass
+  displayName: "TitleBar"
   componentDidMount: () ->
-    $dom = $(this.getDOMNode())
+    $dom = $(@getDOMNode())
   getInitialState: () ->
-    exports.wftda.functions.camelize(this.props)
+    exports.wftda.functions.camelize(@props)
   render: () ->
     <div className="title-bar">
       <div className="container">
@@ -23,7 +24,7 @@ exports.Titlebar = React.createClass
                 </li>
               </ul>
             </div>
-            <span className="gamename">Atlanta vs. Gotham</span>
+            <span className="gamename">{@props.gameState.id}</span>
           </div>
         </div>
       </div>

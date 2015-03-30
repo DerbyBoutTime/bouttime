@@ -13,16 +13,16 @@ exports.TeamLineup = React.createClass
     undoHandler: React.PropTypes.func.isRequired
   render: ()->
     <div className="jam-details">
-      {this.props.teamState.jamStates.map (jamState, jamIndex) ->
+      {@props.teamState.jamStates.map (jamState, jamIndex) ->
         <JamDetail
           key={jamState.jamNumber}
-          teamAttributes={this.props.teamState}
+          teamAttributes={@props.teamState}
           jamState={jamState}
-          noPivotHandler={this.props.noPivotHandler.bind(this, jamIndex)}
-          starPassHandler={this.props.starPassHandler.bind(this, jamIndex)}
-          lineupStatusHandler={this.props.lineupStatusHandler.bind(this, jamIndex)}
-          setSelectorContextHandler={this.props.setSelectorContextHandler.bind(this, jamIndex)}
-          selectSkaterHandler={this.props.selectSkaterHandler.bind(this, jamIndex)} />
+          noPivotHandler={@props.noPivotHandler.bind(this, jamIndex)}
+          starPassHandler={@props.starPassHandler.bind(this, jamIndex)}
+          lineupStatusHandler={@props.lineupStatusHandler.bind(this, jamIndex)}
+          setSelectorContextHandler={@props.setSelectorContextHandler.bind(this, jamIndex)}
+          selectSkaterHandler={@props.selectSkaterHandler.bind(this, jamIndex)} />
       , this }
-      <LineupTrackerActions endHandler={this.props.endHandler} undoHandler={this.props.undoHandler}/>
+      <LineupTrackerActions endHandler={@props.endHandler} undoHandler={@props.undoHandler}/>
     </div>

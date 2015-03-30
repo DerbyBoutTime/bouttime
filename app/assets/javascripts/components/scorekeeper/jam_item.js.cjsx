@@ -7,11 +7,11 @@ exports.JamItem = React.createClass
     selectionHandler: React.PropTypes.func
   totalPoints: () ->
     points = 0
-    this.props.jamState.passStates.map (pass) =>
+    @props.jamState.passStates.map (pass) =>
       points += pass.points || 0
     return points
   getNotes: () ->
-    jam = this.props.jamState
+    jam = @props.jamState
     flags = jam.passStates.reduce (prev, pass) ->
       injury: prev.injury or pass.injury
       nopass: prev.nopass or pass.nopass
@@ -22,14 +22,14 @@ exports.JamItem = React.createClass
     Object.keys(flags).filter (key) ->
       flags[key]
   render: () ->
-    notes = this.getNotes()
-    jammer = this.props.jamState.jammer
+    notes = @getNotes()
+    jammer = @props.jamState.jammer
     jammerNumber = if jammer? then jammer.number else <span>&nbsp;</span>
     <div className="jam-row">
-      <div className="row gutters-xs" onClick={this.props.selectionHandler} >
+      <div className="row gutters-xs" onClick={@props.selectionHandler} >
         <div className="col-sm-2 col-xs-2">
           <div className="jam boxed-good text-center">
-            {this.props.jamState.jamNumber}
+            {@props.jamState.jamNumber}
           </div>
         </div>
         <div className="col-sm-2 col-xs-2">
@@ -48,7 +48,7 @@ exports.JamItem = React.createClass
         </div>
         <div className="col-sm-2 col-xs-2">
           <div className="points boxed-good text-center">
-            <strong>{this.totalPoints()}</strong>
+            <strong>{@totalPoints()}</strong>
           </div>
         </div>
       </div>

@@ -8,17 +8,17 @@ exports.PenaltyControl = React.createClass
     teamStyle: React.PropTypes.object.isRequired
     target: React.PropTypes.string.isRequired
   jamNumberDisplay: () ->
-    if this.props.penaltyState? then "Jam #{this.props.penaltyState.jamNumber}" else "Jam"
+    if @props.penaltyState? then "Jam #{@props.penaltyState.jamNumber}" else "Jam"
   render: () ->
     <div className='penalty-control'>
       <div className='jam-number'>
-        <strong>{this.jamNumberDisplay()}</strong>
+        <strong>{@jamNumberDisplay()}</strong>
       </div>
       <button className='bt-btn btn-boxed penalty-indicator-wrapper'
         data-toggle="collapse"
         data-target={"##{@props.target}"}
         aria-expanded="false"
         aria-controls={@props.target}>
-        <PenaltyIndicator {...this.props}/>
+        <PenaltyIndicator {...@props}/>
       </button>
     </div>

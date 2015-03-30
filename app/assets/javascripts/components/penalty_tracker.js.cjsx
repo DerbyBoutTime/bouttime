@@ -4,29 +4,29 @@ exports.PenaltyTracker = React.createClass
   displayName: 'PenaltyTracker'
   mixins: [GameStateMixin, CopyGameStateMixin]
   componentWillMount: () ->
-    this.actions = 
+    @actions = 
       setPenalty: (teamType, skaterIndex, penaltyIndex) ->
-        skaterState = this.getSkaterState(teamType, skaterIndex)
-        penalty = this.getPenalty(penaltyIndex)
+        skaterState = @getSkaterState(teamType, skaterIndex)
+        penalty = @getPenalty(penaltyIndex)
         skaterState.penaltyStates.push
           penalty: penalty
-          jamNumber: this.state.gameState.jamNumber
-        exports.dispatcher.trigger 'penalty_tracker.set_penalty', this.buildOptions(teamType: teamType, skaterIndex: skaterIndex)
-        this.setState(this.state)
+          jamNumber: @state.gameState.jamNumber
+        exports.dispatcher.trigger 'penalty_tracker.set_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex)
+        @setState(@state)
       clearPenalty: (teamType, skaterIndex, penaltyStateIndex) ->
-        skaterState = this.getSkaterState(teamType, skaterIndex)
+        skaterState = @getSkaterState(teamType, skaterIndex)
         skaterState.penaltyStates.splice(penaltyStateIndex, 1)
-        exports.dispatcher.trigger 'penalty_tracker.clear_penalty', this.buildOptions(teamType: teamType, skaterIndex: skaterIndex)
-        this.setState(this.state)
+        exports.dispatcher.trigger 'penalty_tracker.clear_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex)
+        @setState(@state)
       updatePenalty: (teamType, skaterIndex, penaltyStateIndex, opts={}) ->
-        penaltyState = this.getPenaltyState(teamType, skaterIndex, penaltyStateIndex)
+        penaltyState = @getPenaltyState(teamType, skaterIndex, penaltyStateIndex)
         $.extend(penaltyState, opts)
-        exports.dispatcher.trigger 'penalty_tracker.update_penalty', this.buildOptions(teamType: teamType, skaterIndex: skaterIndex)
-        this.setState(this.state)
+        exports.dispatcher.trigger 'penalty_tracker.update_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex)
+        @setState(@state)
   bindActions: (teamType) ->
-    Object.keys(this.actions).map((key) ->
+    Object.keys(@actions).map((key) ->
       key: key
-      value: this.actions[key].bind(this, teamType)
+      value: @actions[key].bind(this, teamType)
     , this).reduce((actions, action) ->
       actions[action.key] = action.value
       actions
@@ -35,17 +35,17 @@ exports.PenaltyTracker = React.createClass
     stdOpts =
       role: 'Penalty Tracker'
       timestamp: Date.now
-      state: this.state.gameState
+      state: @state.gameState
     $.extend(stdOpts, opts)
   getInitialState: () ->
     componentId: exports.wftda.functions.uniqueId()
   render: () ->
-    awayElement = <TeamPenalties teamState={this.state.gameState.awayAttributes} penalties={this.state.gameState.penalties} actions={this.bindActions('away')}/>
-    homeElement = <TeamPenalties teamState={this.state.gameState.homeAttributes} penalties={this.state.gameState.penalties} actions={this.bindActions('home')}/>
+    awayElement = <TeamPenalties teamState={@state.gameState.awayAttributes} penalties={@state.gameState.penalties} actions={@bindActions('away')}/>
+    homeElement = <TeamPenalties teamState={@state.gameState.homeAttributes} penalties={@state.gameState.penalties} actions={@bindActions('home')}/>
     <div className="penalty-tracker">
       <TeamSelector
-        awayAttributes={this.state.gameState.awayAttributes}
+        awayAttributes={@state.gameState.awayAttributes}
         awayElement={awayElement}
-        homeAttributes={this.state.gameState.homeAttributes}
+        homeAttributes={@state.gameState.homeAttributes}
         homeElement={homeElement} />
    	</div>

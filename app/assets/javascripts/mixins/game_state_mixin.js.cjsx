@@ -2,15 +2,15 @@ exports = exports ? this
 exports.GameStateMixin =
   getTeamState: (teamType) ->
     switch teamType
-      when 'away' then this.state.gameState.awayAttributes
-      when 'home' then this.state.gameState.homeAttributes
+      when 'away' then @state.gameState.awayAttributes
+      when 'home' then @state.gameState.homeAttributes
   getJamState: (teamType, jamIndex) ->
-    this.getTeamState(teamType).jamStates[jamIndex]
+    @getTeamState(teamType).jamStates[jamIndex]
   getPassState: (teamType, jamIndex, passIndex) ->
-    this.getJamState(teamType, jamIndex).passStates[passIndex]
+    @getJamState(teamType, jamIndex).passStates[passIndex]
   getSkaterState: (teamType, skaterIndex) ->
-    this.getTeamState(teamType).skaterStates[skaterIndex]
+    @getTeamState(teamType).skaterStates[skaterIndex]
   getPenaltyState: (teamType, skaterIndex, penaltyStateIndex) ->
-    this.getSkaterState(teamType, skaterIndex).penaltyStates[penaltyStateIndex]
+    @getSkaterState(teamType, skaterIndex).penaltyStates[penaltyStateIndex]
   getPenalty: (penaltyIndex) ->
-    this.state.gameState.penalties[penaltyIndex]
+    @state.gameState.penalties[penaltyIndex]
