@@ -2,9 +2,9 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.Titlebar = React.createClass
   componentDidMount: () ->
-    $dom = $(this.getDOMNode())
+    $dom = $(@getDOMNode())
   getInitialState: () ->
-    exports.wftda.functions.camelize(this.props)
+    exports.wftda.functions.camelize(@props)
   render: () ->
     <div className="title-bar">
       <div className="container">

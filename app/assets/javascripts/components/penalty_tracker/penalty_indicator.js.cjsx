@@ -9,10 +9,10 @@ exports.PenaltyIndicator = React.createClass
   getDefaultProps: () ->
     leftEarly: false
   displayContent: () ->
-    if this.props.penaltyState? and this.props.penaltyState.penalty? then this.props.penaltyState.penalty.code else this.displayNumber()
+    if @props.penaltyState? and @props.penaltyState.penalty? then @props.penaltyState.penalty.code else @displayNumber()
   displayNumber: () ->
-    if this.props.leftEarly then 'Left Early' else this.props.penaltyNumber
+    if @props.leftEarly then 'Left Early' else @props.penaltyNumber
   render: () ->
-    <div className='penalty-indicator' style={this.props.teamStyle if this.props.penaltyState?}>
-      {this.displayContent()}
+    <div className='penalty-indicator' style={@props.teamStyle if @props.penaltyState?}>
+      {@displayContent()}
     </div>

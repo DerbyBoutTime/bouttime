@@ -177,15 +177,6 @@ QUnit.test "Should rotate ads", (assert) ->
 QUnit.test "Should set time to derby", (assert) ->
   exports.scoreboard.setTimeToDerby(1000*60*30)
   assert.ok exports.scoreboard.jamTime == 1000*60*30
-QUnit.test "Should start / stop time to derby", (assert) ->
-  expect 4
-  exports.scoreboard.setTimeToDerby(1000*60*30)
-  exports.scoreboard.toggleJamClock()
-  assert.ok exports.scoreboard.isJamClockRunning() == true
-  assert.ok exports.scoreboard.isPeriodClockRunning() == false
-  exports.scoreboard.toggleJamClock()
-  assert.ok exports.scoreboard.isJamClockRunning() == false
-  assert.ok exports.scoreboard.isPeriodClockRunning() == false
 QUnit.asyncTest "Should send period clock tick", (assert) ->
   expect 2
   exports.scoreboard.startJam()

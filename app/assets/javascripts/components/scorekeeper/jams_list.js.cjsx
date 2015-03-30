@@ -6,63 +6,63 @@ exports.JamsList = React.createClass
     teamState: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
   bindActions: (jamIndex) ->
-    Object.keys(this.props.actions).map((key) ->
+    Object.keys(@props.actions).map((key) ->
       key: key
-      value: this.props.actions[key].bind(this, jamIndex)
+      value: @props.actions[key].bind(this, jamIndex)
     , this).reduce((actions, action) ->
       actions[action.key] = action.value
       actions
     , {})
   getTeamPoints: ()->
-    team = this.props.teamState
+    team = @props.teamState
     points = 0
     team.jamStates.map (jam) =>
       jam.passStates.map (pass) =>
         points += pass.points || 0
     return points
   selectedJam: () ->
-    this.props.teamState.jamStates[this.state.jamSelected || 0]
+    @props.teamState.jamStates[@state.jamSelected || 0]
   handleMainMenu: () ->
-    this.setState(jamSelected: null)
+    @setState(jamSelected: null)
   handleJamSelection: (jamIndex, newJam) ->
     if newJam
-      this.props.actions.newJam(jamNumber: this.props.teamState.jamStates.length + 1, passStates: [passNumber: 1, sort: 0])
-    this.setState(jamSelected: jamIndex)
+      @props.actions.newJam(jamNumber: @props.teamState.jamStates.length + 1, passStates: [passNumber: 1, sort: 0])
+    @setState(jamSelected: jamIndex)
   handleNextJam: () ->
-    if this.state.jamSelected < this.props.teamState.jamStates.length - 1
+    if @state.jamSelected < @props.teamState.jamStates.length - 1
       $('.scorekeeper .collapse.in').collapse('hide')
-      this.setState(jamSelected: this.state.jamSelected + 1)
+      @setState(jamSelected: @state.jamSelected + 1)
   handlePreviousJam: () ->
-    if this.state.jamSelected > 0
+    if @state.jamSelected > 0
       $('.scorekeeper .collapse.in').collapse('hide')
-      this.setState(jamSelected: this.state.jamSelected - 1)
+      @setState(jamSelected: @state.jamSelected - 1)
   getInitialState: () ->
     jamSelected: null
   render: () ->
     JamItemFactory = React.createFactory(JamItem)
     # jam's schema is same as jam_state table
-    jamComponents = this.props.teamState.jamStates.map (jamState, jamIndex) =>
+    jamComponents = @props.teamState.jamStates.map (jamState, jamIndex) =>
       JamItemFactory
         key: jamIndex
         jamState: jamState
-        actions: this.bindActions(jamIndex)
-        style: this.props.teamState.colorBarStyle
-        selectionHandler: this.handleJamSelection.bind(this, jamIndex, false)
+        actions: @bindActions(jamIndex)
+        style: @props.teamState.colorBarStyle
+        selectionHandler: @handleJamSelection.bind(this, jamIndex, false)
     # add a blank jam for adding a next jam
     jamComponents.push(
       JamItemFactory
-        key: this.props.teamState.jamStates.length
-        jamState: {jamNumber: this.props.teamState.jamStates.length+1, passStates: []}
-        actions: this.bindActions(this.props.teamState.jamStates.length)
-        style: this.props.teamState.colorBarStyle
-        selectionHandler: this.handleJamSelection.bind(this, this.props.teamState.jamStates.length, true)
+        key: @props.teamState.jamStates.length
+        jamState: {jamNumber: @props.teamState.jamStates.length+1, passStates: []}
+        actions: @bindActions(@props.teamState.jamStates.length)
+        style: @props.teamState.colorBarStyle
+        selectionHandler: @handleJamSelection.bind(this, @props.teamState.jamStates.length, true)
     )
     jamsContainerClass = cx
       'jams fade-hide': true
-      'in': !this.state.jamSelected?
+      'in': !@state.jamSelected?
     passesContainerClass = cx
       'passes-container fade-hide': true
-      'in': this.state.jamSelected?
+      'in': @state.jamSelected?
     <div className="jams-list">
       <div className="row stats gutters-xs">
         <div className="col-xs-6">
@@ -72,7 +72,7 @@ exports.JamsList = React.createClass
                 <strong>Current Jam</strong>
               </div>
               <div className="col-xs-2 text-right current-jam-score">
-                <strong>{this.props.jamNumber}</strong>
+                <strong>{@props.jamNumber}</strong>
               </div>
             </div>
           </div>
@@ -84,7 +84,7 @@ exports.JamsList = React.createClass
                 <strong>Game Total</strong>
               </div>
               <div className="col-xs-2 text-right game-total-score">
-                <strong>{this.getTeamPoints('away')}</strong>
+                <strong>{@getTeamPoints('away')}</strong>
               </div>
             </div>
           </div>
@@ -113,10 +113,10 @@ exports.JamsList = React.createClass
       </div>
       <div className={passesContainerClass}>
         <JamDetails
-          jamState={this.selectedJam()}
-          actions={this.bindActions(this.state.jamSelected)}
-          mainMenuHandler={this.handleMainMenu}
-          prevJamHandler={this.handlePreviousJam}
-          nextJamHandler={this.handleNextJam} />
+          jamState={@selectedJam()}
+          actions={@bindActions(@state.jamSelected)}
+          mainMenuHandler={@handleMainMenu}
+          prevJamHandler={@handlePreviousJam}
+          nextJamHandler={@handleNextJam} />
       </div>
     </div>

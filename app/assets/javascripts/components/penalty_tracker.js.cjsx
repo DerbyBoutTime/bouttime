@@ -4,25 +4,25 @@ exports.PenaltyTracker = React.createClass
   displayName: 'PenaltyTracker'
   mixins: [GameStateMixin, CopyGameStateMixin]
   updatePenaltyStates: (teamType, skaterIndex, penaltyStates) ->
-    skater = this.getSkaterState(teamType, skaterIndex)
+    skater = @getSkaterState(teamType, skaterIndex)
     skater.penaltyStates = penaltyStates.map (penaltyState) -> $.extend(true, {}, penaltyState)
-    this.setState(this.state)
-    exports.dispatcher.trigger 'penalty_tracker.update_penalties', this.buildOptions(teamType: teamType, skaterIndex: skaterIndex)
+    @setState(@state)
+    exports.dispatcher.trigger 'penalty_tracker.update_penalties', @buildOptions(teamType: teamType, skaterIndex: skaterIndex)
   buildOptions: (opts= {} ) ->
     stdOpts =
       role: 'Penalty Tracker'
       timestamp: Date.now
-      state: this.state.gameState
+      state: @state.gameState
     $.extend(stdOpts, opts)
   getInitialState: () ->
     componentId: exports.wftda.functions.uniqueId()
   render: () ->
-    awayElement = <TeamPenalties teamState={this.state.gameState.awayAttributes} penalties={this.state.gameState.penalties} currentJamNumber={this.props.gameState.jamNumber} applyHandler={this.updatePenaltyStates.bind(this, 'away')}/>
-    homeElement = <TeamPenalties teamState={this.state.gameState.homeAttributes} penalties={this.state.gameState.penalties} currentJamNumber={this.props.gameState.jamNumber} applyHandler={this.updatePenaltyStates.bind(this, 'home')}/>
+    awayElement = <TeamPenalties teamState={@state.gameState.awayAttributes} penalties={@state.gameState.penalties} currentJamNumber={@props.gameState.jamNumber} applyHandler={@updatePenaltyStates.bind(this, 'away')}/>
+    homeElement = <TeamPenalties teamState={@state.gameState.homeAttributes} penalties={@state.gameState.penalties} currentJamNumber={@props.gameState.jamNumber} applyHandler={@updatePenaltyStates.bind(this, 'home')}/>
     <div className="penalty-tracker">
       <TeamSelector
-        awayAttributes={this.state.gameState.awayAttributes}
+        awayAttributes={@state.gameState.awayAttributes}
         awayElement={awayElement}
-        homeAttributes={this.state.gameState.homeAttributes}
+        homeAttributes={@state.gameState.homeAttributes}
         homeElement={homeElement} />
    	</div>

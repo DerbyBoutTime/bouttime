@@ -1,6 +1,6 @@
 exports = exports ? this
 exports.CopyGameStateMixin =
   getInitialState: () ->
-    gameState: this.props.gameState
+    gameState: @props.gameState
   componentWillReceiveProps: (nextProps) ->
-    this.setState(gameState: nextProps.gameState)
+    @setState(gameState: nextProps.gameState)

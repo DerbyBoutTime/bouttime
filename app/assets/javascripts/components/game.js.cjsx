@@ -4,21 +4,21 @@ exports.Game = React.createClass
   displayName: 'Game'
   mixins: [GameStateMixin]
   componentDidMount: () ->
-    $dom = $(this.getDOMNode())
+    $dom = $(@getDOMNode())
     $dom.on 'click', 'ul.nav li', null, (evt) =>
-      this.setState
+      @setState
         tab: evt.currentTarget.dataset.tabName
     $dom.on 'click', '#setup', null, (evt) =>
-      this.setState
+      @setState
         tab: "game_setup"
     $dom.on 'click', '#login', null, (evt) =>
-      this.setState
+      @setState
         tab: "login"
     exports.dispatcher.bind 'update', (state) =>
       console.log "Update received"
-      this.setState(gameState: exports.wftda.functions.camelize(state))
+      @setState(gameState: exports.wftda.functions.camelize(state))
   getInitialState: () ->
-    gameState = exports.wftda.functions.camelize(this.props)
+    gameState = exports.wftda.functions.camelize(@props)
     gameState: gameState
     tab: "jam_timer"
     skaterSelectorContext:
@@ -26,13 +26,13 @@ exports.Game = React.createClass
       jamState: gameState.awayAttributes.jamStates[0]
       selectHandler: () ->
   setSelectorContext: (teamType, jamIndex, selectHandler) ->
-    this.setState
+    @setState
       skaterSelectorContext:
-        teamState: this.getTeamState(teamType)
-        jamState: this.getJamState(teamType, jamIndex)
+        teamState: @getTeamState(teamType)
+        jamState: @getJamState(teamType, jamIndex)
         selectHandler: selectHandler
   render: () ->
-    <div ref="game" className="game" data-tab={this.state.tab}>
+    <div ref="game" className="game" data-tab={@state.tab}>
       <header>
         <div className="container-fluid">
           <Titlebar />
@@ -44,21 +44,21 @@ exports.Game = React.createClass
               </a>
             </div>
           </div>
-          <Navbar tab={this.state.tab}/>
+          <Navbar tab={@state.tab}/>
         </div>
       </header>
       <div className="container">
-        <JamTimer {...this.state} />
-        <LineupTracker {...this.state} setSelectorContext={this.setSelectorContext} />
-        <Scorekeeper {...this.state} setSelectorContext={this.setSelectorContext} />
-        <PenaltyTracker {...this.state} />
-        <PenaltyBoxTimer {...this.state} />
-        <Scoreboard {...this.state} />
-        <PenaltyWhiteboard {...this.state} />
-        <AnnouncersFeed {...this.state} />
-        <GameNotes {...this.state} />
-        <GameSetup {...this.state} />
+        <JamTimer {...@state} />
+        <LineupTracker {...@state} setSelectorContext={@setSelectorContext} />
+        <Scorekeeper {...@state} setSelectorContext={@setSelectorContext} />
+        <PenaltyTracker {...@state} />
+        <PenaltyBoxTimer {...@state} />
+        <Scoreboard {...@state} />
+        <PenaltyWhiteboard {...@state} />
+        <AnnouncersFeed {...@state} />
+        <GameNotes {...@state} />
+        <GameSetup {...@state} />
         <Login />
       </div>
-      <SkaterSelectorModal {...this.state.skaterSelectorContext} />
+      <SkaterSelectorModal {...@state.skaterSelectorContext} />
     </div>

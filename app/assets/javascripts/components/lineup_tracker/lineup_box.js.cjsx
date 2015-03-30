@@ -7,7 +7,7 @@ exports.LineupBox = React.createClass
   getDefaultProps: () ->
     status: 'clear'
   boxContent: () ->
-    switch this.props.status
+    switch @props.status
       when 'clear' then <span>&nbsp;</span>
       when null then <span>&nbsp;</span>
       when 'went_to_box' then '/'
@@ -17,7 +17,7 @@ exports.LineupBox = React.createClass
       when 'sat_in_box_and_released' then '$'
   render: () ->
     injuryClass = cx
-      'box-injury': this.props.status is 'injured'
-    <button className={injuryClass + " box text-center bt-btn btn-box"} onClick={this.props.lineupStatusHandler}>
-      <strong>{this.boxContent()}</strong>
+      'box-injury': @props.status is 'injured'
+    <button className={injuryClass + " box text-center bt-btn btn-box"} onClick={@props.lineupStatusHandler}>
+      <strong>{@boxContent()}</strong>
     </button>
