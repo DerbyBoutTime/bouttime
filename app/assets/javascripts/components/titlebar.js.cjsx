@@ -1,6 +1,7 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.Titlebar = React.createClass
+  displayName: "TitleBar"
   componentDidMount: () ->
     $dom = $(this.getDOMNode())
   getInitialState: () ->
@@ -23,7 +24,7 @@ exports.Titlebar = React.createClass
                 </li>
               </ul>
             </div>
-            <span className="gamename">Atlanta vs. Gotham</span>
+            <span className="gamename">{@props.gameState.id}</span>
           </div>
         </div>
       </div>
