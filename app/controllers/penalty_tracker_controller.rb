@@ -1,19 +1,28 @@
 class PenaltyTrackerController < WebsocketController
-  def update_penalties
+  def set_penalty
     local_skater, client_skater = get_skater
-    client_skater[:penalty_states].each do |penalty_state|
-      local_penalty = PenaltyState.find_or_initialize_by(sort: penalty_state[:sort])
-      attrs = {
-        jam_number: penalty_state[:jam_number],
-        skater_state: local_skater,
-        penalty: Penalty.find(penalty_state[:penalty][:id])
-      }
-      local_penalty.update attrs
-    end
-    client_slots = client_skater[:penalty_states].map{|ps| ps[:sort]}
-    local_skater.penalty_states.each do | penalty_state|
-      penalty_state.destroy if !client_slots.include? penalty_state.sort
-    end
+    client_penalty_state = client_skater[:penalty_states].last
+    local_skater.penalty_states.create(
+      jam_number: client_penalty_state[:jam_number],
+      sort: client_penalty_state[:sort],
+      penalty: Penalty.find(client_penalty_state[:penalty][:id])
+    )
+    @game_state.reload
+    broadcast_message :update, @game_state.as_json
+  end
+  def clear_penalty
+    local_skater, client_skater = get_skater
+    local_penalty_state = local_skater.penalty_states.find_by(sort: @message[:removed_penalty][:sort])
+    local_penalty_state.destroy
+    @game_state.reload
+    broadcast_message :update, @game_state.as_json
+  end
+  def update_penalty
+    local_penalty_state, client_penalty_state = get_penalty_state
+    local_penalty_state.update(
+      jam_number: client_penalty_state[:jam_number],
+      penalty: Penalty.find(client_penalty_state[:penalty][:id])
+    )
     @game_state.reload
     broadcast_message :update, @game_state.as_json
   end
@@ -33,5 +42,12 @@ class PenaltyTrackerController < WebsocketController
     client_skater = client_team[:skater_states][skater_index]
     local_skater = local_team.skater_states.find(client_skater[:id])
     [local_skater, client_skater]
+  end
+  def get_penalty_state
+    penalty_state_index = @message[:penalty_state_index]
+    local_skater, client_skater = get_skater
+    client_penalty_state = client_skater[:penalty_states][penalty_state_index]
+    local_penalty_state = local_skater.penalty_states.find_by(sort: client_penalty_state[:sort])
+    [local_penalty_state, client_penalty_state]
   end
 end

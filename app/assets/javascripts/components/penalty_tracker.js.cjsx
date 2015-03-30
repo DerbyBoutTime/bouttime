@@ -8,20 +8,23 @@ exports.PenaltyTracker = React.createClass
       setPenalty: (teamType, skaterIndex, penaltyIndex) ->
         skaterState = @getSkaterState(teamType, skaterIndex)
         penalty = @getPenalty(penaltyIndex)
+        lastPenaltyState = skaterState.penaltyStates[-1..][0]
+        sort = if lastPenaltyState? then lastPenaltyState.sort + 1 else 0
         skaterState.penaltyStates.push
           penalty: penalty
           jamNumber: @state.gameState.jamNumber
+          sort: sort
         exports.dispatcher.trigger 'penalty_tracker.set_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex)
         @setState(@state)
       clearPenalty: (teamType, skaterIndex, penaltyStateIndex) ->
         skaterState = @getSkaterState(teamType, skaterIndex)
-        skaterState.penaltyStates.splice(penaltyStateIndex, 1)
-        exports.dispatcher.trigger 'penalty_tracker.clear_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex)
+        removedPenalty = skaterState.penaltyStates.splice(penaltyStateIndex, 1)[0]
+        exports.dispatcher.trigger 'penalty_tracker.clear_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex, removedPenalty: removedPenalty)
         @setState(@state)
       updatePenalty: (teamType, skaterIndex, penaltyStateIndex, opts={}) ->
         penaltyState = @getPenaltyState(teamType, skaterIndex, penaltyStateIndex)
         $.extend(penaltyState, opts)
-        exports.dispatcher.trigger 'penalty_tracker.update_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex)
+        exports.dispatcher.trigger 'penalty_tracker.update_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex, penaltyStateIndex: penaltyStateIndex)
         @setState(@state)
   bindActions: (teamType) ->
     Object.keys(@actions).map((key) ->
