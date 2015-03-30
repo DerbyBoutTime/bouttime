@@ -5,6 +5,9 @@ exports.Game = React.createClass
   mixins: [GameStateMixin]
   componentDidMount: () ->
     $dom = $(@getDOMNode())
+    $dom.on 'click', '.bad-status', null, (evt) =>
+      exports.dispatcher.disconnect()
+      exports.dispatcher.connect()
     $dom.on 'click', 'ul.nav li', null, (evt) =>
       @setState
         tab: evt.currentTarget.dataset.tabName
@@ -16,7 +19,7 @@ exports.Game = React.createClass
         tab: "login"
     exports.dispatcher.bind 'update', (state) =>
       console.log "Update received"
-      clearInterval(exports.connectionTimeout)
+      clearTimeout(exports.connectionTimeout)
       @setState(gameState: exports.wftda.functions.camelize(state))
       $(".game").addClass("connected")
       exports.connectionTimeout = setInterval(() ->
