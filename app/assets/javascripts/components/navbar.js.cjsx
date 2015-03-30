@@ -5,33 +5,33 @@ exports.Navbar = React.createClass
     std_opts =
       role: 'Global'
       timestamp: Date.now()
-      state: this.state
+      state: @state
     $.extend(std_opts, opts)
   componentDidMount: () ->
-    $dom = $(this.getDOMNode())
+    $dom = $(@getDOMNode())
   getInitialState: () ->
-    props = exports.wftda.functions.camelize(this.props)
+    props = exports.wftda.functions.camelize(@props)
     state =
       tab: props.tab
   componentWillReceiveProps: (props) ->
-    this.state.tab = props.tab
+    @state.tab = props.tab
   render: () ->
     jamTimerCS = cx
-      'active': this.state.tab == "jam_timer"
+      'active': @state.tab == "jam_timer"
     lineupTrackerCS = cx
-      'active': this.state.tab == "lineup_tracker"
+      'active': @state.tab == "lineup_tracker"
     scorekeeperCS = cx
-      'active': this.state.tab == "scorekeeper"
+      'active': @state.tab == "scorekeeper"
     penaltyTrackerCS = cx
-      'active': this.state.tab == "penalty_tracker"
+      'active': @state.tab == "penalty_tracker"
     penaltyBoxTimerCS = cx
-      'active': this.state.tab == "penalty_box_timer"
+      'active': @state.tab == "penalty_box_timer"
     scoreboardCS = cx
-      'active': this.state.tab == "scoreboard"
+      'active': @state.tab == "scoreboard"
     penaltyWhiteboardCS = cx
-      'active': this.state.tab == "penalty_whiteboard"
+      'active': @state.tab == "penalty_whiteboard"
     announcersFeedCS = cx
-      'active': this.state.tab == "announcers_feed"
+      'active': @state.tab == "announcers_feed"
     <div className="navbar">
       <div className="container">
         <div className="row">

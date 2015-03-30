@@ -4,7 +4,7 @@ exports.PenaltyBoxTimer = React.createClass
   displayName: 'PenaltyBoxTimer'
   mixins: [GameStateMixin, CopyGameStateMixin]
   componentDidMount: () ->
-    $dom = $(this.getDOMNode())
+    $dom = $(@getDOMNode())
   render: () ->
     <div className="penalty-box-timer">
       <div className="row gutters-xs hidden-xs hidden-sm">

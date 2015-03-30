@@ -22,9 +22,9 @@ exports.classes.CountdownClock = class CountdownClock
     exports.ticks[@id] = null
   isRunning: () =>
     exports.ticks[@id] != null
-  reset: () ->
+  reset: (time = @initialTime) ->
     @stop()
-    @time = @initialTime
+    @time = time
     @tick = null
   display: () =>
     exports.wftda.functions.toClock(@time, false)
@@ -38,6 +38,12 @@ exports.classes.CountdownClock = class CountdownClock
   issueTick: () =>
     if @selector
       $(@selector).trigger "tick", @buildEventOptions()
+  serialize: () =>
+    {
+      display: @display()
+      time: @time
+      tick: @tick
+    }
   _tick: () =>
     #console.log("tick  clock")
     tick = Date.now()

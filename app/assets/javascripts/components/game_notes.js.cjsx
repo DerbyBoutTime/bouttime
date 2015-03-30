@@ -2,8 +2,8 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.GameNotes = React.createClass
   componentDidMount: () ->
-    $dom = $(this.getDOMNode())
+    $dom = $(@getDOMNode())
   getInitialState: () ->
-    this.props
+    @props
   render: () ->
     <div className="global-bout-notes"></div>

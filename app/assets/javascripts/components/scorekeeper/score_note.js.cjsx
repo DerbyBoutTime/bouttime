@@ -5,7 +5,7 @@ exports.ScoreNote = React.createClass
   propTypes:
   	note: React.PropTypes.string
   noteContent: () ->
-    switch this.props.note
+    switch @props.note
       when 'injury' then 'Injury'
       when 'calloff' then 'Call'
       when 'nopass' then 'No P.'
@@ -14,11 +14,11 @@ exports.ScoreNote = React.createClass
       else <span>&nbsp;</span>
   render: () ->
     noteClassArgs =
-      'selected': this.props.note?
+      'selected': @props.note?
       'boxed-good text-center notes': true
-    noteClassArgs[this.props.note] = true
+    noteClassArgs[@props.note] = true
     noteClass = cx noteClassArgs
 
     <div className={noteClass}>
-      <strong>{this.noteContent()}</strong>
+      <strong>{@noteContent()}</strong>
     </div>

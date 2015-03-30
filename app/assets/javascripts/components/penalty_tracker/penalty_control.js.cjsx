@@ -8,13 +8,13 @@ exports.PenaltyControl = React.createClass
     clickHandler: React.PropTypes.func
     teamStyle: React.PropTypes.object.isRequired
   jamNumberDisplay: () ->
-    if this.props.penaltyState? then "Jam #{this.props.penaltyState.jamNumber}" else "Jam"
+    if @props.penaltyState? then "Jam #{@props.penaltyState.jamNumber}" else "Jam"
   render: () ->
     <div className='penalty-control'>
       <div className='jam-number'>
-        <strong>{this.jamNumberDisplay()}</strong>
+        <strong>{@jamNumberDisplay()}</strong>
       </div>
-      <button className='bt-btn btn-boxed penalty-indicator-wrapper' onClick={this.props.clickHandler}>
-        <PenaltyIndicator {...this.props}/>
+      <button className='bt-btn btn-boxed penalty-indicator-wrapper' onClick={@props.clickHandler}>
+        <PenaltyIndicator {...@props}/>
       </button>
     </div>
