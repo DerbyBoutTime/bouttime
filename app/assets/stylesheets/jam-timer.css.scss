@@ -80,7 +80,7 @@
         background-color: $inactive-color;
       }
       &.active{
-        animation: active-animation 2s infinite;
+        animation: active-animation $animation-duration infinite;
       }
     }
     :first-child {

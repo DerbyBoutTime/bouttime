@@ -23,9 +23,7 @@
     border: 1px solid $gray;
     border-radius: 2px;
     font-size: 1.1em;
-    /*height: 30px;*/
-    line-height: 30px;
-    /*min-width: 16px;*/
+    line-height: $minimum-touch-target;
     .current-jam-score, .game-total-score {
       font-size: 1.3em;
       font-weight: bolder;
@@ -41,13 +39,7 @@
         margin-top: 4px;
       }
       .col-sm-2, .col-xs-2 {
-        /*& > div {*/
-          /*background-color: $gray;*/
-          /*border-radius: 2px;*/
-          /*color: $near-black;*/
-          height: 30px;
-          /*line-height: 30px;*/
-        /*}*/
+          min-height: $minimum-touch-target;
         .jam, .pass {
           background-color: $near-black;
           border-color: $near-black;
@@ -57,16 +49,14 @@
           background-color: $gray;
           border-radius: 2px;
           color: $near-black;
-          /*height: 30px;*/
-          line-height: 30px;
+          line-height: $minimum-touch-target;
           padding-left: 5%;
         }
         .notes {
           background-color: $gray;
           border-radius: 2px;
           color: $near-black;
-          /*height: 30px;*/
-          line-height: 30px;
+          min-height: $minimum-touch-target;
           &.injury {
           }
           &.call {
@@ -83,13 +73,12 @@
           background-color: $gray;
           border-radius: 2px;
           color: $near-black;
-          /*height: 30px;*/
-          line-height: 30px;
+          line-height: $minimum-touch-target;
         }
       }
       .drag-handle {
         text-align:center;
-        line-height: 30px;
+        line-height: $minimum-touch-target;
         cursor: move;
       }
     }
@@ -114,9 +103,7 @@
     }
     .jam-number, .jam-total-score {
       background-color: $gray;
-      /*height: 30px;*/
-      line-height: 30px;
-      /*min-width: 16px;*/
+      line-height: $minimum-touch-target;
     }
     .jam-number {
       padding-left: 5%;
@@ -152,8 +139,7 @@
     .row {
       & > div > div {
         border-radius: 2px;
-        /*height: 30px;*/
-        line-height: 30px;
+        line-height: $minimum-touch-target;
       }
       .notes {
         background-color: $gray;

@@ -33,7 +33,7 @@ $gray-base: $near-black;
   border: 1px solid $gray;
   border-radius: 2px;
   font-size: 1.1em;
-  line-height: 30px;
+  line-height: $minimum-touch-target;
 }
 .btn-boxed{
   @extend .boxed-good;
