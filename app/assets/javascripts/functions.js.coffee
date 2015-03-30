@@ -3,13 +3,14 @@ exports = exports ? this
 exports.wftda.functions.connectDispatcher = () ->
   exports.dispatcherTimeout = setTimeout( ()->
     console.log('Connection not established... retrying')
-    exports.wftda.functions.connectDispatcher()
+    exports.dispatcher.connect()
   ,exports.wftda.constants.WEBSOCKETS_RETRY_TIME_IN_MS)
   exports.dispatcher = new WebSocketRails("#{window.location.host}/websocket")
   exports.dispatcher.on_open = (data) ->
     console.log('Connection has been established');
     clearTimeout(exports.dispatcherTimeout)
     dispatcher.trigger 'jam_timer.set_game_state_id', wftda.functions.getParams()
+    $(".game").addClass("connected")
 #Actually calls the dispatcher setup
 exports.wftda.functions.connectDispatcher()
 #Creates a pseudo unique Id

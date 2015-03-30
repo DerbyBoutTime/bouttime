@@ -59,6 +59,36 @@ $gray-base: $near-black;
   margin-top: 4px;
 }
 .game{
+  .gamename {
+    font-size: 1.1em;
+    margin-left: 1em;
+  }
+  .good-status, .bad-status {
+    font-size: 2em;
+    position: relative;
+    top: 8px;
+    left: 10px;
+  }
+  .good-status {
+    color: green;
+  }
+  .bad-status {
+    color: red;
+  }
+  &.connected {
+    .good-status {
+      display: inline-block;
+    }
+    .bad-status {
+      display: none;
+    }
+  }
+  .good-status {
+    display: none;
+  }
+  .bad-status {
+    display: inline-block;
+  }
   .login, .jam-timer, .lineup-tracker, .scorekeeper, .penalty-tracker, .penalty-box-timer, .scoreboard, .penalty-whiteboard, .announcers-feed, .game-setup {
     display: none;
   }
