@@ -10,6 +10,7 @@ exports.wftda.functions.connectDispatcher = () ->
     console.log('Connection has been established');
     clearTimeout(exports.dispatcherTimeout)
     dispatcher.trigger 'jam_timer.set_game_state_id', wftda.functions.getParams()
+    $(".game").addClass("connected")
 #Actually calls the dispatcher setup
 exports.wftda.functions.connectDispatcher()
 #Creates a pseudo unique Id

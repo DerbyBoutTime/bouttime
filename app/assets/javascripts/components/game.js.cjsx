@@ -16,7 +16,12 @@ exports.Game = React.createClass
         tab: "login"
     exports.dispatcher.bind 'update', (state) =>
       console.log "Update received"
+      clearInterval(exports.connectionTimeout)
       @setState(gameState: exports.wftda.functions.camelize(state))
+      $(".game").addClass("connected")
+      exports.connectionTimeout = setInterval(() ->
+        $(".game").removeClass("connected")
+      , exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS)
   getInitialState: () ->
     gameState = exports.wftda.functions.camelize(@props)
     gameState: gameState

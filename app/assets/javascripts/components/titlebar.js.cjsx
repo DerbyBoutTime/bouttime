@@ -25,6 +25,8 @@ exports.Titlebar = React.createClass
               </ul>
             </div>
             <span className="gamename">{@props.gameState.id}</span>
+            <span className="glyphicon glyphicon-ok-sign good-status"></span>
+            <span className="glyphicon glyphicon-remove-sign bad-status"></span>
           </div>
         </div>
       </div>
