@@ -9,20 +9,20 @@ exports.SkaterSelector = React.createClass
     setSelectorContext: React.PropTypes.func
     selectHandler: React.PropTypes.func
   buttonContent: () ->
-    if this.props.skater
-      this.props.skater.number
+    if @props.skater
+      @props.skater.number
     else
       <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
   render: () ->
     injuryClass = cx
-      'skater-injury': this.props.injured
+      'skater-injury': @props.injured
     <button
       className={injuryClass + " skater-selector text-center bt-btn"}
       data-toggle="modal"
-      style={if this.props.skater and not this.props.injured then this.props.style else {}}
+      style={if @props.skater and not @props.injured then @props.style else {}}
       data-target="#skater-selector-modal"
-      onClick={this.props.setSelectorContext.bind(this, this.props.selectHandler)}>
-      <strong>{this.buttonContent()}</strong>
+      onClick={@props.setSelectorContext.bind(this, @props.selectHandler)}>
+      <strong>{@buttonContent()}</strong>
     </button>
 exports.SkaterSelectorModal = React.createClass
   displayName: 'SkaterSelectorModal'
@@ -31,17 +31,17 @@ exports.SkaterSelectorModal = React.createClass
     jamState: React.PropTypes.object.isRequired
     selectHandler: React.PropTypes.func
   getLineup: () ->
-    jam = this.props.jamState
+    jam = @props.jamState
     positions = [jam.pivot, jam.blocker1, jam.blocker2, jam.blocker3, jam.jammer]
     positions.filter (position) ->
       position?
   inLineup: (skater) ->
-    skater.number in this.getLineup().map (s) -> s.number
+    skater.number in @getLineup().map (s) -> s.number
   isInjured: (skater) ->
     false
   buttonClass: (skater) ->
     cx
-      'selector-injury' : this.isInjured(skater)
+      'selector-injury' : @isInjured(skater)
       'bt-btn skater-selector-dialog-btn': true
   render: () ->
     <div className="modal fade" id="skater-selector-modal">
@@ -52,12 +52,12 @@ exports.SkaterSelectorModal = React.createClass
             <h4 className="modal-title">Select Skater</h4>
           </div>
           <div className="modal-body">
-            {this.props.teamState.skaterStates.map (skaterState, skaterIndex) ->
+            {@props.teamState.skaterStates.map (skaterState, skaterIndex) ->
                 <button key={skaterIndex}
-                  className={this.buttonClass(skaterState)}
-                  style={if this.inLineup(skaterState.skater) and not this.isInjured(skaterState.skater) then this.props.teamState.colorBarStyle}
+                  className={@buttonClass(skaterState)}
+                  style={if @inLineup(skaterState.skater) and not @isInjured(skaterState.skater) then @props.teamState.colorBarStyle}
                   data-dismiss="modal"
-                  onClick={this.props.selectHandler.bind(this, skaterIndex)}>
+                  onClick={@props.selectHandler.bind(this, skaterIndex)}>
                     <strong className="skater-number">{skaterState.skater.number}</strong>
                     <strong className="skater-name">{skaterState.skater.name}</strong>
                 </button>
