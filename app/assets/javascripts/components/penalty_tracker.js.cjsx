@@ -15,7 +15,7 @@ exports.PenaltyTracker = React.createClass
         this.setState(this.state)
       clearPenalty: (teamType, skaterIndex, penaltyStateIndex) ->
         skaterState = this.getSkaterState(teamType, skaterIndex)
-        skaterState.penaltyState.splice(penaltyStateIndex, 1)
+        skaterState.penaltyStates.splice(penaltyStateIndex, 1)
         exports.dispatcher.trigger 'penalty_tracker.clear_penalty', this.buildOptions(teamType: teamType, skaterIndex: skaterIndex)
         this.setState(this.state)
       updatePenalty: (teamType, skaterIndex, penaltyStateIndex, opts={}) ->

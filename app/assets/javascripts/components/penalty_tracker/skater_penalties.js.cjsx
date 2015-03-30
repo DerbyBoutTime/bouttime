@@ -8,33 +8,17 @@ exports.SkaterPenalties = React.createClass
     teamStyle: React.PropTypes.object
     hidden: React.PropTypes.bool
     backHandler: React.PropTypes.func.isRequired
-  getInitialState: () ->
-    editingPenaltyNumber: null
-  findPenalty: (penaltyNumber) ->
-    matches = (penalty for penalty in this.props.skaterState.penaltyStates when penalty.sort is penaltyNumber)
-    matches[0]
-  getEditingPenalty: () ->
-    this.findPenalty(this.state.editingPenaltyNumber)
-  newPenaltyState: () ->
-    jamNumber: this.props.currentJamNumber
-    sort: this.state.editingPenaltyNumber
-  editPenaltyState: (penaltyNumber) ->
-    this.setState(editingPenaltyNumber: penaltyNumber)
-    this.refs.editPenaltyPanel.resetState()
-    $('#edit-penalty-panel').collapse('show')
-  closeEdit: () ->
-    this.setState(editingPenaltyNumber: null)
-    $('#edit-penalty-panel').collapse('hide')
-  toggleEdit: (penaltyNumber) ->
-    if this.state.editingPenaltyNumber? then this.closeEdit() else this.editPenaltyState(penaltyNumber)
-  setJamNumber: (jamNumber) ->
-    editingPenalty = this.getEditingPenalty()
-    if !editingPenalty?
-      editingPenalty = this.newPenaltyState()
-      this.props.skaterState.penaltyStates.push(editingPenalty)
-    editingPenalty.jamNumber = jamNumber
-    this.setState(this.state)
-    this.closeEdit()
+    editHandler: React.PropTypes.func.isRequired
+  bindActions: (penaltyIndex) ->
+    Object.keys(this.props.actions).map((key) ->
+      key: key
+      value: this.props.actions[key].bind(this, penaltyIndex)
+    , this).reduce((actions, action) ->
+      actions[action.key] = action.value
+      actions
+    , {})
+  getPenaltyId: (penaltyIndex) ->
+    "edit-penalty-#{@props.skaterState.id}-#{penaltyIndex}"
   render: () ->
     containerClass = cx
       'skater-penalties': true
@@ -60,44 +44,44 @@ exports.SkaterPenalties = React.createClass
             <div className='col-xs-2 col-sm-2'>
               <PenaltyControl
                 penaltyNumber={1}
-                penaltyState={this.findPenalty(1)}
-                clickHandler={this.toggleEdit.bind(this, 1)}
-                teamStyle={this.props.teamStyle} />
+                penaltyState={this.props.skaterState.penaltyStates[0]}
+                teamStyle={this.props.teamStyle}
+                target={@getPenaltyId(0)} />
             </div>
             <div className='col-xs-2 col-sm-2'>
               <PenaltyControl
                 penaltyNumber={2}
-                penaltyState={this.findPenalty(2)}
-                clickHandler={this.toggleEdit.bind(this, 2)}
-                teamStyle={this.props.teamStyle} />
+                penaltyState={this.props.skaterState.penaltyStates[1]}
+                teamStyle={this.props.teamStyle}
+                target={@getPenaltyId(1)} />
             </div>
             <div className='col-xs-2 col-sm-2'>
               <PenaltyControl
                 penaltyNumber={3}
-                penaltyState={this.findPenalty(3)}
-                clickHandler={this.toggleEdit.bind(this, 3)}
-                teamStyle={this.props.teamStyle} />
+                penaltyState={this.props.skaterState.penaltyStates[2]}
+                teamStyle={this.props.teamStyle}
+                target={@getPenaltyId(2)} />
             </div>
             <div className='col-xs-2 col-sm-2'>
               <PenaltyControl
                 penaltyNumber={4}
-                penaltyState={this.findPenalty(4)}
-                clickHandler={this.toggleEdit.bind(this, 4)}
-                teamStyle={this.props.teamStyle} />
+                penaltyState={this.props.skaterState.penaltyStates[3]}
+                teamStyle={this.props.teamStyle}
+                target={@getPenaltyId(3)}/>
             </div>
             <div className='col-xs-2 col-sm-2'>
               <PenaltyControl
                 penaltyNumber={5}
-                penaltyState={this.findPenalty(5)}
-                clickHandler={this.toggleEdit.bind(this, 5)}
-                teamStyle={this.props.teamStyle} />
+                penaltyState={this.props.skaterState.penaltyStates[4]}
+                teamStyle={this.props.teamStyle}
+                target={@getPenaltyId(4)} />
             </div>
             <div className='col-xs-2 col-sm-2'>
               <PenaltyControl
                 penaltyNumber={6}
-                penaltyState={this.findPenalty(6)}
-                clickHandler={this.toggleEdit.bind(this, 6)}
-                teamStyle={this.props.teamStyle} />
+                penaltyState={this.props.skaterState.penaltyStates[5]}
+                teamStyle={this.props.teamStyle}
+                target={@getPenaltyId(5)} />
             </div>
           </div>
         </div>
@@ -105,14 +89,24 @@ exports.SkaterPenalties = React.createClass
           <div className='penalty-7'>
             <PenaltyControl
               penaltyNumber={7}
-              penaltyState={this.findPenalty(7)}
-              clickHandler={this.toggleEdit.bind(this, 7)}
-              teamStyle={this.props.teamStyle} />
+              penaltyState={this.props.skaterState.penaltyStates[6]}
+              teamStyle={this.props.teamStyle}
+              target={@getPenaltyId(6)} />
           </div>
         </div>
       </div>
-      <EditPenaltyPanel ref='editPenaltyPanel'
-        penalty={this.getEditingPenalty() || this.newPenaltyState()}
-        applyHandler={this.setJamNumber}
-        cancelHandler={this.closeEdit}/>
+      <div className='row gutters-xs'>
+        <div className='col-xs-12'>
+          {this.props.skaterState.penaltyStates.map (penaltyState, penaltyIndex) ->
+            <EditPenaltyPanel
+              key={penaltyIndex}
+              id={@getPenaltyId(penaltyIndex)}
+              penaltyState={penaltyState}
+              penaltyNumber={penaltyIndex+1}
+              actions={@bindActions(penaltyIndex)}
+              onOpen={@props.editHandler.bind(null, penaltyIndex)}
+              onClose={@props.editHandler.bind(null, null)}/>
+          , this}
+        </div>
+      </div>
     </div>
