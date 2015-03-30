@@ -42,7 +42,6 @@ exports.classes.CountdownClock = class CountdownClock
     {
       display: @display()
       time: @time
-      tick: @tick
     }
   _tick: () =>
     #console.log("tick  clock")
