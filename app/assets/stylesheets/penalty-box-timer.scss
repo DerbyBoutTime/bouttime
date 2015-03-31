@@ -4,11 +4,23 @@
 }
 .penalty-box-timer {
   .penalty-clocks {
+    .penalty-count {
+      position: absolute;
+      height: 2em;
+      width: 2em;
+      background-color: $dark-gray;
+      right: 2px;
+      top: 0px;
+      border-radius: 0 50% 0 50%;
+      color: $white;
+      text-align: center;
+      padding-top: 0.25em;
+    }
     .skater-selector {
       .glyphicon {
         position: absolute;
         top: 1em;
-        right: 1em;
+        right: 0.5em;
       }
     }
     .skater-wrapper {
