@@ -4,6 +4,7 @@ exports.JamTimer = React.createClass
   displayName: 'JamTimer'
   getInitialState: () ->
     state =
+      handleModal: null
       id: @props.gameState.id
       componentId: exports.wftda.functions.uniqueId()
       state: @props.gameState.state
@@ -337,6 +338,51 @@ exports.JamTimer = React.createClass
     @state.awayAttributes.isTakingTimeout = false
     @state.homeAttributes.isTakingOfficialReview = false
     @state.awayAttributes.isTakingOfficialReview = false
+  openModal: () ->
+    $modal = $(@refs.modal.getDOMNode())
+    $modal.modal('show')
+  handleModal: () ->
+    $modal = $(@refs.modal.getDOMNode())
+    $input = $(@refs.modalInput.getDOMNode())
+    $modal.modal('hide')
+    val = parseInt($input.val())
+    @state.modalHandler(val)
+  handleJamEdit: (val) ->
+    @setState
+      jamNumber: val
+  handlePeriodEdit: (val) ->
+    @setState
+      periodNumber: val
+  handleJamClockEdit: (val) ->
+    @state.jamClock.time = val*1000
+    @forceUpdate()
+  handlePeriodClockEdit: (val) ->
+    @state.periodClock.time = val*1000
+    @forceUpdate()
+  clickJamEdit: () ->
+    $input = $(@refs.modalInput.getDOMNode())
+    $input.val(@state.jamNumber)
+    @openModal()
+    @setState
+      modalHandler: @handleJamEdit
+  clickPeriodEdit: () ->
+    $input = $(@refs.modalInput.getDOMNode())
+    $input.val(@state.periodNumber)
+    @openModal()
+    @setState
+      modalHandler: @handlePeriodEdit
+  clickJamClockEdit: () ->
+    $input = $(@refs.modalInput.getDOMNode())
+    $input.val(@state.jamClock.time/1000)
+    @openModal()
+    @setState
+      modalHandler: @handleJamClockEdit
+  clickPeriodClockEdit: () ->
+    $input = $(@refs.modalInput.getDOMNode())
+    $input.val(@state.periodClock.time/1000)
+    @openModal()
+    @setState
+      modalHandler: @handlePeriodClockEdit
   render: () ->
     #CS = Class Set
     timeoutSectionCS = cx
@@ -433,20 +479,20 @@ exports.JamTimer = React.createClass
             <div className="row">
               <div className="col-xs-12">
                 <strong>
-                  <span className="jt-label pull-left">
+                  <span className="jt-label pull-left" onClick={@clickPeriodEdit}>
                     Period {@state.periodNumber}
                   </span>
-                  <span className="jt-label pull-right">
+                  <span className="jt-label pull-right" onClick={@clickJamEdit}>
                     Jam {@state.jamNumber}
                   </span>
                 </strong>
               </div>
               <div className="col-md-12 col-xs-12">
-                <div className="period-clock">{@state.periodClock.display()}</div>
+                <div className="period-clock" onClick={@clickPeriodClockEdit}>{@state.periodClock.display()}</div>
               </div>
               <div className="col-md-12 col-xs-12">
                 <strong className="jt-label">{@state.state.replace(/_/g, ' ')}</strong>
-                <div className="jam-clock">{@state.jamClock.display()}</div>
+                <div className="jam-clock" onClick={@clickJamClockEdit}>{@state.jamClock.display()}</div>
               </div>
             </div>
           </div>
@@ -547,6 +593,22 @@ exports.JamTimer = React.createClass
             <button className="bt-btn ended-by-time-btn">
               ENDED BY TIME
             </button>
+          </div>
+        </div>
+        <div className="modal" ref="modal">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 className="modal-title">Edit</h4>
+              </div>
+              <div className="modal-body">
+                <input type="number" className="form-control" ref="modalInput"/>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-primary" onClick={@handleModal}>Save changes</button>
+              </div>
+            </div>
           </div>
         </div>
     </div>
