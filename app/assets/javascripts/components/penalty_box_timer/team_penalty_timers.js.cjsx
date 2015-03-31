@@ -5,40 +5,61 @@ exports.TeamPenaltyTimers = React.createClass
   propTypes:
     teamState: React.PropTypes.object.isRequired
     jamNumber: React.PropTypes.number.isRequired
-  bindActions: (jamIndex, position) ->
+    actions: React.PropTypes.object.isRequired
+  bindActions: (boxIndex) ->
     Object.keys(@props.actions).map((key) ->
       key: key
-      value: @props.actions[key].bind(this, jamIndex, position)
+      value: @props.actions[key].bind(this, boxIndex)
     , this).reduce((actions, action) ->
       actions[action.key] = action.value
       actions
     , {})
   render: () ->
     jamIndex = Math.max(@props.jamNumber - 1, 0)
-    jam = @props.teamState.jamStates[jamIndex]
+    hideJammer = @props.teamState.penaltyBoxStates.some (boxState) ->
+      boxState.position is 'jammer' and not boxState.served
+    visibleBlockers = 4 - @props.teamState.penaltyBoxStates.filter((boxState) -> boxState.position is 'blocker' and not boxState.served).length
     <div className="team-penalty-timers">
       <div className="row gutters-xs">
-        <div className="col-xs-6">
-          <button className="bt-btn undo-btn">UNDO</button>
-        </div>
-        <div className="col-xs-6">
+        <div className="col-xs-12">
           <button className="bt-btn edit-btn">
             <span>EDIT</span>
             <i className="glyphicon glyphicon-pencil"></i>
           </button>
         </div>
       </div>
-      <div className="row gutters-xs margin-xs">
-        <div className="col-xs-offset-6 col-xs-6">
-          <button className="bt-btn .jammer-swap-button">
-            <span className="glyphicon glyphicon-star" aria-hidden="true"></span>
-            <span>Jammer</span>
-          </button>
-        </div>
-      </div>
       <section className="penalty-clocks">
-        <PenaltyClock position='jammer' teamStyle={@props.teamState.colorBarStyle} boxState={jam.jammerBoxState} actions={@bindActions(jamIndex, 'jammer')} setSelectorContext={@props.actions.setSelectorContext.bind(null, jamIndex)}/>
-        <PenaltyClock position='blocker1' teamStyle={@props.teamState.colorBarStyle} boxState={jam.blocker1BoxState} actions={@bindActions(jamIndex, 'blocker1')} setSelectorContext={@props.actions.setSelectorContext.bind(null, jamIndex)}/>
-        <PenaltyClock position='blocker2' teamStyle={@props.teamState.colorBarStyle} boxState={jam.blocker2BoxState} actions={@bindActions(jamIndex, 'blocker2')} setSelectorContext={@props.actions.setSelectorContext.bind(null, jamIndex)}/>
+        {@props.teamState.penaltyBoxStates.map((boxState, boxIndex) ->
+          <PenaltyClock key={boxIndex}
+            teamStyle={@props.teamState.colorBarStyle}
+            boxState={boxState} actions={@bindActions(boxIndex)}
+            setSelectorContext={@props.actions.setSelectorContext.bind(this, jamIndex)}
+            hidden={boxState.served}/>
+        , this).filter (component) ->
+          component.props.boxState.position is 'jammer'
+        , this}
+        <PenaltyClock
+          teamStyle={@props.teamState.colorBarStyle}
+          boxState={position: 'jammer'}
+          actions={@bindActions('jammer')}
+          setSelectorContext={@props.actions.setSelectorContext.bind(null, jamIndex)}
+          hidden={hideJammer}/>
+        {@props.teamState.penaltyBoxStates.map((boxState, boxIndex) ->
+          <PenaltyClock key={boxIndex}
+            teamStyle={@props.teamState.colorBarStyle}
+            boxState={boxState}
+            actions={@bindActions(boxIndex)}
+            setSelectorContext={@props.actions.setSelectorContext.bind(this, jamIndex)}
+            hidden={boxState.served}/>
+        , this).filter (component) ->
+          component.props.boxState.position is 'blocker'
+        , this}
+        {[0...visibleBlockers].map (i) ->
+          <PenaltyClock key={i}
+            teamStyle={@props.teamState.colorBarStyle}
+            boxState={position: 'blocker'}
+            actions={@bindActions('blocker')}
+            setSelectorContext={@props.actions.setSelectorContext.bind(null, jamIndex)}/>
+        , this}
       </section>
     </div>
