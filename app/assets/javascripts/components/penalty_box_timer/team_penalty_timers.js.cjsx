@@ -5,6 +5,7 @@ exports.TeamPenaltyTimers = React.createClass
   propTypes:
     teamState: React.PropTypes.object.isRequired
     jamNumber: React.PropTypes.number.isRequired
+    actions: React.PropTypes.object.isRequired
   bindActions: (jamIndex, position) ->
     Object.keys(@props.actions).map((key) ->
       key: key
@@ -25,14 +26,6 @@ exports.TeamPenaltyTimers = React.createClass
           <button className="bt-btn edit-btn">
             <span>EDIT</span>
             <i className="glyphicon glyphicon-pencil"></i>
-          </button>
-        </div>
-      </div>
-      <div className="row gutters-xs margin-xs">
-        <div className="col-xs-offset-6 col-xs-6">
-          <button className="bt-btn .jammer-swap-button">
-            <span className="glyphicon glyphicon-star" aria-hidden="true"></span>
-            <span>Jammer</span>
           </button>
         </div>
       </div>
