@@ -130,7 +130,13 @@ $gray-base: $near-black;
   }
 }
 
-.col-5-cols {
+.col-xs-5-cols {
+  $width: 100%/5.0;
   float:left;
-  width: 20%;
+  width: $width;
+}
+.col-xs-7-cols {
+  $width: 100%/7.0;
+  float:left;
+  width: $width;
 }

@@ -16,53 +16,21 @@ exports.PenaltiesSummary = React.createClass
     <div className={containerClass} >
       {@props.teamState.skaterStates.map (skaterState, skaterIndex) ->
         <div key={skaterIndex} className='row gutters-xs top-buffer'>
-          <div className='col-xs-3 col-sm-3'>
+          <div className='col-xs-2'>
             <button className='bt-btn btn-boxed' onClick={@props.selectionHandler.bind(null, skaterIndex)}>
               <strong>{skaterState.skater.number}</strong>
             </button>
           </div>
-          <div className='col-xs-1 col-sm-1'>
-            <PenaltyIndicator
-              penaltyNumber={1}
-              penaltyState={skaterState.penaltyStates[0]}
-              teamStyle={@props.teamStyle}/>
-          </div>
-          <div className='col-xs-1 col-sm-1'>
-            <PenaltyIndicator
-              penaltyNumber={2}
-              penaltyState={skaterState.penaltyStates[1]}
-              teamStyle={@props.teamStyle} />
-          </div>
-          <div className='col-xs-1 col-sm-1'>
-            <PenaltyIndicator
-              penaltyNumber={3}
-              penaltyState={skaterState.penaltyStates[2]}
-              teamStyle={@props.teamStyle} />
-          </div>
-          <div className='col-xs-1 col-sm-1'>
-            <PenaltyIndicator
-              penaltyNumber={4}
-              penaltyState={skaterState.penaltyStates[3]}
-              teamStyle={@props.teamStyle} />
-          </div>
-          <div className='col-xs-1 col-sm-1'>
-            <PenaltyIndicator
-              penaltyNumber={5}
-              penaltyState={skaterState.penaltyStates[4]}
-              teamStyle={@props.teamStyle} />
-          </div>
-          <div className='col-xs-1 col-sm-1'>
-            <PenaltyIndicator
-              penaltyNumber={6}
-              penaltyState={skaterState.penaltyStates[5]}
-              teamStyle={@props.teamStyle} />
-          </div>
-          <div className='col-xs-3 col-sm-3'>
-            <PenaltyIndicator
-              penaltyNumber={7}
-              penaltyState={skaterState.penaltyStates[6]}
-              teamStyle={@props.teamStyle}
-              leftEarly={true} />
+          {[0...7].map (i) ->
+            <div key={i} className='col-xs-1'>
+              <PenaltyIndicator
+                penaltyNumber={i+1}
+                penaltyState={skaterState.penaltyStates[i]}
+                teamStyle={@props.teamStyle}/>
+            </div>
+          , this}
+          <div className='col-xs-3'>
+            <PenaltyAlert skaterState={skaterState} />
           </div>
         </div>
       , this}

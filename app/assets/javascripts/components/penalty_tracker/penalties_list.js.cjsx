@@ -4,7 +4,10 @@ exports.PenaltiesList = React.createClass
   displayName: 'PenaltiesList'
 
   render: () ->
-    <div className='penalties-list'>
+    containerClass = cx
+      'penalties-list': true
+      'hidden': @props.hidden
+    <div className={containerClass}>
       {@props.penalties[0...-1].map((penalty, penaltyIndex) ->
         <div key={penaltyIndex} className='penalty'>
           <div className='col-xs-1 col-sm-1'>

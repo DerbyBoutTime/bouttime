@@ -1,3 +1,4 @@
+cx = React.addons.classSet
 exports = exports ? this
 exports.PenaltyIndicator = React.createClass
   displayName: 'PenaltyIndicator'
@@ -9,10 +10,13 @@ exports.PenaltyIndicator = React.createClass
   getDefaultProps: () ->
     leftEarly: false
   displayContent: () ->
-    if @props.penaltyState? and @props.penaltyState.penalty? then @props.penaltyState.penalty.code else @displayNumber()
-  displayNumber: () ->
-    if @props.leftEarly then 'Left Early' else @props.penaltyNumber
+    if @props.penaltyState? and @props.penaltyState.penalty? then @props.penaltyState.penalty.code else @props.penaltyNumber
   render: () ->
-    <div className='penalty-indicator' style={@props.teamStyle if @props.penaltyState?}>
-      {@displayContent()}
+    containerClass = cx
+      'penalty-indicator': true
+      'warning': @props.penaltyState? and @props.penaltyNumber is 6
+      'expulsion': @props.penaltyState? and @props.penaltyNumber is 7
+
+    <div className={containerClass} style={@props.teamStyle if @props.penaltyState? and @props.penaltyNumber < 6}>
+      <strong>{@displayContent()}</strong>
     </div>

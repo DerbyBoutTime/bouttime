@@ -31,16 +31,16 @@ exports.JamDetail = React.createClass
       'gutters-xs': true
       'actions': true
     pivotHeaderClass = cx
-      'col-5-cols text-center': true
+      'col-xs-5-cols text-center': true
       'hidden': @props.jamState.noPivot
     blocker4HeaderClass = cx
-      'col-5-cols text-center': true
+      'col-xs-5-cols text-center': true
       'hidden': not @props.jamState.noPivot
     pivotColumnClass = cx
-      'col-5-cols': true
+      'col-xs-5-cols': true
       'hidden': @props.jamState.noPivot
     blocker4ColumnClass = cx
-      'col-5-cols': true
+      'col-xs-5-cols': true
       'hidden': not @props.jamState.noPivot
 
     <div className="jam-detail">
@@ -66,19 +66,19 @@ exports.JamDetail = React.createClass
         </div>
       </div>
       <div className="row gutters-xs positions">
-        <div className="col-5-cols text-center">
+        <div className="col-xs-5-cols text-center">
           <strong>J</strong>
         </div>
         <div className={pivotHeaderClass}>
           <strong>Pivot</strong>
         </div>
-        <div className="col-5-cols text-center">
+        <div className="col-xs-5-cols text-center">
           <strong>B1</strong>
         </div>
-        <div className="col-5-cols text-center">
+        <div className="col-xs-5-cols text-center">
           <strong>B2</strong>
         </div>
-        <div className="col-5-cols text-center">
+        <div className="col-xs-5-cols text-center">
           <strong>B3</strong>
         </div>
         <div className={blocker4HeaderClass}>
@@ -86,7 +86,7 @@ exports.JamDetail = React.createClass
         </div>
       </div>
       <div className="row gutters-xs skaters">
-        <div className="col-5-cols">
+        <div className="col-xs-5-cols">
           <SkaterSelector
             skater={@props.jamState.jammer}
             injured={@isInjured('jammer')}
@@ -102,7 +102,7 @@ exports.JamDetail = React.createClass
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@props.selectSkaterHandler.bind(this, 'pivot')} />
         </div>
-        <div className="col-5-cols">
+        <div className="col-xs-5-cols">
           <SkaterSelector
             skater={@props.jamState.blocker1}
             injured={@isInjured('blocker1')}
@@ -110,7 +110,7 @@ exports.JamDetail = React.createClass
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@props.selectSkaterHandler.bind(this, 'blocker1')} />
         </div>
-        <div className="col-5-cols">
+        <div className="col-xs-5-cols">
           <SkaterSelector
             skater={@props.jamState.blocker2}
             injured={@isInjured('blocker2')}
@@ -118,7 +118,7 @@ exports.JamDetail = React.createClass
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@props.selectSkaterHandler.bind(this, 'blocker2')} />
         </div>
-        <div className="col-5-cols">
+        <div className="col-xs-5-cols">
           <SkaterSelector
             skater={@props.jamState.blocker3}
             injured={@isInjured('blocker3')}
