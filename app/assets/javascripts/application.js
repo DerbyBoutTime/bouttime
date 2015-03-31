@@ -15,7 +15,6 @@
 //= require bootstrap-sprockets
 //= require jquery_ujs
 //= require touch-punch
-//= require turbolinks
 //= require react-with-addons
 //= require react_ujs
 //= require mousetrap.min
