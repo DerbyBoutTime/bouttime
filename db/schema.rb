@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150217220348) do
+ActiveRecord::Schema.define(version: 20150331032624) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,7 +59,7 @@ ActiveRecord::Schema.define(version: 20150217220348) do
     t.boolean  "nopass"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_selected",   default: false
+    t.boolean  "is_selected",           default: false
     t.boolean  "no_pivot"
     t.boolean  "star_pass"
     t.integer  "pivot_id"
@@ -67,11 +67,17 @@ ActiveRecord::Schema.define(version: 20150217220348) do
     t.integer  "blocker2_id"
     t.integer  "blocker3_id"
     t.integer  "jammer_id"
+    t.integer  "jammer_box_state_id"
+    t.integer  "blocker1_box_state_id"
+    t.integer  "blocker2_box_state_id"
   end
 
+  add_index "jam_states", ["blocker1_box_state_id"], name: "index_jam_states_on_blocker1_box_state_id", using: :btree
   add_index "jam_states", ["blocker1_id"], name: "index_jam_states_on_blocker1_id", using: :btree
+  add_index "jam_states", ["blocker2_box_state_id"], name: "index_jam_states_on_blocker2_box_state_id", using: :btree
   add_index "jam_states", ["blocker2_id"], name: "index_jam_states_on_blocker2_id", using: :btree
   add_index "jam_states", ["blocker3_id"], name: "index_jam_states_on_blocker3_id", using: :btree
+  add_index "jam_states", ["jammer_box_state_id"], name: "index_jam_states_on_jammer_box_state_id", using: :btree
   add_index "jam_states", ["jammer_id"], name: "index_jam_states_on_jammer_id", using: :btree
   add_index "jam_states", ["pivot_id"], name: "index_jam_states_on_pivot_id", using: :btree
   add_index "jam_states", ["team_state_id"], name: "index_jam_states_on_team_state_id", using: :btree
@@ -123,6 +129,18 @@ ActiveRecord::Schema.define(version: 20150217220348) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "penalty_box_states", force: true do |t|
+    t.integer  "skater_id"
+    t.boolean  "left_early"
+    t.boolean  "served"
+    t.integer  "clock_state_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "penalty_box_states", ["clock_state_id"], name: "index_penalty_box_states_on_clock_state_id", using: :btree
+  add_index "penalty_box_states", ["skater_id"], name: "index_penalty_box_states_on_skater_id", using: :btree
 
   create_table "penalty_states", force: true do |t|
     t.integer  "skater_state_id"

@@ -77,26 +77,49 @@ class GameState < ActiveRecord::Base
           blocker1: except_time_stamps,
           blocker2: except_time_stamps,
           blocker3: except_time_stamps,
-          jammer: except_time_stamps
+          jammer: except_time_stamps,
+          jammer_box_state: { include: {
+            skater: except_time_stamps,
+            clock_state: except_time_stamps
+          }}.merge(except_time_stamps),
+          blocker1_box_state: { include: {
+            skater: except_time_stamps,
+            clock_state: except_time_stamps
+          }}.merge(except_time_stamps),
+          blocker2_box_state: { include: {
+            skater: except_time_stamps,
+            clock_state: except_time_stamps
+          }}.merge(except_time_stamps)
         }}.merge(except_time_stamps),
       }
     }.merge(except_time_stamps)
   end
-  def as_json
-    super(
-      include: {
+
+  def as_json(options = {include: {
         :home_attributes => team_state_json_options,
         :away_attributes => team_state_json_options,
         :jam_clock_attributes => except_time_stamps,
         :period_clock_attributes => except_time_stamps,
         :game => {}
       },
-      methods: :penalties
-    )
+      methods: :penalties})
+    super(options)
   end
+
   def to_json(options = {})
-    hash = self.as_json
-    JSON.pretty_generate(hash, options)
+    hash = self.as_json()
+    if Rails.env == "development"
+      JSON.pretty_generate(hash, options)
+    else
+      hash.to_json
+    end
+  end
+  def serialize_clocks
+    self.as_json(
+      include: {
+        :jam_clock_attributes => except_time_stamps,
+        :period_clock_attributes => except_time_stamps
+    })
   end
   def find_or_initialize_pass_state_by(attrs)
     team = attrs["team"]

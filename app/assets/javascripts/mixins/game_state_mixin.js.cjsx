@@ -14,3 +14,9 @@ exports.GameStateMixin =
     @getSkaterState(teamType, skaterIndex).penaltyStates[penaltyStateIndex]
   getPenalty: (penaltyIndex) ->
     @state.gameState.penalties[penaltyIndex]
+  getPenaltyBoxState: (teamType, jamIndex, position) ->
+    jam = @getJamState(teamType, jamIndex)
+    switch position
+      when 'jammer' then jam.jammerBoxState
+      when 'blocker1' then jam.blocker1BoxState
+      when 'blocker2' then jam.blocker2BoxState

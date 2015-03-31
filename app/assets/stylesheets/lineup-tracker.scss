@@ -9,6 +9,8 @@
       color: $white;
     }
     .jam-detail-no-pivot, .jam-detail-star-pass {
+      line-height: $minimum-touch-target;
+      padding: 0;
       &.selected {
         background-color: $muted-gray;
         color: $white;
