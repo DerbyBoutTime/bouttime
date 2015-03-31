@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/reactjs/react-rails.git
-  revision: 84a4148008611ced71b5051fc9a10a201e3d3db8
+  revision: 2731a716f4395b7e51df60d42dfb3bd162688836
   specs:
     react-rails (1.0.0.pre)
       coffee-script-source (~> 1.8)
@@ -83,7 +83,7 @@ GEM
     coffee-script (2.3.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.9.1)
+    coffee-script-source (1.8.0)
     colorize (0.7.5)
     columnize (0.9.0)
     connection_pool (2.1.3)
@@ -269,6 +269,7 @@ DEPENDENCIES
   bootstrap_form
   capistrano-rails
   coffee-rails (~> 4.0.0)
+  coffee-script-source (= 1.8.0)
   colorize
   did_you_mean (= 0.9.0)
   dotenv-rails
