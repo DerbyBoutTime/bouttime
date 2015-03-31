@@ -4,7 +4,7 @@ exports.PenaltyTracker = React.createClass
   displayName: 'PenaltyTracker'
   mixins: [GameStateMixin, CopyGameStateMixin]
   componentWillMount: () ->
-    @actions = 
+    @actions =
       setPenalty: (teamType, skaterIndex, penaltyIndex) ->
         skaterState = @getSkaterState(teamType, skaterIndex)
         penalty = @getPenalty(penaltyIndex)
@@ -43,8 +43,8 @@ exports.PenaltyTracker = React.createClass
   getInitialState: () ->
     componentId: exports.wftda.functions.uniqueId()
   render: () ->
-    awayElement = <TeamPenalties teamState={@state.gameState.awayAttributes} penalties={@state.gameState.penalties} actions={@bindActions('away')}/>
-    homeElement = <TeamPenalties teamState={@state.gameState.homeAttributes} penalties={@state.gameState.penalties} actions={@bindActions('home')}/>
+    awayElement = <TeamPenalties teamState={@state.gameState.awayAttributes} penalties={@state.gameState.penalties} actions={@bindActions('away') }/>
+    homeElement = <TeamPenalties teamState={@state.gameState.homeAttributes} penalties={@state.gameState.penalties} actions={@bindActions('home') }/>
     <div className="penalty-tracker">
       <TeamSelector
         awayAttributes={@state.gameState.awayAttributes}
