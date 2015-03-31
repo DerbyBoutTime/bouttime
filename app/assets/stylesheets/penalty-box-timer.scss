@@ -4,6 +4,13 @@
 }
 .penalty-box-timer {
   .penalty-clocks {
+    .skater-selector {
+      .glyphicon {
+        position: absolute;
+        top: 1em;
+        right: 1em;
+      }
+    }
     .skater-wrapper {
       @include make-row;
       @include make-xs-column(6);
@@ -25,6 +32,7 @@
     .served-button, .left-early-button {
       @include bt-button;
       @include make-xs-column(6);
+      line-height: $minimum-touch-target;
     }
     .left-early-button.selected {
       @include button-variant($near-black, $alert-yellow, $white);

@@ -18,7 +18,7 @@ class JamTimerController < WebsocketRails::BaseController
     t1 = Time.now
     #puts "#{event.name} for GS##{@game_state.id}", @state[:jam_clock_attributes]
     @game_state.jam_clock.update_attributes @state[:jam_clock_attributes]
-    broadcast_message :update, @game_state.as_json()
+    broadcast_message :time_update, @game_state.serialize_clocks
     t2 = Time.now
     puts "#{event.name} completed in #{(t2-t1)*1000.0} milliseconds"
   end
@@ -26,7 +26,7 @@ class JamTimerController < WebsocketRails::BaseController
     t1 = Time.now
     #puts "#{event.name} for GS##{@game_state.id}", @state[:period_clock_attributes]
     @game_state.period_clock.update_attributes! @state[:period_clock_attributes]
-    broadcast_message :update, @game_state.as_json()
+    broadcast_message :time_update, @game_state.serialize_clocks
     t2 = Time.now
     #puts "#{event.name} completed in #{(t2-t1)*1000.0} milliseconds"
   end

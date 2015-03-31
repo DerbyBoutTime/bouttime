@@ -5,7 +5,8 @@ exports.Game = React.createClass
   mixins: [GameStateMixin]
   componentDidMount: () ->
     $dom = $(@getDOMNode())
-    $dom.on 'click', '.bad-status', null, (evt) =>
+    @gameDOM = $(".game")
+    $dom.on 'click', '.bad-status', null, (evt) ->
       exports.dispatcher.disconnect()
       exports.dispatcher.connect()
     $dom.on 'click', 'ul.nav li', null, (evt) =>
@@ -17,14 +18,21 @@ exports.Game = React.createClass
     $dom.on 'click', '#login', null, (evt) =>
       @setState
         tab: "login"
+    exports.dispatcher.bind 'time_update', (new_state) =>
+      console.log "Time update received"
+      @resetDeadmanTimer()
+      @state.gameState.jamClockAttributes = new_state.jam_clock_attributes
+      @state.gameState.periodClockAttributes = new_state.period_clock_attributes
+      @forceUpdate()
     exports.dispatcher.bind 'update', (state) =>
       console.log "Update received"
-      clearTimeout(exports.connectionTimeout)
       @setState(gameState: exports.wftda.functions.camelize(state))
-      $(".game").addClass("connected")
-      exports.connectionTimeout = setInterval(() ->
-        $(".game").removeClass("connected")
-      , exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS)
+  resetDeadmanTimer: () ->
+    clearTimeout(exports.connectionTimeout)
+    @gameDOM.addClass("connected")
+    exports.connectionTimeout = setInterval(() =>
+      @gameDOM.removeClass("connected")
+    , exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS)
   getInitialState: () ->
     gameState = exports.wftda.functions.camelize(@props)
     gameState: gameState
