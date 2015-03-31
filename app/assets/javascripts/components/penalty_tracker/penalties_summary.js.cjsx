@@ -4,11 +4,11 @@ exports.PenaltiesSummary = React.createClass
   displayName: 'PenaltiesSummary'
   propTypes:
     teamState: React.PropTypes.object.isRequired
-    penalties: React.PropTypes.array.isRequired
-    teamStyle: React.PropTypes.object.isRequired
     selectionHandler: React.PropTypes.func
     hidden: React.PropTypes.bool
-
+  getDefaultProps: () ->
+    selectionHandler: () ->
+    hidden: false
   render: () ->
     containerClass = cx
       'penalties-summary': true
@@ -26,7 +26,7 @@ exports.PenaltiesSummary = React.createClass
               <PenaltyIndicator
                 penaltyNumber={i+1}
                 penaltyState={skaterState.penaltyStates[i]}
-                teamStyle={@props.teamStyle}/>
+                teamStyle={@props.teamState.colorBarStyle}/>
             </div>
           , this}
           <div className='col-xs-3'>
