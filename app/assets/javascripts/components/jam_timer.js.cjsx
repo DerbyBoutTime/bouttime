@@ -27,6 +27,52 @@ exports.JamTimer = React.createClass
       role: 'Jam Timer'
       state: @state
     $.extend(std_opts, opts)
+  handleToggleTimeoutBar: (evt) ->
+    $target = $(evt.target)
+    $parent = $target.closest(".timeout-bars").first()
+    console.log $target.closest(".timeout-bars").first()
+    if $target.hasClass "official-review"
+      if $target.hasClass "inactive"
+        #Set has official review to true
+        #Increment official reviews retained
+        if $parent.hasClass "home"
+          reviewsRetained = @state.homeAttributes.officialReviewsRetained + 1
+          @setState
+            homeAttributes: $.extend @state.homeAttributes,
+              hasOfficialReview: true
+              officialReviewsRetained: reviewsRetained
+        else
+          reviewsRetained = @state.awayAttributes.officialReviewsRetained + 1
+          @setState
+            awayAttributes: $.extend @state.awayAttributes,
+              hasOfficialReview: true
+              officialReviewsRetained: reviewsRetained
+      else
+        #Set has official review to false
+        if $parent.hasClass "home"
+          @setState
+            homeAttributes: $.extend @state.homeAttributes,
+              hasOfficialReview: false
+        else
+          @setState
+            awayAttributes: $.extend @state.awayAttributes,
+              hasOfficialReview: false
+    else #Its a normal timeout not an official review
+      timeoutsRemaining = 0
+      if $target.hasClass "inactive"
+        timeoutsRemaining = timeoutsRemaining + 1
+      timeoutsRemaining = timeoutsRemaining + $target.nextAll(".bar").length
+      console.log "Setting remaining timeouts to #{timeoutsRemaining}"
+      #Set remaining timeouts
+      if $parent.hasClass "home"
+        @setState
+          homeAttributes: $.extend @state.homeAttributes,
+            timeouts: timeoutsRemaining
+      else
+        @setState
+          awayAttributes: $.extend @state.awayAttributes,
+            timeouts: timeoutsRemaining
+    return null
   componentDidMount: () ->
     exports.wftda.ticks[@state.id] = exports.wftda.ticks[@state.id] || {}
     $dom = $(@getDOMNode())
@@ -377,10 +423,10 @@ exports.JamTimer = React.createClass
           <div className="col-md-2 col-xs-2">
             <div className="timeout-bars home">
               <span className="jt-label">{@state.homeAttributes.initials}</span>
-              <div className={homeTeamOfficialReviewCS}>0</div>
-              <div className={homeTeamTimeouts1CS}></div>
-              <div className={homeTeamTimeouts2CS}></div>
-              <div className={homeTeamTimeouts3CS}></div>
+              <div className={homeTeamOfficialReviewCS} onClick={@handleToggleTimeoutBar}>{@state.homeAttributes.officialReviewsRetained}</div>
+              <div className={homeTeamTimeouts1CS} onClick={@handleToggleTimeoutBar}></div>
+              <div className={homeTeamTimeouts2CS} onClick={@handleToggleTimeoutBar}></div>
+              <div className={homeTeamTimeouts3CS} onClick={@handleToggleTimeoutBar}></div>
             </div>
           </div>
           <div className="col-md-8 col-xs-8">
@@ -407,10 +453,10 @@ exports.JamTimer = React.createClass
           <div className="col-md-2 col-xs-2">
             <div className="timeout-bars away">
               <span className="jt-label">{@state.awayAttributes.initials}</span>
-              <div className={awayTeamOfficialReviewCS}>0</div>
-              <div className={awayTeamTimeouts1CS}></div>
-              <div className={awayTeamTimeouts2CS}></div>
-              <div className={awayTeamTimeouts3CS}></div>
+              <div className={awayTeamOfficialReviewCS} onClick={@handleToggleTimeoutBar}>{@state.awayAttributes.officialReviewsRetained}</div>
+              <div className={awayTeamTimeouts1CS} onClick={@handleToggleTimeoutBar}></div>
+              <div className={awayTeamTimeouts2CS} onClick={@handleToggleTimeoutBar}></div>
+              <div className={awayTeamTimeouts3CS} onClick={@handleToggleTimeoutBar}></div>
             </div>
           </div>
         </div>
