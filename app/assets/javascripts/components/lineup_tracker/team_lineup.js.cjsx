@@ -10,7 +10,6 @@ exports.TeamLineup = React.createClass
     setSelectorContextHandler: React.PropTypes.func.isRequired
     selectSkaterHandler: React.PropTypes.func.isRequired
     endHandler: React.PropTypes.func.isRequired
-    undoHandler: React.PropTypes.func.isRequired
   render: ()->
     <div className="jam-details">
       {@props.teamState.jamStates.map (jamState, jamIndex) ->
@@ -24,5 +23,5 @@ exports.TeamLineup = React.createClass
           setSelectorContextHandler={@props.setSelectorContextHandler.bind(this, jamIndex)}
           selectSkaterHandler={@props.selectSkaterHandler.bind(this, jamIndex)} />
       , this }
-      <LineupTrackerActions endHandler={@props.endHandler} undoHandler={@props.undoHandler}/>
+      <LineupTrackerActions endHandler={@props.endHandler}/>
     </div>
