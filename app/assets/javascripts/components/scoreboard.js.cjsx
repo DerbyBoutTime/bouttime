@@ -153,8 +153,8 @@ exports.Scoreboard = React.createClass
           </div>
         </div>
         <div className="jam-points-wrapper">
-          <div className="home-team-jam-points points">{@props.gameState.homeAttributes.jamPoints}</div>
-          <div className="away-team-jam-points points">{@props.gameState.awayAttributes.jamPoints}</div>
+          <div className="home-team-jam-points points">{homeJam.passStates.reduce ((sum, pass) -> sum += pass.points), 0}</div>
+          <div className="away-team-jam-points points">{awayJam.passStates.reduce ((sum, pass) -> sum += pass.points), 0}</div>
         </div>
       </section>
       <section className="team away">
