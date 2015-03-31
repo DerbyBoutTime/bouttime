@@ -77,20 +77,12 @@ class GameState < ActiveRecord::Base
           blocker1: except_time_stamps,
           blocker2: except_time_stamps,
           blocker3: except_time_stamps,
-          jammer: except_time_stamps,
-          jammer_box_state: { include: {
-            skater: except_time_stamps,
-            clock_state: except_time_stamps
-          }}.merge(except_time_stamps),
-          blocker1_box_state: { include: {
-            skater: except_time_stamps,
-            clock_state: except_time_stamps
-          }}.merge(except_time_stamps),
-          blocker2_box_state: { include: {
-            skater: except_time_stamps,
-            clock_state: except_time_stamps
-          }}.merge(except_time_stamps)
+          jammer: except_time_stamps
         }}.merge(except_time_stamps),
+        penalty_box_states: {include: {
+          skater: except_time_stamps,
+          clock_state: except_time_stamps
+        }}.merge(except_time_stamps)
       }
     }.merge(except_time_stamps)
   end

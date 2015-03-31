@@ -27,6 +27,7 @@ class TeamState < ActiveRecord::Base
   has_many :jam_states, -> { order('jam_number ASC') }
   has_many :pass_states, through: :jam_states
   has_many :skater_states
+  has_many :penalty_box_states
   has_and_belongs_to_many :skaters, join_table: 'skater_states'
   accepts_nested_attributes_for :jammer, :pass_states
   accepts_nested_attributes_for :jam_states, reject_if: :reject_jam_states
