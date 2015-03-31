@@ -5,23 +5,37 @@ exports.PenaltyBoxTimer = React.createClass
   mixins: [GameStateMixin, CopyGameStateMixin]
   componentWillMount: () ->
     @actions =
-      toggleLeftEarly: (teamType, jamIndex, position) ->
-        box = @getPenaltyBoxState(teamType, jamIndex, position)
-        box.leftEarly = !box.leftEarly
-        box.served = false
-        @setState(@state)
-      toggleServed: (teamType, jamIndex, position) ->
-        box = @getPenaltyBoxState(teamType, jamIndex, position)
-        box.served = !box.served
-        box.leftEarly = false
-        @setState(@state)
+      toggleLeftEarly: (teamType, boxIndex) ->
+        box = @getPenaltyBoxState(teamType, boxIndex)
+        if box?
+          box.leftEarly = !box.leftEarly
+          box.served = false
+          @setState(@state)
+      toggleServed: (teamType, boxIndex) ->
+        box = @getPenaltyBoxState(teamType, boxIndex)
+        if box?
+          box.served = !box.served
+          box.leftEarly = false
+          @setState(@state)
       setSelectorContext: (teamType, jamIndex, selectHandler) ->
         @props.setSelectorContext(teamType, jamIndex, selectHandler)
-      setSkater: (teamType, jamIndex, position, skaterIndex) ->
-        box = @getPenaltyBoxState(teamType, jamIndex, position)
+      setSkater: (teamType, boxIndexOrPosition, skaterIndex) ->
+        box = @actions.getOrCreatePenaltyBoxState.call(this, teamType, boxIndexOrPosition)
         skater = @getSkaterState(teamType, skaterIndex).skater
         box.skater = skater
         @setState(@state)
+      newPenaltyBoxState: (teamType, position) ->
+        position: position
+      getOrCreatePenaltyBoxState: (teamType, boxIndexOrPosition) ->
+        switch typeof boxIndexOrPosition
+          when 'number'
+            @getPenaltyBoxState(teamType, boxIndexOrPosition)
+          when 'string'
+            box = @actions.newPenaltyBoxState.call(this, teamType, boxIndexOrPosition)
+            @getTeamState(teamType).penaltyBoxStates.push(box)
+            @setState(@state)
+            box
+
   componentDidMount: () ->
     $dom = $(@getDOMNode())
   bindActions: (teamType) ->

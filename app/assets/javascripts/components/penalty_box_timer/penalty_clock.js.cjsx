@@ -21,17 +21,19 @@ exports.PenaltyClock = React.createClass
       @state.clock.start()
     @forceUpdate()
   render: () ->
-    placeholder = switch @props.position
+    placeholder = switch @props.boxState.position
       when 'jammer' then "Jammer"
-      when 'blocker1' then "Blocker 1"
-      when 'blocker2' then "Blocker 2"
+      when 'blocker' then "Blocker"
+    containerClass = cx
+      'penalty-clock': true
+      'hidden': @props.hidden
     leftEarlyButtonClass = cx
       'left-early-button': true
       'selected': @props.boxState.leftEarly
     servedButtonClass = cx
       'served-button': true
       'selected': @props.boxState.served
-    <div className="penalty-clock">
+    <div className={containerClass}>
       <div className="skater-wrapper">
         <SkaterSelector
           skater={@props.boxState.skater}
