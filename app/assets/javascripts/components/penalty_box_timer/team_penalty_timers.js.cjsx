@@ -19,10 +19,7 @@ exports.TeamPenaltyTimers = React.createClass
     jam = @props.teamState.jamStates[jamIndex]
     <div className="team-penalty-timers">
       <div className="row gutters-xs">
-        <div className="col-xs-6">
-          <button className="bt-btn undo-btn">UNDO</button>
-        </div>
-        <div className="col-xs-6">
+        <div className="col-xs-12">
           <button className="bt-btn edit-btn">
             <span>EDIT</span>
             <i className="glyphicon glyphicon-pencil"></i>
