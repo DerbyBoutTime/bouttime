@@ -12,6 +12,12 @@ exports.PenaltyClock = React.createClass
   componentDidMount: () ->
     $("##{@clockId}").on 'tick', (evt) =>
       @forceUpdate()
+  start: () ->
+    @state.clock.start()
+  stop: () ->
+    @state.clock.stop()
+  hasSkater: () ->
+    !!@props.boxState.skater
   clockHandler: () ->
     if @state.clock.time is 0
       @state.clock.reset()
