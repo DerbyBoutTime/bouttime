@@ -44,7 +44,7 @@ exports.PenaltyClock = React.createClass
           <button className={leftEarlyButtonClass} onClick={@props.actions.toggleLeftEarly}>
             <strong>Early</strong>
           </button>
-          <button className={servedButtonClass} style={@props.teamStyle if @props.boxState.served} onClick={@props.actions.toggleServed}>
+          <button className={servedButtonClass} onClick={@props.actions.toggleServed}>
             <span className="glyphicon glyphicon-ok"></span>
           </button>
         </div>

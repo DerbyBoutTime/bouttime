@@ -28,7 +28,7 @@ exports.TeamPenaltyTimers = React.createClass
           </button>
         </div>
       </div>
-      <div className="row gutters-xs margin-top-05">
+      <div className="row gutters-xs margin-xs">
         <div className="col-xs-offset-6 col-xs-6">
           <button className="bt-btn .jammer-swap-button">
             <span className="glyphicon glyphicon-star" aria-hidden="true"></span>

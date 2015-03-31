@@ -296,47 +296,47 @@ exports.JamTimer = React.createClass
     timeoutSectionCS = cx
       'timeout-section': true
       'row': true
-      'margin-top-05': true
+      'margin-xs': true
       'hidden': $.inArray(@state.state, ["jam", "lineup", "timeout", "unofficial_final"]) == -1
     timeoutExplanationSectionCS = cx
       'timeout-explanation-section': true
       'row': true
-      'margin-top-05': true
+      'margin-xs': true
       'hidden': $.inArray(@state.state, ["timeout"]) == -1
     undoSectionCS = cx
       'undo-section': true
       'row': true
-      'margin-top-05': true
+      'margin-xs': true
       'hidden': true #$.inArray(@state.state, ["jam", "lineup", "timeout", "unofficial_final", "final"]) == -1
     startClockSectionCS = cx
       'start-clock-section': true
       'row': true
-      'margin-top-05': true
+      'margin-xs': true
       'hidden': $.inArray(@state.state, ["pregame", "halftime", "final"]) == -1
     stopClockSectionCS = cx
       'stop-clock-section': true
       'row': true
-      'margin-top-05': true
+      'margin-xs': true
       'hidden': $.inArray(@state.state, ["pregame"]) == -1
     startJamSectionCS = cx
       'start-jam-section': true
       'row': true
-      'margin-top-05': true
+      'margin-xs': true
       'hidden': $.inArray(@state.state, ["pregame", "halftime", "lineup"]) == -1
     stopJamSectionCS = cx
       'stop-jam-section': true
       'row': true
-      'margin-top-05': true
+      'margin-xs': true
       'hidden': $.inArray(@state.state, ["jam"]) == -1
     startLineupSectionCS = cx
       'start-lineup-section': true
       'row': true
-      'margin-top-05': true
+      'margin-xs': true
       'hidden': $.inArray(@state.state, ["pregame", "halftime",  "timeout", "unofficial_final", "final"]) == -1
     jamExplanationSectionCS = cx
       'jam-explanation-section': true
       'row': true
-      'margin-top-05': true
+      'margin-xs': true
       'hidden': $.inArray(@state.state, ["lineup", "timeout", "unofficial_final"]) == -1
     homeTeamOfficialReviewCS = cx
       'official-review': true
@@ -427,7 +427,7 @@ exports.JamTimer = React.createClass
                   <button className="bt-btn timeout-btn">TIMEOUT</button>
                 </div>
               </div>
-              <div className="row margin-top-05">
+              <div className="row margin-xs">
                 <div className="col-md-12 col-xs-12">
                   <button className="bt-btn review-btn">
                     <span className="hidden-xs">OFFICIAL REVIEW</span>
@@ -450,7 +450,7 @@ exports.JamTimer = React.createClass
                   <button className="bt-btn timeout-btn">TIMEOUT</button>
                 </div>
               </div>
-              <div className="row margin-top-05">
+              <div className="row margin-xs">
                 <div className="col-md-12 col-xs-12">
                   <button className="bt-btn review-btn">
                     <span className="hidden-xs">OFFICIAL REVIEW</span>

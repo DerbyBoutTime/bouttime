@@ -34,11 +34,15 @@
       @include make-xs-column(6);
       line-height: $minimum-touch-target;
     }
+    .served-button.selected {
+      background-color: $green;
+    }
     .left-early-button.selected {
       @include button-variant($near-black, $alert-yellow, $white);
     }
-    .skater-data, .skater-dropdown {
+    .skater-data {
       @include make-row;
+      margin: 0;
       @include margin-xs;
       padding: 0 2px;
     }

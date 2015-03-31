@@ -1,6 +1,6 @@
 @mixin margin-xs() {
-  margin-top: 0.25em;
+  margin-top: $padding-base-horizontal/2;
   @media (min-width: $screen-tablet){
-    margin-top: 0.5em;
+    margin-top: $padding-base-horizontal;
   }
 }
