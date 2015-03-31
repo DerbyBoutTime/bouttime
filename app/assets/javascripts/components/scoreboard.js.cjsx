@@ -5,8 +5,13 @@ cx = React.addons.classSet
 exports = exports ? this
 exports.Scoreboard = React.createClass
   render: () ->
-    awayJam = @props.gameState.awayAttributes.jamStates[@props.gameState.jamNumber - 1]
-    homeJam = @props.gameState.homeAttributes.jamStates[@props.gameState.jamNumber - 1]
+    awayJam = @props.gameState.awayAttributes.jamStates[@props.gameState.jamNumber - 1] ? null
+    homeJam = @props.gameState.homeAttributes.jamStates[@props.gameState.jamNumber - 1] ? null
+    homeJamPoints = awayJamPoints = 0
+    if homeJam
+      homeJamPoints = homeJam.passStates.reduce ((sum, pass) -> sum += pass.points), 0
+    if awayJam
+      awayJamPoints = awayJam.passStates.reduce ((sum, pass) -> sum += pass.points), 0
     adsCS = cx
       'ads': true
       'hidden': $.inArray(@props.gameState.state, ["timeout"]) == -1
@@ -153,8 +158,8 @@ exports.Scoreboard = React.createClass
           </div>
         </div>
         <div className="jam-points-wrapper">
-          <div className="home-team-jam-points points">{@props.gameState.homeAttributes.jamPoints}</div>
-          <div className="away-team-jam-points points">{@props.gameState.awayAttributes.jamPoints}</div>
+          <div className="home-team-jam-points points">{homeJamPoints}</div>
+          <div className="away-team-jam-points points">{awayJamPoints}</div>
         </div>
       </section>
       <section className="team away">
