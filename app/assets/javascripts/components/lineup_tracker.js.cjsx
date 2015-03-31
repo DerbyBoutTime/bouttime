@@ -5,7 +5,6 @@ exports.LineupTracker = React.createClass
   mixins: [CopyGameStateMixin]
   #React callbacks
   getInitialState: () ->
-    @stateStack = []
   #Helper functions
   buildOptions: (opts = {}) ->
     stdOpts =
@@ -14,11 +13,6 @@ exports.LineupTracker = React.createClass
       state: @state.gameState
       options: opts
     $.extend(stdOpts, opts)
-  pushState: (eventName, eventOptions) ->
-    @stateStack.push
-      gameState: $.extend(true, {}, @state.gameState)
-      eventName: eventName
-      eventOptions: $.extend(true, {}, eventOptions)
   getJamState: (team, jamIndex) ->
     switch team
       when 'away' then @state.gameState.awayAttributes.jamStates[jamIndex]
@@ -130,14 +124,6 @@ exports.LineupTracker = React.createClass
     team.jamStates.push(newJam)
     @setState(@state)
     exports.dispatcher.trigger eventName, eventOptions
-  undo: () ->
-    frame = @stateStack.pop()
-    if frame
-      previousGameState = frame.gameState
-      previousEventName = frame.eventName
-      previousEventOptions = frame.eventOptions
-      @setState(gameState: previousGameState)
-      exports.dispatcher.trigger previousEventName, previousEventOptions
   render: () ->
     awayElement = <TeamLineup
       teamState={@props.gameState.awayAttributes}
@@ -146,8 +132,7 @@ exports.LineupTracker = React.createClass
       lineupStatusHandler={@setLineupStatus.bind(this, 'away')}
       setSelectorContextHandler={@props.setSelectorContext.bind(null, 'away')}
       selectSkaterHandler={@setSkater.bind(this,'away')}
-      endHandler={@endJam.bind(this, 'away')}
-      undoHandler={@undo} />
+      endHandler={@endJam.bind(this, 'away')} />
     homeElement = <TeamLineup
       teamState={@props.gameState.homeAttributes}
       noPivotHandler={@toggleNoPivot.bind(this, 'home')}
@@ -155,8 +140,7 @@ exports.LineupTracker = React.createClass
       lineupStatusHandler={@setLineupStatus.bind(this, 'home')}
       setSelectorContextHandler={@props.setSelectorContext.bind(null, 'home')}
       selectSkaterHandler={@setSkater.bind(this, 'home')}
-      endHandler={@endJam.bind(this, 'home')}
-      undoHandler={@undo} />
+      endHandler={@endJam.bind(this, 'home')} />
     <div className="lineup-tracker">
       <TeamSelector
         awayAttributes={@state.gameState.awayAttributes}
