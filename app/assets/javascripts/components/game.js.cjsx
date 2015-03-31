@@ -32,7 +32,7 @@ exports.Game = React.createClass
     @gameDOM.addClass("connected")
     exports.connectionTimeout = setInterval(() =>
       @gameDOM.removeClass("connected")
-    , exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS)
+    , exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS*2)
   getInitialState: () ->
     gameState = exports.wftda.functions.camelize(@props)
     gameState: gameState

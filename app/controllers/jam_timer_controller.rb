@@ -3,6 +3,23 @@ class JamTimerController < WebsocketRails::BaseController
   before_filter :set_state, except: :set_game_state_id
   def initialize_session
   end
+
+  def update
+    attrs = {
+      state: @state[:state],
+      jam_number: @state[:jam_number],
+      period_number: @state[:period_number]
+    }
+    puts "#{event.name} for GS##{@game_state.id}", attrs
+    puts "#{@state[:jam_clock_attributes]}"
+    @game_state.update_attributes!(attrs)
+    @game_state.home.update_attributes!(@state[:home_attributes])
+    @game_state.away.update_attributes!(@state[:away_attributes])
+    @game_state.jam_clock.update_attributes!(@state[:jam_clock_attributes])
+    @game_state.period_clock.update_attributes!(@state[:period_clock_attributes])
+    broadcast_message :update, @game_state.as_json()
+  end
+
   def set_game_state_id
     puts event.name, message
     if message[:game_state_id]

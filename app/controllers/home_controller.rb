@@ -13,7 +13,8 @@ class HomeController < ApplicationController
       gs = GameState.demo!
       session[:game_state_id] = gs.id
     end
-    @game_state = GameState.first_or_create session[:game_state_id]
+    @game_state = GameState.where(id: session[:game_state_id]).first
+    puts session[:game_state_id]
   end
   def placehold_it(width, height, text = "")
     "http://placehold.it/#{width}x#{height}&text=#{text}+(#{width}x#{height})"

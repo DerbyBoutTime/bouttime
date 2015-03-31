@@ -13,12 +13,12 @@ exports.JamTimer = React.createClass
       homeAttributes: @props.gameState.homeAttributes
       awayAttributes: @props.gameState.awayAttributes
       jamClock: new exports.classes.CountdownClock
-        time: exports.wftda.constants.JAM_DURATION_IN_MS
+        time: @props.gameState.jamClockAttributes.time ? exports.wftda.constants.JAM_DURATION_IN_MS
         warningTime: exports.wftda.constants.JAM_WARNING_IN_MS
         refreshRateInMs: exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS
         selector: ".jam-clock"
       periodClock: new exports.classes.CountdownClock
-        time: exports.wftda.constants.PERIOD_DURATION_IN_MS
+        time: @props.gameState.periodClockAttributes.time ? exports.wftda.constants.PERIOD_DURATION_IN_MS
         warningTime: exports.wftda.constants.JAM_WARNING_IN_MS
         refreshRateInMs: exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS
         selector: ".period-clock"
@@ -347,18 +347,29 @@ exports.JamTimer = React.createClass
     $modal.modal('hide')
     val = parseInt($input.val())
     @state.modalHandler(val)
+  serverUpdate: () ->
+    console.log @state
+    exports.dispatcher.trigger "jam_timer.update", @buildOptions
+      state:
+        state: @state.state
+        jamNumber: @state.jamNumber
+        periodNumber: @state.periodNumber
+        jamClockAttributes: @state.jamClock.serialize()
+        periodClockAttributes: @state.periodClock.serialize()
+        homeAttributes: @state.homeAttributes
+        awayAttributes: @state.awayAttributes
   handleJamEdit: (val) ->
-    @setState
-      jamNumber: val
+    @setState {jamNumber: val}, @serverUpdate
   handlePeriodEdit: (val) ->
-    @setState
-      periodNumber: val
+    @setState {periodNumber: val}, @serverUpdate
   handleJamClockEdit: (val) ->
     @state.jamClock.time = val*1000
-    @forceUpdate()
+    @forceUpdate () ->
+      @serverUpdate()
   handlePeriodClockEdit: (val) ->
     @state.periodClock.time = val*1000
-    @forceUpdate()
+    @forceUpdate () ->
+      @serverUpdate()
   clickJamEdit: () ->
     $input = $(@refs.modalInput.getDOMNode())
     $input.val(@state.jamNumber)
