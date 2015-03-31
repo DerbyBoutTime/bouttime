@@ -15,13 +15,19 @@
       @include gutters-xs;
     }
     .clock {
+      @include bt-button;
+      @include button-variant($near-black, $white, $gray);
       border: 2px solid $gray;
       border-radius: 20px;
       font-size: 4em;
+      line-height: 1.5em;
     }
     .served-button, .left-early-button {
       @include bt-button;
       @include make-xs-column(6);
+    }
+    .left-early-button.selected {
+      @include button-variant($near-black, $alert-yellow, $white);
     }
     .skater-data, .skater-dropdown {
       @include make-row;

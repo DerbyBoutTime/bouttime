@@ -3,51 +3,44 @@ exports = exports ? this
 exports.PenaltyBoxTimer = React.createClass
   displayName: 'PenaltyBoxTimer'
   mixins: [GameStateMixin, CopyGameStateMixin]
+  componentWillMount: () ->
+    @actions =
+      toggleLeftEarly: (teamType, jamIndex, position) ->
+        box = @getPenaltyBoxState(teamType, jamIndex, position)
+        box.leftEarly = !box.leftEarly
+        box.served = false
+        @setState(@state)
+      toggleServed: (teamType, jamIndex, position) ->
+        box = @getPenaltyBoxState(teamType, jamIndex, position)
+        box.served = !box.served
+        box.leftEarly = false
+        @setState(@state)
+      setSelectorContext: (teamType, jamIndex, selectHandler) ->
+        @props.setSelectorContext(teamType, jamIndex, selectHandler)
+      setSkater: (teamType, jamIndex, position, skaterIndex) ->
+        box = @getPenaltyBoxState(teamType, jamIndex, position)
+        skater = @getSkaterState(teamType, skaterIndex).skater
+        box.skater = skater
+        @setState(@state)
   componentDidMount: () ->
     $dom = $(@getDOMNode())
+  bindActions: (teamType) ->
+    Object.keys(@actions).map((key) ->
+      key: key
+      value: @actions[key].bind(this, teamType)
+    , this).reduce((actions, action) ->
+      actions[action.key] = action.value
+      actions
+    , {})
   render: () ->
+    homeElement = <TeamPenaltyTimers teamState={@state.gameState.homeAttributes} jamNumber={@state.gameState.jamNumber} actions={@bindActions('home')}/>
+    awayElement = <TeamPenaltyTimers teamState={@state.gameState.awayAttributes} jamNumber={@state.gameState.jamNumber} actions={@bindActions('away')}/>
     <div className="penalty-box-timer">
-      <div className="row gutters-xs hidden-xs hidden-sm">
-        <div className="col-xs-6">
-          <strong className="clearfix">
-            <span className="pull-left">
-              Period {@state.gameState.periodNumber}
-            </span>
-            <span className="pull-right">
-              Jam {@state.gameState.jamNumber}
-            </span>
-          </strong>
-          <div className="period-clock">{@state.gameState.periodClockAttributes.display}</div>
-        </div>
-        <div className="col-xs-6">
-          <strong className="jt-label">{@state.gameState.state.replace(/_/g, ' ')}</strong>
-          <div className="jam-clock">{@state.gameState.jamClockAttributes.display}</div>
-        </div>
-      </div>
-      <div className="row gutters-xs">
-        <div className="col-xs-6">
-          <button className="bt-btn undo-btn">UNDO</button>
-        </div>
-        <div className="col-xs-6">
-          <button className="bt-btn edit-btn">
-            <span>EDIT</span>
-            <i className="glyphicon glyphicon-pencil"></i>
-          </button>
-        </div>
-      </div>
-      <div className="row gutters-xs margin-top-05">
-        <div className="col-xs-offset-6 col-xs-6">
-          <button className="bt-btn .jammer-swap-button">
-            <span className="glyphicon glyphicon-star" aria-hidden="true"></span>
-            <span>Jammer</span>
-          </button>
-        </div>
-      </div>
-      <section className="penalty-clocks">
-        <PenaltyClock />
-        <PenaltyClock />
-        <PenaltyClock />
-        <PenaltyClock />
-        <PenaltyClock />
-      </section>
+      <GameClockSummary gameState={@state.gameState} />
+      <TeamSelector
+        awayAttributes={@state.gameState.awayAttributes}
+        awayElement={awayElement}
+        homeAttributes={@state.gameState.homeAttributes}
+        homeElement={homeElement} />
     </div>
+

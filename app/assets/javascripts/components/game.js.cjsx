@@ -60,7 +60,7 @@ exports.Game = React.createClass
         <LineupTracker {...@state} setSelectorContext={@setSelectorContext} />
         <Scorekeeper {...@state} setSelectorContext={@setSelectorContext} />
         <PenaltyTracker {...@state} />
-        <PenaltyBoxTimer {...@state} />
+        <PenaltyBoxTimer {...@state} setSelectorContext={@setSelectorContext}/>
         <Scoreboard {...@state} />
         <PenaltyWhiteboard {...@state} />
         <AnnouncersFeed {...@state} />

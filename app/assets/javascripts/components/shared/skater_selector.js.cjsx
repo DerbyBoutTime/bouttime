@@ -8,11 +8,12 @@ exports.SkaterSelector = React.createClass
     injured: React.PropTypes.bool
     setSelectorContext: React.PropTypes.func
     selectHandler: React.PropTypes.func
+    placeholder: React.PropTypes.string
   buttonContent: () ->
     if @props.skater
       @props.skater.number
     else
-      <span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+      <strong>{@props.placeholder}<span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></strong>
   render: () ->
     injuryClass = cx
       'skater-injury': @props.injured
