@@ -57,7 +57,6 @@ exports.LineupTracker = React.createClass
       jamIndex: jamIndex
       teamType: teamType
     )
-    @pushState(eventName, eventOptions)
     teamState = @getJamState(teamType, jamIndex)
     teamState.noPivot = !teamState.noPivot
     @setState(@state)
@@ -68,7 +67,6 @@ exports.LineupTracker = React.createClass
       jamIndex: jamIndex
       teamType: teamType
     )
-    @pushState(eventName, eventOptions)
     teamState = @getJamState(teamType, jamIndex)
     teamState.starPass = !teamState.starPass
     @setState(@state)
@@ -80,7 +78,6 @@ exports.LineupTracker = React.createClass
       teamType: teamType
       position: position
     )
-    @pushState(eventName, eventOptions)
     jamState = @getJamState(teamType, jamIndex)
     teamAttributes = @getTeamAttributes(teamType)
     jamState[position] = teamAttributes.skaters[skaterIndex]
@@ -94,7 +91,6 @@ exports.LineupTracker = React.createClass
       statusIndex: statusIndex
       position: position
     )
-    @pushState(eventName, eventOptions)
     teamState = @getJamState(teamType, jamIndex)
     # Make a new row if need be
     if statusIndex >= teamState.lineupStatuses.length
@@ -111,7 +107,6 @@ exports.LineupTracker = React.createClass
     eventOptions = @buildOptions(
       teamType: teamType
     )
-    @pushState(eventName, eventOptions)
     team = @getTeamAttributes(teamType)
     lastJam = team.jamStates[team.jamStates.length - 1]
     newJam = @getNewJam(lastJam.jamNumber + 1)
