@@ -1,11 +1,14 @@
 cx = React.addons.classSet
 exports = exports ? this
 exports.PenaltyWhiteboard = React.createClass
-  componentDidMount: () ->
-    $dom = $(@getDOMNode())
-  getInitialState: () ->
-    @props
+  displayName: 'PenaltyWhiteBoard'
   render: () ->
+    awayElement = <PenaltiesSummary teamState={@props.gameState.awayAttributes}/>
+    homeElement = <PenaltiesSummary teamState={@props.gameState.homeAttributes}/>
     <div className="penalty-whiteboard">
-      <span>Whiteboard</span>
+      <TeamSelector
+        awayAttributes={@props.gameState.awayAttributes}
+        awayElement={awayElement}
+        homeAttributes={@props.gameState.homeAttributes}
+        homeElement={homeElement} />
     </div>
