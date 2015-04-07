@@ -22,8 +22,12 @@
 //= require constants
 //= require camelize
 //= require functions
-//= require clock
-//= require displays/scorekeeper
+//= require clocks
+//= require jam_timer
+//= require lineup_tracker
+//= require scorekeeper
+//= require penalty_tracker
+//= require penalty_box_timer
 //= require mixins/mixins
 //= require components/components
 

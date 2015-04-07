@@ -27,7 +27,7 @@ exports.Game = React.createClass
     @state.clockManager.initialize()
     #Refresh on clock events
     @state.clockManager.addTickListener (clocks) =>
-      #console.log "tick", clocks
+      #dispatcher.trigger 'jam_timer.tick', @state.clockManager.serialize()
       @forceUpdate()
     $dom = $(@getDOMNode())
     @gameDOM = $(".game")

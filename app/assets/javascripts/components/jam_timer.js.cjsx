@@ -90,9 +90,6 @@ exports.JamTimer = React.createClass
       @props.clockManager.getClock("jamClock").stop()
       exports.dispatcher.trigger "jam_timer.stop_clock", @buildOptions()
       console.log("stop clock")
-    $dom.on 'click', '.undo-btn', null, (evt) =>
-      exports.dispatcher.trigger "jam_timer.undo", @buildOptions()
-      console.log("undo")
     $dom.on 'click', '.timeout-section .timeout-btn', null, (evt) =>
       @startTimeout()
       exports.dispatcher.trigger "jam_timer.start_timeout", @buildOptions()
@@ -129,8 +126,6 @@ exports.JamTimer = React.createClass
       console.log("mark as ended by calloff")
     # Receive Events
     dispatcher.bind 'heartbeat', @handleHeartbeat
-  componentWillUnmount: () ->
-    @stopClocks()
   handleHeartBeat: (msg) ->
     gameState = exports.wftda.functions.camelize(msg)
     console.log "Heartbeat"
@@ -157,22 +152,7 @@ exports.JamTimer = React.createClass
     @state.homeAttributes.jammer = {}
     @state.awayAttributes.jammer = {}
   startJam: () ->
-    @clearTimeouts()
-    @clearJammers()
-    @props.clockManager.getClock("jamClock").reset(exports.wftda.constants.JAM_DURATION_IN_MS)
-    @props.clockManager.getClock("jamClock").start()
-    @props.clockManager.getClock("periodClock").start()
-    @state.state = "jam"
-    @state.homeAttributes.jamPoints = 0
-    @state.awayAttributes.jamPoints = 0
-    if @props.clockManager.getClock("periodClock").time == 0
-      @state.periodNumber = @state.periodNumber + 1
-      @props.clockManager.getClock("periodClock").reset(exports.wftda.constants.PERIOD_DURATION_IN_MS)
-    @state.jamNumber = @state.jamNumber + 1
-    for i in [@state.awayAttributes.jamStates.length+1 .. @state.jamNumber] by 1
-      @state.awayAttributes.jamStates.push jamNumber: i
-    for i in [@state.homeAttributes.jamStates.length+1 .. @state.jamNumber] by 1
-      @state.homeAttributes.jamStates.push jamNumber: i
+
   stopJam: () ->
     @props.clockManager.getClock("jamClock").stop()
     @startLineupClock()
