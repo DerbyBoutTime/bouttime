@@ -13,6 +13,9 @@
 //= require jquery
 //= require websocket_rails/main
 //= require bootstrap-sprockets
+//= require moment
+//= require bootstrap-datetimepicker
+//= require jquery.minicolors
 //= require jquery_ujs
 //= require touch-punch
 //= require react-with-addons

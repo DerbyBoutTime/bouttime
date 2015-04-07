@@ -2,9 +2,11 @@
 //Bootstrap overrides
 $font-family-sans-serif: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $gray-base: $near-black;
+$input-color: $near-black;
 @import "base/variables";
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "jquery.minicolors";
 @import "mixins/border-arrow";
 @import "mixins/vertical-align";
 @import "mixins/gutters";

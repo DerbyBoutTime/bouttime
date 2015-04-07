@@ -59,6 +59,8 @@ GEM
     bootstrap-sass (3.3.4.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
+    bootstrap3-datetimepicker-rails (4.0.0)
+      momentjs-rails (>= 2.8.1)
     bootstrap_form (2.3.0)
     builder (3.2.2)
     byebug (4.0.4)
@@ -111,6 +113,9 @@ GEM
     jbuilder (2.2.12)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
+    jquery-minicolors-rails (2.1.4.0)
+      jquery-rails
+      rails (>= 3.2.8)
     jquery-rails (3.1.2)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
@@ -136,6 +141,8 @@ GEM
       minitest (~> 5.4)
       railties (~> 4.1)
     minitest-stub_any_instance (1.0.1)
+    momentjs-rails (2.9.0)
+      railties (>= 3.1)
     multi_json (1.11.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -266,6 +273,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass (~> 3.3.0)
+  bootstrap3-datetimepicker-rails (~> 4.0.0)
   bootstrap_form
   capistrano-rails
   coffee-rails (~> 4.0.0)
@@ -275,12 +283,14 @@ DEPENDENCIES
   dotenv-rails
   foreman
   jbuilder (~> 2.0)
+  jquery-minicolors-rails
   jquery-rails
   lograge
   meta_request
   minitest-line
   minitest-rails
   minitest-stub_any_instance
+  momentjs-rails (>= 2.8.1)
   pg
   pry-byebug
   pry-rails
