@@ -24,4 +24,5 @@ exports.TeamFields = React.createClass
         <label htmlFor="#{@props.teamType}-team-text-color">Text Color</label>
         <input type="text" className="form-control colorpicker" id="#{@props.teamType}-team-text-color" />
       </div>
+      <RosterFields {...@props} />
     </div>

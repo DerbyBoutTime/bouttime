@@ -11,6 +11,7 @@ exports.GameForm = React.createClass
   render: () ->
     <form className='game-form'>
       <h2>Game Setup</h2>
+      <h3>Game Details</h3>
       <div className='form-group'>
         <label htmlFor="game-name">Name</label>
         <input type="text" className="form-control" id="game-name" />
