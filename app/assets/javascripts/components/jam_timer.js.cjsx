@@ -12,16 +12,6 @@ exports.JamTimer = React.createClass
       periodNumber: @props.gameState.periodNumber
       homeAttributes: @props.gameState.homeAttributes
       awayAttributes: @props.gameState.awayAttributes
-      jamClock: new exports.classes.CountdownClock
-        time: @props.gameState.jamClockAttributes.time ? exports.wftda.constants.JAM_DURATION_IN_MS
-        warningTime: exports.wftda.constants.JAM_WARNING_IN_MS
-        refreshRateInMs: exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS
-        selector: ".jam-clock"
-      periodClock: new exports.classes.CountdownClock
-        time: @props.gameState.periodClockAttributes.time ? exports.wftda.constants.PERIOD_DURATION_IN_MS
-        warningTime: exports.wftda.constants.JAM_WARNING_IN_MS
-        refreshRateInMs: exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS
-        selector: ".period-clock"
   componentWillReceiveProps: (nextProps) ->
   buildOptions: (opts = {}) ->
     std_opts =
@@ -79,23 +69,6 @@ exports.JamTimer = React.createClass
     $dom = $(@getDOMNode())
     $jamClock = $dom.find(".jam-clock")
     $periodClock = $dom.find(".period-clock")
-
-    #Propagate clock events
-    $jamClock.on "tick", (evt, options) =>
-      #console.log "jam clock tick", evt, options
-      @forceUpdate() #Need to force update because state hasn't changed
-      dispatcher.trigger "jam_timer.jam_tick", @buildOptions
-        state:
-          id: @state.id
-          jamClockAttributes: @state.jamClock.serialize()
-    $periodClock.on "tick", (evt, options) =>
-      #console.log "period clock tick", evt, options
-      @forceUpdate() #Need to force update because state hasn't changed
-      dispatcher.trigger "jam_timer.period_tick", @buildOptions
-        state:
-          id: @state.id
-          periodClockAttributes: @state.periodClock.serialize()
-
     #Send Events
     $dom.on 'click', '.start-jam-btn', null, (evt) =>
       @startJam()
@@ -110,11 +83,11 @@ exports.JamTimer = React.createClass
       exports.dispatcher.trigger "jam_timer.start_lineup", @buildOptions()
       console.log("start lineup")
     $dom.on 'click', '.start-clock-btn', null, (evt) =>
-      @state.jamClock.start()
+      @props.clockManager.getClock("jamClock").start()
       exports.dispatcher.trigger "jam_timer.start_clock", @buildOptions()
       console.log("start clock")
     $dom.on 'click', '.stop-clock-btn', null, (evt) =>
-      @state.jamClock.stop()
+      @props.clockManager.getClock("jamClock").stop()
       exports.dispatcher.trigger "jam_timer.stop_clock", @buildOptions()
       console.log("stop clock")
     $dom.on 'click', '.undo-btn', null, (evt) =>
@@ -170,51 +143,51 @@ exports.JamTimer = React.createClass
   receiveHeartbeat: (evt, data) ->
     @state.lastHeartbeat = evt.timestamp
   stopClocks: () ->
-    @state.jamClock.stop()
-    @state.periodClock.stop()
+    @props.clockManager.getClock("jamClock").stop()
+    @props.clockManager.getClock("periodClock").stop()
   isPeriodClockRunning: () ->
-    @state.periodClock.isRunning()
+    @props.clockManager.getClock("periodClock").isRunning()
   isJamClockRunning: () ->
-    @state.jamClock.isRunning()
+    @props.clockManager.getClock("jamClock").isRunning()
   stopJamClock: () ->
-    @state.jamClock.stop()
+    @props.clockManager.getClock("jamClock").stop()
   stopPeriodClock: () ->
-    @state.periodClock.stop()
+    @props.clockManager.getClock("periodClock").stop()
   clearJammers: () ->
     @state.homeAttributes.jammer = {}
     @state.awayAttributes.jammer = {}
   startJam: () ->
     @clearTimeouts()
     @clearJammers()
-    @state.jamClock.reset(exports.wftda.constants.JAM_DURATION_IN_MS)
-    @state.jamClock.start()
-    @state.periodClock.start()
+    @props.clockManager.getClock("jamClock").reset(exports.wftda.constants.JAM_DURATION_IN_MS)
+    @props.clockManager.getClock("jamClock").start()
+    @props.clockManager.getClock("periodClock").start()
     @state.state = "jam"
     @state.homeAttributes.jamPoints = 0
     @state.awayAttributes.jamPoints = 0
-    if @state.periodClock.time == 0
+    if @props.clockManager.getClock("periodClock").time == 0
       @state.periodNumber = @state.periodNumber + 1
-      @state.periodClock.reset(exports.wftda.constants.PERIOD_DURATION_IN_MS)
+      @props.clockManager.getClock("periodClock").reset(exports.wftda.constants.PERIOD_DURATION_IN_MS)
     @state.jamNumber = @state.jamNumber + 1
     for i in [@state.awayAttributes.jamStates.length+1 .. @state.jamNumber] by 1
       @state.awayAttributes.jamStates.push jamNumber: i
     for i in [@state.homeAttributes.jamStates.length+1 .. @state.jamNumber] by 1
       @state.homeAttributes.jamStates.push jamNumber: i
   stopJam: () ->
-    @state.jamClock.stop()
+    @props.clockManager.getClock("jamClock").stop()
     @startLineupClock()
   startLineupClock: () ->
     @clearTimeouts()
-    @state.jamClock.reset(exports.wftda.constants.LINEUP_DURATION_IN_MS)
+    @props.clockManager.getClock("jamClock").reset(exports.wftda.constants.LINEUP_DURATION_IN_MS)
     @state.homeAttributes.jammerAttributes = {id: @state.homeAttributes.jammerAttributes.id}
     @state.awayAttributes.jammerAttributes = {id: @state.awayAttributes.jammerAttributes.id}
-    @state.jamClock.start()
-    @state.periodClock.start()
+    @props.clockManager.getClock("jamClock").start()
+    @props.clockManager.getClock("periodClock").start()
     @state.state = "lineup"
   setTimeToDerby: (time = 60*60*1000) ->
-    @state.periodClock.reset(0)
+    @props.clockManager.getClock("periodClock").reset(0)
     @state.state = "pregame"
-    @state.jamClock.reset(time)
+    @props.clockManager.getClock("jamClock").reset(time)
   restoreHomeTeamOfficialReview: () ->
     @state.homeAttributes.hasOfficialReview = true
   restoreAwayTeamOfficialReview: () ->
@@ -249,20 +222,21 @@ exports.JamTimer = React.createClass
     @state.jamNumber =  parseInt(num)
   startTimeout: () ->
     @stopClocks()
-    @state.jamClock.reset(exports.wftda.constants.TIMEOUT_DURATION_IN_MS)
-    @state.jamClock.start()
+    @props.clockManager.getClock("jamClock").reset(exports.wftda.constants.TIMEOUT_DURATION_IN_MS)
+    @props.clockManager.getClock("jamClock").start()
     @state.state = "timeout"
     @state.timeout = null
   markAsHomeTeamTimeout: () ->
     if @inTimeout() == false
       @startTimeout()
     @clearTimeouts()
-    @state.state = "timeout"
-    @state.timeout = "home_team_timeout"
-    @state.homeAttributes.timeouts = @state.homeAttributes.timeouts - 1
-    @state.homeAttributes.isTakingTimeout = true
-    @state.undoFunction = @state.restoreHomeTeamTimeout
-    @forceUpdate()
+    newState = @state
+    newState.state = "timeout"
+    newState.timeout = "home_team_timeout"
+    newState.homeAttributes.timeouts = @state.homeAttributes.timeouts - 1
+    newState.homeAttributes.isTakingTimeout = true
+    newState.undoFunction = @state.restoreHomeTeamTimeout
+    @setState(newState)
   restoreHomeTeamTimeout: () ->
     @state.homeAttributes.timeouts = @state.homeAttributes.timeouts + 1
     @clearTimeouts()
@@ -270,12 +244,13 @@ exports.JamTimer = React.createClass
     if @inTimeout() == false
       @startTimeout()
     @clearTimeouts()
-    @state.state = "timeout"
-    @state.timeout = "away_team_timeout"
-    @state.awayAttributes.timeouts = @state.awayAttributes.timeouts - 1
-    @state.awayAttributes.isTakingTimeout = true
-    @state.undoFunction = @state.restoreAwayTeamTimeout
-    @forceUpdate()
+    newState = @state
+    newState.state = "timeout"
+    newState.timeout = "away_team_timeout"
+    newState.awayAttributes.timeouts = @state.awayAttributes.timeouts - 1
+    newState.awayAttributes.isTakingTimeout = true
+    newState.undoFunction = @state.restoreAwayTeamTimeout
+    setState(newState)
   restoreAwayTeamTimeout: () ->
     @state.awayAttributes.timeouts = @state.awayAttributes.timeouts + 1
     @clearTimeouts()
@@ -285,24 +260,26 @@ exports.JamTimer = React.createClass
     if @inTimeout() == false
       @startTimeout()
     @clearTimeouts()
-    @state.jamClock.reset(0)
-    @state.jamClock.start()
-    @state.state = "timeout"
-    @state.timeout = "official_timeout"
-    @state.inOfficialTimeout = true
-    @forceUpdate()
+    @props.clockManager.getClock("jamClock").reset(0)
+    @props.clockManager.getClock("jamClock").start()
+    newState = @state
+    newState.state = "timeout"
+    newState.timeout = "official_timeout"
+    newState.inOfficialTimeout = true
+    @setState(newState)
   markAsHomeTeamOfficialReview: () ->
     if @inTimeout() == false
       @startTimeout()
     @clearTimeouts()
-    @state.jamClock.reset(0)
-    @state.jamClock.start()
-    @state.homeAttributes.hasOfficialReview = false
-    @state.homeAttributes.isTakingOfficialReview = true
-    @state.state = "timeout"
-    @state.timeout = "home_team_official_review"
-    @state.undoFunction = @state.restoreHomeTeamOfficialReview
-    @forceUpdate()
+    @props.clockManager.getClock("jamClock").reset(0)
+    @props.clockManager.getClock("jamClock").start()
+    newState = @state
+    newState.homeAttributes.hasOfficialReview = false
+    newState.homeAttributes.isTakingOfficialReview = true
+    newState.state = "timeout"
+    newState.timeout = "home_team_official_review"
+    newState.undoFunction = @state.restoreHomeTeamOfficialReview
+    @setState(newState)
   restoreHomeTeamOfficialReview: (retained = false) ->
     @state.homeAttributes.hasOfficialReview = true
     @clearTimeouts()
@@ -312,14 +289,15 @@ exports.JamTimer = React.createClass
     if @inTimeout() == false
       @startTimeout()
     @clearTimeouts()
-    @state.jamClock.reset(0)
-    @state.jamClock.start()
-    @state.awayAttributes.hasOfficialReview = false
-    @state.awayAttributes.isTakingOfficialReview = true
-    @state.state = "timeout"
-    @state.timeout = "away_team_official_review"
-    @state.undoFunction = @state.restoreAwayTeamOfficialReview
-    @forceUpdate()
+    @props.clockManager.getClock("jamClock").reset(0)
+    @props.clockManager.getClock("jamClock").start()
+    newState = @state
+    newState.awayAttributes.hasOfficialReview = false
+    newState.awayAttributes.isTakingOfficialReview = true
+    newState.state = "timeout"
+    newState.timeout = "away_team_official_review"
+    newState.undoFunction = @state.restoreAwayTeamOfficialReview
+    @setState(newState)
   restoreAwayTeamOfficialReview: (retained = false) ->
     @state.awayAttributes.hasOfficialReview = true
     @clearTimeouts()
@@ -354,8 +332,8 @@ exports.JamTimer = React.createClass
         state: @state.state
         jamNumber: @state.jamNumber
         periodNumber: @state.periodNumber
-        jamClockAttributes: @state.jamClock.serialize()
-        periodClockAttributes: @state.periodClock.serialize()
+        jamClockAttributes: @props.clockManager.getClock("jamClock").serialize()
+        periodClockAttributes: @props.clockManager.getClock("periodClock").serialize()
         homeAttributes: @state.homeAttributes
         awayAttributes: @state.awayAttributes
   handleJamEdit: (val) ->
@@ -363,11 +341,11 @@ exports.JamTimer = React.createClass
   handlePeriodEdit: (val) ->
     @setState {periodNumber: val}, @serverUpdate
   handleJamClockEdit: (val) ->
-    @state.jamClock.time = val*1000
+    @props.clockManager.getClock("jamClock").time = val*1000
     @forceUpdate () ->
       @serverUpdate()
   handlePeriodClockEdit: (val) ->
-    @state.periodClock.time = val*1000
+    @props.clockManager.getClock("periodClock").time = val*1000
     @forceUpdate () ->
       @serverUpdate()
   clickJamEdit: () ->
@@ -384,13 +362,13 @@ exports.JamTimer = React.createClass
       modalHandler: @handlePeriodEdit
   clickJamClockEdit: () ->
     $input = $(@refs.modalInput.getDOMNode())
-    $input.val(@state.jamClock.time/1000)
+    $input.val(@props.clockManager.getClock("jamClock").time/1000)
     @openModal()
     @setState
       modalHandler: @handleJamClockEdit
   clickPeriodClockEdit: () ->
     $input = $(@refs.modalInput.getDOMNode())
-    $input.val(@state.periodClock.time/1000)
+    $input.val(@props.clockManager.getClock("periodClock").time/1000)
     @openModal()
     @setState
       modalHandler: @handlePeriodClockEdit
@@ -499,11 +477,11 @@ exports.JamTimer = React.createClass
                 </strong>
               </div>
               <div className="col-md-12 col-xs-12">
-                <div className="period-clock" onClick={@clickPeriodClockEdit}>{@state.periodClock.display()}</div>
+                <div className="period-clock" onClick={@clickPeriodClockEdit}>{@props.clockManager.getClock("periodClock").display()}</div>
               </div>
               <div className="col-md-12 col-xs-12">
                 <strong className="jt-label">{@state.state.replace(/_/g, ' ')}</strong>
-                <div className="jam-clock" onClick={@clickJamClockEdit}>{@state.jamClock.display()}</div>
+                <div className="jam-clock" onClick={@clickJamClockEdit}>{@props.clockManager.getClock("jamClock").display()}</div>
               </div>
             </div>
           </div>
