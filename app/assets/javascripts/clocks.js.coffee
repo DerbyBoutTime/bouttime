@@ -40,7 +40,9 @@ exports.classes.ClockManager = class ClockManager
     args = @serialize()
     func(args) for func in @listeners
   serialize: ()->
-    clock.serialize() for alias, clock of @clocks
+    json = {}
+    json[alias] = clock.serialize() for alias, clock of @clocks
+    return json
 exports.classes.CountdownClock = class CountdownClock
   constructor: (options = {}) ->
     @id = exports.wftda.functions.uniqueId()

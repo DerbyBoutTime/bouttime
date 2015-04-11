@@ -1,4 +1,5 @@
 exports = exports ? this
+exports.wftda.constants.NTP_SAMPLE_TIME_IN_MS = 15000
 exports.wftda.constants.WEBSOCKETS_RETRY_TIME_IN_MS = 3000
 exports.wftda.constants.PERIOD_DURATION_IN_MS = 30*60*1000
 exports.wftda.constants.JAM_DURATION_IN_MS = 2*60*1000

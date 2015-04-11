@@ -1,7 +1,14 @@
 class JamTimerController < WebsocketRails::BaseController
   before_filter :set_game_state, except: :set_game_state_id
-  before_filter :set_state, except: :set_game_state_id
+  before_filter :set_state, except: [:set_game_state_id, :get_timing_delay]
   def initialize_session
+  end
+
+  def get_timing_delay
+    t1 = DateTime.now.strftime('%Q').to_i
+    sleep 1
+    t2 = DateTime.now.strftime('%Q').to_i
+    send_message :set_timing_delay, {t1: t1, t2: t2}
   end
 
   def update
