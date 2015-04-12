@@ -24,7 +24,7 @@ gulp.task('styles', ['sass'  ]);
 
 gulp.task('sass', function() {
     return gulp.src(['app/styles/**/*.scss', 'app/styles/**/*.css'])
-        .pipe($.sass({errLogToConsole: true, includePaths: ['app/styles', 'app/bower_components']}))
+        .pipe($.sass({errLogToConsole: true, includePaths: ['app/bower_components/bootstrap-sass/assets/stylesheets']}))
         .pipe($.autoprefixer('last 1 version'))
         .pipe(gulp.dest('dist/styles'))
         .pipe($.size());
