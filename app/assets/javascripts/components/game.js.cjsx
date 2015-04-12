@@ -3,7 +3,32 @@ exports = exports ? this
 exports.Game = React.createClass
   displayName: 'Game'
   mixins: [GameStateMixin]
+  getInitialState: () ->
+    gameState = exports.wftda.functions.camelize(@props)
+    clockManager = new exports.classes.ClockManager()
+    jamTimer = new exports.classes.JamTimer(clockManager, gameState, @setStateHandler, true, true)
+    clockManager.addClock "jamClock",
+      time: gameState.jamClockAttributes.time ? exports.wftda.constants.JAM_DURATION_IN_MS
+      warningTime: exports.wftda.constants.JAM_WARNING_IN_MS
+      refreshRateInMs: exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS
+      selector: ".jam-clock"
+    clockManager.addClock "periodClock",
+      time: gameState.periodClockAttributes.time ? exports.wftda.constants.PERIOD_DURATION_IN_MS
+      warningTime: exports.wftda.constants.JAM_WARNING_IN_MS
+      refreshRateInMs: exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS
+      selector: ".period-clock"
+    jamTimer: jamTimer
+    gameState: gameState
+    clockManager: clockManager
+    tab: "jam_timer"
+    skaterSelectorContext:
+      teamState: gameState.awayAttributes
+      jamState: gameState.awayAttributes.jamStates[0]
+      selectHandler: () ->
+  setStateHandler: (state) ->
+    @setState(state)
   componentDidMount: () ->
+    @state.clockManager.initialize()
     $dom = $(@getDOMNode())
     @gameDOM = $(".game")
     $dom.on 'click', '.bad-status', null, (evt) ->
@@ -26,21 +51,17 @@ exports.Game = React.createClass
       @forceUpdate()
     exports.dispatcher.bind 'update', (state) =>
       console.log "Update received"
+      @updateGameState(state)
+  updateGameState: (state) ->
       @setState(gameState: exports.wftda.functions.camelize(state))
+  componentDidUnmount: () ->
+    @state.clockManager.destroy()
   resetDeadmanTimer: () ->
     clearTimeout(exports.connectionTimeout)
     @gameDOM.addClass("connected")
     exports.connectionTimeout = setInterval(() =>
       @gameDOM.removeClass("connected")
     , exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS*2)
-  getInitialState: () ->
-    gameState = exports.wftda.functions.camelize(@props)
-    gameState: gameState
-    tab: "jam_timer"
-    skaterSelectorContext:
-      teamState: gameState.awayAttributes
-      jamState: gameState.awayAttributes.jamStates[0]
-      selectHandler: () ->
   setSelectorContext: (teamType, jamIndex, selectHandler) ->
     @setState
       skaterSelectorContext:
@@ -64,7 +85,7 @@ exports.Game = React.createClass
         </div>
       </header>
       <div className="container">
-        <JamTimer {...@state} />
+        <JamTimer {...@state.gameState} manager={@state.jamTimer}/>
         <LineupTracker {...@state} setSelectorContext={@setSelectorContext} />
         <Scorekeeper {...@state} setSelectorContext={@setSelectorContext} />
         <PenaltyTracker {...@state} />

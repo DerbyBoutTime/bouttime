@@ -150,11 +150,11 @@ exports.Scoreboard = React.createClass
           </div>
           <div className="period-clock">
             <label className="visible-xs-block">Game</label>
-            <div className="clock period-clock">{@props.gameState.periodClockAttributes.display}</div>
+            <div className="clock period-clock">{@props.clockManager.getClock("periodClock").display()}</div>
           </div>
           <div className="jam-clock">
             <label className="jam-clock-label">{@props.gameState.state}</label>
-            <div className="clock">{@props.gameState.jamClockAttributes.display}</div>
+            <div className="clock">{@props.clockManager.getClock("jamClock").display()}</div>
           </div>
         </div>
         <div className="jam-points-wrapper">
