@@ -11,7 +11,7 @@ module.exports = React.createClass
   componentWillMount: () ->
     @actions =
       setPenalty: (teamType, skaterIndex, penaltyIndex) ->
-        skater = @getSkaterState(teamType, skaterIndex)
+        skater = @getSkater(teamType, skaterIndex)
         penalty = @getPenalty(penaltyIndex)
         lastPenaltyState = skater.penalties[-1..][0]
         sort = if lastPenaltyState? then lastPenaltyState.sort + 1 else 0
@@ -22,12 +22,12 @@ module.exports = React.createClass
         exports.dispatcher.trigger 'penalty_tracker.set_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex)
         @setState(@state)
       clearPenalty: (teamType, skaterIndex, skaterPenaltiesIndex) ->
-        skater = @getSkaterState(teamType, skaterIndex)
+        skater = @getSkater(teamType, skaterIndex)
         removedPenalty = skater.penalties.splice(skaterPenaltiesIndex, 1)[0]
         exports.dispatcher.trigger 'penalty_tracker.clear_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex, removedPenalty: removedPenalty)
         @setState(@state)
       updatePenalty: (teamType, skaterIndex, skaterPenaltiesIndex, opts={}) ->
-        skaterPenalty = @getPenaltyState(teamType, skaterIndex, skaterPenaltiesIndex)
+        skaterPenalty = @getSkaterPenalty(teamType, skaterIndex, skaterPenaltiesIndex)
         $.extend(skaterPenalty, opts)
         exports.dispatcher.trigger 'penalty_tracker.update_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex, skaterPenaltiesIndex: skaterPenaltiesIndex)
         @setState(@state)

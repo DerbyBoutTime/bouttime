@@ -16,7 +16,7 @@ module.exports = React.createClass
       state: @state.gameState
       options: opts
     $.extend(stdOpts, opts)
-  getJamState: (team, jamIndex) ->
+  getJam: (team, jamIndex) ->
     switch team
       when 'away' then @state.gameState.away.jams[jamIndex]
       when 'home' then @state.gameState.home.jams[jamIndex]
@@ -60,7 +60,7 @@ module.exports = React.createClass
       jamIndex: jamIndex
       teamType: teamType
     )
-    team = @getJamState(teamType, jamIndex)
+    team = @getJam(teamType, jamIndex)
     team.noPivot = !team.noPivot
     @setState(@state)
   toggleStarPass: (teamType, jamIndex) ->
@@ -69,7 +69,7 @@ module.exports = React.createClass
       jamIndex: jamIndex
       teamType: teamType
     )
-    team = @getJamState(teamType, jamIndex)
+    team = @getJam(teamType, jamIndex)
     team.starPass = !team.starPass
     @setState(@state)
   setSkater: (teamType, jamIndex, position, skaterIndex) ->
@@ -79,7 +79,7 @@ module.exports = React.createClass
       teamType: teamType
       position: position
     )
-    jam = @getJamState(teamType, jamIndex)
+    jam = @getJam(teamType, jamIndex)
     teamAttributes = @getTeamAttributes(teamType)
     jam[position] = teamAttributes.skaters[skaterIndex]
     @setState(@state)
@@ -91,7 +91,7 @@ module.exports = React.createClass
       statusIndex: statusIndex
       position: position
     )
-    team = @getJamState(teamType, jamIndex)
+    team = @getJam(teamType, jamIndex)
     # Make a new row if need be
     if statusIndex >= team.lineupStatuses.length
       team.lineupStatuses[statusIndex] = {pivot: 'clear', blocker1: 'clear', blocker2: 'clear', blocker3: 'clear', jammer: 'clear', order: statusIndex }

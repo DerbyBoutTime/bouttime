@@ -9,7 +9,7 @@ module.exports =
     @getJam(teamType, jamIndex).passes[passIndex]
   getSkater: (teamType, skaterIndex) ->
     @getTeam(teamType).skaters[skaterIndex]
-  getPenaltyState: (teamType, skaterIndex, skaterPenaltiesIndex) ->
+  getSkaterPenalty: (teamType, skaterIndex, skaterPenaltiesIndex) ->
     @getSkater(teamType, skaterIndex).penalties[skaterPenaltiesIndex]
   getPenalty: (penaltyIndex) ->
     @state.gameState.penalties[penaltyIndex]

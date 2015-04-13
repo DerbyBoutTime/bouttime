@@ -22,33 +22,33 @@ module.exports = React.createClass
         dispatcher.trigger "scorekeeper.new_pass", @getStandardOptions(teamType: teamType, jamIndex: jamIndex)
         @setState(@state)
       toggleInjury: (teamType, jamIndex, passIndex) ->
-        pass = @getPassState(teamType, jamIndex, passIndex)
+        pass = @getPass(teamType, jamIndex, passIndex)
         pass.injury = !pass.injury
         dispatcher.trigger "scorekeeper.toggle_injury", @getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         @setState(@state)
       toggleNopass: (teamType, jamIndex, passIndex) ->
-        pass = @getPassState(teamType, jamIndex, passIndex)
+        pass = @getPass(teamType, jamIndex, passIndex)
         pass.nopass = !pass.nopass
         dispatcher.trigger "scorekeeper.toggle_nopass", @getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         @setState(@state)
       toggleCalloff: (teamType, jamIndex, passIndex) ->
-        pass = @getPassState(teamType, jamIndex, passIndex)
+        pass = @getPass(teamType, jamIndex, passIndex)
         pass.calloff = !pass.calloff
         dispatcher.trigger "scorekeeper.toggle_calloff", @getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         @setState(@state)
       toggleLostLead: (teamType, jamIndex, passIndex) ->
-        pass = @getPassState(teamType, jamIndex, passIndex)
+        pass = @getPass(teamType, jamIndex, passIndex)
         pass.lostLead = !pass.lostLead
         dispatcher.trigger "scorekeeper.toggle_lost_lead", @getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         @setState(@state)
       toggleLead: (teamType, jamIndex, passIndex) ->
-        pass = @getPassState(teamType, jamIndex, passIndex)
+        pass = @getPass(teamType, jamIndex, passIndex)
         pass.lead = !pass.lead
         dispatcher.trigger "scorekeeper.toggle_lead", @getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         @setState(@state)
       setPoints: (teamType, jamIndex, passIndex, points) ->
         jam = @getJam(teamType, jamIndex)
-        pass = @getPassState(teamType, jamIndex, passIndex)
+        pass = @getPass(teamType, jamIndex, passIndex)
         pass.points = points
         if passIndex is jam.passes.length - 1
           @actions.newPass.call(this, teamType, jamIndex, {passNumber: pass.passNumber + 1, sort: pass.sort + 1 ,skaterNumber: pass.skaterNumber})
@@ -64,7 +64,7 @@ module.exports = React.createClass
       setSkater: (teamType, jamIndex, passIndex, skaterIndex) ->
         team = @getTeam(teamType)
         jam = @getJam(teamType, jamIndex)
-        pass = @getPassState(teamType, jamIndex, passIndex)
+        pass = @getPass(teamType, jamIndex, passIndex)
         skater = team.skaters[skaterIndex].skater
         pass.skaterNumber = skater.number
         if not jam.jammer?
@@ -89,7 +89,7 @@ module.exports = React.createClass
       when 'home' then @state.gameState.home
   getJam: (teamType, jamIndex) ->
     @getTeam(teamType).jams[jamIndex]
-  getPassState: (teamType, jamIndex, passIndex) ->
+  getPass: (teamType, jamIndex, passIndex) ->
     @getJam(teamType, jamIndex).passes[passIndex]
   buildNewJam: (jamNumber) ->
     jamNumber: jamNumber

@@ -50,8 +50,8 @@ module.exports = React.createClass
   setSelectorContext: (teamType, jamIndex, selectHandler) ->
     @setState
       skaterSelectorContext:
-        team: @getTeamState(teamType)
-        jam: @getJamState(teamType, jamIndex)
+        team: @getTeam(teamType)
+        jam: @getJam(teamType, jamIndex)
         selectHandler: selectHandler
   render: () ->
     <div ref="game" className="game" data-tab={@state.tab}>
