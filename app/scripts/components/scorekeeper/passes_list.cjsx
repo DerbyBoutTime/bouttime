@@ -1,8 +1,9 @@
-exports = exports ? this
-exports.PassesList = React.createClass
+React = require 'react/addons'
+PassItem = require './pass_item.cjsx'
+module.exports = React.createClass
   displayName: 'PassesList'
   propTypes:
-    jamState: React.PropTypes.object.isRequired
+    jam: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
   bindActions: (passIndex) ->
     Object.keys(@props.actions).map((key) ->
@@ -24,11 +25,11 @@ exports.PassesList = React.createClass
     @props.actions.reorderPass(sourceIndex, passIndex)
   render: () ->
     PassItemFactory = React.createFactory(PassItem)
-    passComponents = @props.jamState.passStates.map (passState, passIndex) =>
+    passComponents = @props.jam.passes.map (pass, passIndex) =>
       PassItemFactory(
         key: passIndex
-        jamState: @props.jamState
-        passState: passState
+        jam: @props.jam
+        pass: pass
         actions: @bindActions(passIndex)
         setSelectorContext: @props.actions.setSelectorContext #Without binding passIndex
         dragHandler: @dragHandler.bind(this, passIndex)

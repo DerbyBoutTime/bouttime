@@ -1,6 +1,11 @@
+React = require 'react/addons'
+GameStateMixin = require '../mixins/game_state_mixin.cjsx'
+CopyGameStateMixin = require '../mixins/copy_game_state_mixin.cjsx'
+TeamSelector = require './shared/team_selector.cjsx'
+TeamPenaltyTimers = require './penalty_box_timer/team_penalty_timers.cjsx'
+GameClockSummary = require './penalty_box_timer/game_clock_summary.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.PenaltyBoxTimer = React.createClass
+module.exports = React.createClass
   displayName: 'PenaltyBoxTimer'
   mixins: [GameStateMixin, CopyGameStateMixin]
   componentWillMount: () ->
@@ -21,7 +26,7 @@ exports.PenaltyBoxTimer = React.createClass
         @props.setSelectorContext(teamType, jamIndex, selectHandler)
       setSkater: (teamType, boxIndexOrPosition, skaterIndex) ->
         box = @actions.getOrCreatePenaltyBoxState.call(this, teamType, boxIndexOrPosition)
-        skater = @getSkaterState(teamType, skaterIndex).skater
+        skater = @getSkater(teamType, skaterIndex).skater
         box.skater = skater
         @setState(@state)
       newPenaltyBoxState: (teamType, position) ->
@@ -32,7 +37,7 @@ exports.PenaltyBoxTimer = React.createClass
             @getPenaltyBoxState(teamType, boxIndexOrPosition)
           when 'string'
             box = @actions.newPenaltyBoxState.call(this, teamType, boxIndexOrPosition)
-            @getTeamState(teamType).penaltyBoxStates.push(box)
+            @getTeam(teamType).penaltyBoxStates.push(box)
             @setState(@state)
             box
 
@@ -47,14 +52,14 @@ exports.PenaltyBoxTimer = React.createClass
       actions
     , {})
   render: () ->
-    homeElement = <TeamPenaltyTimers teamState={@state.gameState.homeAttributes} jamNumber={@state.gameState.jamNumber} actions={@bindActions('home')}/>
-    awayElement = <TeamPenaltyTimers teamState={@state.gameState.awayAttributes} jamNumber={@state.gameState.jamNumber} actions={@bindActions('away')}/>
+    homeElement = <TeamPenaltyTimers team={@state.gameState.home} jamNumber={@state.gameState.jamNumber} actions={@bindActions('home')}/>
+    awayElement = <TeamPenaltyTimers team={@state.gameState.away} jamNumber={@state.gameState.jamNumber} actions={@bindActions('away')}/>
     <div className="penalty-box-timer">
       <GameClockSummary gameState={@state.gameState} />
       <TeamSelector
-        awayAttributes={@state.gameState.awayAttributes}
+        away={@state.gameState.away}
         awayElement={awayElement}
-        homeAttributes={@state.gameState.homeAttributes}
+        home={@state.gameState.home}
         homeElement={homeElement} />
     </div>
 

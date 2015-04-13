@@ -1,6 +1,6 @@
+React = require 'react/addons'
 cx = React.addons.classSet
-exports = exports ? this
-exports.GameClockSummary = React.createClass
+module.exports = React.createClass
   displayName: 'GameClockSummary'
   propTypes:
     gameState: React.PropTypes.object.isRequired
@@ -16,11 +16,11 @@ exports.GameClockSummary = React.createClass
               Jam {@props.gameState.jamNumber}
             </span>
           </strong>
-          <div className="period-clock">{@props.gameState.periodClockAttributes.display}</div>
+          <div className="period-clock">{@props.gameState.periodClock.display}</div>
         </div>
         <div className="col-xs-6">
           <strong className="jt-label">{@props.gameState.state.replace(/_/g, ' ')}</strong>
-          <div className="jam-clock">{@props.gameState.jamClockAttributes.display}</div>
+          <div className="jam-clock">{@props.gameState.jamClock.display}</div>
         </div>
       </div>
     </div>

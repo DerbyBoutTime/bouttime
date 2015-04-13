@@ -1,9 +1,11 @@
+React = require 'react/addons'
+JamItem = require './jam_item.cjsx'
+JamDetails = require './jam_details.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.JamsList = React.createClass
+module.exports = React.createClass
   displayName: 'JamsList'
   propTypes:
-    teamState: React.PropTypes.object.isRequired
+    team: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
   bindActions: (jamIndex) ->
     Object.keys(@props.actions).map((key) ->
@@ -14,22 +16,22 @@ exports.JamsList = React.createClass
       actions
     , {})
   getTeamPoints: ()->
-    team = @props.teamState
+    team = @props.team
     points = 0
-    team.jamStates.map (jam) =>
-      jam.passStates.map (pass) =>
+    team.jams.map (jam) =>
+      jam.passes.map (pass) =>
         points += pass.points || 0
     return points
   selectedJam: () ->
-    @props.teamState.jamStates[@state.jamSelected || 0]
+    @props.team.jams[@state.jamSelected || 0]
   handleMainMenu: () ->
     @setState(jamSelected: null)
   handleJamSelection: (jamIndex, newJam) ->
     if newJam
-      @props.actions.newJam(jamNumber: @props.teamState.jamStates.length + 1, passStates: [passNumber: 1, sort: 0])
+      @props.actions.newJam(jamNumber: @props.team.jams.length + 1, passes: [passNumber: 1, sort: 0])
     @setState(jamSelected: jamIndex)
   handleNextJam: () ->
-    if @state.jamSelected < @props.teamState.jamStates.length - 1
+    if @state.jamSelected < @props.team.jams.length - 1
       $('.scorekeeper .collapse.in').collapse('hide')
       @setState(jamSelected: @state.jamSelected + 1)
   handlePreviousJam: () ->
@@ -41,21 +43,21 @@ exports.JamsList = React.createClass
   render: () ->
     JamItemFactory = React.createFactory(JamItem)
     # jam's schema is same as jam_state table
-    jamComponents = @props.teamState.jamStates.map (jamState, jamIndex) =>
+    jamComponents = @props.team.jams.map (jam, jamIndex) =>
       JamItemFactory
         key: jamIndex
-        jamState: jamState
+        jam: jam
         actions: @bindActions(jamIndex)
-        style: @props.teamState.colorBarStyle
+        style: @props.team.colorBarStyle
         selectionHandler: @handleJamSelection.bind(this, jamIndex, false)
     # add a blank jam for adding a next jam
     jamComponents.push(
       JamItemFactory
-        key: @props.teamState.jamStates.length
-        jamState: {jamNumber: @props.teamState.jamStates.length+1, passStates: []}
-        actions: @bindActions(@props.teamState.jamStates.length)
-        style: @props.teamState.colorBarStyle
-        selectionHandler: @handleJamSelection.bind(this, @props.teamState.jamStates.length, true)
+        key: @props.team.jams.length
+        jam: {jamNumber: @props.team.jams.length+1, passes: []}
+        actions: @bindActions(@props.team.jams.length)
+        style: @props.team.colorBarStyle
+        selectionHandler: @handleJamSelection.bind(this, @props.team.jams.length, true)
     )
     jamsContainerClass = cx
       'jams fade-hide': true
@@ -113,7 +115,7 @@ exports.JamsList = React.createClass
       </div>
       <div className={passesContainerClass}>
         <JamDetails
-          jamState={@selectedJam()}
+          jam={@selectedJam()}
           actions={@bindActions(@state.jamSelected)}
           mainMenuHandler={@handleMainMenu}
           prevJamHandler={@handlePreviousJam}

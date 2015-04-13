@@ -1,14 +1,15 @@
+React = require 'react/addons'
+PenaltyIndicator = require './penalty_indicator.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.PenaltyControl = React.createClass
+module.exports = React.createClass
   displayName: 'PenaltyControl'
   propTypes:
     penaltyNumber: React.PropTypes.number
-    penaltyState: React.PropTypes.object
+    skaterPenalty: React.PropTypes.object
     teamStyle: React.PropTypes.object.isRequired
     target: React.PropTypes.string.isRequired
   jamNumberDisplay: () ->
-    if @props.penaltyState? then "Jam #{@props.penaltyState.jamNumber}" else "Jam"
+    if @props.skaterPenalty? then "Jam #{@props.skaterPenalty.jamNumber}" else "Jam"
   render: () ->
     <div className='penalty-control'>
       <div className='jam-number'>

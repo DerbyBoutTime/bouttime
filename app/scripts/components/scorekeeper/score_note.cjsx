@@ -1,6 +1,6 @@
+React = require 'react/addons'
 cx = React.addons.classSet
-exports = exports ? this
-exports.ScoreNote = React.createClass
+module.exports = React.createClass
   displayName: 'ScoreNote'
   propTypes:
   	note: React.PropTypes.string

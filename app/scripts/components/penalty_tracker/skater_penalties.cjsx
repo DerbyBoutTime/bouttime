@@ -1,9 +1,11 @@
+React = require 'react/addons'
+PenaltyAlert = require './penalty_alert.cjsx'
+PenaltyControl = require './penalty_control.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.SkaterPenalties = React.createClass
+module.exports = React.createClass
   displayName: 'SkaterPenalties'
   propTypes:
-    skaterState: React.PropTypes.object.isRequired
+    skater: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
     teamStyle: React.PropTypes.object
     hidden: React.PropTypes.bool
@@ -18,7 +20,7 @@ exports.SkaterPenalties = React.createClass
       actions
     , {})
   getPenaltyId: (penaltyIndex) ->
-    "edit-penalty-#{@props.skaterState.id}-#{penaltyIndex}"
+    "edit-penalty-#{@props.skater.id}-#{penaltyIndex}"
   render: () ->
     containerClass = cx
       'skater-penalties': true
@@ -34,11 +36,11 @@ exports.SkaterPenalties = React.createClass
       <div className='row gutters-xs top-buffer'>
         <div className='col-xs-2'>
           <div className='bt-btn btn-boxed' style={@props.teamStyle}>
-            <strong>{@props.skaterState.skater.number}</strong>
+            <strong>{@props.skater.number}</strong>
           </div>
         </div>
         <div className='col-xs-offset-7 col-xs-3'>
-          <PenaltyAlert skaterState={@props.skaterState} />
+          <PenaltyAlert skater={@props.skater} />
         </div>
       </div>
       <div className='row gutters-xs top-buffer penalty-controls'>
@@ -46,7 +48,7 @@ exports.SkaterPenalties = React.createClass
           <div key={i} className='col-xs-7-cols'>
             <PenaltyControl
               penaltyNumber={i+1}
-              penaltyState={@props.skaterState.penaltyStates[i]}
+              skaterPenalty={@props.skater.penalties[i]}
               teamStyle={@props.teamStyle}
               target={@getPenaltyId(i)} />
           </div>
@@ -54,11 +56,11 @@ exports.SkaterPenalties = React.createClass
       </div>
       <div className='row gutters-xs'>
         <div className='col-xs-12'>
-          {@props.skaterState.penaltyStates[...7].map (penaltyState, penaltyIndex) ->
+          {@props.skater.penalties[...7].map (skaterPenalty, penaltyIndex) ->
             <EditPenaltyPanel
               key={penaltyIndex}
               id={@getPenaltyId(penaltyIndex)}
-              penaltyState={penaltyState}
+              skaterPenalty={skaterPenalty}
               penaltyNumber={penaltyIndex+1}
               actions={@bindActions(penaltyIndex)}
               onOpen={@props.editHandler.bind(null, penaltyIndex)}
@@ -69,11 +71,11 @@ exports.SkaterPenalties = React.createClass
       <div className='row-gutters-xs penalty-controls'>
         <div className='col-xs-10'>
           <div className='row gutters-xs'>
-            {@props.skaterState.penaltyStates[7..].map (penaltyState, penaltyIndex) ->
+            {@props.skater.penalties[7..].map (skaterPenalty, penaltyIndex) ->
               <div key={penaltyIndex} className='col-xs-2'>
                 <PenaltyControl
                   penaltyNumber={penaltyIndex + 1}
-                  penaltyState={penaltyState}
+                  skaterPenalty={skaterPenalty}
                   teamStyle={@props.teamStyle}
                   target={@getPenaltyId(penaltyIndex + 7)} />
               </div>
@@ -83,11 +85,11 @@ exports.SkaterPenalties = React.createClass
       </div>
       <div className='row gutters-xs'>
         <div className='col-xs-12'>
-          {@props.skaterState.penaltyStates[7..].map (penaltyState, penaltyIndex) ->
+          {@props.skater.penalties[7..].map (skaterPenalty, penaltyIndex) ->
             <EditPenaltyPanel
               key={penaltyIndex}
               id={@getPenaltyId(penaltyIndex + 7)}
-              penaltyState={penaltyState}
+              skaterPenalty={skaterPenalty}
               penaltyNumber={penaltyIndex+1}
               actions={@bindActions(penaltyIndex + 7)}
               onOpen={@props.editHandler.bind(null, penaltyIndex + 7)}

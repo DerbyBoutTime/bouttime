@@ -1,9 +1,11 @@
+React = require 'react/addons'
+JamDetail = require './jam_detail.cjsx'
+LineupTrackerActions = require './lineup_tracker_actions.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.TeamLineup = React.createClass
+module.exports = React.createClass
   displayName: 'TeamLineup'
   propTypes:
-    teamState: React.PropTypes.object.isRequired
+    team: React.PropTypes.object.isRequired
     noPivotHandler: React.PropTypes.func.isRequired
     starPassHandler: React.PropTypes.func.isRequired
     lineupStatusHandler: React.PropTypes.func.isRequired
@@ -12,11 +14,11 @@ exports.TeamLineup = React.createClass
     endHandler: React.PropTypes.func.isRequired
   render: ()->
     <div className="jam-details">
-      {@props.teamState.jamStates.map (jamState, jamIndex) ->
+      {@props.team.jams.map (jam, jamIndex) ->
         <JamDetail
-          key={jamState.jamNumber}
-          teamAttributes={@props.teamState}
-          jamState={jamState}
+          key={jam.jamNumber}
+          team={@props.team}
+          jam={jam}
           noPivotHandler={@props.noPivotHandler.bind(this, jamIndex)}
           starPassHandler={@props.starPassHandler.bind(this, jamIndex)}
           lineupStatusHandler={@props.lineupStatusHandler.bind(this, jamIndex)}

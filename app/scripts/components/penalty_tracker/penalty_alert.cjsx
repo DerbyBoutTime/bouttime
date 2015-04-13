@@ -1,14 +1,14 @@
+React = require 'react/addons'
 cx = React.addons.classSet
-exports = exports ? this
-exports.PenaltyAlert = React.createClass
+module.exports = React.createClass
   displayName: 'PenaltyAlert'
   propTypes:
-    skaterState: React.PropTypes.object.isRequired
+    skater: React.PropTypes.object.isRequired
   expelled: () ->
-    @props.skaterState.penaltyStates.some (penaltyState) ->
-      penaltyState.penalty.name is 'Gross Misconduct'
+    @props.skater.penalties.some (skaterPenalty) ->
+      skaterPenalty.penalty.name is 'Gross Misconduct'
   fouledOut: () ->
-    @props.skaterState.penaltyStates.length >= 7
+    @props.skater.penalties.length >= 7
   leftEarly: () ->
     false
   render: () ->

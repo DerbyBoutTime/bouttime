@@ -1,20 +1,24 @@
+React = require 'react/addons'
+functions = require '../functions.coffee'
+CopyGameStateMixin = require '../mixins/copy_game_state_mixin.cjsx'
+TeamSelector = require './shared/team_selector.cjsx'
+JamsList = require './scorekeeper/jams_list.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.Scorekeeper = React.createClass
+module.exports = React.createClass
   displayName: 'Scorekeeper'
   mixins: [CopyGameStateMixin]
   componentWillMount: () ->
     @actions =
       newJam: (teamType, jam) ->
-        team = @getTeamState(teamType)
-        team.jamStates.push(jam)
+        team = @getTeam(teamType)
+        team.jams.push(jam)
         if jam.jamNumber > @state.gameState.jamNumber
           @state.gameState.jamNumber = jam.jamNumber
         dispatcher.trigger "scorekeeper.new_jam", @getStandardOptions(teamType: teamType)
         @setState(@state)
       newPass: (teamType, jamIndex, pass) ->
-        jam = @getJamState(teamType, jamIndex)
-        jam.passStates.push(pass)
+        jam = @getJam(teamType, jamIndex)
+        jam.passes.push(pass)
         dispatcher.trigger "scorekeeper.new_pass", @getStandardOptions(teamType: teamType, jamIndex: jamIndex)
         @setState(@state)
       toggleInjury: (teamType, jamIndex, passIndex) ->
@@ -43,25 +47,25 @@ exports.Scorekeeper = React.createClass
         dispatcher.trigger "scorekeeper.toggle_lead", @getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         @setState(@state)
       setPoints: (teamType, jamIndex, passIndex, points) ->
-        jam = @getJamState(teamType, jamIndex)
+        jam = @getJam(teamType, jamIndex)
         pass = @getPassState(teamType, jamIndex, passIndex)
         pass.points = points
-        if passIndex is jam.passStates.length - 1
+        if passIndex is jam.passes.length - 1
           @actions.newPass.call(this, teamType, jamIndex, {passNumber: pass.passNumber + 1, sort: pass.sort + 1 ,skaterNumber: pass.skaterNumber})
         dispatcher.trigger "scorekeeper.set_points", @getStandardOptions(teamType: teamType, jamIndex: jamIndex, passIndex: passIndex)
         @setState(@state)
       reorderPass: (teamType, jamIndex, sourcePassIndex, targetPassIndex) ->
-        jam = @getJamState(teamType, jamIndex)
-        list = jam.passStates
+        jam = @getJam(teamType, jamIndex)
+        list = jam.passes
         list.splice(targetPassIndex, 0, list.splice(sourcePassIndex, 1)[0])
         pass.passNumber = i + 1 for pass, i in list
         dispatcher.trigger "scorekeeper.reorder_pass", @getStandardOptions(teamType: teamType, jamIndex: jamIndex)
         @setState(@state)
       setSkater: (teamType, jamIndex, passIndex, skaterIndex) ->
-        team = @getTeamState(teamType)
-        jam = @getJamState(teamType, jamIndex)
+        team = @getTeam(teamType)
+        jam = @getJam(teamType, jamIndex)
         pass = @getPassState(teamType, jamIndex, passIndex)
-        skater = team.skaterStates[skaterIndex].skater
+        skater = team.skaters[skaterIndex].skater
         pass.skaterNumber = skater.number
         if not jam.jammer?
           jam.jammer = skater
@@ -79,17 +83,17 @@ exports.Scorekeeper = React.createClass
       role: 'Scorekeeper'
       state: @state.gameState
     $.extend(std_opts, opts)
-  getTeamState: (teamType) ->
+  getTeam: (teamType) ->
     switch teamType
-      when 'away' then @state.gameState.awayAttributes
-      when 'home' then @state.gameState.homeAttributes
-  getJamState: (teamType, jamIndex) ->
-    @getTeamState(teamType).jamStates[jamIndex]
+      when 'away' then @state.gameState.away
+      when 'home' then @state.gameState.home
+  getJam: (teamType, jamIndex) ->
+    @getTeam(teamType).jams[jamIndex]
   getPassState: (teamType, jamIndex, passIndex) ->
-    @getJamState(teamType, jamIndex).passStates[passIndex]
+    @getJam(teamType, jamIndex).passes[passIndex]
   buildNewJam: (jamNumber) ->
     jamNumber: jamNumber
-    passStates: []
+    passes: []
   bindActions: (teamType) ->
     Object.keys(@actions).map((key) ->
       key: key
@@ -100,21 +104,21 @@ exports.Scorekeeper = React.createClass
     , {})
   # React callbacks
   getInitialState: () ->
-    componentId: exports.wftda.functions.uniqueId()
+    componentId: functions.uniqueId()
     selectedTeam: 'away'
   render: () ->
     awayElement = <JamsList
       jamNumber={@state.gameState.jamNumber}
-      teamState={@getTeamState('away')}
+      team={@getTeam('away')}
       actions={@bindActions('away')} />
     homeElement = <JamsList
       jamNumber={@state.gameState.jamNumber}
-      teamState={@getTeamState('home')}
+      team={@getTeam('home')}
       actions={@bindActions('home')} />
     <div className="scorekeeper">
       <TeamSelector
-        awayAttributes={@state.gameState.awayAttributes}
+        away={@state.gameState.away}
         awayElement={awayElement}
-        homeAttributes={@state.gameState.homeAttributes}
+        home={@state.gameState.home}
         homeElement={homeElement} />
     </div>

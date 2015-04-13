@@ -1,6 +1,6 @@
+React = require 'react/addons'
 cx = React.addons.classSet
-exports = exports ? this
-exports.PassEditPanel = React.createClass
+module.exports = React.createClass
   displayName: 'PassEditPanel'
   setPoints: (points) ->
     @props.actions.setPoints(points)
@@ -8,41 +8,41 @@ exports.PassEditPanel = React.createClass
   render: () ->
     injuryClass = cx
       'bt-btn notes injury': true
-      'selected': @props.passState.injury
+      'selected': @props.pass.injury
     nopassClass = cx
       'bt-btn notes no-pass': true
-      'selected': @props.passState.nopass
+      'selected': @props.pass.nopass
     callClass = cx
       'bt-btn notes call': true
-      'selected': @props.passState.calloff
+      'selected': @props.pass.calloff
     lostClass = cx
       'bt-btn notes lost': true
-      'selected': @props.passState.lostLead
+      'selected': @props.pass.lostLead
     leadClass = cx
       'bt-btn notes note-lead': true
-      'selected': @props.passState.lead
+      'selected': @props.pass.lead
     zeroClass = cx
       'bt-btn scores zero': true
-      'selected': @props.passState.points == 0
+      'selected': @props.pass.points == 0
     oneClass = cx
       'bt-btn scores one': true
-      'selected': @props.passState.points == 1
+      'selected': @props.pass.points == 1
     twoClass = cx
       'bt-btn scores two': true
-      'selected': @props.passState.points == 2
+      'selected': @props.pass.points == 2
     threeClass = cx
       'bt-btn scores three': true
-      'selected': @props.passState.points == 3
+      'selected': @props.pass.points == 3
     fourClass = cx
       'bt-btn scores four': true
-      'selected': @props.passState.points == 4
+      'selected': @props.pass.points == 4
     fiveClass = cx
       'bt-btn scores five': true
-      'selected': @props.passState.points == 5
+      'selected': @props.pass.points == 5
     sixClass = cx
       'bt-btn scores six': true
-      'selected': @props.passState.points == 6
-    if @props.passState.passNumber == 1
+      'selected': @props.pass.points == 6
+    if @props.pass.passNumber == 1
       <div className="panel">
         <div className="edit-pass first-pass collapse" id={@props.editPassId}>
           <div className="row gutters-xs">

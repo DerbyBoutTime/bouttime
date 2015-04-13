@@ -1,11 +1,11 @@
+React = require 'react/addons'
 cx = React.addons.classSet
-exports = exports ? this
-exports.Titlebar = React.createClass
+module.exports = React.createClass
   displayName: "TitleBar"
   componentDidMount: () ->
     $dom = $(@getDOMNode())
   getInitialState: () ->
-    exports.wftda.functions.camelize(@props)
+    @props
   render: () ->
     <div className="title-bar">
       <div className="container">
@@ -13,7 +13,7 @@ exports.Titlebar = React.createClass
           <div className="col-xs-12 col-sm-12">
             <div className="btn-group">
               <a className="btn-title-menu btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
-                <img alt="menu" src="/assets/icons/menu.svg" />
+                <img alt="menu" src="/images/icons/menu.svg" />
               </a>
               <ul className="dropdown-menu">
                 <li>

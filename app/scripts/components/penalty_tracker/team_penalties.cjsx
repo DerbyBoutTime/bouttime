@@ -1,9 +1,12 @@
+React = require 'react/addons'
+PenaltiesSummary = require './penalties_summary.cjsx'
+SkaterPenalties = require './skater_penalties.cjsx'
+PenaltiesList = require './penalties_list.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.TeamPenalties = React.createClass
+module.exports = React.createClass
   displayName: 'TeamPenalties'
   propTypes:
-    teamState: React.PropTypes.object.isRequired
+    team: React.PropTypes.object.isRequired
     penalties: React.PropTypes.array.isRequired
     actions: React.PropTypes.object.isRequired
   getInitialState: () ->
@@ -34,15 +37,15 @@ exports.TeamPenalties = React.createClass
     <div className="team-penalties">
       <PenaltiesSummary
         {...@props}
-        teamStyle={@props.teamState.colorBarStyle}
+        teamStyle={@props.team.colorBarStyle}
         selectionHandler={@selectSkater}
         hidden={@state.selectedSkaterIndex?}/>
-      {@props.teamState.skaterStates.map (skaterState, skaterIndex) ->
+      {@props.team.skaters.map (skater, skaterIndex) ->
         <SkaterPenalties
           key={skaterIndex}
-          skaterState={@props.teamState.skaterStates[skaterIndex]}
+          skater={@props.team.skaters[skaterIndex]}
           actions={@bindActions(skaterIndex)}
-          teamStyle={@props.teamState.colorBarStyle}
+          teamStyle={@props.team.colorBarStyle}
           hidden={@state.selectedSkaterIndex isnt skaterIndex}
           backHandler={@backHandler}
           editHandler={@editPenalty}/>

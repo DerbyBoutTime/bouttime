@@ -1,16 +1,17 @@
+React = require 'react/addons'
+PassesList = require './passes_list.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.JamDetails = React.createClass
+module.exports = React.createClass
   displayName: 'JamDetails'
   propType:
-    jamState: React.PropTypes.object.isRequired
+    jam: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
     mainMenuHandler: React.PropTypes.func
     prevJamHandler: React.PropTypes.func
     nextJamHandler: React.PropTypes.func
   totalPoints: () ->
     points = 0
-    @props.jamState.passStates.map (pass) =>
+    @props.jam.passes.map (pass) =>
       points += pass.points || 0
     return points
   render: () ->
@@ -38,7 +39,7 @@ exports.JamDetails = React.createClass
         <div className="row gutters-xs">
           <div className="col-sm-3 col-xs-3 col-sm-offset-6 col-xs-offset-6">
             <div className="jam-number">
-              <strong>Jam {@props.jamState.jamNumber}</strong>
+              <strong>Jam {@props.jam.jamNumber}</strong>
             </div>
           </div>
           <div className="col-sm-3 col-xs-3 text-right">
@@ -48,6 +49,6 @@ exports.JamDetails = React.createClass
           </div>
         </div>
       </div>
-      <PassesList jamState={@props.jamState}
+      <PassesList jam={@props.jam}
         actions={@props.actions}/>
     </div>

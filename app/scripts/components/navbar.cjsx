@@ -1,6 +1,6 @@
+React = require 'react/addons'
 cx = React.addons.classSet
-exports = exports ? this
-exports.Navbar = React.createClass
+module.exports = React.createClass
   buildOptions: (opts = {}) ->
     std_opts =
       role: 'Global'
@@ -10,7 +10,7 @@ exports.Navbar = React.createClass
   componentDidMount: () ->
     $dom = $(@getDOMNode())
   getInitialState: () ->
-    props = exports.wftda.functions.camelize(@props)
+    props = @props
     state =
       tab: props.tab
   componentWillReceiveProps: (props) ->
@@ -39,50 +39,50 @@ exports.Navbar = React.createClass
             <ul className="nav navbar-nav">
               <li className={jamTimerCS} data-tab-name="jam_timer">
                 <a href="#">
-                  <img className="hidden-xs" src="/assets/icons/jam-timer.svg" width="48"/>
-                  <img className="visible-xs-block img-responsive" src="/assets/icons/jam-timer.svg" width="32"/>
+                  <img className="hidden-xs" src="/images/icons/jam-timer.svg" width="48"/>
+                  <img className="visible-xs-block img-responsive" src="/images/icons/jam-timer.svg" width="32"/>
                 </a>
               </li>
               <li className={lineupTrackerCS} data-tab-name="lineup_tracker">
                 <a href="#">
-                  <img className="hidden-xs" src="/assets/icons/lineup-tracker.svg" width="48" />
-                  <img className="visible-xs-block" src="/assets/icons/lineup-tracker.svg" width="32"/>
+                  <img className="hidden-xs" src="/images/icons/lineup-tracker.svg" width="48" />
+                  <img className="visible-xs-block" src="/images/icons/lineup-tracker.svg" width="32"/>
                 </a>
               </li>
               <li className={scorekeeperCS} data-tab-name="scorekeeper">
                 <a href="#">
-                  <img className="hidden-xs" src="/assets/icons/scorekeeper.svg" width="48"/>
-                  <img className="visible-xs-block" src="/assets/icons/scorekeeper.svg" width="32"/>
+                  <img className="hidden-xs" src="/images/icons/scorekeeper.svg" width="48"/>
+                  <img className="visible-xs-block" src="/images/icons/scorekeeper.svg" width="32"/>
                 </a>
               </li>
               <li className={penaltyTrackerCS} data-tab-name="penalty_tracker">
                 <a href="#">
-                  <img className="hidden-xs" src="/assets/icons/penalty-tracker.svg" width="48"/>
-                  <img className="visible-xs-block" src="/assets/icons/penalty-tracker.svg" width="32"/>
+                  <img className="hidden-xs" src="/images/icons/penalty-tracker.svg" width="48"/>
+                  <img className="visible-xs-block" src="/images/icons/penalty-tracker.svg" width="32"/>
                 </a>
               </li>
               <li className={penaltyBoxTimerCS} data-tab-name="penalty_box_timer">
                 <a href="#">
-                  <img className="hidden-xs" src="/assets/icons/penalty-box.svg" width="48"/>
-                  <img className="visible-xs-block" src="/assets/icons/penalty-box.svg" width="32"/>
+                  <img className="hidden-xs" src="/images/icons/penalty-box.svg" width="48"/>
+                  <img className="visible-xs-block" src="/images/icons/penalty-box.svg" width="32"/>
                 </a>
               </li>
               <li className={scoreboardCS} data-tab-name="scoreboard">
                 <a href="#">
-                  <img className="hidden-xs" src="/assets/icons/scoreboard.svg" width="48"/>
-                  <img className="visible-xs-block" src="/assets/icons/scoreboard.svg" width="32"/>
+                  <img className="hidden-xs" src="/images/icons/scoreboard.svg" width="48"/>
+                  <img className="visible-xs-block" src="/images/icons/scoreboard.svg" width="32"/>
                 </a>
               </li>
               <li className={penaltyWhiteboardCS} data-tab-name="penalty_whiteboard">
                 <a href="#">
-                  <img className="hidden-xs" src="/assets/icons/whiteboard.svg" width="48"/>
-                  <img className="visible-xs-block" src="/assets/icons/whiteboard.svg" width="32"/>
+                  <img className="hidden-xs" src="/images/icons/whiteboard.svg" width="48"/>
+                  <img className="visible-xs-block" src="/images/icons/whiteboard.svg" width="32"/>
                 </a>
               </li>
               <li className={announcersFeedCS} data-tab-name="announcers_feed">
                 <a href="#">
-                  <img className="hidden-xs" src="/assets/icons/announcers-feed.svg" width="48"/>
-                  <img className="visible-xs-block" src="/assets/icons/announcers-feed.svg" width="32"/>
+                  <img className="hidden-xs" src="/images/icons/announcers-feed.svg" width="48"/>
+                  <img className="visible-xs-block" src="/images/icons/announcers-feed.svg" width="32"/>
                 </a>
               </li>
             </ul>

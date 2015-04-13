@@ -1,14 +1,16 @@
+React = require 'react/addons'
+TeamSelector = require './shared/team_selector.cjsx'
+PenaltiesSummary = require './penalty_tracker/penalties_summary.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.PenaltyWhiteboard = React.createClass
+module.exports = React.createClass
   displayName: 'PenaltyWhiteBoard'
   render: () ->
-    awayElement = <PenaltiesSummary teamState={@props.gameState.awayAttributes}/>
-    homeElement = <PenaltiesSummary teamState={@props.gameState.homeAttributes}/>
+    awayElement = <PenaltiesSummary team={@props.gameState.away}/>
+    homeElement = <PenaltiesSummary team={@props.gameState.home}/>
     <div className="penalty-whiteboard">
       <TeamSelector
-        awayAttributes={@props.gameState.awayAttributes}
+        away={@props.gameState.away}
         awayElement={awayElement}
-        homeAttributes={@props.gameState.homeAttributes}
+        home={@props.gameState.home}
         homeElement={homeElement} />
     </div>

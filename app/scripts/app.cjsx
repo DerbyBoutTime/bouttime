@@ -1,3 +1,5 @@
-React = require('react');
+React = require 'react'
+Game = require './components/game.cjsx'
+demo_data = require './demo_data.coffee'
 
-React.render(<p>Hello World</p>, document.getElementById('react'))
+React.render <Game {...demo_data} />, document.getElementById('react')

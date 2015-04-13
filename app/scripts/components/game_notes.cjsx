@@ -1,6 +1,6 @@
+React = require 'react/addons'
 cx = React.addons.classSet
-exports = exports ? this
-exports.GameNotes = React.createClass
+module.exports = React.createClass
   componentDidMount: () ->
     $dom = $(@getDOMNode())
   getInitialState: () ->

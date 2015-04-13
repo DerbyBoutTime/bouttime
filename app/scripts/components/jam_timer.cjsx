@@ -1,26 +1,30 @@
+React = require 'react/addons'
+$ = require 'jquery'
+constants = require '../constants.coffee'
+functions = require '../functions.coffee'
+CountdownClock = require '../clock.coffee'
 cx = React.addons.classSet
-exports = exports ? this
-exports.JamTimer = React.createClass
+module.exports = React.createClass
   displayName: 'JamTimer'
   getInitialState: () ->
     state =
       handleModal: null
       id: @props.gameState.id
-      componentId: exports.wftda.functions.uniqueId()
+      componentId: functions.uniqueId()
       state: @props.gameState.state
       jamNumber: @props.gameState.jamNumber
       periodNumber: @props.gameState.periodNumber
-      homeAttributes: @props.gameState.homeAttributes
-      awayAttributes: @props.gameState.awayAttributes
-      jamClock: new exports.classes.CountdownClock
-        time: @props.gameState.jamClockAttributes.time ? exports.wftda.constants.JAM_DURATION_IN_MS
-        warningTime: exports.wftda.constants.JAM_WARNING_IN_MS
-        refreshRateInMs: exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS
+      home: @props.gameState.home
+      away: @props.gameState.away
+      jamClock: new CountdownClock
+        time: @props.gameState.jamClock.time ? constants.JAM_DURATION_IN_MS
+        warningTime: constants.JAM_WARNING_IN_MS
+        refreshRateInMs: constants.CLOCK_REFRESH_RATE_IN_MS
         selector: ".jam-clock"
-      periodClock: new exports.classes.CountdownClock
-        time: @props.gameState.periodClockAttributes.time ? exports.wftda.constants.PERIOD_DURATION_IN_MS
-        warningTime: exports.wftda.constants.JAM_WARNING_IN_MS
-        refreshRateInMs: exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS
+      periodClock: new CountdownClock
+        time: @props.gameState.periodClock.time ? constants.PERIOD_DURATION_IN_MS
+        warningTime: constants.JAM_WARNING_IN_MS
+        refreshRateInMs: constants.CLOCK_REFRESH_RATE_IN_MS
         selector: ".period-clock"
   componentWillReceiveProps: (nextProps) ->
   buildOptions: (opts = {}) ->
@@ -37,26 +41,26 @@ exports.JamTimer = React.createClass
         #Set has official review to true
         #Increment official reviews retained
         if $parent.hasClass "home"
-          reviewsRetained = @state.homeAttributes.officialReviewsRetained + 1
+          reviewsRetained = @state.home.officialReviewsRetained + 1
           @setState
-            homeAttributes: $.extend @state.homeAttributes,
+            home: $.extend @state.home,
               hasOfficialReview: true
               officialReviewsRetained: reviewsRetained
         else
-          reviewsRetained = @state.awayAttributes.officialReviewsRetained + 1
+          reviewsRetained = @state.away.officialReviewsRetained + 1
           @setState
-            awayAttributes: $.extend @state.awayAttributes,
+            away: $.extend @state.away,
               hasOfficialReview: true
               officialReviewsRetained: reviewsRetained
       else
         #Set has official review to false
         if $parent.hasClass "home"
           @setState
-            homeAttributes: $.extend @state.homeAttributes,
+            home: $.extend @state.home,
               hasOfficialReview: false
         else
           @setState
-            awayAttributes: $.extend @state.awayAttributes,
+            away: $.extend @state.away,
               hasOfficialReview: false
     else #Its a normal timeout not an official review
       timeoutsRemaining = 0
@@ -67,15 +71,14 @@ exports.JamTimer = React.createClass
       #Set remaining timeouts
       if $parent.hasClass "home"
         @setState
-          homeAttributes: $.extend @state.homeAttributes,
+          home: $.extend @state.home,
             timeouts: timeoutsRemaining
       else
         @setState
-          awayAttributes: $.extend @state.awayAttributes,
+          away: $.extend @state.away,
             timeouts: timeoutsRemaining
     return null
   componentDidMount: () ->
-    exports.wftda.ticks[@state.id] = exports.wftda.ticks[@state.id] || {}
     $dom = $(@getDOMNode())
     $jamClock = $dom.find(".jam-clock")
     $periodClock = $dom.find(".period-clock")
@@ -84,82 +87,59 @@ exports.JamTimer = React.createClass
     $jamClock.on "tick", (evt, options) =>
       #console.log "jam clock tick", evt, options
       @forceUpdate() #Need to force update because state hasn't changed
-      dispatcher.trigger "jam_timer.jam_tick", @buildOptions
-        state:
-          id: @state.id
-          jamClockAttributes: @state.jamClock.serialize()
     $periodClock.on "tick", (evt, options) =>
       #console.log "period clock tick", evt, options
       @forceUpdate() #Need to force update because state hasn't changed
-      dispatcher.trigger "jam_timer.period_tick", @buildOptions
-        state:
-          id: @state.id
-          periodClockAttributes: @state.periodClock.serialize()
 
     #Send Events
     $dom.on 'click', '.start-jam-btn', null, (evt) =>
       @startJam()
-      exports.dispatcher.trigger "jam_timer.start_jam", @buildOptions()
       console.log("start jam")
     $dom.on 'click', '.stop-jam-btn', null, (evt) =>
       @stopJam()
-      exports.dispatcher.trigger "jam_timer.stop_jam", @buildOptions()
       console.log("stop jam")
     $dom.on 'click', '.start-lineup-btn', null, (evt) =>
       @startLineupClock()
-      exports.dispatcher.trigger "jam_timer.start_lineup", @buildOptions()
       console.log("start lineup")
     $dom.on 'click', '.start-clock-btn', null, (evt) =>
       @state.jamClock.start()
-      exports.dispatcher.trigger "jam_timer.start_clock", @buildOptions()
       console.log("start clock")
     $dom.on 'click', '.stop-clock-btn', null, (evt) =>
       @state.jamClock.stop()
-      exports.dispatcher.trigger "jam_timer.stop_clock", @buildOptions()
       console.log("stop clock")
     $dom.on 'click', '.undo-btn', null, (evt) =>
-      exports.dispatcher.trigger "jam_timer.undo", @buildOptions()
       console.log("undo")
     $dom.on 'click', '.timeout-section .timeout-btn', null, (evt) =>
       @startTimeout()
-      exports.dispatcher.trigger "jam_timer.start_timeout", @buildOptions()
       console.log("start timeout")
     $dom.on 'click', '.official-timeout-btn', null, (evt) =>
       @markAsOfficialTimeout()
-      exports.dispatcher.trigger "jam_timer.mark_as_official_timeout", @buildOptions()
       console.log("mark as official timeout")
     $dom.on 'click', '.home .timeout-btn', null, (evt) =>
       @markAsHomeTeamTimeout()
-      exports.dispatcher.trigger "jam_timer.mark_as_home_team_timeout", @buildOptions()
       console.log("mark as home team timeout")
     $dom.on 'click', '.home .review-btn', null, (evt) =>
       @markAsHomeTeamOfficialReview()
-      exports.dispatcher.trigger "jam_timer.mark_as_home_team_review", @buildOptions()
       console.log("mark as home team official review")
     $dom.on 'click', '.away .timeout-btn', null, (evt) =>
       @markAsAwayTeamTimeout()
-      exports.dispatcher.trigger "jam_timer.mark_as_away_team_timeout", @buildOptions()
       console.log("mark as away team timeout")
     $dom.on 'click', '.away .review-btn', null, (evt) =>
       @markAsAwayTeamOfficialReview()
-      exports.dispatcher.trigger "jam_timer.mark_as_away_team_review", @buildOptions()
       console.log("mark as away team official review")
     $dom.on 'click', '.ended-by-time-btn', null, (evt) =>
       $(".jam-explanation-section .btn").removeClass("btn-selected")
       $(evt.currentTarget).addClass("btn-selected")
-      exports.dispatcher.trigger "jam_timer.mark_as_ended_by_time", @buildOptions()
       console.log("mark as ended by time")
     $dom.on 'click', '.jam-called-btn', null, (evt) =>
       $(".jam-explanation-section .btn").removeClass("btn-selected")
       $(evt.currentTarget).addClass("btn-selected")
-      exports.dispatcher.trigger "jam_timer.mark_as_ended_by_calloff", @buildOptions()
       console.log("mark as ended by calloff")
     # Receive Events
-    dispatcher.bind 'heartbeat', @handleHeartbeat
   componentWillUnmount: () ->
     @stopClocks()
   handleHeartBeat: (msg) ->
-    gameState = exports.wftda.functions.camelize(msg)
+    gameState = functions.camelize(msg)
     console.log "Heartbeat"
   setUnofficialFinal: () ->
     @state.inUnofficialFinal = true
@@ -181,33 +161,33 @@ exports.JamTimer = React.createClass
   stopPeriodClock: () ->
     @state.periodClock.stop()
   clearJammers: () ->
-    @state.homeAttributes.jammer = {}
-    @state.awayAttributes.jammer = {}
+    @state.home.jammer = {}
+    @state.away.jammer = {}
   startJam: () ->
     @clearTimeouts()
     @clearJammers()
-    @state.jamClock.reset(exports.wftda.constants.JAM_DURATION_IN_MS)
+    @state.jamClock.reset(constants.JAM_DURATION_IN_MS)
     @state.jamClock.start()
     @state.periodClock.start()
     @state.state = "jam"
-    @state.homeAttributes.jamPoints = 0
-    @state.awayAttributes.jamPoints = 0
+    @state.home.jamPoints = 0
+    @state.away.jamPoints = 0
     if @state.periodClock.time == 0
       @state.periodNumber = @state.periodNumber + 1
-      @state.periodClock.reset(exports.wftda.constants.PERIOD_DURATION_IN_MS)
+      @state.periodClock.reset(constants.PERIOD_DURATION_IN_MS)
     @state.jamNumber = @state.jamNumber + 1
-    for i in [@state.awayAttributes.jamStates.length+1 .. @state.jamNumber] by 1
-      @state.awayAttributes.jamStates.push jamNumber: i
-    for i in [@state.homeAttributes.jamStates.length+1 .. @state.jamNumber] by 1
-      @state.homeAttributes.jamStates.push jamNumber: i
+    for i in [@state.away.jams.length+1 .. @state.jamNumber] by 1
+      @state.away.jams.push jamNumber: i
+    for i in [@state.home.jams.length+1 .. @state.jamNumber] by 1
+      @state.home.jams.push jamNumber: i
   stopJam: () ->
     @state.jamClock.stop()
     @startLineupClock()
   startLineupClock: () ->
     @clearTimeouts()
-    @state.jamClock.reset(exports.wftda.constants.LINEUP_DURATION_IN_MS)
-    @state.homeAttributes.jammerAttributes = {id: @state.homeAttributes.jammerAttributes.id}
-    @state.awayAttributes.jammerAttributes = {id: @state.awayAttributes.jammerAttributes.id}
+    @state.jamClock.reset(constants.LINEUP_DURATION_IN_MS)
+    @state.home.jammerAttributes = {id: @state.home.jammerAttributes.id}
+    @state.away.jammerAttributes = {id: @state.away.jammerAttributes.id}
     @state.jamClock.start()
     @state.periodClock.start()
     @state.state = "lineup"
@@ -216,25 +196,25 @@ exports.JamTimer = React.createClass
     @state.state = "pregame"
     @state.jamClock.reset(time)
   restoreHomeTeamOfficialReview: () ->
-    @state.homeAttributes.hasOfficialReview = true
+    @state.home.hasOfficialReview = true
   restoreAwayTeamOfficialReview: () ->
-    @state.homeAttributes.hasOfficialReview = true
+    @state.home.hasOfficialReview = true
   setHomeTeamName: (name) ->
-    @state.homeAttributes.name = name
+    @state.home.name = name
   setAwayTeamName: (name) ->
-    @state.awayAttributes.name = name
+    @state.away.name = name
   setHomeTeamJammer: (name) ->
-    @state.homeAttributes.jammerAttributes.name = name
+    @state.home.jammerAttributes.name = name
   setAwayTeamJammer: (name) ->
-    @state.awayAttributes.jammerAttributes.name = name
+    @state.away.jammerAttributes.name = name
   setHomeTeamLead: () ->
-    @state.homeAttributes.jammerAttributes.lead = true
+    @state.home.jammerAttributes.lead = true
   setAwayTeamLead: () ->
-    @state.awayAttributes.jammerAttributes.lead = true
+    @state.away.jammerAttributes.lead = true
   setHomeTeamNotLead: () ->
-    @state.homeAttributes.jammerAttributes.lead = false
+    @state.home.jammerAttributes.lead = false
   setAwayTeamNotLead: () ->
-    @state.awayAttributes.jammerAttributes.lead = false
+    @state.away.jammerAttributes.lead = false
   incrementPeriodNumber: (num = 1) ->
     @state.periodNumber =  @state.periodNumber + parseInt(num)
   decrementPeriodNumber: (num = 1) ->
@@ -249,7 +229,7 @@ exports.JamTimer = React.createClass
     @state.jamNumber =  parseInt(num)
   startTimeout: () ->
     @stopClocks()
-    @state.jamClock.reset(exports.wftda.constants.TIMEOUT_DURATION_IN_MS)
+    @state.jamClock.reset(constants.TIMEOUT_DURATION_IN_MS)
     @state.jamClock.start()
     @state.state = "timeout"
     @state.timeout = null
@@ -259,12 +239,12 @@ exports.JamTimer = React.createClass
     @clearTimeouts()
     @state.state = "timeout"
     @state.timeout = "home_team_timeout"
-    @state.homeAttributes.timeouts = @state.homeAttributes.timeouts - 1
-    @state.homeAttributes.isTakingTimeout = true
+    @state.home.timeouts = @state.home.timeouts - 1
+    @state.home.isTakingTimeout = true
     @state.undoFunction = @state.restoreHomeTeamTimeout
     @forceUpdate()
   restoreHomeTeamTimeout: () ->
-    @state.homeAttributes.timeouts = @state.homeAttributes.timeouts + 1
+    @state.home.timeouts = @state.home.timeouts + 1
     @clearTimeouts()
   markAsAwayTeamTimeout: () ->
     if @inTimeout() == false
@@ -272,12 +252,12 @@ exports.JamTimer = React.createClass
     @clearTimeouts()
     @state.state = "timeout"
     @state.timeout = "away_team_timeout"
-    @state.awayAttributes.timeouts = @state.awayAttributes.timeouts - 1
-    @state.awayAttributes.isTakingTimeout = true
+    @state.away.timeouts = @state.away.timeouts - 1
+    @state.away.isTakingTimeout = true
     @state.undoFunction = @state.restoreAwayTeamTimeout
     @forceUpdate()
   restoreAwayTeamTimeout: () ->
-    @state.awayAttributes.timeouts = @state.awayAttributes.timeouts + 1
+    @state.away.timeouts = @state.away.timeouts + 1
     @clearTimeouts()
   inTimeout: ()->
     @state.state == "team_timeout" || "official_timeout"
@@ -297,47 +277,47 @@ exports.JamTimer = React.createClass
     @clearTimeouts()
     @state.jamClock.reset(0)
     @state.jamClock.start()
-    @state.homeAttributes.hasOfficialReview = false
-    @state.homeAttributes.isTakingOfficialReview = true
+    @state.home.hasOfficialReview = false
+    @state.home.isTakingOfficialReview = true
     @state.state = "timeout"
     @state.timeout = "home_team_official_review"
     @state.undoFunction = @state.restoreHomeTeamOfficialReview
     @forceUpdate()
   restoreHomeTeamOfficialReview: (retained = false) ->
-    @state.homeAttributes.hasOfficialReview = true
+    @state.home.hasOfficialReview = true
     @clearTimeouts()
     if retained
-      @state.homeAttributes.officialReviewsRetained = @state.homeAttributes.officialReviewsRetained + 1
+      @state.home.officialReviewsRetained = @state.home.officialReviewsRetained + 1
   markAsAwayTeamOfficialReview: () ->
     if @inTimeout() == false
       @startTimeout()
     @clearTimeouts()
     @state.jamClock.reset(0)
     @state.jamClock.start()
-    @state.awayAttributes.hasOfficialReview = false
-    @state.awayAttributes.isTakingOfficialReview = true
+    @state.away.hasOfficialReview = false
+    @state.away.isTakingOfficialReview = true
     @state.state = "timeout"
     @state.timeout = "away_team_official_review"
     @state.undoFunction = @state.restoreAwayTeamOfficialReview
     @forceUpdate()
   restoreAwayTeamOfficialReview: (retained = false) ->
-    @state.awayAttributes.hasOfficialReview = true
+    @state.away.hasOfficialReview = true
     @clearTimeouts()
     if retained
-      @state.awayAttributes.officialReviewsRetained = @state.awayAttributes.officialReviewsRetained + 1
+      @state.away.officialReviewsRetained = @state.away.officialReviewsRetained + 1
   clearAlerts: () ->
     @clearTimeouts()
     @state.inUnofficialFinal = false
     @state.inOfficialFinal = false
-    @state.homeAttributes.isUnofficialFinal = false
-    @state.homeAttributes.isOfficialFinal = false
-    @state.awayAttributes.isUnofficialFinal = false
-    @state.awayAttributes.isOfficialFinal = false
+    @state.home.isUnofficialFinal = false
+    @state.home.isOfficialFinal = false
+    @state.away.isUnofficialFinal = false
+    @state.away.isOfficialFinal = false
   clearTimeouts: () ->
-    @state.homeAttributes.isTakingTimeout = false
-    @state.awayAttributes.isTakingTimeout = false
-    @state.homeAttributes.isTakingOfficialReview = false
-    @state.awayAttributes.isTakingOfficialReview = false
+    @state.home.isTakingTimeout = false
+    @state.away.isTakingTimeout = false
+    @state.home.isTakingOfficialReview = false
+    @state.away.isTakingOfficialReview = false
   openModal: () ->
     $modal = $(@refs.modal.getDOMNode())
     $modal.modal('show')
@@ -349,15 +329,6 @@ exports.JamTimer = React.createClass
     @state.modalHandler(val)
   serverUpdate: () ->
     console.log @state
-    exports.dispatcher.trigger "jam_timer.update", @buildOptions
-      state:
-        state: @state.state
-        jamNumber: @state.jamNumber
-        periodNumber: @state.periodNumber
-        jamClockAttributes: @state.jamClock.serialize()
-        periodClockAttributes: @state.periodClock.serialize()
-        homeAttributes: @state.homeAttributes
-        awayAttributes: @state.awayAttributes
   handleJamEdit: (val) ->
     @setState {jamNumber: val}, @serverUpdate
   handlePeriodEdit: (val) ->
@@ -444,43 +415,43 @@ exports.JamTimer = React.createClass
     homeTeamOfficialReviewCS = cx
       'official-review': true
       'bar': true
-      'active': @state.homeAttributes.isTakingOfficialReview
-      'inactive': @state.homeAttributes.hasOfficialReview == false
+      'active': @state.home.isTakingOfficialReview
+      'inactive': @state.home.hasOfficialReview == false
     homeTeamTimeouts1CS = cx
       'bar': true
-      'active': @state.homeAttributes.isTakingTimeout && @state.homeAttributes.timeouts == 2
-      'inactive': @state.homeAttributes.timeouts < 3
+      'active': @state.home.isTakingTimeout && @state.home.timeouts == 2
+      'inactive': @state.home.timeouts < 3
     homeTeamTimeouts2CS = cx
       'bar': true
-      'active': @state.homeAttributes.isTakingTimeout && @state.homeAttributes.timeouts == 1
-      'inactive': @state.homeAttributes.timeouts < 2
+      'active': @state.home.isTakingTimeout && @state.home.timeouts == 1
+      'inactive': @state.home.timeouts < 2
     homeTeamTimeouts3CS = cx
       'bar': true
-      'active': @state.homeAttributes.isTakingTimeout && @state.homeAttributes.timeouts == 0
-      'inactive': @state.homeAttributes.timeouts < 1
+      'active': @state.home.isTakingTimeout && @state.home.timeouts == 0
+      'inactive': @state.home.timeouts < 1
     awayTeamOfficialReviewCS = cx
       'official-review': true
       'bar': true
-      'active': @state.awayAttributes.isTakingOfficialReview
-      'inactive': @state.awayAttributes.hasOfficialReview == false
+      'active': @state.away.isTakingOfficialReview
+      'inactive': @state.away.hasOfficialReview == false
     awayTeamTimeouts1CS = cx
       'bar': true
-      'active': @state.awayAttributes.isTakingTimeout && @state.awayAttributes.timeouts == 2
-      'inactive': @state.awayAttributes.timeouts < 3
+      'active': @state.away.isTakingTimeout && @state.away.timeouts == 2
+      'inactive': @state.away.timeouts < 3
     awayTeamTimeouts2CS = cx
       'bar': true
-      'active': @state.awayAttributes.isTakingTimeout && @state.awayAttributes.timeouts == 1
-      'inactive': @state.awayAttributes.timeouts < 2
+      'active': @state.away.isTakingTimeout && @state.away.timeouts == 1
+      'inactive': @state.away.timeouts < 2
     awayTeamTimeouts3CS = cx
       'bar': true
-      'active': @state.awayAttributes.isTakingTimeout && @state.awayAttributes.timeouts == 0
-      'inactive': @state.awayAttributes.timeouts < 1
+      'active': @state.away.isTakingTimeout && @state.away.timeouts == 0
+      'inactive': @state.away.timeouts < 1
     <div className="jam-timer">
         <div className="row text-center">
           <div className="col-md-2 col-xs-2">
             <div className="timeout-bars home">
-              <span className="jt-label">{@state.homeAttributes.initials}</span>
-              <div className={homeTeamOfficialReviewCS} onClick={@handleToggleTimeoutBar}>{@state.homeAttributes.officialReviewsRetained}</div>
+              <span className="jt-label">{@state.home.initials}</span>
+              <div className={homeTeamOfficialReviewCS} onClick={@handleToggleTimeoutBar}>{@state.home.officialReviewsRetained}</div>
               <div className={homeTeamTimeouts1CS} onClick={@handleToggleTimeoutBar}></div>
               <div className={homeTeamTimeouts2CS} onClick={@handleToggleTimeoutBar}></div>
               <div className={homeTeamTimeouts3CS} onClick={@handleToggleTimeoutBar}></div>
@@ -509,8 +480,8 @@ exports.JamTimer = React.createClass
           </div>
           <div className="col-md-2 col-xs-2">
             <div className="timeout-bars away">
-              <span className="jt-label">{@state.awayAttributes.initials}</span>
-              <div className={awayTeamOfficialReviewCS} onClick={@handleToggleTimeoutBar}>{@state.awayAttributes.officialReviewsRetained}</div>
+              <span className="jt-label">{@state.away.initials}</span>
+              <div className={awayTeamOfficialReviewCS} onClick={@handleToggleTimeoutBar}>{@state.away.officialReviewsRetained}</div>
               <div className={awayTeamTimeouts1CS} onClick={@handleToggleTimeoutBar}></div>
               <div className={awayTeamTimeouts2CS} onClick={@handleToggleTimeoutBar}></div>
               <div className={awayTeamTimeouts3CS} onClick={@handleToggleTimeoutBar}></div>

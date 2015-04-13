@@ -1,10 +1,9 @@
-exports = exports ? this
-exports.ticks = exports.ticks ? {}
-exports.classes = exports.classes ? {}
-exports.classes.CountdownClock = class CountdownClock
+functions = require './functions.coffee'
+ticks = {}
+module.exports = class CountdownClock
   constructor: (options = {}) ->
-    @id = exports.wftda.functions.uniqueId()
-    exports.ticks[@id] = null
+    @id = functions.uniqueId()
+    ticks[@id] = null
     @tick = null
     @time = options.time ? 0
     @initialTime = @time
@@ -14,20 +13,20 @@ exports.classes.CountdownClock = class CountdownClock
   start: () =>
     @stop() #Clear to prevent lost interval function
     @tick = Date.now()
-    exports.ticks[@id] = setInterval(() =>
+    ticks[@id] = setInterval(() =>
       @_tick()
     ,@refreshRateInMS)
   stop: () =>
-    clearInterval exports.ticks[@id]
-    exports.ticks[@id] = null
+    clearInterval ticks[@id]
+    ticks[@id] = null
   isRunning: () =>
-    exports.ticks[@id] != null
+    ticks[@id] != null
   reset: (time = @initialTime) ->
     @stop()
     @time = time
     @tick = null
   display: () =>
-    exports.wftda.functions.toClock(@time, false)
+    functions.toClock(@time, false)
   buildEventOptions: () =>
     id: @id
     time: @time

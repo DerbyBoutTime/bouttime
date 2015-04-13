@@ -50,7 +50,6 @@
   "browserify": {
     "transform": [
       "browserify-shim",
-      "coffeeify",
       "coffee-reactify"
     ]
   },

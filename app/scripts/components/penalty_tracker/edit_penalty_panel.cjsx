@@ -1,19 +1,19 @@
+React = require 'react/addons'
 cx = React.addons.classSet
-exports = exports ? this
-exports.EditPenaltyPanel = React.createClass
+module.exports = React.createClass
   displayName: 'EditPenaltyPanel'
   propTypes:
     penaltyNumber: React.PropTypes.number
-    penaltyState: React.PropTypes.object.isRequired
+    skaterPenalty: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
     onOpen: React.PropTypes.func.isRequired
     onClose: React.PropTypes.func.isRequired
   incrementJamNumber: () ->
     @props.actions.updatePenalty
-      jamNumber: @props.penaltyState.jamNumber + 1
+      jamNumber: @props.skaterPenalty.jamNumber + 1
   decrementJamNumber: () ->
     @props.actions.updatePenalty
-      jamNumber: Math.max(@props.penaltyState.jamNumber - 1, 1)
+      jamNumber: Math.max(@props.skaterPenalty.jamNumber - 1, 1)
   clearPenalty: () ->
     @closePanel()
     @props.actions.clearPenalty()
@@ -44,7 +44,7 @@ exports.EditPenaltyPanel = React.createClass
             <button className='btn btn-boxed minus' onClick={@decrementJamNumber}>
               <span className='glyphicon glyphicon-minus'></span>
             </button>
-            <strong>Jam {@props.penaltyState.jamNumber}</strong>
+            <strong>Jam {@props.skaterPenalty.jamNumber}</strong>
             <button className='btn btn-boxed plus' onClick={@incrementJamNumber}>
               <span className='glyphicon glyphicon-plus'></span>
             </button>

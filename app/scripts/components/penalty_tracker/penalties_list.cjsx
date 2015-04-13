@@ -1,6 +1,6 @@
+React = require 'react/addons'
 cx = React.addons.classSet
-exports = exports ? this
-exports.PenaltiesList = React.createClass
+module.exports = React.createClass
   displayName: 'PenaltiesList'
 
   render: () ->

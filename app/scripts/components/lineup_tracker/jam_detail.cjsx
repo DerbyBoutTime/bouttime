@@ -1,17 +1,19 @@
+React = require 'react/addons'
+SkaterSelector = require '../shared/skater_selector.cjsx'
+LineupBoxRow = require './lineup_box_row.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.JamDetail = React.createClass
+module.exports = React.createClass
   displayName: 'JamDetail'
   propTypes:
-    teamAttributes: React.PropTypes.object.isRequired
-    jamState: React.PropTypes.object.isRequired
+    team: React.PropTypes.object.isRequired
+    jam: React.PropTypes.object.isRequired
     noPivotHandler: React.PropTypes.func.isRequired
     starPassHandler: React.PropTypes.func.isRequired
     lineupStatusHandler: React.PropTypes.func.isRequired
     setSelectorContextHandler: React.PropTypes.func.isRequired
     selectSkaterHandler: React.PropTypes.func.isRequired
   isInjured: (position) ->
-    @props.jamState.lineupStatuses.some (status) ->
+    @props.jam.lineupStatuses.some (status) ->
       status[position] is 'injured'
   render: () ->
     noPivotButtonClass = cx
@@ -19,29 +21,29 @@ exports.JamDetail = React.createClass
       'btn-block': true
       'jam-detail-no-pivot': true
       'toggle-pivot-btn': true
-      'selected': @props.jamState.noPivot
+      'selected': @props.jam.noPivot
     starPassButtonClass = cx
       'btn': true
       'btn-block': true
       'jam-detail-star-pass': true
       'toggle-star-pass-btn': true
-      'selected': @props.jamState.starPass
+      'selected': @props.jam.starPass
     actionsClass = cx
       'row': true
       'gutters-xs': true
       'actions': true
     pivotHeaderClass = cx
       'col-xs-5-cols text-center': true
-      'hidden': @props.jamState.noPivot
+      'hidden': @props.jam.noPivot
     blocker4HeaderClass = cx
       'col-xs-5-cols text-center': true
-      'hidden': not @props.jamState.noPivot
+      'hidden': not @props.jam.noPivot
     pivotColumnClass = cx
       'col-xs-5-cols': true
-      'hidden': @props.jamState.noPivot
+      'hidden': @props.jam.noPivot
     blocker4ColumnClass = cx
       'col-xs-5-cols': true
-      'hidden': not @props.jamState.noPivot
+      'hidden': not @props.jam.noPivot
 
     <div className="jam-detail">
       <div className="row gutters-xs">
@@ -49,7 +51,7 @@ exports.JamDetail = React.createClass
           <div className="jam-detail-number boxed-good">
             <div className="row gutters-xs">
               <div className="col-sm-11 col-xs-11 col-xs-offset-1">
-                Jam {@props.jamState.jamNumber}
+                Jam {@props.jam.jamNumber}
               </div>
             </div>
           </div>
@@ -88,55 +90,55 @@ exports.JamDetail = React.createClass
       <div className="row gutters-xs skaters">
         <div className="col-xs-5-cols">
           <SkaterSelector
-            skater={@props.jamState.jammer}
+            skater={@props.jam.jammer}
             injured={@isInjured('jammer')}
-            style={@props.teamAttributes.colorBarStyle}
+            style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@props.selectSkaterHandler.bind(this, 'jammer')} />
         </div>
         <div className={pivotColumnClass}>
           <SkaterSelector
-            skater={@props.jamState.pivot}
+            skater={@props.jam.pivot}
             injured={@isInjured('pivot')}
-            style={@props.teamAttributes.colorBarStyle}
+            style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@props.selectSkaterHandler.bind(this, 'pivot')} />
         </div>
         <div className="col-xs-5-cols">
           <SkaterSelector
-            skater={@props.jamState.blocker1}
+            skater={@props.jam.blocker1}
             injured={@isInjured('blocker1')}
-            style={@props.teamAttributes.colorBarStyle}
+            style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@props.selectSkaterHandler.bind(this, 'blocker1')} />
         </div>
         <div className="col-xs-5-cols">
           <SkaterSelector
-            skater={@props.jamState.blocker2}
+            skater={@props.jam.blocker2}
             injured={@isInjured('blocker2')}
-            style={@props.teamAttributes.colorBarStyle}
+            style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@props.selectSkaterHandler.bind(this, 'blocker2')} />
         </div>
         <div className="col-xs-5-cols">
           <SkaterSelector
-            skater={@props.jamState.blocker3}
+            skater={@props.jam.blocker3}
             injured={@isInjured('blocker3')}
-            style={@props.teamAttributes.colorBarStyle}
+            style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@props.selectSkaterHandler.bind(this, 'blocker3')} />
         </div>
         <div className={blocker4ColumnClass}>
           <SkaterSelector
-            skater={@props.jamState.pivot}
+            skater={@props.jam.pivot}
             injured={@isInjured('pivot')}
-            style={@props.teamAttributes.colorBarStyle}
+            style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@props.selectSkaterHandler.bind(this, 'pivot')} />
         </div>
       </div>
-      {@props.jamState.lineupStatuses.map (lineupStatus, statusIndex) ->
+      {@props.jam.lineupStatuses.map (lineupStatus, statusIndex) ->
         <LineupBoxRow key={statusIndex} lineupStatus=lineupStatus lineupStatusHandler={@props.lineupStatusHandler.bind(this, statusIndex)} />
       , this }
-      <LineupBoxRow key={@props.jamState.lineupStatuses.length} lineupStatusHandler={@props.lineupStatusHandler.bind(this, @props.jamState.lineupStatuses.length)} />
+      <LineupBoxRow key={@props.jam.lineupStatuses.length} lineupStatusHandler={@props.lineupStatusHandler.bind(this, @props.jam.lineupStatuses.length)} />
     </div>

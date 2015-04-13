@@ -1,22 +1,26 @@
+React = require 'react/addons'
+constants = require '../../constants.coffee'
+functions = require '../../functions.coffee'
+CountdownClock = require '../../clock.coffee'
+SkaterSelector = require '../shared/skater_selector.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.PenaltyClock = React.createClass
+module.exports = React.createClass
   displayName: "PenaltyClock"
   getInitialState: () ->
-    @clockId = exports.wftda.functions.uniqueId()
+    @clockId = functions.uniqueId()
     h =
       penaltyCount: 1
-      clock: new exports.classes.CountdownClock
-        time: exports.wftda.constants.PENALTY_DURATION_IN_MS
-        warningTime: exports.wftda.constants.PENALTY_WARNING_IN_MS
-        refreshRateInMs: exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS
+      clock: new CountdownClock
+        time: constants.PENALTY_DURATION_IN_MS
+        warningTime: constants.PENALTY_WARNING_IN_MS
+        refreshRateInMs: constants.CLOCK_REFRESH_RATE_IN_MS
         selector: "##{@clockId}"
   componentDidMount: () ->
     $("##{@clockId}").on 'tick', (evt) =>
       @forceUpdate()
   addPenalty: () ->
     @state.penaltyCount = @state.penaltyCount + 1
-    @state.clock.time = @state.clock.time + exports.wftda.constants.PENALTY_DURATION_IN_MS
+    @state.clock.time = @state.clock.time + constants.PENALTY_DURATION_IN_MS
     @forceUpdate()
   start: () ->
     @state.clock.start()

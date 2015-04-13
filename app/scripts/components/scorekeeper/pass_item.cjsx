@@ -1,18 +1,22 @@
+React = require 'react/addons'
+functions = require '../../functions.coffee'
+SkaterSelector = require '../shared/skater_selector.cjsx'
+ScoreNote = require './score_note.cjsx'
+PassEditPanel = require './pass_edit_panel.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.PassItem = React.createClass
+module.exports = React.createClass
   displayName: 'PassItem'
   propTypes:
-    jamState: React.PropTypes.object.isRequired
-    passState: React.PropTypes.object.isRequired
+    jam: React.PropTypes.object.isRequired
+    pass: React.PropTypes.object.isRequired
     actions: React.PropTypes.object.isRequired
   isInjured: (position) ->
-    @props.jamState.lineupStatuses? and @props.jamState.lineupStatuses.some (status) ->
+    @props.jam.lineupStatuses? and @props.jam.lineupStatuses.some (status) ->
       status[position] is 'injured'
   hidePanels: () ->
     $('.scorekeeper .collapse.in').collapse('hide');
   getNotes: () ->
-    pass = @props.passState
+    pass = @props.pass
     flags =
       injury: pass.injury
       nopass: pass.nopass
@@ -25,23 +29,23 @@ exports.PassItem = React.createClass
     evt.preventDefault()
   render: () ->
     injuryClass = cx
-      'selected': @props.passState.injury
+      'selected': @props.pass.injury
       'notes': true
       'injury': true
       'text-center': true
     callClass = cx
-      'selected': @props.passState.calloff
+      'selected': @props.pass.calloff
       'notes': true
       'call': true
       'text-center': true
     lostClass = cx
-      'selected': @props.passState.lostLead
+      'selected': @props.pass.lostLead
       'notes': true
       'lost': true
       'text-center': true
-    editPassId = "edit-pass-#{exports.wftda.functions.uniqueId()}"
+    editPassId = "edit-pass-#{functions.uniqueId()}"
     notes = @getNotes()
-    skater = if @props.passState.skaterNumber? then {number: @props.passState.skaterNumber} else null
+    skater = if @props.pass.skaterNumber? then {number: @props.pass.skaterNumber} else null
     <div aria-multiselectable="true" draggable='true' onDragStart={@props.dragHandler} onDragOver={@preventDefault} onDrop={@props.dropHandler} onMouseDown={@props.mouseDownHandler}>
       <div className="columns">
         <div className="row gutters-xs">
@@ -53,7 +57,7 @@ exports.PassItem = React.createClass
           <div className="col-sm-11 col-xs-11">
             <div className="col-sm-2 col-xs-2">
               <div className="pass boxed-good text-center" >
-                {@props.passState.passNumber}
+                {@props.pass.passNumber}
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
@@ -76,7 +80,7 @@ exports.PassItem = React.createClass
               </div>
               <div className="col-sm-2 col-xs-2">
                 <div className="points boxed-good text-center">
-                  <strong>{@props.passState.points || 0}</strong>
+                  <strong>{@props.pass.points || 0}</strong>
                 </div>
               </div>
             </div>

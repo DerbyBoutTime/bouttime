@@ -1,6 +1,9 @@
+React = require 'react/addons'
+CopyGameStateMixin = require '../mixins/copy_game_state_mixin.cjsx'
+TeamSelector = require './shared/team_selector.cjsx'
+TeamLineup = require './lineup_tracker/team_lineup.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.LineupTracker = React.createClass
+module.exports = React.createClass
   displayName: 'LineupTracker'
   mixins: [CopyGameStateMixin]
   #React callbacks
@@ -15,12 +18,12 @@ exports.LineupTracker = React.createClass
     $.extend(stdOpts, opts)
   getJamState: (team, jamIndex) ->
     switch team
-      when 'away' then @state.gameState.awayAttributes.jamStates[jamIndex]
-      when 'home' then @state.gameState.homeAttributes.jamStates[jamIndex]
+      when 'away' then @state.gameState.away.jams[jamIndex]
+      when 'home' then @state.gameState.home.jams[jamIndex]
   getTeamAttributes: (team) ->
     switch team
-      when 'away' then @state.gameState.awayAttributes
-      when 'home' then @state.gameState.homeAttributes
+      when 'away' then @state.gameState.away
+      when 'home' then @state.gameState.home
   positionsInBox: (jam) ->
     positions = []
     for row in jam.lineupStatuses
@@ -57,20 +60,18 @@ exports.LineupTracker = React.createClass
       jamIndex: jamIndex
       teamType: teamType
     )
-    teamState = @getJamState(teamType, jamIndex)
-    teamState.noPivot = !teamState.noPivot
+    team = @getJamState(teamType, jamIndex)
+    team.noPivot = !team.noPivot
     @setState(@state)
-    exports.dispatcher.trigger eventName, eventOptions
   toggleStarPass: (teamType, jamIndex) ->
     eventName = "lineup_tracker.toggle_star_pass"
     eventOptions = @buildOptions(
       jamIndex: jamIndex
       teamType: teamType
     )
-    teamState = @getJamState(teamType, jamIndex)
-    teamState.starPass = !teamState.starPass
+    team = @getJamState(teamType, jamIndex)
+    team.starPass = !team.starPass
     @setState(@state)
-    exports.dispatcher.trigger eventName, eventOptions
   setSkater: (teamType, jamIndex, position, skaterIndex) ->
     eventName = "lineup_tracker.set_skater"
     eventOptions = @buildOptions(
@@ -78,11 +79,10 @@ exports.LineupTracker = React.createClass
       teamType: teamType
       position: position
     )
-    jamState = @getJamState(teamType, jamIndex)
+    jam = @getJamState(teamType, jamIndex)
     teamAttributes = @getTeamAttributes(teamType)
-    jamState[position] = teamAttributes.skaters[skaterIndex]
+    jam[position] = teamAttributes.skaters[skaterIndex]
     @setState(@state)
-    exports.dispatcher.trigger eventName, eventOptions
   setLineupStatus: (teamType, jamIndex, statusIndex, position) ->
     eventName = "lineup_tracker.set_lineup_status"
     eventOptions = @buildOptions(
@@ -91,24 +91,23 @@ exports.LineupTracker = React.createClass
       statusIndex: statusIndex
       position: position
     )
-    teamState = @getJamState(teamType, jamIndex)
+    team = @getJamState(teamType, jamIndex)
     # Make a new row if need be
-    if statusIndex >= teamState.lineupStatuses.length
-      teamState.lineupStatuses[statusIndex] = {pivot: 'clear', blocker1: 'clear', blocker2: 'clear', blocker3: 'clear', jammer: 'clear', order: statusIndex }
+    if statusIndex >= team.lineupStatuses.length
+      team.lineupStatuses[statusIndex] = {pivot: 'clear', blocker1: 'clear', blocker2: 'clear', blocker3: 'clear', jammer: 'clear', order: statusIndex }
     # Initialize position to clear
-    if not teamState.lineupStatuses[statusIndex][position]
-      teamState.lineupStatuses[statusIndex][position] = 'clear'
-    currentStatus = teamState.lineupStatuses[statusIndex][position]
-    teamState.lineupStatuses[statusIndex][position] = @statusTransition(currentStatus)
+    if not team.lineupStatuses[statusIndex][position]
+      team.lineupStatuses[statusIndex][position] = 'clear'
+    currentStatus = team.lineupStatuses[statusIndex][position]
+    team.lineupStatuses[statusIndex][position] = @statusTransition(currentStatus)
     @setState(@state)
-    exports.dispatcher.trigger eventName, eventOptions
   endJam: (teamType) ->
     eventName = "lineup_tracker.end_jam"
     eventOptions = @buildOptions(
       teamType: teamType
     )
     team = @getTeamAttributes(teamType)
-    lastJam = team.jamStates[team.jamStates.length - 1]
+    lastJam = team.jams[team.jams.length - 1]
     newJam = @getNewJam(lastJam.jamNumber + 1)
     positionsInBox = @positionsInBox(lastJam)
     if positionsInBox.length > 0
@@ -116,12 +115,11 @@ exports.LineupTracker = React.createClass
       for position in positionsInBox
         newJam[position] = lastJam[position]
         newJam.lineupStatuses[0][position] = 'sat_in_box'
-    team.jamStates.push(newJam)
+    team.jams.push(newJam)
     @setState(@state)
-    exports.dispatcher.trigger eventName, eventOptions
   render: () ->
     awayElement = <TeamLineup
-      teamState={@props.gameState.awayAttributes}
+      team={@props.gameState.away}
       noPivotHandler={@toggleNoPivot.bind(this, 'away')}
       starPassHandler={@toggleStarPass.bind(this, 'away')}
       lineupStatusHandler={@setLineupStatus.bind(this, 'away')}
@@ -129,7 +127,7 @@ exports.LineupTracker = React.createClass
       selectSkaterHandler={@setSkater.bind(this,'away')}
       endHandler={@endJam.bind(this, 'away')} />
     homeElement = <TeamLineup
-      teamState={@props.gameState.homeAttributes}
+      team={@props.gameState.home}
       noPivotHandler={@toggleNoPivot.bind(this, 'home')}
       starPassHandler={@toggleStarPass.bind(this, 'home')}
       lineupStatusHandler={@setLineupStatus.bind(this, 'home')}
@@ -138,8 +136,8 @@ exports.LineupTracker = React.createClass
       endHandler={@endJam.bind(this, 'home')} />
     <div className="lineup-tracker">
       <TeamSelector
-        awayAttributes={@state.gameState.awayAttributes}
+        away={@state.gameState.away}
         awayElement={awayElement}
-        homeAttributes={@state.gameState.homeAttributes}
+        home={@state.gameState.home}
         homeElement={homeElement} />
     </div>

@@ -1,5 +1,4 @@
-exports = exports ? this
-exports.CopyGameStateMixin =
+module.exports =
   getInitialState: () ->
     gameState: @props.gameState
   componentWillReceiveProps: (nextProps) ->

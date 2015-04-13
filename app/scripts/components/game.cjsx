@@ -1,14 +1,29 @@
+React = require 'react/addons'
+constants = require '../constants.coffee'
+functions = require '../functions.coffee'
+GameStateMixin = require '../mixins/game_state_mixin.cjsx'
+Titlebar = require './titlebar.cjsx'
+Navbar = require './navbar.cjsx'
+JamTimer = require './jam_timer.cjsx'
+LineupTracker = require './lineup_tracker.cjsx'
+Scorekeeper = require './scorekeeper.cjsx'
+PenaltyTracker = require './penalty_tracker.cjsx'
+PenaltyBoxTimer = require './penalty_box_timer.cjsx'
+Scoreboard = require './scoreboard.cjsx'
+PenaltyWhiteboard = require './penalty_whiteboard.cjsx'
+AnnouncersFeed = require './announcers_feed.cjsx'
+GameNotes = require './game_notes.cjsx'
+GameSetup = require './game_setup.cjsx'
+Login = require './login.cjsx'
+SkaterSelectorModal = require './shared/skater_selector_modal.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.Game = React.createClass
+module.exports = React.createClass
   displayName: 'Game'
   mixins: [GameStateMixin]
   componentDidMount: () ->
     $dom = $(@getDOMNode())
     @gameDOM = $(".game")
     $dom.on 'click', '.bad-status', null, (evt) ->
-      exports.dispatcher.disconnect()
-      exports.dispatcher.connect()
     $dom.on 'click', 'ul.nav li', null, (evt) =>
       @setState
         tab: evt.currentTarget.dataset.tabName
@@ -18,34 +33,25 @@ exports.Game = React.createClass
     $dom.on 'click', '#login', null, (evt) =>
       @setState
         tab: "login"
-    exports.dispatcher.bind 'time_update', (new_state) =>
-      console.log "Time update received"
-      @resetDeadmanTimer()
-      @state.gameState.jamClockAttributes = new_state.jam_clock_attributes
-      @state.gameState.periodClockAttributes = new_state.period_clock_attributes
-      @forceUpdate()
-    exports.dispatcher.bind 'update', (state) =>
-      console.log "Update received"
-      @setState(gameState: exports.wftda.functions.camelize(state))
   resetDeadmanTimer: () ->
     clearTimeout(exports.connectionTimeout)
     @gameDOM.addClass("connected")
     exports.connectionTimeout = setInterval(() =>
       @gameDOM.removeClass("connected")
-    , exports.wftda.constants.CLOCK_REFRESH_RATE_IN_MS*2)
+    , constants.CLOCK_REFRESH_RATE_IN_MS*2)
   getInitialState: () ->
-    gameState = exports.wftda.functions.camelize(@props)
+    gameState = @props
     gameState: gameState
     tab: "jam_timer"
     skaterSelectorContext:
-      teamState: gameState.awayAttributes
-      jamState: gameState.awayAttributes.jamStates[0]
+      team: gameState.away
+      jam: gameState.away.jams[0]
       selectHandler: () ->
   setSelectorContext: (teamType, jamIndex, selectHandler) ->
     @setState
       skaterSelectorContext:
-        teamState: @getTeamState(teamType)
-        jamState: @getJamState(teamType, jamIndex)
+        team: @getTeamState(teamType)
+        jam: @getJamState(teamType, jamIndex)
         selectHandler: selectHandler
   render: () ->
     <div ref="game" className="game" data-tab={@state.tab}>
@@ -55,8 +61,8 @@ exports.Game = React.createClass
           <div className="logo">
             <div className="container">
               <a href="#">
-                <img className="hidden-xs" height="64" src="/assets/logo.png" />
-                <img className="visible-xs-block" height="48" src="/assets/logo.png" />
+                <img className="hidden-xs" height="64" src="/images/logo.png" />
+                <img className="visible-xs-block" height="48" src="/images/logo.png" />
               </a>
             </div>
           </div>

@@ -1,6 +1,7 @@
+React = require 'react/addons'
+LineupBox = require './lineup_box.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.LineupBoxRow = React.createClass
+module.exports = React.createClass
   displayName: 'LineupBoxRow'
   propTypes:
     lineupStatus: React.PropTypes.object

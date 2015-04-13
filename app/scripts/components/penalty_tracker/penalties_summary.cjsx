@@ -1,16 +1,18 @@
+React = require 'react/addons'
+PenaltyIndicator = require './penalty_indicator.cjsx'
+PenaltyAlert = require './penalty_alert.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.PenaltiesSummary = React.createClass
+module.exports = React.createClass
   displayName: 'PenaltiesSummary'
   propTypes:
-    teamState: React.PropTypes.object.isRequired
+    team: React.PropTypes.object.isRequired
     selectionHandler: React.PropTypes.func
     hidden: React.PropTypes.bool
   getDefaultProps: () ->
     selectionHandler: () ->
     hidden: false
   getLineup: () ->
-    jam = @props.teamState.jamStates[@props.teamState.jamStates.length-1]
+    jam = @props.team.jams[@props.team.jams.length-1]
     positions = [jam.pivot, jam.blocker1, jam.blocker2, jam.blocker3, jam.jammer]
     positions.filter (position) ->
       position?
@@ -23,23 +25,23 @@ exports.PenaltiesSummary = React.createClass
       'penalties-summary': true
       'hidden': @props.hidden
     <div className={containerClass} >
-      {@props.teamState.skaterStates.map (skaterState, skaterIndex) ->
+      {@props.team.skaters.map (skater, skaterIndex) ->
         <div key={skaterIndex} className='row gutters-xs top-buffer'>
           <div className='col-xs-2'>
-            <button className='bt-btn btn-boxed' onClick={@props.selectionHandler.bind(null, skaterIndex)} style={if @inLineup(skaterState.skater) and not @isInjured(skaterState.skater) then @props.teamState.colorBarStyle}>
-              <strong>{skaterState.skater.number}</strong>
+            <button className='bt-btn btn-boxed' onClick={@props.selectionHandler.bind(null, skaterIndex)} style={if @inLineup(skater) and not @isInjured(skater) then @props.team.colorBarStyle}>
+              <strong>{skater.number}</strong>
             </button>
           </div>
           {[0...7].map (i) ->
             <div key={i} className='col-xs-1'>
               <PenaltyIndicator
                 penaltyNumber={i+1}
-                penaltyState={skaterState.penaltyStates[i]}
-                teamStyle={@props.teamState.colorBarStyle}/>
+                skaterPenalty={skater.penalties[i]}
+                teamStyle={@props.team.colorBarStyle}/>
             </div>
           , this}
           <div className='col-xs-3'>
-            <PenaltyAlert skaterState={skaterState} />
+            <PenaltyAlert skater={skater} />
           </div>
         </div>
       , this}

@@ -1,6 +1,6 @@
+React = require 'react/addons'
 cx = React.addons.classSet
-exports = exports ? this
-exports.AnnouncersFeed = React.createClass
+module.exports = React.createClass
   componentDidMount: () ->
     $dom = $(@getDOMNode())
   getInitialState: () ->

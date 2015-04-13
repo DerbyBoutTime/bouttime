@@ -1,18 +1,19 @@
+React = require 'react/addons'
+ScoreNote = require './score_note.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.JamItem = React.createClass
+module.exports = React.createClass
   displayName: 'JamItem'
   propTypes:
-    jamState: React.PropTypes.object.isRequired
+    jam: React.PropTypes.object.isRequired
     selectionHandler: React.PropTypes.func
   totalPoints: () ->
     points = 0
-    @props.jamState.passStates.map (pass) =>
+    @props.jam.passes.map (pass) =>
       points += pass.points || 0
     return points
   getNotes: () ->
-    jam = @props.jamState
-    flags = jam.passStates.reduce (prev, pass) ->
+    jam = @props.jam
+    flags = jam.passes.reduce (prev, pass) ->
       injury: prev.injury or pass.injury
       nopass: prev.nopass or pass.nopass
       calloff: prev.calloff or pass.calloff
@@ -23,13 +24,13 @@ exports.JamItem = React.createClass
       flags[key]
   render: () ->
     notes = @getNotes()
-    jammer = @props.jamState.jammer
+    jammer = @props.jam.jammer
     jammerNumber = if jammer? then jammer.number else <span>&nbsp;</span>
     <div className="jam-row">
       <div className="row gutters-xs" onClick={@props.selectionHandler} >
         <div className="col-sm-2 col-xs-2">
           <div className="jam boxed-good text-center">
-            {@props.jamState.jamNumber}
+            {@props.jam.jamNumber}
           </div>
         </div>
         <div className="col-sm-2 col-xs-2">

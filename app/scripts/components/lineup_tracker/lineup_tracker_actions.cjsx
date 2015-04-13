@@ -1,6 +1,6 @@
+React = require 'react/addons'
 cx = React.addons.classSet
-exports = exports ? this
-exports.LineupTrackerActions = React.createClass
+module.exports = React.createClass
   displayName: 'LineupTrackerActions'
   propTypes:
     endHandler: React.PropTypes.func.isRequired

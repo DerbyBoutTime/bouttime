@@ -1,9 +1,10 @@
+React = require 'react/addons'
+PenaltyClock = require './penalty_clock.cjsx'
 cx = React.addons.classSet
-exports = exports ? this
-exports.TeamPenaltyTimers = React.createClass
+module.exports = React.createClass
   displayName: 'TeamPenaltyTimers'
   propTypes:
-    teamState: React.PropTypes.object.isRequired
+    team: React.PropTypes.object.isRequired
     jamNumber: React.PropTypes.number.isRequired
     actions: React.PropTypes.object.isRequired
   bindActions: (boxIndex) ->
@@ -39,9 +40,9 @@ exports.TeamPenaltyTimers = React.createClass
       'glyphicon-pause' : @state.state == "Stop All"
     })
     jamIndex = Math.max(@props.jamNumber - 1, 0)
-    hideJammer = @props.teamState.penaltyBoxStates.some (boxState) ->
+    hideJammer = @props.team.penaltyBoxStates.some (boxState) ->
       boxState.position is 'jammer' and not boxState.served
-    numBlockersServing = @props.teamState.penaltyBoxStates.filter((boxState) -> boxState.position is 'blocker' and not boxState.served).length
+    numBlockersServing = @props.team.penaltyBoxStates.filter((boxState) -> boxState.position is 'blocker' and not boxState.served).length
     visibleBlockers = 4 - numBlockersServing
     <div className="team-penalty-timers">
       <div className="row gutters-xs">
@@ -59,9 +60,9 @@ exports.TeamPenaltyTimers = React.createClass
         </div>
       </div>
       <section className="penalty-clocks">
-        {@props.teamState.penaltyBoxStates.map((boxState, boxIndex) ->
+        {@props.team.penaltyBoxStates.map((boxState, boxIndex) ->
           <PenaltyClock ref="clocks0" key={boxIndex}
-            teamStyle={@props.teamState.colorBarStyle}
+            teamStyle={@props.team.colorBarStyle}
             boxState={boxState} actions={@bindActions(boxIndex)}
             setSelectorContext={@props.actions.setSelectorContext.bind(this, jamIndex)}
             hidden={boxState.served}/>
@@ -69,14 +70,14 @@ exports.TeamPenaltyTimers = React.createClass
           component.props.boxState.position is 'jammer'
         , this}
         <PenaltyClock ref="clocks0"
-          teamStyle={@props.teamState.colorBarStyle}
+          teamStyle={@props.team.colorBarStyle}
           boxState={position: 'jammer'}
           actions={@bindActions('jammer')}
           setSelectorContext={@props.actions.setSelectorContext.bind(null, jamIndex)}
           hidden={hideJammer}/>
-        {@props.teamState.penaltyBoxStates.map((boxState, boxIndex) ->
+        {@props.team.penaltyBoxStates.map((boxState, boxIndex) ->
           <PenaltyClock ref="clocks#{boxIndex}" key={boxIndex}
-            teamStyle={@props.teamState.colorBarStyle}
+            teamStyle={@props.team.colorBarStyle}
             boxState={boxState}
             actions={@bindActions(boxIndex)}
             setSelectorContext={@props.actions.setSelectorContext.bind(this, jamIndex)}
@@ -86,7 +87,7 @@ exports.TeamPenaltyTimers = React.createClass
         , this}
         {[0...visibleBlockers].map (i) ->
           <PenaltyClock ref="clocks#{numBlockersServing+i+1}" key={i}
-            teamStyle={@props.teamState.colorBarStyle}
+            teamStyle={@props.team.colorBarStyle}
             boxState={position: 'blocker'}
             actions={@bindActions('blocker')}
             setSelectorContext={@props.actions.setSelectorContext.bind(null, jamIndex)}/>
