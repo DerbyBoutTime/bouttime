@@ -1,9 +1,9 @@
 @import "colors";
 //Bootstrap overrides
+$icon-font-path: "/fonts/";
 $font-family-sans-serif: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $gray-base: $near-black;
 @import "base/variables";
-@import "bootstrap-sprockets";
 @import "bootstrap";
 @import "mixins/border-arrow";
 @import "mixins/vertical-align";
