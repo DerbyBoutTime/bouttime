@@ -1,6 +1,7 @@
 React = require 'react/addons'
 PenaltyAlert = require './penalty_alert.cjsx'
 PenaltyControl = require './penalty_control.cjsx'
+EditPenaltyPanel = require './edit_penalty_panel.cjsx'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'SkaterPenalties'

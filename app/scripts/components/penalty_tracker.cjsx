@@ -19,17 +19,14 @@ module.exports = React.createClass
           penalty: penalty
           jamNumber: @state.gameState.jamNumber
           sort: sort
-        exports.dispatcher.trigger 'penalty_tracker.set_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex)
         @setState(@state)
       clearPenalty: (teamType, skaterIndex, skaterPenaltiesIndex) ->
         skater = @getSkater(teamType, skaterIndex)
         removedPenalty = skater.penalties.splice(skaterPenaltiesIndex, 1)[0]
-        exports.dispatcher.trigger 'penalty_tracker.clear_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex, removedPenalty: removedPenalty)
         @setState(@state)
       updatePenalty: (teamType, skaterIndex, skaterPenaltiesIndex, opts={}) ->
         skaterPenalty = @getSkaterPenalty(teamType, skaterIndex, skaterPenaltiesIndex)
         $.extend(skaterPenalty, opts)
-        exports.dispatcher.trigger 'penalty_tracker.update_penalty', @buildOptions(teamType: teamType, skaterIndex: skaterIndex, skaterPenaltiesIndex: skaterPenaltiesIndex)
         @setState(@state)
   bindActions: (teamType) ->
     Object.keys(@actions).map((key) ->
