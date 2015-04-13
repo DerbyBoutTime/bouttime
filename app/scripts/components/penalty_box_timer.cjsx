@@ -26,7 +26,7 @@ module.exports = React.createClass
         @props.setSelectorContext(teamType, jamIndex, selectHandler)
       setSkater: (teamType, boxIndexOrPosition, skaterIndex) ->
         box = @actions.getOrCreatePenaltyBoxState.call(this, teamType, boxIndexOrPosition)
-        skater = @getSkater(teamType, skaterIndex).skater
+        skater = @getSkater(teamType, skaterIndex)
         box.skater = skater
         @setState(@state)
       newPenaltyBoxState: (teamType, position) ->

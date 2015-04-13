@@ -45,7 +45,6 @@ module.exports = React.createClass
       'text-center': true
     editPassId = "edit-pass-#{functions.uniqueId()}"
     notes = @getNotes()
-    skater = if @props.pass.skaterNumber? then {number: @props.pass.skaterNumber} else null
     <div aria-multiselectable="true" draggable='true' onDragStart={@props.dragHandler} onDragOver={@preventDefault} onDrop={@props.dropHandler} onMouseDown={@props.mouseDownHandler}>
       <div className="columns">
         <div className="row gutters-xs">
@@ -62,7 +61,7 @@ module.exports = React.createClass
             </div>
             <div className="col-sm-2 col-xs-2">
               <SkaterSelector
-                skater={skater}
+                skater={@props.pass.jammer}
                 injured={@isInjured('jammer')}
                 style={@props.style}
                 setSelectorContext={@props.setSelectorContext}
