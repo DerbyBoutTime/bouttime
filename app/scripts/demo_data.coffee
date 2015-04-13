@@ -189,54 +189,54 @@ module.exports =
     ]
     penaltyBoxStates: []
   penalties: [
-    name: "High Block"
-    code: "A"
+    {name: "High Block"
+    code: "A"}
     ,
-    name: "Insubordination"
-    code: "N"
+    {name: "Insubordination"
+    code: "N"}
     ,
-    name: "Back Block"
-    code: "B"
+    {name: "Back Block"
+    code: "B"}
     ,
-    name: "Skating Out of Bnds."
-    code: "S"
+    {name: "Skating Out of Bnds."
+    code: "S"}
     ,
-    name: "Elbows"
-    code: "E"
+    {name: "Elbows"
+    code: "E"}
     ,
-    name: "Cutting the Track"
-    code: "X"
+    {name: "Cutting the Track"
+    code: "X"}
     ,
-    name: "Forearms"
-    code: "F"
+    {name: "Forearms"
+    code: "F"}
     ,
-    name: "Delay of Game"
-    code: "Z"
+    {name: "Delay of Game"
+    code: "Z"}
     ,
-    name: "Misconduct"
-    code: "G"
+    {name: "Misconduct"
+    code: "G"}
     ,
-    name: "Dir. of Game Play"
-    code: "C"
+    {name: "Dir. of Game Play"
+    code: "C"}
     ,
-    name: "Blocking with Head"
-    code: "H"
+    {name: "Blocking with Head"
+    code: "H"}
     ,
-    name: "Out of Bounds"
-    code: "O"
+    {name: "Out of Bounds"
+    code: "O"}
     ,
-    name: "Low Block"
-    code: "L"
+    {name: "Low Block"
+    code: "L"}
     ,
-    name: "Out of Play"
-    code: "P"
+    {name: "Out of Play"
+    code: "P"}
     ,
-    name: "Multi-Player Block"
-    code: "M"
+    {name: "Multi-Player Block"
+    code: "M"}
     ,
-    name: "Illegal Procedure"
-    code: "I"
+    {name: "Illegal Procedure"
+    code: "I"}
     ,
-    name: "Gross Misconduct"
-    code: "G"
+    {name: "Gross Misconduct"
+    code: "G"}
   ]
