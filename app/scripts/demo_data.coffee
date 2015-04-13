@@ -20,61 +20,61 @@ module.exports =
     hasOfficialReview: true
     timeouts: 3
     skaters: [
-      name: "Wild Cherri"
+      {name: "Wild Cherri"
       number: "6"
-      penalties: []
+      penalties: []}
       ,
-      name: "Rebel Yellow"
+      {name: "Rebel Yellow"
       number: "12AM"
-      penalties: []
+      penalties: []}
       ,
-      name: "Agent Maulder"
+      {name: "Agent Maulder"
       number: "X13"
-      penalties: []
+      penalties: []}
       ,
-      name: "Alassin Sane"
+      {name: "Alassin Sane"
       number: "1973"
-      penalties: []
+      penalties: []}
       ,
-      name: "Amelia Scareheart"
+      {name: "Amelia Scareheart"
       number: "B52"
-      penalties: []
+      penalties: []}
       ,
-      name: "Belle of the Brawl"
+      {name: "Belle of the Brawl"
       number: "32"
-      penalties: []
+      penalties: []}
       ,
-      name: "Bruze Orman"
+      {name: "Bruze Orman"
       number: "850"
-      penalties: []
+      penalties: []}
       ,
-      name: "ChokeCherry"
+      {name: "ChokeCherry"
       number: "86"
-      penalties: []
+      penalties: []}
       ,
-      name: "Hollicidal"
+      {name: "Hollicidal"
       number: "1013"
-      penalties: []
+      penalties: []}
       ,
-      name: "Jammunition"
+      {name: "Jammunition"
       number: "50CAL"
-      penalties: []
+      penalties: []}
       ,
-      name: "Jean-Juke Picard"
+      {name: "Jean-Juke Picard"
       number: "1701"
-      penalties: []
+      penalties: []}
       ,
-      name: "Madditude Adjustment"
+      {name: "Madditude Adjustment"
       number: "23"
-      penalties: []
+      penalties: []}
       ,
-      name: "Nattie Long Legs",
+      {name: "Nattie Long Legs",
       number: "504"
-      penalties: []
+      penalties: []}
       ,
-      name: "Ozzie Kamakazi"
+      {name: "Ozzie Kamakazi"
       number: "747"
-      penalties: []
+      penalties: []}
     ]
     jams: [
       jamNumber: 1
@@ -110,61 +110,61 @@ module.exports =
     hasOfficialReview: true
     timeouts: 3
     skaters: [
-      name: "Ana Bollocks"
+      {name: "Ana Bollocks"
       number: "00"
-      penalties: []
+      penalties: []}
       ,
-      name: "Bonita Apple Bomb"
+      {name: "Bonita Apple Bomb"
       number: "4500º"
-      penalties: []
+      penalties: []}
       ,
-      name: "Bonnie Thunders"
+      {name: "Bonnie Thunders"
       number: "340"
-      penalties: []
+      penalties: []}
       ,
-      name: "Caf Fiend"
+      {name: "Caf Fiend"
       number: "314"
-      penalties: []
+      penalties: []}
       ,
-      name: "Claire D. Way"
+      {name: "Claire D. Way"
       number: "1984"
-      penalties: []
+      penalties: []}
       ,
-      name: "Davey Blockit"
+      {name: "Davey Blockit"
       number: "929"
-      penalties: []
+      penalties: []}
       ,
-      name: "Donna Matrix",
+      {name: "Donna Matrix",
       number: "2"
-      penalties: []
+      penalties: []}
       ,
-      name: "Fast and Luce"
+      {name: "Fast and Luce"
       number: "17"
-      penalties: []
+      penalties: []}
       ,
-      name: "Fisti Cuffs"
+      {name: "Fisti Cuffs"
       number: "241"
-      penalties: []
+      penalties: []}
       ,
-      name: "Hyper Lynx"
+      {name: "Hyper Lynx"
       number: "404"
-      penalties: []
+      penalties: []}
       ,
-      name: "Mick Swagger"
+      {name: "Mick Swagger"
       number: "53"
-      penalties: []
+      penalties: []}
       ,
-      name: "Miss Tea Maven"
+      {name: "Miss Tea Maven"
       number: "1706"
-      penalties: []
+      penalties: []}
       ,
-      name: "OMG WTF"
+      {name: "OMG WTF"
       number: "753"
-      penalties: []
+      penalties: []}
       ,
-      name: "Puss 'n Glues"
+      {name: "Puss 'n Glues"
       number: "999 Lives"
-      penalties: []
+      penalties: []}
     ]
     jams: [
       jamNumber: 1
