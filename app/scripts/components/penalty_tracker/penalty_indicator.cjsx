@@ -16,7 +16,6 @@ module.exports = React.createClass
       'penalty-indicator': true
       'warning': @props.skaterPenalty? and @props.penaltyNumber is 6
       'expulsion': @props.skaterPenalty? and @props.penaltyNumber is 7
-
     <div className={containerClass} style={@props.teamStyle if @props.skaterPenalty? and @props.penaltyNumber < 6}>
       <strong>{@displayContent()}</strong>
     </div>

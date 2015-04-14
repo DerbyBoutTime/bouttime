@@ -2,7 +2,6 @@ React = require 'react/addons'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'PenaltiesList'
-
   render: () ->
     containerClass = cx
       'penalties-list': true

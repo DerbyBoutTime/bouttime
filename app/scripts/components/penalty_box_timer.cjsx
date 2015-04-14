@@ -25,4 +25,3 @@ module.exports = React.createClass
         home={home}
         homeElement={homeElement} />
     </div>
-

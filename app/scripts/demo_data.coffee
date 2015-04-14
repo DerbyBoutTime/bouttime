@@ -1,7 +1,6 @@
 GameState = require './models/game_state.coffee'
 Team = require './models/team.coffee'
 Skater = require './models/skater.coffee'
-
 homeSkaters = [
   {name: "Wild Cherri"
   number: "6"
@@ -59,7 +58,6 @@ homeSkaters = [
   number: "747"
   penalties: []}
 ]
-
 awaySkaters = [
   {name: "Ana Bollocks"
   number: "00"
@@ -117,7 +115,6 @@ awaySkaters = [
   number: "999 Lives"
   penalties: []}
 ]
-
 gameState = new GameState
   home: new Team
     name: "Atlanta Rollergirls"
@@ -135,7 +132,5 @@ gameState = new GameState
       color: "#ffffff"
     logo: "/images/team_logos/Gotham.png"
     skaters: (new Skater(skater) for skater in awaySkaters)
-
 gameState.save()
-
 module.exports = gameState

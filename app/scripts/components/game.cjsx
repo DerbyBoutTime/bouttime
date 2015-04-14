@@ -17,7 +17,6 @@ Login = require './login.cjsx'
 SkaterSelectorModal = require './shared/skater_selector_modal.cjsx'
 Clocks = require '../clock.coffee'
 GameState = require '../models/game_state.coffee'
-
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'Game'

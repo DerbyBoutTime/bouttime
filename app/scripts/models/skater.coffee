@@ -23,27 +23,21 @@ class Skater extends Store
         @emitChange()
   @findByTeamId: (teamId) ->
     (skater for id, skater of @store when skater.teamId is teamId and skater.type is 'Skater')
-
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
     @name = options.name
     @number = options.number
     @penalties = options.penalties || []
-
   getTeam: () ->
     @constructor.find(@teamId)
-
   setPenalty: (jamNumber, penalty) ->
     @penalties.push
       penalty: penalty
       jamNumber: jamNumber
-
   clearPenalty: (skaterPenaltyIndex) ->
     @penalties.splice(skaterPenaltyIndex, 1)
-
   updatePenalty: (skaterPenaltyIndex, opts={}) ->
     skaterPenalty = @penalties[skaterPenaltyIndex]
     $.extend(skaterPenalty, opts)
-
 module.exports = Skater

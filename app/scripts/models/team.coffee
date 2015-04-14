@@ -28,7 +28,6 @@ class Team extends Store
         team.setPenaltyBoxSkater(action.boxIndexOrPosition, action.skaterId)
         team.save()
         @emitChange()
-
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -46,22 +45,17 @@ class Team extends Store
       jam.teamId = @id
       jam.save()
     @penaltyBoxStates = options.penaltyBoxStates || []
-
   save: () ->
     super()
     skater.save() for skater in @getSkaters()
     jam.save() for jam in @getJams()
-
   getJams: () ->
     Jam.findByTeamId(@id).sort (a, b) ->
       a.jamNumber - b.jamNumber
-
   getSkaters: () ->
     Skater.findByTeamId(@id)
-
   getPoints: () ->
     @getJams().reduce ((sum, jam) -> sum += jam.getPoints()), 0
-
   createNextJam: () ->
     jams = @getJams()
     lastJam = jams[jams.length - 1]
@@ -73,27 +67,22 @@ class Team extends Store
         newJam[position] = lastJam[position]
         newJam.lineupStatuses[0][position] = 'sat_in_box'
     newJam.save()
-
   toggleLeftEarly: (boxIndex) ->
     box = @penaltyBoxStates[boxIndex]
     if box?
       box.leftEarly = !box.leftEarly
       box.served = false
-
   toggleServed: (boxIndex) ->
     box = @penaltyBoxStates[boxIndex]
     if box?
       box.served = !box.served
       box.leftEarly = false
-
   setPenaltyBoxSkater: (boxIndexOrPosition, skaterId) ->
     box = @getOrCreatePenaltyBoxState(boxIndexOrPosition)
     skater = Skater.find(skaterId)
     box.skater = skater
-
   newPenaltyBoxState: (position) ->
     position: position
-
   getOrCreatePenaltyBoxState: (boxIndexOrPosition) ->
     switch typeof boxIndexOrPosition
       when 'number'
@@ -102,5 +91,4 @@ class Team extends Store
         box = @newPenaltyBoxState(boxIndexOrPosition)
         @penaltyBoxStates.push(box)
         box
-
 module.exports = Team

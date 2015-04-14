@@ -5,7 +5,6 @@ Store = require './store.coffee'
 Pass = require './pass.coffee'
 Team = require './team.coffee'
 Skater = require './skater.coffee'
-
 class Jam extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
@@ -47,10 +46,8 @@ class Jam extends Store
         jam = pass.getJam()
         if not jam.jammer?
           jam.setSkaterPosition('jammer', action.skaterId)
-
   @findByTeamId: (teamId) ->
     (jam for id, jam of @store when jam.teamId is teamId and jam.type is 'Jam')
-
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
@@ -66,41 +63,31 @@ class Jam extends Store
       pass.jamId = @id
       pass.save()
     @lineupStatuses = options.lineupStatuses || []
-
   save: () ->
     super()
     pass.save() for pass in @getPasses()
-
   getTeam: () ->
     @constructor.find(@teamId)
-
   getPasses: () ->
     Pass.findByJamId(@id).sort (a, b) ->
       a.passNumber - b.passNumber
-
   getLastPass: () ->
     passes = @getPasses()
     passes[passes.length - 1]
-
   getPositionsInBox: () ->
     positions = []
     for row in @lineupStatuses
       for position, status of row
         positions.push(position) if status in ['went_to_box', 'sat_in_box']
     positions
-
   getPoints: () ->
     @getPasses().reduce ((sum, pass) -> sum += pass.points), 0
-
   toggleNoPivot: () ->
     @noPivot = not @noPivot
-
   toggleStarPass: () ->
     @starPass = not @starPass
-
   setSkaterPosition: (position, skaterId) ->
     @[position] = Skater.find(skaterId)
-
   statusTransition: (status) ->
     switch status
       when 'clear' then 'went_to_box'
@@ -110,7 +97,6 @@ class Jam extends Store
       when 'sat_in_box_and_released' then 'injured'
       when 'injured' then 'clear'
       else 'clear'
-
   cycleLineupStatus: (statusIndex, position) ->
     # Make a new row if need be
     if statusIndex >= @lineupStatuses.length
@@ -120,15 +106,12 @@ class Jam extends Store
       @lineupStatuses[statusIndex][position] = 'clear'
     currentStatus = @lineupStatuses[statusIndex][position]
     @lineupStatuses[statusIndex][position] = @statusTransition(currentStatus)
-
   createNextPass: () ->
     lastPass = @getLastPass()
     newPass = new Pass(passNumber: lastPass.passNumber + 1, jamId: @id)
     newPass.save()
-
   reorderPass: (sourcePassIndex, targetPassIndex) ->
     list = @getPasses()
     list.splice(targetPassIndex, 0, list.splice(sourcePassIndex, 1)[0])
     pass.passNumber = i + 1 for pass, i in list
-
 module.exports = Jam

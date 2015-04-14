@@ -62,7 +62,6 @@ module.exports = React.createClass
     blocker4ColumnClass = cx
       'col-xs-5-cols': true
       'hidden': not @props.jam.noPivot
-
     <div className="jam-detail">
       <div className="row gutters-xs">
         <div className="col-xs-6">

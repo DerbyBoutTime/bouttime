@@ -18,7 +18,6 @@ module.exports = React.createClass
       'boxed-good text-center notes': true
     noteClassArgs[@props.note] = true
     noteClass = cx noteClassArgs
-
     <div className={noteClass}>
       <strong>{@noteContent()}</strong>
     </div>

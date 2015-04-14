@@ -42,10 +42,8 @@ class Pass extends Store
         pass.setJammer(action.skaterId)
         pass.save()
         @emitChange()
-
   @findByJamId: (jamId) ->
     (pass for id, pass of @store when pass.jamId is jamId and pass.type is 'Pass')
-
   constructor: (options={}) ->
     super options
     @jamId = options.jamId
@@ -57,29 +55,20 @@ class Pass extends Store
     @lostLead = options.lostLead || false
     @calloff = options.calloff || false
     @nopass = options.nopass || false
-
   getJam: () =>
     @constructor.find(@jamId)
-
   toggleInjury: () ->
     @injury = not @injury
-
   toggleNopass: () ->
     @nopass = not @nopass
-
   toggleCalloff: () ->
     @calloff = not @calloff
-
   toggleLostLead: () ->
     @lostLead = not @lostLead
-
   toggleLead: () ->
     @lead = not @lead
-
   setPoints: (points) ->
     @points = points
-
   setJammer: (skaterId) ->
     @jammer = Skater.find(skaterId)
-
 module.exports = Pass
