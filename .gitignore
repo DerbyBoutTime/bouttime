@@ -6,5 +6,5 @@ capybara-*.html
 rerun.txt
 pickle-email-*.html
 node_modules/
-dist/
+/dist/
 .sass-cache/
