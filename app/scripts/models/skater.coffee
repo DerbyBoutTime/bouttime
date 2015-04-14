@@ -2,7 +2,6 @@ functions = require '../functions.coffee'
 AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../constants.coffee'
 Store = require './store.coffee'
-Team = require './team.coffee'
 class Skater extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type

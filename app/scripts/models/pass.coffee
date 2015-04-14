@@ -2,7 +2,6 @@ functions = require '../functions.coffee'
 AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../constants.coffee'
 Store = require './store.coffee'
-Jam = require './jam.coffee'
 Skater = require './skater.coffee'
 class Pass extends Store
   @dispatchToken: AppDispatcher.register (action) =>
