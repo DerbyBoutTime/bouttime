@@ -23,8 +23,8 @@ module.exports = React.createClass
   componentDidMount: () ->
     @state.gameState.clockManager.initialize()
     GameState.addChangeListener @onChange
-    # @state.gameState.clockManager.addTickListener (clocks) =>
-    #   @setState(clocks)
+    @state.gameState.clockManager.addTickListener (clocks) =>
+      @setState(clocks)
     $dom = $(@getDOMNode())
     $dom.on 'click', '.bad-status', null, (evt) ->
     $dom.on 'click', 'ul.nav li', null, (evt) =>

@@ -1,9 +1,6 @@
 'use strict';
-
 var gulp = require('gulp');
 var del = require('del');
-
-
 
 // Load plugins
 var $ = require('gulp-load-plugins')();
@@ -50,7 +47,7 @@ function rebundle() {
 gulp.task('coffee', function() {
     gulp.src('./app/**/*.coffee')
     .pipe($.coffee({bare: true}).on('error', $.util.log))
-    .pipe(gulp.dest('./dist/'))
+    .pipe(gulp.dest('./dist/'));
 });
 // Scripts
 gulp.task('scripts', ['coffee'], rebundle);
@@ -128,15 +125,15 @@ gulp.task('build', ['html', 'bundle', 'images', 'fonts', 'extras'], function() {
 gulp.task('watch', ['build'], function() {
   gulp.watch('app/*.html', ['html']);
 
-  gulp.watch(['app/styles/**/*.scss', 'app/styles/**/*.css'], ['styles'])
+  gulp.watch(['app/styles/**/*.scss', 'app/styles/**/*.css'], ['styles']);
 
-  gulp.watch(['app/**/*.coffee'], ['coffee'])
+  gulp.watch(['app/**/*.coffee'], ['coffee']);
 
-  gulp.watch('app/images/**/*', ['images'])
+  gulp.watch('app/images/**/*', ['images']);
 
-  gulp.watch('app/fonts/**/*', ['fonts'])
+  gulp.watch('app/fonts/**/*', ['fonts']);
 
-  gulp.watch(['app/*.txt', 'app/*.ico'], ['extras'])
+  gulp.watch(['app/*.txt', 'app/*.ico'], ['extras']);
 });
 
 // Web Server

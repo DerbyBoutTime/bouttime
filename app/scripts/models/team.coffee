@@ -41,9 +41,7 @@ class Team extends Store
     for skater in options.skaters || []
       skater.teamId = @id
       skater.save()
-    console.log(Store)
-    console.log(Jam)
-    for jam in options.jams || [new Jam()]
+    for jam in (options.jams || [new Jam()])
       jam.teamId = @id
       jam.save()
     @penaltyBoxStates = options.penaltyBoxStates || []
