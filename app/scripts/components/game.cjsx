@@ -67,7 +67,7 @@ module.exports = React.createClass
     <div ref="game" className="game" data-tab={@state.tab}>
       <header>
         <div className="container-fluid">
-          <Titlebar gameState={@state.gameState} />
+          <Titlebar gameStateId={@state.gameState.id} />
           <div className="logo">
             <div className="container">
               <a href="#">

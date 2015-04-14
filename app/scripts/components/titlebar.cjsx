@@ -2,10 +2,6 @@ React = require 'react/addons'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: "TitleBar"
-  componentDidMount: () ->
-    $dom = $(@getDOMNode())
-  getInitialState: () ->
-    @props
   render: () ->
     <div className="title-bar">
       <div className="container">
@@ -24,7 +20,7 @@ module.exports = React.createClass
                 </li>
               </ul>
             </div>
-            <span className="gamename">{@props.id}</span>
+            <span className="gamename">{@props.gameStateId}</span>
             <span className="glyphicon glyphicon-ok-sign good-status"></span>
             <span className="glyphicon glyphicon-remove-sign bad-status"></span>
           </div>
