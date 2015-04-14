@@ -5,13 +5,13 @@ module.exports = React.createClass
   displayName: 'JamDetails'
   propType:
     jam: React.PropTypes.object.isRequired
-    actions: React.PropTypes.object.isRequired
+    setSelectorContext: React.PropTypes.func.isRequired
     mainMenuHandler: React.PropTypes.func
     prevJamHandler: React.PropTypes.func
     nextJamHandler: React.PropTypes.func
   totalPoints: () ->
     points = 0
-    @props.jam.passes.map (pass) =>
+    @props.jam.getPasses().map (pass) =>
       points += pass.points || 0
     return points
   render: () ->
@@ -49,6 +49,5 @@ module.exports = React.createClass
           </div>
         </div>
       </div>
-      <PassesList jam={@props.jam}
-        actions={@props.actions}/>
+      <PassesList {...@props}/>
     </div>

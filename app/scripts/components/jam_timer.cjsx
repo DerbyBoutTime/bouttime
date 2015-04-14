@@ -176,10 +176,10 @@ module.exports = React.createClass
       @state.periodNumber = @state.periodNumber + 1
       @state.periodClock.reset(constants.PERIOD_DURATION_IN_MS)
     @state.jamNumber = @state.jamNumber + 1
-    for i in [@state.away.jams.length+1 .. @state.jamNumber] by 1
-      @state.away.jams.push jamNumber: i
-    for i in [@state.home.jams.length+1 .. @state.jamNumber] by 1
-      @state.home.jams.push jamNumber: i
+    for i in [@state.away.getJams().length+1 .. @state.jamNumber] by 1
+      @state.away.getJams().push jamNumber: i
+    for i in [@state.home.getJams().length+1 .. @state.jamNumber] by 1
+      @state.home.getJams().push jamNumber: i
   stopJam: () ->
     @state.jamClock.stop()
     @startLineupClock()

@@ -8,12 +8,12 @@ module.exports = React.createClass
     selectionHandler: React.PropTypes.func
   totalPoints: () ->
     points = 0
-    @props.jam.passes.map (pass) =>
+    @props.jam.getPasses().map (pass) =>
       points += pass.points || 0
     return points
   getNotes: () ->
     jam = @props.jam
-    flags = jam.passes.reduce (prev, pass) ->
+    flags = jam.getPasses().reduce (prev, pass) ->
       injury: prev.injury or pass.injury
       nopass: prev.nopass or pass.nopass
       calloff: prev.calloff or pass.calloff

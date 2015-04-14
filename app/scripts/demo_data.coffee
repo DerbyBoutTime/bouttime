@@ -136,5 +136,6 @@ gameState = new GameState
     logo: "/images/team_logos/Gotham.png"
     skaters: (new Skater(skater) for skater in awaySkaters)
 
+gameState.save()
 
 module.exports = gameState

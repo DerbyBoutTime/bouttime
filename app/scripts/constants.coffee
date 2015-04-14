@@ -1,3 +1,4 @@
+keyMirror = require 'keymirror'
 module.exports =
   WEBSOCKETS_RETRY_TIME_IN_MS: 3000
   PERIOD_DURATION_IN_MS: 30*60*1000
@@ -13,3 +14,23 @@ module.exports =
   HOUR_IN_MS: 3600000
   MINUTE_IN_MS: 60000
   SECOND_IN_MS: 1000
+  ActionTypes: keyMirror
+    TOGGLE_NO_PIVOT: null
+    TOGGLE_STAR_PASS: null
+    SET_SKATER_POSITION: null
+    CYCLE_LINEUP_STATUS: null
+    CREATE_NEXT_JAM: null
+    TOGGLE_INJURY: null
+    TOGGLE_NOPASS: null
+    TOGGLE_CALLOFF: null
+    TOGGLE_LOST_LEAD: null
+    TOGGLE_LEAD: null
+    TOGGLE_SET_POINTS: null
+    REORDER_PASS: null
+    SET_PASS_JAMMER: null
+    SET_PENALTY: null
+    CLEAR_PENALTY: null
+    UPDATE_PENALTY: null
+    TOGGLE_LEFT_EARLY: null
+    TOGGLE_PENALTY_SERVED: null
+    SET_PENALTY_BOX_SKATER: null

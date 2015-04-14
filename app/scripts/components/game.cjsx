@@ -19,7 +19,6 @@ SkaterSelectorModal = require './shared/skater_selector_modal.cjsx'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'Game'
-  mixins: [GameStateMixin]
   componentDidMount: () ->
     $dom = $(@getDOMNode())
     @gameDOM = $(".game")
@@ -45,13 +44,13 @@ module.exports = React.createClass
     tab: "jam_timer"
     skaterSelectorContext:
       team: gameState.away
-      jam: gameState.away.jams[0]
+      jam: gameState.away.getJams()[0]
       selectHandler: () ->
-  setSelectorContext: (teamType, jamIndex, selectHandler) ->
+  setSelectorContext: (team, jam, selectHandler) ->
     @setState
       skaterSelectorContext:
-        team: @getTeam(teamType)
-        jam: @getJam(teamType, jamIndex)
+        team: team
+        jam: jam
         selectHandler: selectHandler
   render: () ->
     <div ref="game" className="game" data-tab={@state.tab}>
@@ -71,15 +70,15 @@ module.exports = React.createClass
       </header>
       <div className="container">
         <JamTimer {...@state} />
-        <LineupTracker {...@state} setSelectorContext={@setSelectorContext} />
-        <Scorekeeper {...@state} setSelectorContext={@setSelectorContext} />
-        <PenaltyTracker {...@state} />
-        <PenaltyBoxTimer {...@state} setSelectorContext={@setSelectorContext}/>
-        <Scoreboard {...@state} />
+        <LineupTracker gameStateId={@props.id} setSelectorContext={@setSelectorContext} />
+        <Scorekeeper gameStateId={@props.id} setSelectorContext={@setSelectorContext} />
+        <PenaltyTracker gameStateId={@props.id} />
+        <PenaltyBoxTimer gameStateId={@props.id} setSelectorContext={@setSelectorContext}/>
+        <Scoreboard gameStateId={@props.id} />
         <PenaltyWhiteboard {...@state} />
-        <AnnouncersFeed {...@state} />
-        <GameNotes {...@state} />
-        <GameSetup {...@state} />
+        <AnnouncersFeed gameStateId={@props.id} />
+        <GameNotes gameStateId={@props.id} />
+        <GameSetup gameStateId={@props.id} />
         <Login />
       </div>
       <SkaterSelectorModal {...@state.skaterSelectorContext} />

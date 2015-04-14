@@ -1,4 +1,6 @@
 React = require 'react/addons'
+AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
+{ActionTypes} = require '../../constants.coffee'
 functions = require '../../functions.coffee'
 SkaterSelector = require '../shared/skater_selector.cjsx'
 ScoreNote = require './score_note.cjsx'
@@ -9,7 +11,11 @@ module.exports = React.createClass
   propTypes:
     jam: React.PropTypes.object.isRequired
     pass: React.PropTypes.object.isRequired
-    actions: React.PropTypes.object.isRequired
+  setSkater: (skaterId) ->
+    AppDispatcher.dispatch
+      type: ActionTypes.SET_PASS_JAMMER
+      passId: @props.pass.id
+      skaterId: skaterId
   isInjured: (position) ->
     @props.jam.lineupStatuses? and @props.jam.lineupStatuses.some (status) ->
       status[position] is 'injured'
@@ -65,7 +71,7 @@ module.exports = React.createClass
                 injured={@isInjured('jammer')}
                 style={@props.style}
                 setSelectorContext={@props.setSelectorContext}
-                selectHandler={@props.actions.setSkater} />
+                selectHandler={@setSkater} />
               </div>
             <div data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId} onClick={@hidePanels}>
               <div className="col-sm-2 col-xs-2">

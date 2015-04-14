@@ -1,4 +1,6 @@
 React = require 'react/addons'
+AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
+{ActionTypes} = require '../../constants.coffee'
 PenaltyClock = require './penalty_clock.cjsx'
 cx = React.addons.classSet
 module.exports = React.createClass
@@ -6,15 +8,7 @@ module.exports = React.createClass
   propTypes:
     team: React.PropTypes.object.isRequired
     jamNumber: React.PropTypes.number.isRequired
-    actions: React.PropTypes.object.isRequired
-  bindActions: (boxIndex) ->
-    Object.keys(@props.actions).map((key) ->
-      key: key
-      value: @props.actions[key].bind(this, boxIndex)
-    , this).reduce((actions, action) ->
-      actions[action.key] = action.value
-      actions
-    , {})
+    setSelectorContext: React.PropTypes.func.isRequired
   getInitialState: () ->
     state: "Start All"
   handleStartStopAll: () ->
@@ -32,14 +26,28 @@ module.exports = React.createClass
         clock.stop()
       @setState
         state: "Start All"
-
+  toggleLeftEarly: (boxIndex) ->
+    AppDispatcher.dispatch
+      type: ActionTypes.TOGGLE_LEFT_EARLY
+      teamId: @props.team.id
+      boxIndex: boxIndex
+  toggleServed: (boxIndex) ->
+    AppDispatcher.dispatch
+      type: ActionTypes.TOGGLE_PENALTY_SERVED
+      teamId: @props.team.id
+      boxIndex: boxIndex
+  setSkater: (boxIndexOrPosition, skaterId) ->
+    AppDispatcher.dispatch
+      type: ActionTypes.SET_PENALTY_BOX_SKATER
+      teamId: @props.team.id
+      boxIndexOrPosition: boxIndexOrPosition
+      skaterId: skaterId
   render: () ->
     playPauseCS = cx({
       'glyphicon' : true
       'glyphicon-play' : @state.state == "Start All"
       'glyphicon-pause' : @state.state == "Stop All"
     })
-    jamIndex = Math.max(@props.jamNumber - 1, 0)
     hideJammer = @props.team.penaltyBoxStates.some (boxState) ->
       boxState.position is 'jammer' and not boxState.served
     numBlockersServing = @props.team.penaltyBoxStates.filter((boxState) -> boxState.position is 'blocker' and not boxState.served).length
@@ -63,8 +71,11 @@ module.exports = React.createClass
         {@props.team.penaltyBoxStates.map((boxState, boxIndex) ->
           <PenaltyClock ref="clocks0" key={boxIndex}
             teamStyle={@props.team.colorBarStyle}
-            boxState={boxState} actions={@bindActions(boxIndex)}
-            setSelectorContext={@props.actions.setSelectorContext.bind(this, jamIndex)}
+            boxState={boxState}
+            toggleLeftEarly={@toggleLeftEarly.bind(this, boxIndex)}
+            toggleServed={@toggleServed.bind(this, boxIndex)}
+            setSkater={@setSkater.bind(this, boxIndex)}
+            setSelectorContext={@props.setSelectorContext}
             hidden={boxState.served}/>
         , this).filter (component) ->
           component.props.boxState.position is 'jammer'
@@ -72,15 +83,19 @@ module.exports = React.createClass
         <PenaltyClock ref="clocks0"
           teamStyle={@props.team.colorBarStyle}
           boxState={position: 'jammer'}
-          actions={@bindActions('jammer')}
-          setSelectorContext={@props.actions.setSelectorContext.bind(null, jamIndex)}
+          toggleLeftEarly={@toggleLeftEarly.bind(this, null)}
+          toggleServed={@toggleServed.bind(this, null)}
+          setSelectorContext={@props.setSelectorContext}
+          setSkater={@setSkater.bind(this, 'jammer')}
           hidden={hideJammer}/>
         {@props.team.penaltyBoxStates.map((boxState, boxIndex) ->
           <PenaltyClock ref="clocks#{boxIndex}" key={boxIndex}
             teamStyle={@props.team.colorBarStyle}
             boxState={boxState}
-            actions={@bindActions(boxIndex)}
-            setSelectorContext={@props.actions.setSelectorContext.bind(this, jamIndex)}
+            toggleLeftEarly={@toggleLeftEarly.bind(this, boxIndex)}
+            toggleServed={@toggleServed.bind(this, boxIndex)}
+            setSkater={@setSkater.bind(this, boxIndex)}
+            setSelectorContext={@props.setSelectorContext}
             hidden={boxState.served}/>
         , this).filter (component) ->
           component.props.boxState.position is 'blocker'
@@ -89,8 +104,10 @@ module.exports = React.createClass
           <PenaltyClock ref="clocks#{numBlockersServing+i+1}" key={i}
             teamStyle={@props.team.colorBarStyle}
             boxState={position: 'blocker'}
-            actions={@bindActions('blocker')}
-            setSelectorContext={@props.actions.setSelectorContext.bind(null, jamIndex)}/>
+            toggleLeftEarly={@toggleLeftEarly.bind(this, null)}
+            toggleServed={@toggleServed.bind(this, null)}
+            setSkater={@setSkater.bind(this, 'blocker')} 
+            setSelectorContext={@props.setSelectorContext}/>
         , this}
       </section>
     </div>

@@ -1,4 +1,6 @@
 React = require 'react/addons'
+AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
+{ActionTypes} = require '../../constants.coffee'
 SkaterSelector = require '../shared/skater_selector.cjsx'
 LineupBoxRow = require './lineup_box_row.cjsx'
 cx = React.addons.classSet
@@ -7,11 +9,27 @@ module.exports = React.createClass
   propTypes:
     team: React.PropTypes.object.isRequired
     jam: React.PropTypes.object.isRequired
-    noPivotHandler: React.PropTypes.func.isRequired
-    starPassHandler: React.PropTypes.func.isRequired
-    lineupStatusHandler: React.PropTypes.func.isRequired
     setSelectorContextHandler: React.PropTypes.func.isRequired
-    selectSkaterHandler: React.PropTypes.func.isRequired
+  toggleNoPivot: () ->
+    AppDispatcher.dispatch
+      type: ActionTypes.TOGGLE_NO_PIVOT
+      jamId: @props.jam.id
+  toggleStarPass: () ->
+    AppDispatcher.dispatch
+      type: ActionTypes.TOGGLE_STAR_PASS
+      jamId: @props.jam.id
+  setSkaterPosition: (position, skaterId) ->
+    AppDispatcher.dispatch
+      type: ActionTypes.SET_SKATER_POSITION
+      jamId: @props.jam.id
+      position: position
+      skaterId: skaterId
+  cycleLineupStatus: (statusIndex, position) ->
+    AppDispatcher.dispatch
+      type: ActionTypes.CYCLE_LINEUP_STATUS
+      jamId: @props.jam.id
+      statusIndex: statusIndex
+      position: position
   isInjured: (position) ->
     @props.jam.lineupStatuses.some (status) ->
       status[position] is 'injured'
@@ -57,12 +75,12 @@ module.exports = React.createClass
           </div>
         </div>
         <div className="col-xs-3">
-          <button className={noPivotButtonClass} onClick={@props.noPivotHandler}>
+          <button className={noPivotButtonClass} onClick={@toggleNoPivot}>
             <strong>No Pivot</strong>
           </button>
         </div>
         <div className="col-xs-3">
-          <button className={starPassButtonClass} onClick={@props.starPassHandler}>
+          <button className={starPassButtonClass} onClick={@toggleStarPass}>
             <strong><span className="glyphicon glyphicon-star" aria-hidden="true"></span> Pass</strong>
           </button>
         </div>
@@ -94,7 +112,7 @@ module.exports = React.createClass
             injured={@isInjured('jammer')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@props.selectSkaterHandler.bind(this, 'jammer')} />
+            selectHandler={@setSkaterPosition.bind(this, 'jammer')} />
         </div>
         <div className={pivotColumnClass}>
           <SkaterSelector
@@ -102,7 +120,7 @@ module.exports = React.createClass
             injured={@isInjured('pivot')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@props.selectSkaterHandler.bind(this, 'pivot')} />
+            selectHandler={@setSkaterPosition.bind(this, 'pivot')} />
         </div>
         <div className="col-xs-5-cols">
           <SkaterSelector
@@ -110,7 +128,7 @@ module.exports = React.createClass
             injured={@isInjured('blocker1')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@props.selectSkaterHandler.bind(this, 'blocker1')} />
+            selectHandler={@setSkaterPosition.bind(this, 'blocker1')} />
         </div>
         <div className="col-xs-5-cols">
           <SkaterSelector
@@ -118,7 +136,7 @@ module.exports = React.createClass
             injured={@isInjured('blocker2')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@props.selectSkaterHandler.bind(this, 'blocker2')} />
+            selectHandler={@setSkaterPosition.bind(this, 'blocker2')} />
         </div>
         <div className="col-xs-5-cols">
           <SkaterSelector
@@ -126,7 +144,7 @@ module.exports = React.createClass
             injured={@isInjured('blocker3')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@props.selectSkaterHandler.bind(this, 'blocker3')} />
+            selectHandler={@setSkaterPosition.bind(this, 'blocker3')} />
         </div>
         <div className={blocker4ColumnClass}>
           <SkaterSelector
@@ -134,11 +152,11 @@ module.exports = React.createClass
             injured={@isInjured('pivot')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@props.selectSkaterHandler.bind(this, 'pivot')} />
+            selectHandler={@setSkaterPosition.bind(this, 'pivot')} />
         </div>
       </div>
       {@props.jam.lineupStatuses.map (lineupStatus, statusIndex) ->
-        <LineupBoxRow key={statusIndex} lineupStatus=lineupStatus lineupStatusHandler={@props.lineupStatusHandler.bind(this, statusIndex)} />
+        <LineupBoxRow key={statusIndex} lineupStatus={lineupStatus} cycleLineupStatus={@cycleLineupStatus.bind(this, statusIndex)} />
       , this }
-      <LineupBoxRow key={@props.jam.lineupStatuses.length} lineupStatusHandler={@props.lineupStatusHandler.bind(this, @props.jam.lineupStatuses.length)} />
+      <LineupBoxRow key={@props.jam.lineupStatuses.length} cycleLineupStatus={@cycleLineupStatus.bind(this, @props.jam.lineupStatuses.length)} />
     </div>

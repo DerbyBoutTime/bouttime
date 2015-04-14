@@ -1,18 +1,12 @@
 React = require 'react/addons'
+AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
+{ActionTypes} = require '../../constants.coffee'
 PassItem = require './pass_item.cjsx'
 module.exports = React.createClass
   displayName: 'PassesList'
   propTypes:
     jam: React.PropTypes.object.isRequired
-    actions: React.PropTypes.object.isRequired
-  bindActions: (passIndex) ->
-    Object.keys(@props.actions).map((key) ->
-      key: key
-      value: @props.actions[key].bind(this, passIndex)
-    , this).reduce((actions, action) ->
-      actions[action.key] = action.value
-      actions
-    , {})
+    setSelectorContext: React.PropTypes.func.isRequired
   mouseDownHandler: (evt) ->
     @target = evt.target
   dragHandler: (passIndex, evt) ->
@@ -22,16 +16,19 @@ module.exports = React.createClass
       evt.preventDefault()
   dropHandler: (passIndex, evt) ->
     sourceIndex = evt.dataTransfer.getData 'passIndex'
-    @props.actions.reorderPass(sourceIndex, passIndex)
+    AppDispatcher.dispatch
+      type: ActionTypes.REORDER_PASS
+      jamId: @props.jam.id
+      sourcePassIndex: sourceIndex
+      targetPassIndex: passIndex
   render: () ->
     PassItemFactory = React.createFactory(PassItem)
-    passComponents = @props.jam.passes.map (pass, passIndex) =>
+    passComponents = @props.jam.getPasses().map (pass, passIndex) =>
       PassItemFactory(
         key: passIndex
         jam: @props.jam
         pass: pass
-        actions: @bindActions(passIndex)
-        setSelectorContext: @props.actions.setSelectorContext #Without binding passIndex
+        setSelectorContext: @props.setSelectorContext
         dragHandler: @dragHandler.bind(this, passIndex)
         dropHandler: @dropHandler.bind(this, passIndex)
         mouseDownHandler: @mouseDownHandler

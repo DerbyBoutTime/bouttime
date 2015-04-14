@@ -5,6 +5,7 @@ module.exports = React.createClass
   displayName: 'LineupBoxRow'
   propTypes:
     lineupStatus: React.PropTypes.object
+    cycleLineupStatus: React.PropTypes.func
   getDefaultProps: () ->
     lineupStatus:
       pivot: 'clear'
@@ -15,18 +16,18 @@ module.exports = React.createClass
   render: () ->
     <div className="row gutters-xs boxes">
         <div className="col-xs-5-cols">
-          <LineupBox status={@props.lineupStatus.jammer} lineupStatusHandler={@props.lineupStatusHandler.bind(this, 'jammer')} />
+          <LineupBox status={@props.lineupStatus.jammer} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'jammer')} />
         </div>
         <div className="col-xs-5-cols">
-          <LineupBox status={@props.lineupStatus.pivot} lineupStatusHandler={@props.lineupStatusHandler.bind(this, 'pivot')} />
+          <LineupBox status={@props.lineupStatus.pivot} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'pivot')} />
         </div>
         <div className="col-xs-5-cols">
-          <LineupBox status={@props.lineupStatus.blocker1} lineupStatusHandler={@props.lineupStatusHandler.bind(this, 'blocker1')} />
+          <LineupBox status={@props.lineupStatus.blocker1} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker1')} />
         </div>
         <div className="col-xs-5-cols">
-          <LineupBox status={@props.lineupStatus.blocker2} lineupStatusHandler={@props.lineupStatusHandler.bind(this, 'blocker2')} />
+          <LineupBox status={@props.lineupStatus.blocker2} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker2')} />
         </div>
         <div className="col-xs-5-cols">
-          <LineupBox status={@props.lineupStatus.blocker3} lineupStatusHandler={@props.lineupStatusHandler.bind(this, 'blocker3')} />
+          <LineupBox status={@props.lineupStatus.blocker3} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker3')} />
         </div>
       </div>

@@ -4,6 +4,7 @@ module.exports = React.createClass
   displayName: 'LineupBox'
   propTypes:
     status: React.PropTypes.string
+    cycleLineupStatus: React.PropTypes.func
   getDefaultProps: () ->
     status: 'clear'
   boxContent: () ->
@@ -18,6 +19,6 @@ module.exports = React.createClass
   render: () ->
     injuryClass = cx
       'box-injury': @props.status is 'injured'
-    <button className={injuryClass + " box text-center bt-btn btn-box"} onClick={@props.lineupStatusHandler}>
+    <button className={injuryClass + " box text-center bt-btn btn-box"} onClick={@props.cycleLineupStatus}>
       <strong>{@boxContent()}</strong>
     </button>

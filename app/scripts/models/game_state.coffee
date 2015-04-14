@@ -1,15 +1,11 @@
 functions = require '../functions.coffee'
 AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
+Store = require './store.coffee'
 CountdownClock = require '../clock.coffee'
 Team = require './team.coffee'
-class GameState
-  @gameStates: {}
-
-  @find: (id) ->
-    @gameStates[id]
-
+class GameState extends Store
   constructor: (options={}) ->
-    @id = functions.uniqueId()
+    super options
     @state = options.state || 'pregame'
     @jamNumber = options.jamNumber || 0
     @periodNumber = options.periodNumber || 0
@@ -71,6 +67,11 @@ class GameState
     ]
 
   save: () ->
-    gameStates[@id] = this
+    super()
+    @home.save()
+    @away.save()
+
+  getCurrentJam: (team) ->
+    (jam for jam in team.getJams() when jam.jamNumber is @jamNumber)[0]
 
 module.exports = GameState

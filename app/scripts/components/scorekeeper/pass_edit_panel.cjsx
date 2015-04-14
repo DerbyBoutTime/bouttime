@@ -1,9 +1,34 @@
 React = require 'react/addons'
+AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
+{ActionTypes} = require '../../constants.coffee'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'PassEditPanel'
+  toggleInjury: () ->
+    AppDispatcher.dispatch
+      type: ActionTypes.TOGGLE_INJURY
+      passId: @props.pass.id
+  toggleNopass: () ->
+    AppDispatcher.dispatch
+      type: ActionTypes.TOGGLE_NOPASS
+      passId: @props.pass.id
+  toggleCalloff: () ->
+    AppDispatcher.dispatch
+      type: ActionTypes.TOGGLE_CALLOFF
+      passId: @props.pass.id
+  toggleLostLead: () ->
+    AppDispatcher.dispatch
+      type: ActionTypes.TOGGLE_LOST_LEAD
+      passId: @props.pass.id
+  toggleLead: () ->
+    AppDispatcher.dispatch
+      type: ActionTypes.TOGGLE_LEAD
+      passId: @props.pass.id
   setPoints: (points) ->
-    @props.actions.setPoints(points)
+    AppDispatcher.dispatch
+      type: ActionTypes.SET_POINTS
+      passId: @props.pass.id
+      points: points
     $("##{@props.editPassId}").collapse('hide')
   render: () ->
     injuryClass = cx
@@ -47,17 +72,17 @@ module.exports = React.createClass
         <div className="edit-pass first-pass collapse" id={@props.editPassId}>
           <div className="row gutters-xs">
             <div className="col-sm-4 col-xs-4">
-              <button className={injuryClass} onClick={@props.actions.toggleInjury}>
+              <button className={injuryClass} onClick={@toggleInjury}>
                 <strong>Injury</strong>
               </button>
             </div>
             <div className="col-sm-4 col-xs-4">
-              <button className={leadClass} onClick={@props.actions.toggleLead}>
+              <button className={leadClass} onClick={@toggleLead}>
                 <strong>Lead</strong>
               </button>
             </div>
             <div className="col-sm-4 col-xs-4">
-              <button className={callClass} onClick={@props.actions.toggleCalloff}>
+              <button className={callClass} onClick={@toggleCalloff}>
                 <strong>Call</strong>
               </button>
             </div>
@@ -74,7 +99,7 @@ module.exports = React.createClass
               </button>
             </div>
             <div className="col-sm-4 col-xs-4">
-              <button className={nopassClass} onClick={@props.actions.toggleNopass}>
+              <button className={nopassClass} onClick={@toggleNopass}>
                 <strong>No P.</strong>
               </button>
             </div>
@@ -86,17 +111,17 @@ module.exports = React.createClass
         <div className="edit-pass second-pass collapse" id={@props.editPassId}>
           <div className="row gutters-xs">
             <div className="col-sm-4 col-xs-4">
-              <button className={injuryClass} onClick={@props.actions.toggleInjury}>
+              <button className={injuryClass} onClick={@toggleInjury}>
                 <strong>Injury</strong>
               </button>
             </div>
             <div className="col-sm-4 col-xs-4">
-              <button className={lostClass} onClick={@props.actions.toggleLostLead}>
+              <button className={lostClass} onClick={@toggleLostLead}>
                 <strong>Lost</strong>
               </button>
             </div>
             <div className="col-sm-4 col-xs-4">
-              <button className={callClass} onClick={@props.actions.toggleCalloff}>
+              <button className={callClass} onClick={@toggleCalloff}>
                 <strong>Call</strong>
               </button>
             </div>

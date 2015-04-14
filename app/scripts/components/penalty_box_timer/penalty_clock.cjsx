@@ -59,15 +59,15 @@ module.exports = React.createClass
             skater={@props.boxState.skater}
             style={@props.teamStyle}
             setSelectorContext={@props.setSelectorContext}
-            selectHandler={@props.actions.setSkater}
+            selectHandler={@props.setSkater}
             placeholder={placeholder}
             />
         </div>
         <div className="skater-data">
-          <button className={leftEarlyButtonClass} onClick={@props.actions.toggleLeftEarly}>
+          <button className={leftEarlyButtonClass} onClick={@props.toggleLeftEarly}>
             <strong>Early</strong>
           </button>
-          <button className={servedButtonClass} onClick={@props.actions.toggleServed}>
+          <button className={servedButtonClass} onClick={@props.toggleServed}>
             <span className="glyphicon glyphicon-ok"></span>
           </button>
         </div>

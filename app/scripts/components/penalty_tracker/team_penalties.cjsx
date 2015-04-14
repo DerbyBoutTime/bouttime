@@ -1,4 +1,6 @@
 React = require 'react/addons'
+AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
+{ActionTypes} = require '../../constants.coffee'
 PenaltiesSummary = require './penalties_summary.cjsx'
 SkaterPenalties = require './skater_penalties.cjsx'
 PenaltiesList = require './penalties_list.cjsx'
@@ -6,52 +8,53 @@ cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'TeamPenalties'
   propTypes:
+    gameState: React.PropTypes.object.isRequired
     team: React.PropTypes.object.isRequired
-    penalties: React.PropTypes.array.isRequired
-    actions: React.PropTypes.object.isRequired
   getInitialState: () ->
-    selectedSkaterIndex: null
+    selectedSkaterId: null
     editingPenaltyIndex: null
-  selectSkater: (skaterIndex) ->
-    @setState(selectedSkaterIndex: skaterIndex)
+  selectSkater: (skaterId) ->
+    @setState(selectedSkaterId: skaterId)
   editPenalty: (penaltyIndex) ->
     @setState(editingPenaltyIndex: penaltyIndex)
   backHandler: () ->
     $('.edit-penalty.collapse.in').collapse('hide')
     @selectSkater(null)
-  setOrUpdatePenalty: (skaterIndex, penaltyIndex) ->
+  setPenalty:(skaterId, penalty) ->
+    AppDispatcher.dispatch
+      type: ActionTypes.SET_PENALTY
+      skaterId: skaterId
+      jamNumber: @props.gameState.jamNumber
+      penalty: penalty
+  changePenalty: (skaterId, skaterPenaltyIndex, penalty) ->
+    AppDispatcher.dispatch
+      type: ActionTypes.UPDATE_PENALTY
+      skaterId: skaterId
+      skaterPenaltyIndex: skaterPenaltyIndex
+      opts:
+        penalty: penalty
+  setOrUpdatePenalty: (skaterId, penaltyIndex) ->
+    penalty = @props.gameState.penalties[penaltyIndex]
     if @state.editingPenaltyIndex?
-      penalty = @props.penalties[penaltyIndex]
-      @props.actions.updatePenalty(skaterIndex, @state.editingPenaltyIndex, {penalty: penalty})
+      @changePenalty(skaterId, @state.editingPenaltyIndex, penalty)
     else
-      @props.actions.setPenalty(skaterIndex, penaltyIndex)
-  bindActions: (skaterIndex) ->
-    Object.keys(@props.actions).map((key) ->
-      key: key
-      value: @props.actions[key].bind(this, skaterIndex)
-    , this).reduce((actions, action) ->
-      actions[action.key] = action.value
-      actions
-    , {})
+      @setPenalty(skaterId, penalty)
   render: () ->
     <div className="team-penalties">
       <PenaltiesSummary
         {...@props}
-        teamStyle={@props.team.colorBarStyle}
         selectionHandler={@selectSkater}
-        hidden={@state.selectedSkaterIndex?}/>
-      {@props.team.skaters.map (skater, skaterIndex) ->
+        hidden={@state.selectedSkaterId?}/>
+      {@props.team.getSkaters().map (skater, skaterIndex) ->
         <SkaterPenalties
           key={skaterIndex}
-          skater={@props.team.skaters[skaterIndex]}
-          actions={@bindActions(skaterIndex)}
-          teamStyle={@props.team.colorBarStyle}
-          hidden={@state.selectedSkaterIndex isnt skaterIndex}
+          skater={skater}
+          hidden={@state.selectedSkaterId isnt skater.id}
           backHandler={@backHandler}
           editHandler={@editPenalty}/>
       , this}
       <PenaltiesList
-        penalties={@props.penalties}
-        hidden={!@state.selectedSkaterIndex?}
-        buttonHandler={@setOrUpdatePenalty.bind(this, @state.selectedSkaterIndex)} />
+        penalties={@props.gameState.penalties}
+        hidden={!@state.selectedSkaterId?}
+        buttonHandler={@setOrUpdatePenalty.bind(this, @state.selectedSkaterId)} />
     </div>

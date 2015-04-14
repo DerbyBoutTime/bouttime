@@ -1,22 +1,20 @@
 React = require 'react/addons'
+AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
+{ActionTypes} = require '../../constants.coffee'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'EditPenaltyPanel'
   propTypes:
     penaltyNumber: React.PropTypes.number
     skaterPenalty: React.PropTypes.object.isRequired
-    actions: React.PropTypes.object.isRequired
+    incrementJamNumber: React.PropTypes.func.isRequired
+    decrementJamNumber: React.PropTypes.func.isRequired
+    clearPenalty: React.PropTypes.func.isRequired
     onOpen: React.PropTypes.func.isRequired
     onClose: React.PropTypes.func.isRequired
-  incrementJamNumber: () ->
-    @props.actions.updatePenalty
-      jamNumber: @props.skaterPenalty.jamNumber + 1
-  decrementJamNumber: () ->
-    @props.actions.updatePenalty
-      jamNumber: Math.max(@props.skaterPenalty.jamNumber - 1, 1)
   clearPenalty: () ->
     @closePanel()
-    @props.actions.clearPenalty()
+    @props.clearPenalty()
   closePanel: () ->
     $(@getDOMNode()).collapse('hide')
   componentDidMount: () ->
@@ -41,11 +39,11 @@ module.exports = React.createClass
         </div>
         <div className='col-xs-10'>
           <div className='jam-number-control boxed-good'>
-            <button className='btn btn-boxed minus' onClick={@decrementJamNumber}>
+            <button className='btn btn-boxed minus' onClick={@props.decrementJamNumber}>
               <span className='glyphicon glyphicon-minus'></span>
             </button>
             <strong>Jam {@props.skaterPenalty.jamNumber}</strong>
-            <button className='btn btn-boxed plus' onClick={@incrementJamNumber}>
+            <button className='btn btn-boxed plus' onClick={@props.incrementJamNumber}>
               <span className='glyphicon glyphicon-plus'></span>
             </button>
           </div>

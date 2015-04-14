@@ -4,7 +4,7 @@ module.exports = React.createClass
   displayName: 'SkaterSelectorModal'
   propTypes:
     team: React.PropTypes.object.isRequired
-    jam: React.PropTypes.object.isRequired
+    jam: React.PropTypes.object
     selectHandler: React.PropTypes.func
   getLineup: () ->
     jam = @props.jam
@@ -12,7 +12,10 @@ module.exports = React.createClass
     positions.filter (position) ->
       position?
   inLineup: (skater) ->
-    skater.number in @getLineup().map (s) -> s.number
+    if @props.jam?
+      skater.number in @getLineup().map (s) -> s.number
+    else
+      false
   isInjured: (skater) ->
     false
   buttonClass: (skater) ->
@@ -28,12 +31,12 @@ module.exports = React.createClass
             <h4 className="modal-title">Select Skater</h4>
           </div>
           <div className="modal-body">
-            {@props.team.skaters.map (skater, skaterIndex) ->
+            {@props.team.getSkaters().map (skater, skaterIndex) ->
                 <button key={skaterIndex}
                   className={@buttonClass(skater)}
                   style={if @inLineup(skater) and not @isInjured(skater) then @props.team.colorBarStyle}
                   data-dismiss="modal"
-                  onClick={@props.selectHandler.bind(this, skaterIndex)}>
+                  onClick={@props.selectHandler.bind(null, skater.id)}>
                     <strong className="skater-number">{skater.number}</strong>
                     <strong className="skater-name">{skater.name}</strong>
                 </button>

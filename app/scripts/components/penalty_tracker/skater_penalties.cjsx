@@ -1,4 +1,6 @@
 React = require 'react/addons'
+AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
+{ActionTypes} = require '../../constants.coffee'
 PenaltyAlert = require './penalty_alert.cjsx'
 PenaltyControl = require './penalty_control.cjsx'
 EditPenaltyPanel = require './edit_penalty_panel.cjsx'
@@ -7,25 +9,35 @@ module.exports = React.createClass
   displayName: 'SkaterPenalties'
   propTypes:
     skater: React.PropTypes.object.isRequired
-    actions: React.PropTypes.object.isRequired
-    teamStyle: React.PropTypes.object
     hidden: React.PropTypes.bool
     backHandler: React.PropTypes.func.isRequired
     editHandler: React.PropTypes.func.isRequired
-  bindActions: (penaltyIndex) ->
-    Object.keys(@props.actions).map((key) ->
-      key: key
-      value: @props.actions[key].bind(this, penaltyIndex)
-    , this).reduce((actions, action) ->
-      actions[action.key] = action.value
-      actions
-    , {})
+  incrementJamNumber: (skaterPenaltyIndex) ->
+    AppDispatcher.dispatch
+      type: ActionTypes.UPDATE_PENALTY
+      skaterId: @props.skater.id
+      skaterPenaltyIndex: skaterPenaltyIndex
+      opts:
+        jamNumber: @props.skater.penalties[skaterPenaltyIndex].jamNumber + 1
+  decrementJamNumber: (skaterPenaltyIndex) ->
+    AppDispatcher.dispatch
+      type: ActionTypes.UPDATE_PENALTY
+      skaterId: @props.skater.id
+      skaterPenaltyIndex: skaterPenaltyIndex
+      opts:
+        jamNumber: Math.max(@props.skater.penalties[skaterPenaltyIndex].jamNumber - 1, 1)
+  clearPenalty: (skaterPenaltyIndex) ->
+    AppDispatcher.dispatch
+      type: ActionTypes.CLEAR_PENALTY
+      skaterId: @props.skater.id
+      skaterPenaltyIndex: skaterPenaltyIndex
   getPenaltyId: (penaltyIndex) ->
     "edit-penalty-#{@props.skater.id}-#{penaltyIndex}"
   render: () ->
     containerClass = cx
       'skater-penalties': true
       'hidden': @props.hidden
+    skaterTeam = @props.skater.getTeam()
     <div className={containerClass}>
       <div className='row gutters-xs top-buffer actions' >
         <div className='col-xs-12'>
@@ -50,7 +62,7 @@ module.exports = React.createClass
             <PenaltyControl
               penaltyNumber={i+1}
               skaterPenalty={@props.skater.penalties[i]}
-              teamStyle={@props.teamStyle}
+              teamStyle={skaterTeam.colorBarStyle}
               target={@getPenaltyId(i)} />
           </div>
         , this}
@@ -63,7 +75,9 @@ module.exports = React.createClass
               id={@getPenaltyId(penaltyIndex)}
               skaterPenalty={skaterPenalty}
               penaltyNumber={penaltyIndex+1}
-              actions={@bindActions(penaltyIndex)}
+              incrementJamNumber={@incrementJamNumber.bind(this, penaltyIndex)}
+              decrementJamNumber={@decrementJamNumber.bind(this, penaltyIndex)}
+              clearPenalty={@clearPenalty.bind(this, penaltyIndex)}
               onOpen={@props.editHandler.bind(null, penaltyIndex)}
               onClose={@props.editHandler.bind(null, null)}/>
           , this}
@@ -92,7 +106,9 @@ module.exports = React.createClass
               id={@getPenaltyId(penaltyIndex + 7)}
               skaterPenalty={skaterPenalty}
               penaltyNumber={penaltyIndex+1}
-              actions={@bindActions(penaltyIndex + 7)}
+              incrementJamNumber={@incrementJamNumber.bind(this, penaltyIndex + 7)}
+              decrementJamNumber={@decrementJamNumber.bind(this, penaltyIndex + 7)}
+              clearPenalty={@clearPenalty.bind(this, penaltyIndex + 7)}
               onOpen={@props.editHandler.bind(null, penaltyIndex + 7)}
               onClose={@props.editHandler.bind(null, null)}/>
           , this}
