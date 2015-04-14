@@ -87,56 +87,23 @@ class GameState extends Store
     @home = options.home || new Team()
     @away = options.away || new Team()
     @penalties = [
-      {name: "High Block"
-      code: "A"}
-      ,
-      {name: "Insubordination"
-      code: "N"}
-      ,
-      {name: "Back Block"
-      code: "B"}
-      ,
-      {name: "Skating Out of Bnds."
-      code: "S"}
-      ,
-      {name: "Elbows"
-      code: "E"}
-      ,
-      {name: "Cutting the Track"
-      code: "X"}
-      ,
-      {name: "Forearms"
-      code: "F"}
-      ,
-      {name: "Delay of Game"
-      code: "Z"}
-      ,
-      {name: "Misconduct"
-      code: "G"}
-      ,
-      {name: "Dir. of Game Play"
-      code: "C"}
-      ,
-      {name: "Blocking with Head"
-      code: "H"}
-      ,
-      {name: "Out of Bounds"
-      code: "O"}
-      ,
-      {name: "Low Block"
-      code: "L"}
-      ,
-      {name: "Out of Play"
-      code: "P"}
-      ,
-      {name: "Multi-Player Block"
-      code: "M"}
-      ,
-      {name: "Illegal Procedure"
-      code: "I"}
-      ,
-      {name: "Gross Misconduct"
-      code: "G"}
+      {code: "A", name: "High Block"},
+      {code: "N", name: "Insubordination"},
+      {code: "B", name: "Back Block"},
+      {code: "S", name: "Skating Out of Bnds."},
+      {code: "E", name: "Elbows"},
+      {code: "X", name: "Cutting the Track"},
+      {code: "F", name: "Forearms"},
+      {code: "Z", name: "Delay of Game"},
+      {code: "G", name: "Misconduct"},
+      {code: "C", name: "Dir. of Game Play"},
+      {code: "H", name: "Blocking with Head"},
+      {code: "O", name: "Out of Bounds"},
+      {code: "L", name: "Low Block"},
+      {code: "P", name: "Out of Play"},
+      {code: "M", name: "Multi-Player Block"},
+      {code: "I", name: "Illegal Procedure"},
+      {code: "G", name: "Gross Misconduct"}
     ]
   save: () ->
     super()
