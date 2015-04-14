@@ -12,7 +12,7 @@ module.exports = React.createClass
     jam: React.PropTypes.object.isRequired
     pass: React.PropTypes.object.isRequired
   setSkater: (skaterId) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_PASS_JAMMER
       passId: @props.pass.id
       skaterId: skaterId

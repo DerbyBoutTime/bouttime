@@ -47,8 +47,13 @@ function rebundle() {
         .pipe(gulp.dest(destFolder));
 }
 
+gulp.task('coffee', function() {
+    gulp.src('./app/**/*.coffee')
+    .pipe($.coffee({bare: true}).on('error', $.util.log))
+    .pipe(gulp.dest('./dist/'))
+});
 // Scripts
-gulp.task('scripts', rebundle);
+gulp.task('scripts', ['coffee'], rebundle);
 
 // HTML
 gulp.task('html', function() {
@@ -124,6 +129,8 @@ gulp.task('watch', ['build'], function() {
     gulp.watch('app/*.html', ['html']);
 
     gulp.watch(['app/styles/**/*.scss', 'app/styles/**/*.css'], ['styles'])
+
+    gulp.watch(['app/**/*.coffee'], ['coffee'])
 
     gulp.watch('app/images/**/*', ['images'])
 

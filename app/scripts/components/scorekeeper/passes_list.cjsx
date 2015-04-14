@@ -16,7 +16,7 @@ module.exports = React.createClass
       evt.preventDefault()
   dropHandler: (passIndex, evt) ->
     sourceIndex = evt.dataTransfer.getData 'passIndex'
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.REORDER_PASS
       jamId: @props.jam.id
       sourcePassIndex: sourceIndex

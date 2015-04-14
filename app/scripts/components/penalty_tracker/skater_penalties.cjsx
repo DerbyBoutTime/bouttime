@@ -13,21 +13,21 @@ module.exports = React.createClass
     backHandler: React.PropTypes.func.isRequired
     editHandler: React.PropTypes.func.isRequired
   incrementJamNumber: (skaterPenaltyIndex) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.UPDATE_PENALTY
       skaterId: @props.skater.id
       skaterPenaltyIndex: skaterPenaltyIndex
       opts:
         jamNumber: @props.skater.penalties[skaterPenaltyIndex].jamNumber + 1
   decrementJamNumber: (skaterPenaltyIndex) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.UPDATE_PENALTY
       skaterId: @props.skater.id
       skaterPenaltyIndex: skaterPenaltyIndex
       opts:
         jamNumber: Math.max(@props.skater.penalties[skaterPenaltyIndex].jamNumber - 1, 1)
   clearPenalty: (skaterPenaltyIndex) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.CLEAR_PENALTY
       skaterId: @props.skater.id
       skaterPenaltyIndex: skaterPenaltyIndex

@@ -7,7 +7,7 @@ module.exports = React.createClass
   propTypes:
     team: React.PropTypes.object.isRequired
   createNextJam: () ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.CREATE_NEXT_JAM
       teamId: @props.team.id
   render: () ->

@@ -21,13 +21,13 @@ module.exports = React.createClass
     $('.edit-penalty.collapse.in').collapse('hide')
     @selectSkater(null)
   setPenalty:(skaterId, penalty) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_PENALTY
       skaterId: skaterId
       jamNumber: @props.gameState.jamNumber
       penalty: penalty
   changePenalty: (skaterId, skaterPenaltyIndex, penalty) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.UPDATE_PENALTY
       skaterId: skaterId
       skaterPenaltyIndex: skaterPenaltyIndex

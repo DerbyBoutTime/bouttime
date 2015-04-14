@@ -27,17 +27,17 @@ module.exports = React.createClass
       @setState
         state: "Start All"
   toggleLeftEarly: (boxIndex) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_LEFT_EARLY
       teamId: @props.team.id
       boxIndex: boxIndex
   toggleServed: (boxIndex) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_PENALTY_SERVED
       teamId: @props.team.id
       boxIndex: boxIndex
   setSkater: (boxIndexOrPosition, skaterId) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_PENALTY_BOX_SKATER
       teamId: @props.team.id
       boxIndexOrPosition: boxIndexOrPosition

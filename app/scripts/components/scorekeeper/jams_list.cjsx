@@ -16,7 +16,7 @@ module.exports = React.createClass
     @setState(jamSelected: null)
   handleJamSelection: (jamIndex, newJam) ->
     if newJam
-      AppDispatcher.dispatch
+      AppDispatcher.dispatchAndEmit
         type: ActionTypes.CREATE_NEXT_JAM
         teamId: @props.team.id
     @setState(jamSelected: jamIndex)

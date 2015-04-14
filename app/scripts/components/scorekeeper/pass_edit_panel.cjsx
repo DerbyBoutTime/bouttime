@@ -5,27 +5,27 @@ cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'PassEditPanel'
   toggleInjury: () ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_INJURY
       passId: @props.pass.id
   toggleNopass: () ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_NOPASS
       passId: @props.pass.id
   toggleCalloff: () ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_CALLOFF
       passId: @props.pass.id
   toggleLostLead: () ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_LOST_LEAD
       passId: @props.pass.id
   toggleLead: () ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_LEAD
       passId: @props.pass.id
   setPoints: (points) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_POINTS
       passId: @props.pass.id
       points: points

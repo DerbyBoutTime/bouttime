@@ -11,21 +11,21 @@ module.exports = React.createClass
     jam: React.PropTypes.object.isRequired
     setSelectorContextHandler: React.PropTypes.func.isRequired
   toggleNoPivot: () ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_NO_PIVOT
       jamId: @props.jam.id
   toggleStarPass: () ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_STAR_PASS
       jamId: @props.jam.id
   setSkaterPosition: (position, skaterId) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_SKATER_POSITION
       jamId: @props.jam.id
       position: position
       skaterId: skaterId
   cycleLineupStatus: (statusIndex, position) ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.CYCLE_LINEUP_STATUS
       jamId: @props.jam.id
       statusIndex: statusIndex
