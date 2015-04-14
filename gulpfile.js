@@ -119,8 +119,8 @@ gulp.task('extras', function() {
 // Build
 gulp.task('build', ['html', 'bundle', 'images', 'fonts', 'extras'], function() {
   gulp.src('dist/scripts/app.js')
-    .pipe($.uglify())
-    .pipe($.stripDebug())
+    //.pipe($.uglify())
+    //.pipe($.stripDebug())
     .pipe(gulp.dest('dist/scripts'));
 });
 

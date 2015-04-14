@@ -1,5 +1,5 @@
 constants = require './constants.coffee'
-module.exports = 
+module.exports =
   #Creates a pseudo unique Id
   uniqueId: (length=8) ->
     id = ""

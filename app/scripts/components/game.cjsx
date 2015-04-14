@@ -16,12 +16,20 @@ GameNotes = require './game_notes.cjsx'
 GameSetup = require './game_setup.cjsx'
 Login = require './login.cjsx'
 SkaterSelectorModal = require './shared/skater_selector_modal.cjsx'
+Clocks = require '../clock.coffee'
+GameState = require '../models/game_state.coffee'
+CopyGameStateMixin = require '../mixins/copy_game_state_mixin.cjsx'
+
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'Game'
+  mixins: [CopyGameStateMixin]
   componentDidMount: () ->
+    @state.gameState.clockManager.initialize()
+    GameState.addChangeListener @onChange
+    # @state.gameState.clockManager.addTickListener (clocks) =>
+    #   @setState(clocks)
     $dom = $(@getDOMNode())
-    @gameDOM = $(".game")
     $dom.on 'click', '.bad-status', null, (evt) ->
     $dom.on 'click', 'ul.nav li', null, (evt) =>
       @setState
@@ -32,12 +40,9 @@ module.exports = React.createClass
     $dom.on 'click', '#login', null, (evt) =>
       @setState
         tab: "login"
-  resetDeadmanTimer: () ->
-    clearTimeout(exports.connectionTimeout)
-    @gameDOM.addClass("connected")
-    exports.connectionTimeout = setInterval(() =>
-      @gameDOM.removeClass("connected")
-    , constants.CLOCK_REFRESH_RATE_IN_MS*2)
+  componentDidUnmount: () ->
+    @state.gameState.clockManager.destroy()
+    GameState.removeChangeListener @onChange
   getInitialState: () ->
     gameState = @props
     gameState: gameState
@@ -56,7 +61,7 @@ module.exports = React.createClass
     <div ref="game" className="game" data-tab={@state.tab}>
       <header>
         <div className="container-fluid">
-          <Titlebar {...this.state} />
+          <Titlebar {...@state} />
           <div className="logo">
             <div className="container">
               <a href="#">

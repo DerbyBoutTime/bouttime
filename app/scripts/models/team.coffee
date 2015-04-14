@@ -37,7 +37,7 @@ class Team extends Store
     @logo = options.logo
     @isTakingOfficialReview = options.isTakingOfficialReview || false
     @isTakingTimeout = options.isTakingTimeout || false
-    @hasOfficialReview = options.hasOfficialReview || false
+    @hasOfficialReview = options.hasOfficialReview || true
     @timeouts = options.timeouts || 3
     for skater in options.skaters || []
       skater.teamId = @id

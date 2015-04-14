@@ -1,7 +1,7 @@
 React = require 'react/addons'
 constants = require '../../constants.coffee'
 functions = require '../../functions.coffee'
-CountdownClock = require '../../clock.coffee'
+Clocks = require '../../clock.coffee'
 SkaterSelector = require '../shared/skater_selector.cjsx'
 cx = React.addons.classSet
 module.exports = React.createClass
@@ -10,7 +10,7 @@ module.exports = React.createClass
     @clockId = functions.uniqueId()
     h =
       penaltyCount: 1
-      clock: new CountdownClock
+      clock: new Clocks.CountdownClock
         time: constants.PENALTY_DURATION_IN_MS
         warningTime: constants.PENALTY_WARNING_IN_MS
         refreshRateInMs: constants.CLOCK_REFRESH_RATE_IN_MS

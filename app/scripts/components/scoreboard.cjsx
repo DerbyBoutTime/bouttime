@@ -157,11 +157,11 @@ module.exports = React.createClass
           </div>
           <div className="period-clock">
             <label className="visible-xs-block">Game</label>
-            <div className="clock period-clock">{@state.gameState.periodClock.display}</div>
+            <div className="clock period-clock">{@state.gameState.periodClock.display()}</div>
           </div>
           <div className="jam-clock">
             <label className="jam-clock-label">{@state.gameState.state}</label>
-            <div className="clock">{@state.gameState.jamClock.display}</div>
+            <div className="clock">{@state.gameState.jamClock.display()}</div>
           </div>
         </div>
         <div className="jam-points-wrapper">
