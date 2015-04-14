@@ -2,18 +2,12 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 React = require 'react/addons'
-CopyGameStateMixin = require '../mixins/copy_game_state_mixin.cjsx'
 Jam = require '../models/jam.coffee'
 cx = React.addons.classSet
 module.exports = React.createClass
-  mixins: [CopyGameStateMixin]
-  componentDidMount: () ->
-    Jam.addChangeListener @onChange
-  componentWillUnmount: () ->
-    Jam.removeChangeListener @onChange
   render: () ->
-    awayJam = @state.gameState.getCurrentJam(@state.gameState.away)
-    homeJam = @state.gameState.getCurrentJam(@state.gameState.home)
+    awayJam = @props.gameState.getCurrentJam(@props.gameState.away)
+    homeJam = @props.gameState.getCurrentJam(@props.gameState.home)
     homeJamPoints = awayJamPoints = 0
     if homeJam
       homeJamPoints = homeJam.getPoints()
@@ -21,98 +15,98 @@ module.exports = React.createClass
       awayJamPoints = awayJam.getPoints()
     adsCS = cx
       'ads': true
-      'hidden': $.inArray(@state.gameState.state, ["timeout"]) == -1
+      'hidden': $.inArray(@props.gameState.state, ["timeout"]) == -1
     flyinsCS = cx
       'fly-ins': true
-      'hidden': $.inArray(@state.gameState.state, ["timeout"]) == -1
+      'hidden': $.inArray(@props.gameState.state, ["timeout"]) == -1
     neutralTimeoutCS = cx
       'scoreboard-alert': true
       'generic-timeout': true
-      'hidden': !(@state.gameState.state == "timeout" && @state.gameState.timeout == null)
+      'hidden': !(@props.gameState.state == "timeout" && @props.gameState.timeout == null)
     officialTimeoutCS = cx
       'scoreboard-alert': true
       'official-timeout': true
-      'hidden': !(@state.gameState.state == "timeout" && @state.gameState.timeout == "official_timeout")
+      'hidden': !(@props.gameState.state == "timeout" && @props.gameState.timeout == "official_timeout")
     homeTeamTimeoutCS = cx
       'scoreboard-alert': true
       'home-team-timeout': true
-      'hidden': !(@state.gameState.state == "timeout" && @state.gameState.timeout == "home_team_timeout")
+      'hidden': !(@props.gameState.state == "timeout" && @props.gameState.timeout == "home_team_timeout")
     awayTeamTimeoutCS = cx
       'scoreboard-alert': true
       'away-team-timeout': true
-      'hidden': !(@state.gameState.state == "timeout" && @state.gameState.timeout == "away_team_timeout")
+      'hidden': !(@props.gameState.state == "timeout" && @props.gameState.timeout == "away_team_timeout")
     homeTeamOfficialReviewCS = cx
       'scoreboard-alert': true
       'home-team-official-review': true
-      'hidden': !(@state.gameState.state == "timeout" && @state.gameState.timeout == "home_team_official_review")
+      'hidden': !(@props.gameState.state == "timeout" && @props.gameState.timeout == "home_team_official_review")
     awayTeamOfficialReviewCS = cx
       'scoreboard-alert': true
       'away-team-official-review': true
-      'hidden': !(@state.gameState.state == "timeout" && @state.gameState.timeout == "away_team_official_review")
+      'hidden': !(@props.gameState.state == "timeout" && @props.gameState.timeout == "away_team_official_review")
     homeTeamUnofficialFinalCS = cx
       'scoreboard-alert': true
       'home-team-unofficial-final': true
-      'hidden': true #!(@state.gameState.state == "timeout" && @state.gameState.timeout == "unofficial_final")
+      'hidden': true #!(@props.gameState.state == "timeout" && @props.gameState.timeout == "unofficial_final")
     awayTeamUnofficialFinalCS = cx
       'scoreboard-alert': true
       'away-team-unofficial-final': true
-      'hidden': true #!(@state.gameState.state == "timeout" && @state.gameState.timeout == "unofficial_final")
+      'hidden': true #!(@props.gameState.state == "timeout" && @props.gameState.timeout == "unofficial_final")
     neutralUnofficialFinalCS = cx
       'scoreboard-alert': true
       'unofficial-final': true
-      'hidden': !(@state.gameState.state == "timeout" && @state.gameState.timeout == "unofficial_final")
+      'hidden': !(@props.gameState.state == "timeout" && @props.gameState.timeout == "unofficial_final")
     homeTeamOfficialFinalCS = cx
       'scoreboard-alert': true
       'home-team-final': true
-      'hidden': true #!(@state.gameState.state == "timeout" && @state.gameState.timeout == "official_final")
+      'hidden': true #!(@props.gameState.state == "timeout" && @props.gameState.timeout == "official_final")
     awayTeamOfficialFinalCS = cx
       'scoreboard-alert': true
       'away-team-final': true
-      'hidden': true ##!(@state.gameState.state == "timeout" && @state.gameState.timeout == "official_final")
+      'hidden': true ##!(@props.gameState.state == "timeout" && @props.gameState.timeout == "official_final")
     neutralOfficialFinalCS = cx
       'scoreboard-alert': true
       'official-final': true
-      'hidden': !(@state.gameState.state == "timeout" && @state.gameState.timeout == "official_final")
+      'hidden': !(@props.gameState.state == "timeout" && @props.gameState.timeout == "official_final")
     homeTeamOfficialReviewBarCS = cx
       'official-review': true
       'timeout-bar': true
-      'active': @state.gameState.home.isTakingOfficialReview
-      'inactive': @state.gameState.home.hasOfficialReview == false
+      'active': @props.gameState.home.isTakingOfficialReview
+      'inactive': @props.gameState.home.hasOfficialReview == false
     homeTeamTimeouts1CS = cx
       'timeout-bar': true
       'timeout': true
-      'active': @state.gameState.home.isTakingTimeout && @state.gameState.home.timeouts == 2
-      'inactive': @state.gameState.home.timeouts < 3
+      'active': @props.gameState.home.isTakingTimeout && @props.gameState.home.timeouts == 2
+      'inactive': @props.gameState.home.timeouts < 3
     homeTeamTimeouts2CS = cx
       'timeout-bar': true
       'timeout': true
-      'active': @state.gameState.home.isTakingTimeout && @state.gameState.home.timeouts == 1
-      'inactive': @state.gameState.home.timeouts < 2
+      'active': @props.gameState.home.isTakingTimeout && @props.gameState.home.timeouts == 1
+      'inactive': @props.gameState.home.timeouts < 2
     homeTeamTimeouts3CS = cx
       'timeout-bar': true
       'timeout': true
-      'active': @state.gameState.home.isTakingTimeout && @state.gameState.home.timeouts == 0
-      'inactive': @state.gameState.home.timeouts < 1
+      'active': @props.gameState.home.isTakingTimeout && @props.gameState.home.timeouts == 0
+      'inactive': @props.gameState.home.timeouts < 1
     awayTeamOfficialReviewBarCS = cx
       'official-review': true
       'timeout-bar': true
-      'active': @state.gameState.away.isTakingOfficialReview
-      'inactive': @state.gameState.away.hasOfficialReview == false
+      'active': @props.gameState.away.isTakingOfficialReview
+      'inactive': @props.gameState.away.hasOfficialReview == false
     awayTeamTimeouts1CS = cx
       'timeout-bar': true
       'timeout': true
-      'active': @state.gameState.away.isTakingTimeout && @state.gameState.away.timeouts == 2
-      'inactive': @state.gameState.away.timeouts < 3
+      'active': @props.gameState.away.isTakingTimeout && @props.gameState.away.timeouts == 2
+      'inactive': @props.gameState.away.timeouts < 3
     awayTeamTimeouts2CS = cx
       'timeout-bar': true
       'timeout': true
-      'active': @state.gameState.away.isTakingTimeout && @state.gameState.away.timeouts == 1
-      'inactive': @state.gameState.away.timeouts < 2
+      'active': @props.gameState.away.isTakingTimeout && @props.gameState.away.timeouts == 1
+      'inactive': @props.gameState.away.timeouts < 2
     awayTeamTimeouts3CS = cx
       'timeout-bar': true
       'timeout': true
-      'active': @state.gameState.away.isTakingTimeout && @state.gameState.away.timeouts == 0
-      'inactive': @state.gameState.away.timeouts < 1
+      'active': @props.gameState.away.isTakingTimeout && @props.gameState.away.timeouts == 0
+      'inactive': @props.gameState.away.timeouts < 1
     awayJammerLeadCS = cx
       'glyphicon': true
       'glyphicon-star': true
@@ -124,11 +118,11 @@ module.exports = React.createClass
     <div className="scoreboard" id="scoreboard">
       <section className="team home">
         <div className="logo">
-          <img src={@state.gameState.home.logo} />
+          <img src={@props.gameState.home.logo} />
         </div>
-        <div className="name">{@state.gameState.home.name}</div>
-        <div className="color-bar" style={@state.gameState.home.colorBarStyle}></div>
-        <div className="score">{@state.gameState.home.getPoints()}</div>
+        <div className="name">{@props.gameState.home.name}</div>
+        <div className="color-bar" style={@props.gameState.home.colorBarStyle}></div>
+        <div className="score">{@props.gameState.home.getPoints()}</div>
         <div className="jammer home-team-jammer">
           <div className="lead-status">
             <span className={homeJammerLeadCS}></span>
@@ -148,20 +142,20 @@ module.exports = React.createClass
             <div className="period">
               <label className="hidden-xs">Period</label>
               <label className="visible-xs-block">Per</label>
-              <div className="number period-number">{@state.gameState.periodNumber}</div>
+              <div className="number period-number">{@props.gameState.periodNumber}</div>
             </div>
             <div className="jam">
               <label>Jam</label>
-              <div className="number jam-number">{@state.gameState.jamNumber}</div>
+              <div className="number jam-number">{@props.gameState.jamNumber}</div>
             </div>
           </div>
           <div className="period-clock">
             <label className="visible-xs-block">Game</label>
-            <div className="clock period-clock">{@state.gameState.periodClock.display}</div>
+            <div className="clock period-clock">{@props.gameState.periodClock.display}</div>
           </div>
           <div className="jam-clock">
-            <label className="jam-clock-label">{@state.gameState.state}</label>
-            <div className="clock">{@state.gameState.jamClock.display}</div>
+            <label className="jam-clock-label">{@props.gameState.state}</label>
+            <div className="clock">{@props.gameState.jamClock.display}</div>
           </div>
         </div>
         <div className="jam-points-wrapper">
@@ -171,11 +165,11 @@ module.exports = React.createClass
       </section>
       <section className="team away">
         <div className="logo">
-          <img src={@state.gameState.away.logo} />
+          <img src={@props.gameState.away.logo} />
         </div>
-        <div className="name">{@state.gameState.away.name}</div>
-        <div className="color-bar" style={@state.gameState.away.colorBarStyle}></div>
-        <div className="score">{@state.gameState.away.getPoints()}</div>
+        <div className="name">{@props.gameState.away.name}</div>
+        <div className="color-bar" style={@props.gameState.away.colorBarStyle}></div>
+        <div className="score">{@props.gameState.away.getPoints()}</div>
         <div className="jammer away-team-jammer">
           <div className="lead-status">
             <span className={awayJammerLeadCS}></span>
