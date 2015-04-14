@@ -25,7 +25,7 @@ module.exports =
     TOGGLE_CALLOFF: null
     TOGGLE_LOST_LEAD: null
     TOGGLE_LEAD: null
-    TOGGLE_SET_POINTS: null
+    SET_POINTS: null
     REORDER_PASS: null
     SET_PASS_JAMMER: null
     SET_PENALTY: null
