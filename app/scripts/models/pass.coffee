@@ -1,8 +1,8 @@
-functions = require '../functions.coffee'
-AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
-{ActionTypes} = require '../constants.coffee'
-Store = require './store.coffee'
-Skater = require './skater.coffee'
+functions = require '../functions'
+AppDispatcher = require '../dispatcher/app_dispatcher'
+{ActionTypes} = require '../constants'
+Store = require './store'
+Skater = require './skater'
 class Pass extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
@@ -43,6 +43,10 @@ class Pass extends Store
         @emitChange()
   @findByJamId: (jamId) ->
     (pass for id, pass of @store when pass.jamId is jamId and pass.type is 'Pass')
+  @deserialize: (obj) ->
+    pass = new Pass(obj)
+    pass.id = obj.id
+    pass
   constructor: (options={}) ->
     super options
     @jamId = options.jamId

@@ -1,9 +1,9 @@
-functions = require '../functions.coffee'
-AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
-{ActionTypes} = require '../constants.coffee'
-Store = require './store.coffee'
-Jam = require './jam.coffee'
-Skater = require './skater.coffee'
+functions = require '../functions'
+AppDispatcher = require '../dispatcher/app_dispatcher'
+{ActionTypes} = require '../constants'
+Store = require './store'
+Jam = require './jam'
+Skater = require './skater'
 class Team extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
@@ -28,6 +28,12 @@ class Team extends Store
         team.setPenaltyBoxSkater(action.boxIndexOrPosition, action.skaterId)
         team.save()
         @emitChange()
+  @deserialize: (obj) ->
+    team = new Team(obj)
+    team.id = obj.id
+    team._skaters = (Skater.deserialize(skater) for skater in obj._skaters)
+    team._jams = (Jam.deserialize(jam) for jam in obj._jams)
+    team
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -38,17 +44,17 @@ class Team extends Store
     @isTakingTimeout = options.isTakingTimeout || false
     @hasOfficialReview = options.hasOfficialReview || true
     @timeouts = options.timeouts || 3
-    for skater in options.skaters || []
+    @_skaters = options.skaters || []
+    for skater in @_skaters
       skater.teamId = @id
-      skater.save()
-    for jam in (options.jams || [new Jam()])
+    @_jams = options.jams || [new Jam()]
+    for jam in @_jams
       jam.teamId = @id
-      jam.save()
     @penaltyBoxStates = options.penaltyBoxStates || []
   save: () ->
     super()
-    skater.save() for skater in @getSkaters()
-    jam.save() for jam in @getJams()
+    skater.save() for skater in @_skaters
+    jam.save() for jam in @_jams
   getJams: () ->
     Jam.findByTeamId(@id).sort (a, b) ->
       a.jamNumber - b.jamNumber
@@ -66,7 +72,8 @@ class Team extends Store
       for position in positionsInBox
         newJam[position] = lastJam[position]
         newJam.lineupStatuses[0][position] = 'sat_in_box'
-    newJam.save()
+    @_jams.push newJam
+    @save()
   toggleLeftEarly: (boxIndex) ->
     box = @penaltyBoxStates[boxIndex]
     if box?

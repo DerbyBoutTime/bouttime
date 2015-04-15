@@ -1,6 +1,6 @@
-Constants = require '../constants.coffee'
-Functions = require '../functions.coffee'
-AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
+Constants = require '../constants'
+Functions = require '../functions'
+AppDispatcher = require '../dispatcher/app_dispatcher'
 EventEmitter = require('events').EventEmitter
 ActionTypes = Constants.ActionTypes
 CHANGE_EVENT = 'JAM_CHANGE'
@@ -19,5 +19,6 @@ class Store
     @id = Functions.uniqueId()
     @type = @constructor.name
   save: (options={}) ->
+    console.log("Saving #{@constructor.name} #{@id}")
     @constructor.store[@id] = @
 module.exports = Store

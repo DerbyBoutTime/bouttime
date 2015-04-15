@@ -2,5 +2,6 @@ require 'jquery'
 require 'bootstrap'
 React = require 'react'
 Game = require './components/game.cjsx'
-demoData = require './demo_data.coffee'
-React.render <Game gameStateId=demoData.id />, document.getElementById('react')
+DemoData = require './demo_data.coffee'
+gameStateId = DemoData.init()
+React.render <Game gameStateId=gameStateId />, document.getElementById('react')

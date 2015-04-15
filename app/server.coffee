@@ -2,6 +2,7 @@ express = require('express')
 app = express();
 http = require('http').Server(app);
 io = require('socket.io')(http);
+require('./scripts/models/game_state')
 require('./scripts/dispatcher/app_dispatcher')
 app.use '/', express.static(__dirname)
 io.on 'connection', (socket) ->

@@ -1,5 +1,5 @@
-functions = require './functions.coffee'
-constants = require './constants.coffee'
+functions = require './functions'
+constants = require './constants'
 ticks = {}
 module.exports =
   ClockManager: class ClockManager

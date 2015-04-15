@@ -27,10 +27,12 @@ gulp.task('sass', function() {
 var bundler = watchify(browserify({
   entries: [sourceFile],
   debug: true,
+  verbose: true,
   insertGlobals: true,
   cache: {},
   packageCache: {},
-  fullPaths: true
+  fullPaths: true,
+  extensions: ['.coffee', '.cjsx']
 }));
 
 bundler.on('update', rebundle);

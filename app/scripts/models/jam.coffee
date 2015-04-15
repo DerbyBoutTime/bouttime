@@ -1,9 +1,9 @@
-Functions = require '../functions.coffee'
-AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
-{ActionTypes} = require '../constants.coffee'
-Store = require './store.coffee'
-Pass = require './pass.coffee'
-Skater = require './skater.coffee'
+Functions = require '../functions'
+AppDispatcher = require '../dispatcher/app_dispatcher'
+{ActionTypes} = require '../constants'
+Store = require './store'
+Pass = require './pass'
+Skater = require './skater'
 class Jam extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
@@ -47,6 +47,11 @@ class Jam extends Store
           jam.setSkaterPosition('jammer', action.skaterId)
   @findByTeamId: (teamId) ->
     (jam for id, jam of @store when jam.teamId is teamId and jam.type is 'Jam')
+  @deserialize: (obj) ->
+    jam = new Jam(obj)
+    jam.id = obj.id
+    jam._passes = (Pass.deserialize(pass) for pass in obj._passes)
+    jam
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
@@ -58,13 +63,13 @@ class Jam extends Store
     @blocker2Id = options.blocker2Id
     @blocker3Id = options.blocker3Id
     @jammerId = options.jammerId
-    for pass in options.passes || [new Pass(jamId: @id)]
+    @_passes = options.passes || [new Pass(jamId: @id)]
+    for pass in @_passes
       pass.jamId = @id
-      pass.save()
     @lineupStatuses = options.lineupStatuses || []
   save: () ->
     super()
-    pass.save() for pass in @getPasses()
+    pass.save() for pass in @_passes
   getTeam: () ->
     @constructor.find(@teamId)
   getPasses: () ->
@@ -108,7 +113,8 @@ class Jam extends Store
   createNextPass: () ->
     lastPass = @getLastPass()
     newPass = new Pass(passNumber: lastPass.passNumber + 1, jamId: @id)
-    newPass.save()
+    @_passes.push newPass
+    @save()
   reorderPass: (sourcePassIndex, targetPassIndex) ->
     list = @getPasses()
     list.splice(targetPassIndex, 0, list.splice(sourcePassIndex, 1)[0])

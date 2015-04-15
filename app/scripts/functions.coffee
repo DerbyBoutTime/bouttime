@@ -1,4 +1,4 @@
-constants = require './constants.coffee'
+constants = require './constants'
 module.exports =
   #Creates a pseudo unique Id
   uniqueId: (length=8) ->

@@ -1,10 +1,10 @@
-functions = require '../functions.coffee'
-AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
-Store = require './store.coffee'
-Clocks = require '../clock.coffee'
-Team = require './team.coffee'
-{ActionTypes} = require '../constants.coffee'
-constants = require '../constants.coffee'
+functions = require '../functions'
+AppDispatcher = require '../dispatcher/app_dispatcher'
+Store = require './store'
+Clocks = require '../clock'
+Team = require './team'
+{ActionTypes} = require '../constants'
+constants = require '../constants'
 class GameState extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     game = @find(action.gameId)
@@ -63,8 +63,18 @@ class GameState extends Store
         game.restoreHomeTeamOfficialReview()
       when ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
         game.restoreAwayTeamOfficialReview()
+      when ActionTypes.CREATE_NEW_GAME
+        game = GameState.deserialize(action.gameState)
+      else
+        return
     game.save()
     @emitChange()
+  @deserialize: (obj) ->
+    game = new GameState(obj)
+    game.id = obj.id
+    game.home = Team.deserialize(obj.home)
+    game.away = Team.deserialize(obj.away)
+    game
   constructor: (options={}) ->
     super options
     @debug = options.debug || false

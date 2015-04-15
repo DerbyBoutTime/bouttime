@@ -1,7 +1,7 @@
-functions = require '../functions.coffee'
-AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
-{ActionTypes} = require '../constants.coffee'
-Store = require './store.coffee'
+functions = require '../functions'
+AppDispatcher = require '../dispatcher/app_dispatcher'
+{ActionTypes} = require '../constants'
+Store = require './store'
 class Skater extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
@@ -22,6 +22,10 @@ class Skater extends Store
         @emitChange()
   @findByTeamId: (teamId) ->
     (skater for id, skater of @store when skater.teamId is teamId and skater.type is 'Skater')
+  @deserialize: (obj) ->
+    skater = new Skater(obj)
+    skater.id = obj.id
+    skater
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
