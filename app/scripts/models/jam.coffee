@@ -51,18 +51,23 @@ class Jam extends Store
     jam = new Jam(obj)
     jam.id = obj.id
     jam._passes = (Pass.deserialize(pass) for pass in obj._passes)
+    jam.pivot = Skater.deserialize(obj.pivot) if obj.pivot
+    jam.blocker1 = Skater.deserialize(obj.blocker1) if obj.blocker1
+    jam.blocker2 = Skater.deserialize(obj.blocker2) if obj.blocker2
+    jam.blocker3 = Skater.deserialize(obj.blocker3) if obj.blocker3
+    jam.jammer = Skater.deserialize(obj.jammer) if obj.jammer
     jam
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
     @jamNumber = options.jamNumber || 1
     @noPivot = options.noPivot || false
-    @starPass = options.noPivot || false
-    @pivotId = options.pivotId
-    @blocker1Id = options.blocker1Id
-    @blocker2Id = options.blocker2Id
-    @blocker3Id = options.blocker3Id
-    @jammerId = options.jammerId
+    @starPass = options.starPass || false
+    @pivot = options.pivotId
+    @blocker1 = options.blocker1
+    @blocker2 = options.blocker2
+    @blocker3 = options.blocker3
+    @jammer = options.jammer
     @_passes = options.passes || [new Pass(jamId: @id)]
     for pass in @_passes
       pass.jamId = @id
@@ -87,8 +92,10 @@ class Jam extends Store
   getPoints: () ->
     @getPasses().reduce ((sum, pass) -> sum += pass.points), 0
   toggleNoPivot: () ->
+    console.log "toggling no pivot #{@id}"
     @noPivot = not @noPivot
   toggleStarPass: () ->
+    console.log "toggling star pass #{@id}"
     @starPass = not @starPass
   setSkaterPosition: (position, skaterId) ->
     @[position] = Skater.find(skaterId)

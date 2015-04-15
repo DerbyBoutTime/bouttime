@@ -65,9 +65,9 @@ class GameState extends Store
         game.restoreAwayTeamOfficialReview()
       when ActionTypes.CREATE_NEW_GAME
         game = GameState.deserialize(action.gameState)
-      else
-        return
-    game.save()
+      when ActionTypes.SYNC_GAMES
+        GameState.deserialize(obj).save() for obj in action.games
+    game.save() if game?
     @emitChange()
   @deserialize: (obj) ->
     game = new GameState(obj)

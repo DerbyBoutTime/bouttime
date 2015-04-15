@@ -6,6 +6,8 @@ class AppDispatcher
     @socket = IO('http://localhost:3000')
     @socket.on 'app dispatcher', (payload) =>
       @dispatch(payload)
+    @socket.on 'sync games', (payload) =>
+      console.log "received sync games"
   register: (callback) ->
     @dispatcher.register(callback)
   unregister: (id) ->

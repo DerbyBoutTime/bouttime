@@ -9,6 +9,8 @@ class Store
   @emitter: new EventEmitter()
   @find: (id) ->
     @store[id]
+  @all: () ->
+    (obj for id, obj of @store when obj.type is @name)
   @emitChange: () ->
     @emitter.emit(CHANGE_EVENT)
   @addChangeListener: (callback) ->

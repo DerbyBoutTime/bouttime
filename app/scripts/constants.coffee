@@ -64,3 +64,4 @@ module.exports =
     TOGGLE_PENALTY_SERVED: null
     SET_PENALTY_BOX_SKATER: null
     CREATE_NEW_GAME: null
+    SYNC_GAMES: null
