@@ -8,7 +8,7 @@ require('./scripts/dispatcher/app_dispatcher')
 app.use '/', express.static(__dirname)
 io.on 'connection', (socket) ->
   console.log('a user connected')
-  socket.emit 'app dispatcher', 
+  socket.emit 'app dispatcher',
     type: ActionTypes.SYNC_GAMES
     games: GameState.all()
   socket.on 'disconnect', () ->

@@ -18,34 +18,25 @@ module.exports = React.createClass
         #Set has official review to true
         #Increment official reviews retained
         if $parent.hasClass "home"
-          AppDispatcher.dispatchAndEmit
-            type: ActionTypes.RESTORE_HOME_TEAM_OFFICIAL_REVIEW
+          @restoreHomeTeamOfficialReview()
         else
-          AppDispatcher.dispatchAndEmit
-            type: ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
+          @restoreAwayTeamOfficialReview()
       else
         #Set has official review to false
         if $parent.hasClass "home"
-          AppDispatcher.dispatchAndEmit
-            type: ActionTypes.REMOVE_HOME_TEAM_OFFICIAL_REVIEW
+          @removeHomeTeamOfficialReview()
         else
-          AppDispatcher.dispatchAndEmit
-            type: ActionTypes.REMOVE_AWAY_TEAM_OFFICIAL_REVIEW
+          @removeAwayTeamOfficialReview()
     else #Its a normal timeout not an official review
       timeoutsRemaining = 0
       if $target.hasClass "inactive"
         timeoutsRemaining = timeoutsRemaining + 1
       timeoutsRemaining = timeoutsRemaining + $target.nextAll(".bar").length
-      console.log "Setting remaining timeouts to #{timeoutsRemaining}"
       #Set remaining timeouts
       if $parent.hasClass "home"
-        AppDispatcher.dispatchAndEmit
-          type: ActionTypes.SET_HOME_TEAM_TIMEOUTS
-          timoutsRemaining: timeoutsRemaining
+        @setHomeTeamTimeouts(timeoutsRemaining)
       else
-        AppDispatcher.dispatchAndEmit
-          type: ActionTypes.SET_AWAY_TEAM_TIMEOUTS
-          timeoutsRemaining: timeoutsRemaining
+        @setAwayTeamTimeouts(timeoutsRemaining)
     return null
   openModal: () ->
     $modal = $(@refs.modal.getDOMNode())
@@ -149,30 +140,36 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_JAM_ENDED_BY_CALLOFF
       gameId: @props.gameState.id
-  setJamClock: () ->
+  setJamClock: (value) ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_JAM_CLOCK
       gameId: @props.gameState.id
+      value: value
   setPeriodClock: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_PERIOD_CLOCK
       gameId: @props.gameState.id
-  setHomeTeamTimeouts: () ->
+      value: value
+  setHomeTeamTimeouts: (value) ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_HOME_TEAM_TIMEOUTS
       gameId: @props.gameState.id
-  setAwayTeamTimeouts: () ->
+      value: value
+  setAwayTeamTimeouts: (value) ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_AWAY_TEAM_TIMEOUTS
       gameId: @props.gameState.id
-  setPeriodNumber: () ->
+      value: value
+  setPeriodNumber: (value) ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_PERIOD_NUMBER
       gameId: @props.gameState.id
-  setJamNumber: () ->
+      value: value
+  setJamNumber: (value) ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_JAM_NUMBER
       gameId: @props.gameState.id
+      value: value
   removeHomeTeamOfficialReview: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.REMOVE_HOME_TEAM_OFFICIAL_REVIEW
