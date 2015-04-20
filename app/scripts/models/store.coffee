@@ -21,6 +21,6 @@ class Store
     @id = Functions.uniqueId()
     @type = @constructor.name
   save: (options={}) ->
-    console.log("Saving #{@constructor.name} #{@id}")
+    #console.log("Saving #{@constructor.name} #{@id}")
     @constructor.store[@id] = @
 module.exports = Store

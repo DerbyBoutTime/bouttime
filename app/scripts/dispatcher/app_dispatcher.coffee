@@ -1,13 +1,36 @@
 {Dispatcher} = require 'flux'
+constants = require '../constants'
 IO = require 'socket.io-client'
 class AppDispatcher
   constructor: () ->
     @dispatcher = new Dispatcher()
+    @timing = {}
+    @delays = []
+    @delay
     @socket = IO('http://localhost:3000')
     @socket.on 'app dispatcher', (payload) =>
       @dispatch(payload)
     @socket.on 'sync games', (payload) =>
       console.log "received sync games"
+    @socket.on 'connected', () =>
+      console.log "connected"
+      @syncClocks()
+  syncClocks: () ->
+    console.log "Syncing Clocks"
+    @timing.A = new Date().getTime()
+    @socket.emit 'sync clocks', {}
+  clocksSynced: (args) =>
+    @timing.X = args.timeX
+    @timing.Y = args.timeY
+    @timing.B = new Date().getTime()
+    @delays.push(@timing.B - @timing.A - (@timing.Y - @timing.X))
+    @delay = @delays.reduce((b,c)->
+      return b+c
+    )/@delays.length
+    console.log "Delay is #{@delay}ms"
+    setTimeout(() =>
+      @syncClocks()
+    ,constants.CLOCK_SYNC_SAMPLE_DURATION_IN_MS)
   register: (callback) ->
     @dispatcher.register(callback)
   unregister: (id) ->
