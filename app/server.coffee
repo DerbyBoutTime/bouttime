@@ -25,10 +25,8 @@ module.exports = start: (port=3000) ->
       AppDispatcher.dispatch(action)
       socket.broadcast.emit 'app dispatcher', action
     socket.on 'sync clocks', () ->
-      console.log "syncing clocks 1"
       timeX = new Date().getTime()
       setTimeout( ()->
-        console.log "syncing clocks 2"
         timeY = new Date().getTime()
         socket.emit 'clocks synced',
           timeX: timeX
