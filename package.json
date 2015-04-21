@@ -1,8 +1,12 @@
 {
-  "name": "bouttime",
+  "name": "wftda-bouttime",
   "version": "0.0.1",
   "description": "WFTDA BoutTime App",
+  "preferGlobal": true,
   "main": "dist/server.js",
+  "bin": {
+    "bouttime-server": "bin/bouttime-server"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,9 +20,11 @@
   },
   "homepage": "https://github.com/wftda/bouttime",
   "dependencies": {
+    "commander": "^2.8.0",
     "express": "^4.12.3",
     "flux": "^2.0.1",
     "keymirror": "^0.1.1",
+    "node-localstorage": "^0.5.0",
     "react": "^0.13.1",
     "socket.io": "^1.3.5",
     "socket.io-client": "^1.3.5"
@@ -37,6 +43,7 @@
     "gulp-coffee": "^2.3.1",
     "gulp-jshint": "^1.10.0",
     "gulp-load-plugins": "^0.10.0",
+    "gulp-nodemon": "^2.0.2",
     "gulp-sass": "^1.3.3",
     "gulp-size": "^1.2.1",
     "gulp-sourcemaps": "^1.5.1",

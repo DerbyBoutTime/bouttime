@@ -1,15 +1,21 @@
 Setup Guide for Contributors
 ===
-0. Install the unix startup script or follow steps or the steps below
+Install the unix startup script or follow the steps below
 
 ```
 $ source setup.sh
 ```
 
 ```
-$ npm install -g bower gulp
+$ npm install -g bower gulp nodemon
 $ npm install
 $ bower install
 ```
 
-1. Start the server via gulp and navigate to
+Link from your globally installed node modules
+
+```
+npm link
+```
+
+Start the server via `bouttime-server` or `nodemon bin/bouttime-server` to listen for changes during development and navigate to `localhost:3000`
