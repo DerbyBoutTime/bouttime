@@ -1,11 +1,11 @@
-.DS_Store
 *.rbc
-*.swp
 capybara-*.html
 **.orig
 rerun.txt
 pickle-email-*.html
-node_modules/
-/dist/
-/scratch/
 .sass-cache/
+setup.sh
+/app/
+/scratch/
+bower.json
+gulpfile.js

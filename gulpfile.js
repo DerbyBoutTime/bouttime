@@ -24,7 +24,7 @@ gulp.task('sass', function() {
     .pipe($.size());
 });
 
-var bundler = watchify(browserify({
+var bundler = browserify({
   entries: [sourceFile],
   debug: true,
   verbose: true,
@@ -33,13 +33,21 @@ var bundler = watchify(browserify({
   packageCache: {},
   fullPaths: true,
   extensions: ['.coffee', '.cjsx']
-}));
+});
 
 bundler.on('update', rebundle);
 bundler.on('log', $.util.log);
 
 function rebundle() {
   return bundler.bundle()
+    // log errors if they happen
+    .on('error', $.util.log.bind($.util, 'Browserify Error'))
+    .pipe(source(destFileName))
+    .pipe(gulp.dest(destFolder));
+}
+
+function watchBundle() {
+  return watchify(bundler).bundle()
     // log errors if they happen
     .on('error', $.util.log.bind($.util, 'Browserify Error'))
     .pipe(source(destFileName))
@@ -115,13 +123,19 @@ gulp.task('extras', function() {
     .pipe($.size());
 });
 
-// Build
-gulp.task('build', ['html', 'bundle', 'images', 'fonts', 'extras'], function() {
+// Uglify
+gulp.task('uglify', ['scripts'], function() {
   gulp.src('dist/scripts/app.js')
-    //.pipe($.uglify())
-    //.pipe($.stripDebug())
+    .pipe($.uglify({mangle:false}))
+    .pipe($.stripDebug())
     .pipe(gulp.dest('dist/scripts'));
 });
+
+// Build
+gulp.task('build', ['html', 'bundle', 'images', 'fonts', 'extras']);
+
+// Package
+gulp.task('package', ['clean', 'build', 'uglify'])
 
 // Watch
 gulp.task('watch', ['build'], function() {
@@ -136,14 +150,8 @@ gulp.task('watch', ['build'], function() {
   gulp.watch('app/fonts/**/*', ['fonts']);
 
   gulp.watch(['app/*.txt', 'app/*.ico'], ['extras']);
-});
 
-// Web Server
-gulp.task('webserver', ['build', 'watch'], function() {
-  gulp.src('dist')
-    .pipe($.webserver({
-      livereload: true
-    }));
+  watchBundle()
 });
 
 // Default task

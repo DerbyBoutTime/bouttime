@@ -2,7 +2,7 @@
 clear
 
 echo "installing bower and gulp globally"
-npm install -g bower gulp
+npm install -g bower gulp nodemon
 
 echo "installing NPM dependencies"
 npm install

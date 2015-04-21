@@ -1,4 +1,5 @@
 {Dispatcher} = require 'flux'
+config = require '../config'
 constants = require '../constants'
 IO = require 'socket.io-client'
 class AppDispatcher
@@ -7,7 +8,8 @@ class AppDispatcher
     @timing = {}
     @delays = []
     @delay
-    @socket = IO('http://localhost:3000')
+    @socket = IO(config.get('socketUrl'))
+    console.log "Socket opened on #{@socket.io.uri}"
     @socket.on 'app dispatcher', (payload) =>
       @dispatch(payload)
     @socket.on 'sync games', (payload) =>
