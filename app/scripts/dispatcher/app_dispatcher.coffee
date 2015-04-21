@@ -15,14 +15,15 @@ class AppDispatcher
     @socket.on 'connected', () =>
       console.log "connected"
       @syncClocks()
+    @socket.on "clocks synced", (args) =>
+      @clocksSynced(args)
   syncClocks: () ->
-    console.log "Syncing Clocks"
     @timing.A = new Date().getTime()
     @socket.emit 'sync clocks', {}
   clocksSynced: (args) =>
+    @timing.B = new Date().getTime()
     @timing.X = args.timeX
     @timing.Y = args.timeY
-    @timing.B = new Date().getTime()
     @delays.push(@timing.B - @timing.A - (@timing.Y - @timing.X))
     @delay = @delays.reduce((b,c)->
       return b+c
