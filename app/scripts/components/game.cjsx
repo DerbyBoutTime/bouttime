@@ -31,6 +31,7 @@ module.exports = React.createClass
       @setState
         tab: evt.currentTarget.dataset.tabName
     $dom.on 'click', '#setup', null, (evt) =>
+      @refs.gameSetup.reloadState()
       @setState
         tab: "game_setup"
     $dom.on 'click', '#login', null, (evt) =>
@@ -63,6 +64,8 @@ module.exports = React.createClass
         team: team
         jam: jam
         selectHandler: selectHandler
+  defaultTab: () ->
+    @setState tab: 'jam_timer'
   render: () ->
     <div ref="game" className="game" data-tab={@state.tab}>
       <header>
@@ -76,7 +79,7 @@ module.exports = React.createClass
               </a>
             </div>
           </div>
-          <Navbar tab={@state.tab}/>
+          <Navbar tab={@state.tab} backHandler={@props.backHandler}/>
         </div>
       </header>
       <div className="container">
@@ -89,7 +92,7 @@ module.exports = React.createClass
         <PenaltyWhiteboard {...@state} />
         <AnnouncersFeed gameState={@state.gameState} />
         <GameNotes gameState={@state.gameState} />
-        <GameSetup gameState={@state.gameState} />
+        <GameSetup ref="gameSetup" gameState={@state.gameState} onSave={@defaultTab} />
         <Login />
       </div>
       <SkaterSelectorModal {...@state.skaterSelectorContext} />

@@ -21,12 +21,20 @@ module.exports = React.createClass
       updateSkater: (skater, newSkater) =>
         skater = $.extend(skater, newSkater)
         @setState(@state)
-      createGame: () =>
+      saveGame: () =>
         AppDispatcher.dispatchAndEmit
-          type: ActionTypes.CREATE_NEW_GAME
+          type: ActionTypes.SAVE_GAME
           gameState: @state.gameState
+        @props.onSave()
   getInitialState: () ->
+    @dirty = false
     gameState: $.extend(true, {}, @props.gameState)
+  reloadState: () ->
+    @dirty = true
+  componentWillReceiveProps: (nextProps) ->
+    if @dirty
+      @dirty = false
+      @setState gameState: $.extend(true, {}, nextProps.gameState)
   render: () ->
     <div className="game-setup">
       <GameForm gameState={@state.gameState} actions={@actions}/>

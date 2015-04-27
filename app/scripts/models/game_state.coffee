@@ -63,7 +63,7 @@ class GameState extends Store
         game.restoreHomeTeamOfficialReview()
       when ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
         game.restoreAwayTeamOfficialReview()
-      when ActionTypes.CREATE_NEW_GAME
+      when ActionTypes.SAVE_GAME
         game = GameState.deserialize(action.gameState)
       when ActionTypes.SYNC_GAMES
         GameState.deserialize(obj).save() for obj in action.games
@@ -77,6 +77,10 @@ class GameState extends Store
     game
   constructor: (options={}) ->
     super options
+    @name = options.name
+    @venue = options.venue
+    @date = options.date
+    @time = options.time
     @debug = options.debug || false
     @state = options.state || 'pregame'
     @jamNumber = options.jamNumber || 0
@@ -119,6 +123,8 @@ class GameState extends Store
     super()
     @home.save()
     @away.save()
+  getDisplayName: () ->
+    "#{moment(@date, 'MM/DD/YYYY').format('YYYY-MM-DD')} #{@home.name} vs #{@away.name}"
   getCurrentJam: (team) ->
     (jam for jam in team.getJams() when jam.jamNumber is @jamNumber)[0]
   startClock: ()->

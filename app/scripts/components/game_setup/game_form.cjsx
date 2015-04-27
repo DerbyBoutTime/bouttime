@@ -7,8 +7,12 @@ module.exports = React.createClass
     $dom = $(@getDOMNode())
     $dom.find('.datepicker').datetimepicker
       format: 'MM/DD/YYYY'
+    .on 'dp.change', (evt) =>
+      @props.actions.updateGame date: moment(evt.date).format('MM/DD/YYYY')
     $dom.find('.timepicker').datetimepicker
       format: 'LT'
+    .on 'dp.change', (evt) =>
+      @props.actions.updateGame time: moment(evt.date).format('LT')
   handleNameChange: (evt) ->
     @props.actions.updateGame name: evt.target.value
   handleVenueChange: (evt) ->
@@ -19,7 +23,7 @@ module.exports = React.createClass
     @props.actions.updateGame time: evt.target.value
   handleSubmit: (evt) ->
     evt.preventDefault()
-    @props.actions.createGame()
+    @props.actions.saveGame()
   render: () ->
     <form className='game-form' onSubmit={@handleSubmit}>
       <h2>Game Setup</h2>
@@ -52,5 +56,5 @@ module.exports = React.createClass
       </div>
       <TeamFields teamType='home' teamState={@props.gameState.home} actions={@props.actions}/>
       <TeamFields teamType='away' teamState={@props.gameState.away} actions={@props.actions}/>
-      <button type="submit" className="btn btn-primary">Create Game</button>
+      <button type="submit" className="btn btn-primary">Save Game</button>
     </form>

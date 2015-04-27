@@ -38,7 +38,7 @@ class Team extends Store
     super options
     @name = options.name
     @initials = options.initials
-    @colorBarStyle = options.colorBarStyle
+    @colorBarStyle = options.colorBarStyle || { backgroundColor: '', color: '' }
     @logo = options.logo
     @isTakingOfficialReview = options.isTakingOfficialReview || false
     @isTakingTimeout = options.isTakingTimeout || false

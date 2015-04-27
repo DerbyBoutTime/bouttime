@@ -120,7 +120,7 @@ module.exports =
       number: "999 Lives"
       penalties: []}
     ]
-    gameState = new GameState
+    new GameState
       home: new Team
         name: "Atlanta Rollergirls"
         initials: "ARG"
@@ -137,7 +137,3 @@ module.exports =
           color: "#ffffff"
         logo: "/images/team_logos/Gotham.png"
         skaters: (new Skater(skater) for skater in awaySkaters)
-    AppDispatcher.dispatchAndEmit
-      type: ActionTypes.CREATE_NEW_GAME
-      gameState: gameState
-    gameState.id
