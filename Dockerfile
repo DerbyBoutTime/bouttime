@@ -8,10 +8,9 @@ RUN apt-get install -y curl
 RUN curl -sL https://deb.nodesource.com/setup | sudo bash -
 RUN apt-get -y install nodejs
 ADD package.json /tmp/package.json
-RUN cd /tmp && npm install
-RUN cd ..
 ADD bower.json /tmp/bower.json
-RUN cd /tmp && bower install
+RUN cd /tmp && npm install -g bower && npm install
+RUN bower install
 RUN cd ..
 ADD . /app
 WORKDIR /app
