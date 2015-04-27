@@ -21,7 +21,7 @@ class Skater extends Store
         skater.save()
         @emitChange()
   @findByTeamId: (teamId) ->
-    (skater for id, skater of @store when skater.teamId is teamId and skater.type is 'Skater')
+    (skater for id, skater of @store when skater.teamId is teamId and skater.type is 'Skater' and not skater._destroy)
   @deserialize: (obj) ->
     skater = new Skater(obj)
     skater.id = obj.id

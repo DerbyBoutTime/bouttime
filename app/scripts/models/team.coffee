@@ -60,6 +60,11 @@ class Team extends Store
       a.jamNumber - b.jamNumber
   getSkaters: () ->
     Skater.findByTeamId(@id)
+  addSkater: (skater) ->
+    @_skaters.push skater
+  removeSkater: (skater) ->
+    @_skaters = (s for s in @_skaters when s.id isnt skater.id)
+    skater.destroy()
   getPoints: () ->
     @getJams().reduce ((sum, jam) -> sum += jam.getPoints()), 0
   createNextJam: () ->
@@ -73,7 +78,6 @@ class Team extends Store
         newJam[position] = lastJam[position]
         newJam.lineupStatuses[0][position] = 'sat_in_box'
     @_jams.push newJam
-    @save()
   toggleLeftEarly: (boxIndex) ->
     box = @penaltyBoxStates[boxIndex]
     if box?

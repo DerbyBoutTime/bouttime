@@ -18,7 +18,13 @@ gulp.task('styles', ['sass'  ]);
 
 gulp.task('sass', function() {
   return gulp.src(['app/styles/**/*.scss', 'app/styles/**/*.css'])
-    .pipe($.sass({errLogToConsole: true, includePaths: ['app/bower_components/bootstrap-sass/assets/stylesheets']}))
+    .pipe($.sass({
+      errLogToConsole: true,
+      includePaths: [
+        'app/bower_components/bootstrap-sass/assets/stylesheets',
+        'app/bower_components/jquery-minicolors'
+        ]
+    }))
     .pipe($.autoprefixer('last 1 version'))
     .pipe(gulp.dest('dist/styles'))
     .pipe($.size());
@@ -102,7 +108,11 @@ gulp.task('bundle', ['styles', 'scripts', 'bower'], function() {
 
 // Bower helper
 gulp.task('bower', function() {
-  gulp.src('app/bower_components/**/*.js', {
+  gulp.src([
+    'app/bower_components/**/*.js',
+    'app/bower_components/**/*.map',
+    'app/bower_components/**/*.css'
+  ], {
       base: 'app/bower_components'
     })
     .pipe(gulp.dest('dist/bower_components/'));

@@ -61,16 +61,7 @@
   },
   "browserify": {
     "transform": [
-      "browserify-shim",
       "coffee-reactify"
     ]
-  },
-  "browser": {
-    "jquery": "./app/bower_components/jquery/dist/jquery.js",
-    "bootstrap": "./app/bower_components/bootstrap-sass/assets/javascripts/bootstrap.js"
-  },
-  "browserify-shim": {
-    "jquery": "$",
-    "bootstrap": "bootstrap"
   }
 }

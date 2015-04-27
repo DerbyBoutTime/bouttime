@@ -3,8 +3,10 @@
 $icon-font-path: "/fonts/";
 $font-family-sans-serif: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
 $gray-base: $near-black;
+$input-color: $near-black;
 @import "base/variables";
 @import "bootstrap";
+@import "/bower_components/jquery-minicolors/jquery.minicolors.css";
 @import "mixins/border-arrow";
 @import "mixins/vertical-align";
 @import "mixins/gutters";

@@ -20,7 +20,13 @@ class Store
   constructor: (options={}) ->
     @id = Functions.uniqueId()
     @type = @constructor.name
+    @_destroy = false
   save: (options={}) ->
     #console.log("Saving #{@constructor.name} #{@id}")
-    @constructor.store[@id] = @
+    if not @_destroy
+      @constructor.store[@id] = this
+    else
+      delete @constructor.store[@id]
+  destroy: () ->
+    @_destroy = true
 module.exports = Store
