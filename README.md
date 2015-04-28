@@ -8,7 +8,7 @@ $ brew install node
 Installation
 ===
 ```
-$ npm install -g wftda-bouttime
+$ npm install -g @wftda/bouttime
 ```
 
 Running a Server
