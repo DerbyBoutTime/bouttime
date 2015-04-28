@@ -51,6 +51,7 @@ Publishing
 Node private module is at https://www.npmjs.com/package/@wftda/bouttime
 
 ```
+$ gulp package
 $ git tag x.y.z #where x.y.z is the major,minor,version
 $ git push origin master --tags
 $ npm publish --tag x.y.z --access restricted
