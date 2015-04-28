@@ -1,29 +1,21 @@
-## bouttime
-> 'Bout time we got this game started.
-### Dependencies
-* postgresql ~> 9.3
-* ruby = 2.1.5
-#### homebrew
-```bash
-./bin/setup/homebrew.sh
-./bin/setup/rbenv.sh # if you do not manage your own rubbies
+Setup Guide for Contributors
+===
+Install the unix startup script or follow the steps below
+
 ```
-#### laptop
-If you do not manage your own environment already then you can take a look at [laptop](https://github.com/wiserstudios/laptop).
-> Laptop is a script to set up a Mac OS X or Linux laptop for Rails development.
-#### Environment Variables
-### Setup
-```bash
-bundle install
+$ source setup.sh
 ```
-### Deployment
-#### Environment Variables
-* DATABASE_URL
-* SECRET_KEY_BASE
-#### Dependencies
-* capistrano
-#### Make It So!
-```bash
-cap <environment> deploy
+
 ```
-Where environment can be staging or production.
+$ npm install -g bower gulp nodemon
+$ npm install
+$ bower install
+```
+
+Link from your globally installed node modules
+
+```
+npm link
+```
+
+Start the server via `bouttime-server` or `nodemon bin/bouttime-server` to listen for changes during development and navigate to `localhost:3000`

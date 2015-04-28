@@ -1,11 +1,6 @@
 app:
   build: .
-  links:
-    - db
-  environment:
-    PGHOST: db
-    PGUSER: postgres
-db:
-  image: postgres:9.3
   ports:
-    - "5432"
+    - "3000:3000"
+  volumes:
+    - .:/opt/app

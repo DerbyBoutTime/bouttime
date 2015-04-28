@@ -1,0 +1,11 @@
+*.rbc
+capybara-*.html
+**.orig
+rerun.txt
+pickle-email-*.html
+.sass-cache/
+setup.sh
+/app/
+/scratch/
+bower.json
+gulpfile.js

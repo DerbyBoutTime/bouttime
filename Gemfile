@@ -54,3 +54,8 @@ gem "minitest-stub_any_instance", group: [:test]
 gem "capistrano-rails", group: [:development]
 # annotations
 gem "annotate", group: [:development]
+#bootstrap-datetimepicker
+gem 'momentjs-rails', '>= 2.8.1'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.0.0'
+#colorpicker
+gem 'jquery-minicolors-rails'
