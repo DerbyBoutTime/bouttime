@@ -48,7 +48,7 @@ Start the server via `bouttime-server` or `nodemon bin/bouttime-server` to liste
 
 Publishing
 ===
-Node private module is at https://www.npmjs.com/package/wftda-bouttime
+Node private module is at https://www.npmjs.com/package/@wftda/bouttime
 
 ```
 $ git tag x.y.z #where x.y.z is the major,minor,version
