@@ -45,3 +45,13 @@ $ gulp watch
 will automatically recompile assets when source files are changed
 
 Start the server via `bouttime-server` or `nodemon bin/bouttime-server` to listen for changes during development and navigate to `localhost:3000`
+
+Publishing
+===
+Node private module is at https://www.npmjs.com/package/wftda-bouttime
+
+```
+$ git tag x.y.z #where x.y.z is the major,minor,version
+$ git push origin master --tags
+$ npm publish --tag x.y.z --access restricted
+```
