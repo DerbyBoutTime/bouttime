@@ -31,6 +31,13 @@ module.exports = React.createClass
     @props.actions.updateTeam @props.teamState,
       colorBarStyle:
         color: evt.target.value
+  handleLogoChange: (evt) ->
+    file = evt.target.files[0]
+    reader = new FileReader()
+    reader.onload = (fEvt) =>
+      @props.actions.updateTeam @props.teamState,
+        logo: fEvt.target.result
+    reader.readAsDataURL file
   render: () ->
     <div className='team-fields col-xs-12 col-sm-6'>
       <h3>{@props.teamType} Team</h3>
@@ -49,6 +56,11 @@ module.exports = React.createClass
       <div className='form-group'>
         <label htmlFor="#{@props.teamType}-team-text-color">Text Color</label>
         <input type="text" className="form-control text-color colorpicker" id="#{@props.teamType}-team-text-color" value={@props.teamState.colorBarStyle.color} onChange={@handleTextColorChange} />
+      </div>
+      <div className='form-group'>
+        <label htmlFor="#{@props.teamType}-team-logo">Logo</label>
+        <input type="file" accept="image/*" className="form-control" id="#{@props.teamType}-team-logo" onChange={@handleLogoChange} />
+        <img className="logo" src={@props.teamState.logo}/>
       </div>
       <RosterFields {...@props} />
     </div>
