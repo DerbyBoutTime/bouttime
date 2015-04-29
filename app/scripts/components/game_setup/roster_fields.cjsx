@@ -13,14 +13,22 @@ module.exports = React.createClass
       <h3>Roster</h3>
       {@props.teamState._skaters.map (skater, skaterIndex) ->
         <div key={skater.id} className="skater-fields">
-          <button type="button" className="close" onClick={@props.actions.removeSkater.bind(null, @props.teamState, skater)}><span className="glyphicon glyphicon-remove"></span></button>
-          <div className='form-group'>
-            <label htmlFor="#{@props.teamType}-skater-name[#{skaterIndex}]">Skater Name</label>
-            <input type="text" className="form-control" id="#{@props.teamType}-skater-name[#{skaterIndex}]" value={skater.name} onChange={@handleNameChange.bind(this, skater)}/>
+          <div className='row'>
+            <button type="button" className="close" onClick={@props.actions.removeSkater.bind(null, @props.teamState, skater)}><span className="glyphicon glyphicon-remove"></span></button>
           </div>
-          <div className='form-group'>
-            <label htmlFor="#{@props.teamType}-skater-number[#{skaterIndex}]">Skater Number</label>
-            <input type="text" className="form-control" id="#{@props.teamType}-skater-number[#{skaterIndex}]" value={skater.number} onChange={@handleNumberChange.bind(this, skater)}/>
+          <div className='row'>
+            <div className='col-xs-6'>
+              <div className='form-group'>
+                <label htmlFor="#{@props.teamType}-skater-name[#{skaterIndex}]">Skater Name</label>
+                <input type="text" className="form-control" id="#{@props.teamType}-skater-name[#{skaterIndex}]" value={skater.name} onChange={@handleNameChange.bind(this, skater)}/>
+              </div>
+            </div>
+            <div className='col-xs-6'>
+              <div className='form-group'>
+                <label htmlFor="#{@props.teamType}-skater-number[#{skaterIndex}]">Skater Number</label>
+                <input type="text" className="form-control" id="#{@props.teamType}-skater-number[#{skaterIndex}]" value={skater.number} onChange={@handleNumberChange.bind(this, skater)}/>
+              </div>
+            </div>
           </div>
         </div>
       , this}

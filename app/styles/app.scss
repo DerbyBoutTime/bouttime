@@ -19,6 +19,7 @@ $input-color: $near-black;
 @import "scoreboard";
 @import "scorekeeper";
 @import "penalty-box-timer";
+@import "game-setup";
 //Some additional resets
 *:focus {
   outline: 0 !important;

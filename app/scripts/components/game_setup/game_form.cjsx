@@ -54,7 +54,9 @@ module.exports = React.createClass
           </span>
         </div>
       </div>
-      <TeamFields teamType='home' teamState={@props.gameState.home} actions={@props.actions}/>
-      <TeamFields teamType='away' teamState={@props.gameState.away} actions={@props.actions}/>
+      <div className='row'>
+        <TeamFields teamType='home' teamState={@props.gameState.home} actions={@props.actions}/>
+        <TeamFields teamType='away' teamState={@props.gameState.away} actions={@props.actions}/>
+      </div>
       <button type="submit" className="btn btn-primary">Save Game</button>
     </form>

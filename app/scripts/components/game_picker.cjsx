@@ -28,6 +28,7 @@ module.exports = React.createClass
   render: () ->
     hideIfSelected = cx 
       'hidden': @state.selectedGame?
+      'container': true
     <div className='game-picker'>
       <div className={hideIfSelected}>
         <div>

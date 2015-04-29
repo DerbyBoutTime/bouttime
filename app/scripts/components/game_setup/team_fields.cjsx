@@ -32,7 +32,7 @@ module.exports = React.createClass
       colorBarStyle:
         color: evt.target.value
   render: () ->
-    <div className='team-fields'>
+    <div className='team-fields col-xs-12 col-sm-6'>
       <h3>{@props.teamType} Team</h3>
       <div className='form-group'>
         <label htmlFor="#{@props.teamType}-team-name">Name</label>
