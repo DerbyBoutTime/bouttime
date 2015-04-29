@@ -21,6 +21,8 @@ module.exports = React.createClass
     @props.actions.updateGame date: evt.target.value
   handleTimeChange: (evt) ->
     @props.actions.updateGame time: evt.target.value
+  handleOfficialChange: (idx, evt) ->
+    @props.actions.updateOfficial idx, evt.target.value
   handleSubmit: (evt) ->
     evt.preventDefault()
     @props.actions.saveGame()
@@ -54,6 +56,17 @@ module.exports = React.createClass
           </span>
         </div>
       </div>
+      <h3>Officials</h3>
+      {@props.gameState.officials.map (official, idx) ->
+        <div key={idx}>
+          <button type="button" className="close" onClick={@props.actions.removeOfficial.bind(null, @props.gameState, idx)}><span className="glyphicon glyphicon-remove"></span></button>
+          <div className='form-group'>
+            <label htmlFor="official[#{idx}]">Name</label>
+            <input type="text" className="form-control" id="official[#{idx}]" value={official} onChange={@handleOfficialChange.bind(this, idx)}/>
+          </div>
+        </div>
+      , this}
+      <button type="button" className="bt-btn" onClick={@props.actions.addOfficial.bind(null, @props.gameState)}><span className="glyphicon glyphicon-plus"></span></button>
       <div className='row'>
         <TeamFields teamType='home' teamState={@props.gameState.home} actions={@props.actions}/>
         <TeamFields teamType='away' teamState={@props.gameState.away} actions={@props.actions}/>

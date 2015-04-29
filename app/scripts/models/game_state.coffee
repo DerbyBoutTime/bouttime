@@ -81,6 +81,7 @@ class GameState extends Store
     @venue = options.venue
     @date = options.date
     @time = options.time
+    @officials = options.officials || []
     @debug = options.debug || false
     @state = options.state || 'pregame'
     @jamNumber = options.jamNumber || 0

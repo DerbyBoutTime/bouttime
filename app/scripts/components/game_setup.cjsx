@@ -9,11 +9,20 @@ module.exports = React.createClass
     @actions =
       updateGame: (gameState) =>
         @setState(gameState: $.extend(@state.gameState, gameState))
+      updateOfficial: (idx, official) =>
+        @state.gameState.officials[idx] = official
+        @setState @state
+      addOfficial: (gameState) =>
+        gameState.officials.push ''
+        @setState @state
+      removeOfficial: (gameState, officialIndex) =>
+        gameState.officials.splice officialIndex, 1
+        @setState @state
       updateTeam: (team, newTeam) =>
         team = $.extend(team, newTeam)
         @setState(@state)
       addSkater: (team) =>
-        team.addSkater  new Skater()
+        team.addSkater new Skater()
         @setState(@state)
       removeSkater: (team, skater) =>
         team.removeSkater(skater)
