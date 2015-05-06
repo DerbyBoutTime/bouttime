@@ -1,5 +1,5 @@
 {
-  "name": "@wftda/bouttime",
+  "name": "wftda-bouttime",
   "version": "0.0.1",
   "description": "WFTDA BoutTime App",
   "preferGlobal": true,
