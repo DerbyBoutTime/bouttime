@@ -99,6 +99,8 @@ class GameState extends Store
       refreshRateInMs: constants.CLOCK_REFRESH_RATE_IN_MS
       selector: ".period-clock"
     @jamClock = @clockManager.getClock("jamClock")
+    @jamClock.emitter.on "clockExpiration", (evt) =>
+      @handleClockExpiration(evt)
     @periodClock = @clockManager.getClock("periodClock")
     @home = options.home || new Team()
     @away = options.away || new Team()
@@ -121,6 +123,9 @@ class GameState extends Store
       {code: "I", name: "Illegal Procedure"},
       {code: "G", name: "Gross Misconduct"}
     ]
+  handleClockExpiration: (evt) ->
+    if @state == "jam"
+      @stopJam()
   save: () ->
     super()
     @home.save()
@@ -226,9 +231,9 @@ class GameState extends Store
   setJamEndedByTime: () =>
   setJamEndedByCalloff: () =>
   setJamClock: (val) =>
-    @jamClock.time = val*1000
+    @jamClock.reset(val*1000)
   setPeriodClock: (val) =>
-    @periodClock.time = val*1000
+    @periodClock.reset(val*1000)
   setHomeTeamTimeouts: (val) =>
     @home.timeouts = parseInt(val)
   setAwayTeamTimeouts: (val) =>

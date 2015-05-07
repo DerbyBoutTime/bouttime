@@ -1,5 +1,6 @@
 functions = require './functions'
 constants = require './constants'
+EventEmitter = require('events').EventEmitter
 ticks = {}
 module.exports =
   ClockManager: class ClockManager
@@ -52,9 +53,11 @@ module.exports =
       @alias = options.alias
       @warningTime = options.warningTime ? null
       @refreshRateInMS = options.refreshRateInMs ? constants.CLOCK_REFRESH_RATE_IN_MS
-      @selector = options.selector ? null
+      @emitter = new EventEmitter()
       @isSynced = options.isSynced ? false
       @isRunning = false
+      @warningIssued = false
+      @expirationIssued = false
     start: () =>
       @stop() #Clear to prevent lost interval function
       @isRunning = true
@@ -71,18 +74,24 @@ module.exports =
     reset: (time = @initialTime) ->
       @time = time
       @lastTick =  Date.now()
+      @warningIssued = false
     display: () =>
       functions.toClock(@time, false)
     buildEventOptions: () =>
       id: @id
       time: @time
       display: @display()
+    issueExpiration: () =>
+      @expirationIssued = true
+      if @emitter
+        @emitter.emit("clockExpiration", @buildEventOptions())
     issueWarning: () =>
-      if @selector
-        $(@selector).trigger "countdownWarning", @buildEventOptions()
+      @warningIssued = true
+      if @emitter
+        @emitter.emit("clockWarning", @buildEventOptions())
     issueTick: () =>
-      if @selector
-        $(@selector).trigger "tick", @buildEventOptions()
+      if @emitter
+        @emitter.emit("clockTick", @buildEventOptions())
     serialize: () =>
       {
         id: @id
@@ -93,8 +102,10 @@ module.exports =
     tick: (delta) ->
       @time = @time - delta
       @time = 0 if @time < 0
-      if @warningTime && @time <= @warningTime
+      if !@warningIssued && @warningTime && @time <= @warningTime
         @issueWarning()
+      if !@expirationIssued && @time == 0
+        @issueExpiration()
       @issueTick()
     _tick: () =>
       tick = Date.now()
@@ -102,6 +113,8 @@ module.exports =
       @lastTick = tick
       @time = @time - delta
       @time = 0 if @time < 0
-      if @warningTime && @time <= @warningTime
+      if !@warningIssued && @warningTime && @time <= @warningTime
         @issueWarning()
+      if !@expirationIssued && @time == 0
+        @issueExpiration()
       @issueTick()
