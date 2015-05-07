@@ -140,7 +140,7 @@ class GameState extends Store
     @state = "jam"
     @home.jamPoints = 0
     @away.jamPoints = 0
-    if @periodClock.time == 0
+    if @periodNumber == 0 || @periodClock.time == 0
       @periodNumber = @periodNumber + 1
       @periodClock.reset(constants.PERIOD_DURATION_IN_MS)
     @jamNumber = @jamNumber + 1
