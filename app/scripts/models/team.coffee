@@ -40,6 +40,7 @@ class Team extends Store
     @initials = options.initials
     @colorBarStyle = options.colorBarStyle || { backgroundColor: '', color: '' }
     @logo = options.logo
+    @officialReviewsRetained = options.officialReviewsRetained || 0
     @isTakingOfficialReview = options.isTakingOfficialReview || false
     @isTakingTimeout = options.isTakingTimeout || false
     @hasOfficialReview = options.hasOfficialReview || true

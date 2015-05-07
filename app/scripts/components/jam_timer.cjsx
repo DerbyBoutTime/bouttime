@@ -79,7 +79,6 @@ module.exports = React.createClass
       type: ActionTypes.STOP_CLOCK
       gameId: @props.gameState.id
   startJam: () ->
-    console.log(this)
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_JAM
       gameId: @props.gameState.id
@@ -144,7 +143,7 @@ module.exports = React.createClass
       type: ActionTypes.SET_JAM_CLOCK
       gameId: @props.gameState.id
       value: value
-  setPeriodClock: () ->
+  setPeriodClock: (value) ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_PERIOD_CLOCK
       gameId: @props.gameState.id

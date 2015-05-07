@@ -44,17 +44,17 @@ class GameState extends Store
       when ActionTypes.SET_JAM_ENDED_BY_CALLOFF
         game.setJamEndedByCalloff()
       when ActionTypes.SET_JAM_CLOCK
-        game.setJamClock()
+        game.setJamClock(action.value)
       when ActionTypes.SET_PERIOD_CLOCK
-        game.setPeriodClock()
+        game.setPeriodClock(action.value)
       when ActionTypes.SET_HOME_TEAM_TIMEOUTS
-        game.setHomeTeamTimeouts()
+        game.setHomeTeamTimeouts(action.value)
       when ActionTypes.SET_AWAY_TEAM_TIMEOUTS
-        game.setAwayTeamTimeouts()
+        game.setAwayTeamTimeouts(action.value)
       when ActionTypes.SET_PERIOD_NUMBER
-        game.setPeriodNumber()
+        game.setPeriodNumber(action.value)
       when ActionTypes.SET_JAM_NUMBER
-        game.setJamNumber()
+        game.setJamNumber(action.value)
       when ActionTypes.REMOVE_HOME_TEAM_OFFICIAL_REVIEW
         game.removeHomeTeamOfficialReview()
       when ActionTypes.REMOVE_AWAY_TEAM_OFFICIAL_REVIEW
@@ -86,6 +86,7 @@ class GameState extends Store
     @state = options.state || 'pregame'
     @jamNumber = options.jamNumber || 0
     @periodNumber = options.periodNumber || 0
+    console.log(options)
     @clockManager = new Clocks.ClockManager()
     @clockManager.addClock "jamClock",
       time: options.JamClockTime ? constants.JAM_DURATION_IN_MS
