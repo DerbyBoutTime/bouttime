@@ -8,7 +8,7 @@ $ brew install node
 Installation
 ===
 ```
-$ npm install -g @wftda/bouttime
+$ npm install -g wftda-bouttime
 ```
 
 Running a Server
@@ -48,7 +48,7 @@ Start the server via `bouttime-server` or `nodemon bin/bouttime-server` to liste
 
 Publishing
 ===
-Node private module is at https://www.npmjs.com/package/@wftda/bouttime
+Publish package to the private repository
 
 ```
 $ gulp package
