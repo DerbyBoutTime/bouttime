@@ -130,8 +130,8 @@ module.exports =
         logo: "/images/team_logos/Atlanta.png"
         skaters: (new Skater(skater) for skater in homeSkaters)
       away: new Team
-        name: "Gotham Rollergirls"
-        initials: "GRG"
+        name: "Gotham"
+        initials: "GGRD"
         colorBarStyle:
           backgroundColor: "#f50031"
           color: "#ffffff"
