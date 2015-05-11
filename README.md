@@ -52,7 +52,7 @@ Publish package to the private repository
 
 ```
 $ gulp package
-$ git tag x.y.z #where x.y.z is the major,minor,version
+$ git tag x.y.z #where alpha.x.y.z is the major,minor,version
 $ git push origin master --tags
-$ npm publish --tag x.y.z --access restricted
+$ npm publish --tag alpha.x.y.z
 ```
