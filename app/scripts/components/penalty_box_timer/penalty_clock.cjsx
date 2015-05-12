@@ -1,7 +1,7 @@
 React = require 'react/addons'
 constants = require '../../constants.coffee'
 functions = require '../../functions.coffee'
-Clocks = require '../../clock.coffee'
+{Clock} = require '../../clock.coffee'
 SkaterSelector = require '../shared/skater_selector.cjsx'
 cx = React.addons.classSet
 module.exports = React.createClass
@@ -10,11 +10,9 @@ module.exports = React.createClass
     @clockId = functions.uniqueId()
     h =
       penaltyCount: 1
-      clock: new Clocks.CountdownClock
+      clock: new Clock
         time: constants.PENALTY_DURATION_IN_MS
         warningTime: constants.PENALTY_WARNING_IN_MS
-        refreshRateInMs: constants.CLOCK_REFRESH_RATE_IN_MS
-        selector: "##{@clockId}"
   componentDidMount: () ->
     $("##{@clockId}").on 'tick', (evt) =>
       @forceUpdate()
@@ -31,7 +29,7 @@ module.exports = React.createClass
   clockHandler: () ->
     if @state.clock.time is 0
       @state.clock.reset()
-    else if @state.clock.isRunning()
+    else if @state.clock.isRunning
       @state.clock.stop()
     else
       @state.clock.start()

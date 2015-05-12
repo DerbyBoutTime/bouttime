@@ -20,7 +20,7 @@ module.exports =
     addClock: (alias, options = {}) =>
       options.isSynced = true
       options.alias = alias
-      clock = new CountdownClock(options)
+      clock = new Clock(options)
       @clocks[alias] = clock
     removeClock: (alias) ->
       delete @clocks[alias]
@@ -43,21 +43,14 @@ module.exports =
       func(args) for func in @listeners
     serialize: ()->
       clock.serialize() for alias, clock of @clocks
-  CountdownClock: class CountdownClock
+  Clock: class Clock
     constructor: (options = {}) ->
       @id = functions.uniqueId()
       ticks[@id] = null
-      @lastTick =  null
-      @time = options.time ? 0
-      @initialTime = @time
       @alias = options.alias
-      @warningTime = options.warningTime ? null
-      @refreshRateInMS = options.refreshRateInMs ? constants.CLOCK_REFRESH_RATE_IN_MS
       @emitter = new EventEmitter()
       @isSynced = options.isSynced ? false
-      @isRunning = false
-      @warningIssued = false
-      @expirationIssued = false
+      @reset (options)
     start: () =>
       @stop() #Clear to prevent lost interval function
       @isRunning = true
@@ -71,10 +64,16 @@ module.exports =
       unless @isSynced
         clearInterval ticks[@id]
         ticks[@id] = null
-    reset: (time = @initialTime) ->
-      @time = time
-      @lastTick =  Date.now()
+    reset: (options={}) ->
+      @isRunning = false
       @warningIssued = false
+      @expirationIssued = false
+      @lastTick =  Date.now()
+      @tickUp = options.tickUp ? false
+      @refreshRateInMS = options.refreshRateInMs ? constants.CLOCK_REFRESH_RATE_IN_MS
+      @time = options.time ? 0
+      @initialTime = @time
+      @warningTime = options.warningTime ? null
     display: () =>
       functions.toClock(@time, false)
     buildEventOptions: () =>
@@ -100,7 +99,7 @@ module.exports =
         time: @time
       }
     tick: (delta) ->
-      @time = @time - delta
+      @time = if @tickUp then @time + delta else @time - delta
       @time = 0 if @time < 0
       if !@warningIssued && @warningTime && @time <= @warningTime
         @issueWarning()
@@ -111,10 +110,4 @@ module.exports =
       tick = Date.now()
       delta = tick - @lastTick
       @lastTick = tick
-      @time = @time - delta
-      @time = 0 if @time < 0
-      if !@warningIssued && @warningTime && @time <= @warningTime
-        @issueWarning()
-      if !@expirationIssued && @time == 0
-        @issueExpiration()
-      @issueTick()
+      @tick(delta)
