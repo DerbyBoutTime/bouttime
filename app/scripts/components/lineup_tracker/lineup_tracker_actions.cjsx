@@ -1,13 +1,14 @@
 React = require 'react/addons'
 AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../../constants.coffee'
+functions = require '../../functions.coffee'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'LineupTrackerActions'
   propTypes:
     team: React.PropTypes.object.isRequired
   createNextJam: () ->
-    AppDispatcher.dispatchAndEmit
+    AppDispatcher.dispatch
       type: ActionTypes.CREATE_NEXT_JAM
       teamId: @props.team.id
   render: () ->

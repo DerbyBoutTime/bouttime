@@ -45,7 +45,6 @@ class Pass extends Store
     (pass for id, pass of @store when pass.jamId is jamId and pass.type is 'Pass')
   @deserialize: (obj) ->
     pass = new Pass(obj)
-    pass.id = obj.id
     pass
   constructor: (options={}) ->
     super options

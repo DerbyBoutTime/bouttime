@@ -1,6 +1,7 @@
 React = require 'react/addons'
 AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../../constants.coffee'
+functions = require '../../functions.coffee'
 JamItem = require './jam_item.cjsx'
 JamDetails = require './jam_details.cjsx'
 Jam = require '../../models/jam.coffee'
@@ -16,7 +17,7 @@ module.exports = React.createClass
     @setState(jamSelected: null)
   handleJamSelection: (jamIndex, newJam) ->
     if newJam
-      AppDispatcher.dispatchAndEmit
+      AppDispatcher.dispatch
         type: ActionTypes.CREATE_NEXT_JAM
         teamId: @props.team.id
     @setState(jamSelected: jamIndex)

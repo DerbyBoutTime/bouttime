@@ -12,7 +12,6 @@ class Team extends Store
         team.createNextJam()
         team.save()
         @emitChange()
-    switch action.type
       when ActionTypes.TOGGLE_LEFT_EARLY
         team = @find(action.teamId)
         team.toggleLeftEarly(action.boxIndex)
@@ -30,7 +29,6 @@ class Team extends Store
         @emitChange()
   @deserialize: (obj) ->
     team = new Team(obj)
-    team.id = obj.id
     team._skaters = (Skater.deserialize(skater) for skater in obj._skaters)
     team._jams = (Jam.deserialize(jam) for jam in obj._jams)
     team
@@ -79,6 +77,10 @@ class Team extends Store
         newJam[position] = lastJam[position]
         newJam.lineupStatuses[0][position] = 'sat_in_box'
     @_jams.push newJam
+    AppDispatcher.emit
+      type: ActionTypes.SAVE_JAM
+      jam: newJam
+    newJam
   toggleLeftEarly: (boxIndex) ->
     box = @penaltyBoxStates[boxIndex]
     if box?

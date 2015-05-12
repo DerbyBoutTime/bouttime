@@ -18,7 +18,7 @@ class Store
   @removeChangeListener: (callback) ->
     @emitter.removeListener(CHANGE_EVENT, callback)
   constructor: (options={}) ->
-    @id = Functions.uniqueId()
+    @id = options.id || Functions.uniqueId()
     @type = @constructor.name
     @_destroy = false
   save: (options={}) ->

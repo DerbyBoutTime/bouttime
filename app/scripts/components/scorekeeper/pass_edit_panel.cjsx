@@ -1,6 +1,7 @@
 React = require 'react/addons'
 AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../../constants.coffee'
+functions = require '../../functions.coffee'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'PassEditPanel'
@@ -28,6 +29,7 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_POINTS
       passId: @props.pass.id
+      newPassId: functions.uniqueId()
       points: points
     $("##{@props.editPassId}").collapse('hide')
   render: () ->

@@ -31,7 +31,7 @@ class Jam extends Store
         AppDispatcher.waitFor([Pass.dispatchToken])
         pass = @find(action.passId)
         jam = pass.getJam()
-        jam.createNextPass() if pass.id is jam.getLastPass().id
+        jam.createNextPass(action.newPassId) if pass.id is jam.getLastPass().id
         pass.save()
         @emitChange()
       when ActionTypes.REORDER_PASS
@@ -45,11 +45,14 @@ class Jam extends Store
         jam = pass.getJam()
         if not jam.jammer?
           jam.setSkaterPosition('jammer', action.skaterId)
+      when ActionTypes.SAVE_JAM
+        jam = Jam.deserialize(action.jam)
+        jam.save()
+        @emitChange()
   @findByTeamId: (teamId) ->
     (jam for id, jam of @store when jam.teamId is teamId and jam.type is 'Jam')
   @deserialize: (obj) ->
     jam = new Jam(obj)
-    jam.id = obj.id
     jam._passes = (Pass.deserialize(pass) for pass in obj._passes)
     jam.pivot = Skater.deserialize(obj.pivot) if obj.pivot
     jam.blocker1 = Skater.deserialize(obj.blocker1) if obj.blocker1
@@ -117,9 +120,10 @@ class Jam extends Store
       @lineupStatuses[statusIndex][position] = 'clear'
     currentStatus = @lineupStatuses[statusIndex][position]
     @lineupStatuses[statusIndex][position] = @statusTransition(currentStatus)
-  createNextPass: () ->
+  createNextPass: (passId) ->
+    console.log ("Creating new pass with id #{passId}")
     lastPass = @getLastPass()
-    newPass = new Pass(passNumber: lastPass.passNumber + 1, jamId: @id)
+    newPass = new Pass(id: passId, passNumber: lastPass.passNumber + 1, jamId: @id)
     @_passes.push newPass
     @save()
   reorderPass: (sourcePassIndex, targetPassIndex) ->

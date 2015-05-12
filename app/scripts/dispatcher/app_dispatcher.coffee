@@ -46,7 +46,9 @@ class AppDispatcher
     @dispatcher.dispatch(payload)
   isDispatching: () ->
     @dispatcher.isDispatching()
+  emit: (payload) ->
+    @socket.emit('app dispatcher', payload)
   dispatchAndEmit: (payload) ->
     @dispatch(payload)
-    @socket.emit('app dispatcher', payload)
+    @emit(payload)
 module.exports = new AppDispatcher()
