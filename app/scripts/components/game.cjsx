@@ -18,8 +18,15 @@ SkaterSelectorModal = require './shared/skater_selector_modal.cjsx'
 Clocks = require '../clock.coffee'
 GameState = require '../models/game_state.coffee'
 cx = React.addons.classSet
+Perf = React.addons.Perf
 module.exports = React.createClass
   displayName: 'Game'
+  componentWillUpdate: () ->
+    Perf.start()
+  componentDidUpdate: () ->
+    Perf.stop()
+    measurements = Perf.getLastMeasurements()
+    Perf.printInclusive(measurements)
   componentDidMount: () ->
     @state.gameState.clockManager.initialize()
     GameState.addChangeListener @onChange
