@@ -3,7 +3,6 @@ AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
 constants = require '../constants.coffee'
 {ActionTypes} = require '../constants.coffee'
 functions = require '../functions.coffee'
-CountdownClock = require '../clock.coffee'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'JamTimer'
