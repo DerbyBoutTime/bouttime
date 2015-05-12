@@ -34,9 +34,6 @@ module.exports =
       @lastTick = tick
       for alias, clock of @clocks
         clock.tick(delta) if clock.isRunning
-        clock.time = 0 if clock.time < 0
-        if clock.warningTime && clock.time <= clock.warningTime
-          clock.issueWarning()
       @issueTick()
     issueTick: () ->
       args = @serialize()
@@ -65,10 +62,9 @@ module.exports =
         clearInterval ticks[@id]
         ticks[@id] = null
     reset: (options={}) ->
-      @isRunning = false
+      @stop()
       @warningIssued = false
       @expirationIssued = false
-      @lastTick =  Date.now()
       @tickUp = options.tickUp ? false
       @refreshRateInMS = options.refreshRateInMs ? constants.CLOCK_REFRESH_RATE_IN_MS
       @time = options.time ? 0
@@ -99,6 +95,11 @@ module.exports =
         time: @time
       }
     tick: (delta) ->
+      # Synchronize with master tick
+      if @lastTick
+        delta = (Date.now() - @lastTick)
+        @lastTick = null
+      # Adjust time
       @time = if @tickUp then @time + delta else @time - delta
       @time = 0 if @time < 0
       if !@warningIssued && @warningTime && @time <= @warningTime
