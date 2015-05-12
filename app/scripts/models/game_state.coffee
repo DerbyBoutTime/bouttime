@@ -14,6 +14,8 @@ HALFTIME_CLOCK_SETTINGS =
 JAM_CLOCK_SETTINGS =
   time: constants.JAM_DURATION_IN_MS
   warningTime: constants.JAM_WARNING_IN_MS
+LINEUP_CLOCK_SETTINGS =
+  time: constants.LINEUP_DURATION_IN_MS
 TIMEOUT_CLOCK_SETTINGS = 
   time: 0
   tickUp: true
