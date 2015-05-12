@@ -31,9 +31,11 @@ module.exports = React.createClass
       @setState
         tab: evt.currentTarget.dataset.tabName
     $dom.on 'click', '#setup', null, (evt) =>
-      @refs.gameSetup.reloadState()
       @setState
         tab: "game_setup"
+      setTimeout () =>
+        @refs.gameSetup.reloadState()
+      , 1000
     $dom.on 'click', '#login', null, (evt) =>
       @setState
         tab: "login"
@@ -67,6 +69,29 @@ module.exports = React.createClass
   defaultTab: () ->
     @setState tab: 'jam_timer'
   render: () ->
+    tab = switch @state.tab
+      when "jam_timer"
+        <JamTimer {...@state} />
+      when "lineup_tracker"
+        <LineupTracker gameState={@state.gameState} setSelectorContext={@setSelectorContext} />
+      when "scorekeeper"
+        <Scorekeeper gameState={@state.gameState} setSelectorContext={@setSelectorContext} />
+      when "penalty_tracker"
+        <PenaltyTracker gameState={@state.gameState} />
+      when "penalty_box_timer"
+        <PenaltyBoxTimer gameState={@state.gameState} setSelectorContext={@setSelectorContext}/>
+      when "scoreboard"
+        <Scoreboard gameState={@state.gameState} />
+      when "penalty_whiteboard"
+        <PenaltyWhiteboard {...@state} />
+      when "announcers_feed"
+        <AnnouncersFeed gameState={@state.gameState} />
+      when "game_notes"
+        <GameNotes gameState={@state.gameState} />
+      when "game_setup"
+        <GameSetup ref="gameSetup" gameState={@state.gameState} onSave={@defaultTab} />
+      when "login"
+        <Login />
     <div ref="game" className="game" data-tab={@state.tab}>
       <header>
         <div className="container-fluid">
@@ -83,17 +108,7 @@ module.exports = React.createClass
         </div>
       </header>
       <div className="container">
-        <JamTimer {...@state} />
-        <LineupTracker gameState={@state.gameState} setSelectorContext={@setSelectorContext} />
-        <Scorekeeper gameState={@state.gameState} setSelectorContext={@setSelectorContext} />
-        <PenaltyTracker gameState={@state.gameState} />
-        <PenaltyBoxTimer gameState={@state.gameState} setSelectorContext={@setSelectorContext}/>
-        <Scoreboard gameState={@state.gameState} />
-        <PenaltyWhiteboard {...@state} />
-        <AnnouncersFeed gameState={@state.gameState} />
-        <GameNotes gameState={@state.gameState} />
-        <GameSetup ref="gameSetup" gameState={@state.gameState} onSave={@defaultTab} />
-        <Login />
+        {tab}
       </div>
       <SkaterSelectorModal {...@state.skaterSelectorContext} />
     </div>
