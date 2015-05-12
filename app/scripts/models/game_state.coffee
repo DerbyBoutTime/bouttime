@@ -253,7 +253,7 @@ class GameState extends Store
     @_clearTimeouts()
     @away.officialReviewsRetained = @away.officialReviewsRetained + 1
   _inTimeout: ()->
-      @state == "team_timeout" || @state == "official_timeout"
+      @state == "timeout"
   _clearAlerts: () =>
     @_clearTimeouts()
     @inUnofficialFinal = false
