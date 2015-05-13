@@ -9,6 +9,9 @@ module.exports = start: (port=3000) ->
   http = require('http').Server(app);
   io = require('socket.io')(http);
   constants = require('./scripts/constants')
+  Store = require('./scripts/models/store')
+  MemoryStorage = require('./scripts/memory_storage')
+  Store.store = new MemoryStorage()
   GameState = require('./scripts/models/game_state')
   AppDispatcher = require('./scripts/dispatcher/app_dispatcher')
   {ActionTypes} = require './scripts/constants'
