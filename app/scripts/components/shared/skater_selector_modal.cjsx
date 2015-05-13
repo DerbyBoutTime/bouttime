@@ -23,7 +23,7 @@ module.exports = React.createClass
       'selector-injury' : @isInjured(skater)
       'bt-btn skater-selector-dialog-btn': true
   render: () ->
-    <div className="modal fade" id="skater-selector-modal">
+    <div className="modal" id="skater-selector-modal">
       <div className="modal-dialog skater-selector-dialog">
         <div className="modal-content">
           <div className="modal-header">
