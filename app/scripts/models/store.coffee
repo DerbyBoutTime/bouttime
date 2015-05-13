@@ -24,7 +24,7 @@ class Store
         matches.push(new this(obj)) if predicate(obj)
     matches
   @all: () ->
-    (obj for id, obj of @store when obj.type is @name)
+    @findBy()
   @emitChange: () ->
     @emitter.emit(CHANGE_EVENT)
   @addChangeListener: (callback) ->
