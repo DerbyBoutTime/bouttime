@@ -33,9 +33,6 @@ module.exports = React.createClass
       initials: React.PropTypes.string
   getInitialState: () ->
     modalHandler: () ->
-  setInitialState: () ->
-    periodClock:  @props.periodClock
-    jamClock:     @props.jamClock
   shouldComponentUpdate: (nprops, nstate) ->
     true
   componentDidMount: () ->

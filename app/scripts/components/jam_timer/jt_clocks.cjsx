@@ -1,6 +1,8 @@
 React = require 'react/addons'
+PureRenderMixin = React.addons.PureRenderMixin
 module.exports = React.createClass
   displayName: 'JTClocks'
+  mixins: [PureRenderMixin]
   getInitialState: () ->
     periodClock: @props.periodClock
     jamClock: @props.jamClock
