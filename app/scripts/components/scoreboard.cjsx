@@ -6,6 +6,7 @@ Jam = require '../models/jam.coffee'
 ScoreboardClocks = require './scoreboard/scoreboard_clocks.cjsx'
 cx = React.addons.classSet
 module.exports = React.createClass
+  displayName: 'Scoreboard'
   render: () ->
     awayJam = @props.gameState.getCurrentJam(@props.gameState.away)
     homeJam = @props.gameState.getCurrentJam(@props.gameState.home)

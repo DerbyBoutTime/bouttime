@@ -100,6 +100,7 @@ class GameState extends Store
     @periodClock = @clockManager.getClock("periodClock")
     @home = new Team(options.home)
     @away = new Team(options.away)
+    @timeout = options.timeout ? null
     @penalties = [
       {code: "A", name: "High Block"},
       {code: "N", name: "Insubordination"},
