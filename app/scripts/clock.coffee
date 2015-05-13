@@ -4,7 +4,12 @@ EventEmitter = require('events').EventEmitter
 ticks = {}
 module.exports =
   ClockManager: class ClockManager
+    instance = null
     constructor: (options = {}) ->
+      if instance
+        return instance
+      else
+        instance = this
       @clocks = {}
       @lastTick =  null
       @listeners = []
@@ -26,6 +31,8 @@ module.exports =
       delete @clocks[alias]
     getClock: (alias) ->
       @clocks[alias]
+    getOrAddClock: (alias, options = {}) =>
+      @getClock(alias) ? @addClock(alias, options)
     addTickListener: (listenerFunction) ->
       @listeners.push(listenerFunction)
     tick: () ->

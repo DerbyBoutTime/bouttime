@@ -95,9 +95,8 @@ class GameState extends Store
     @jamNumber = options.jamNumber || 0
     @periodNumber = options.periodNumber || 0
     @clockManager = new ClockManager()
-    @jamClock = @clockManager.addClock "jamClock", PREGAME_CLOCK_SETTINGS
-    @periodClock = @clockManager.addClock "periodClock", PERIOD_CLOCK_SETTINGS
-    @jamClock = @clockManager.getClock("jamClock")
+    @jamClock = @clockManager.getOrAddClock "jamClock", PREGAME_CLOCK_SETTINGS
+    @periodClock = @clockManager.getOrAddClock "periodClock", PERIOD_CLOCK_SETTINGS
     @jamClock.emitter.on "clockExpiration", (evt) =>
       @handleClockExpiration(evt)
     @periodClock = @clockManager.getClock("periodClock")
