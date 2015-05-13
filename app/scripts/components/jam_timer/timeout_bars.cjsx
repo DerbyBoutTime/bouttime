@@ -1,6 +1,8 @@
 React = require 'react/addons'
 module.exports = React.createClass
   displayName: 'TimeoutBars'
+  shouldComponentUpdate: (nprops, nstate) ->
+    _.isEqual(@props, nprops) == false
   render: () ->
     <div className="timeout-bars #{@props.homeOrAway}">
       <span className="jt-label">{@props.initials}</span>

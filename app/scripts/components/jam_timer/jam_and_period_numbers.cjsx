@@ -1,6 +1,8 @@
 React = require 'react/addons'
 module.exports = React.createClass
   displayName: 'JamAndPeriodNumbers'
+  shouldComponentUpdate: (nprops, nstate) ->
+    _.isEqual(@props, nprops) == false
   render: () ->
     <div className="row">
       <div className="col-xs-12">
