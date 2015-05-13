@@ -37,7 +37,10 @@ class Team extends Store
     @isTakingOfficialReview = options.isTakingOfficialReview || false
     @isTakingTimeout = options.isTakingTimeout || false
     @hasOfficialReview = options.hasOfficialReview || true
-    @timeouts = options.timeouts || 3
+    if options.timeouts?
+      @timeouts = options.timeouts
+    else
+      @timeouts = 3
     _skaters = @getSkaters()
     if _skaters.length > 0
       @skaters = _skaters

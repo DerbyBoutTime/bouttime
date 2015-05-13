@@ -71,7 +71,6 @@ module.exports =
         clearInterval ticks[@id]
         ticks[@id] = null
     reset: (options={}) ->
-      @stop()
       @warningIssued = false
       @expirationIssued = false
       @tickUp = options.tickUp ? false

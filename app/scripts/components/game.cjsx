@@ -24,12 +24,7 @@ module.exports = React.createClass
   componentDidMount: () ->
     @state.gameState.clockManager.initialize()
     GameState.addChangeListener @onChange
-    @state.gameState.clockManager.addTickListener (clocks) =>
-      h =
-        jamClock: clocks.jamClock.display
-        periodClock: clocks.periodClock.display
-      @refs.scoreboard.refs.clocks.setState(h) if @refs.scoreboard
-      @refs.jamTimer.refs.clocks.setState(h) if @refs.jamTimer
+    @state.gameState.clockManager.addTickListener @tickListener
     $dom = $(@getDOMNode())
     $dom.on 'click', '.bad-status', null, (evt) ->
     $dom.on 'click', 'ul.nav li', null, (evt) =>
@@ -47,6 +42,14 @@ module.exports = React.createClass
     GameState.addChangeListener @onChange
   componentWillUnmount: () ->
     GameState.removeChangeListener @onChange
+  tickListener: (clocks) ->
+    h =
+      jamClock: clocks.jamClock.display
+      periodClock: clocks.periodClock.display
+    if @refs.scoreboard?
+      @refs.scoreboard.refs.clocks.setState(h)
+    if @refs.jamTimer
+      @refs.jamTimer.refs.clocks.setState(h)
   resetDeadmanTimer: () ->
     clearTimeout(exports.connectionTimeout)
     @gameDOM.addClass("connected")
@@ -76,7 +79,26 @@ module.exports = React.createClass
   render: () ->
     tab = switch @state.tab
       when "jam_timer"
-        <JamTimer {...@state} ref="jamTimer"/>
+        home =
+          isTakingOfficialReview: @state.gameState.home.isTakingOfficialReview
+          timeouts: @state.gameState.home.timeouts
+          initials: @state.gameState.home.initials
+          isTakingTimeout: @state.gameState.home.isTakingTimeout
+        away =
+          isTakingOfficialReview: @state.gameState.away.isTakingOfficialReview
+          timeouts: @state.gameState.away.timeouts
+          initials: @state.gameState.away.initials
+          isTakingTimeout: @state.gameState.away.isTakingTimeout
+        <JamTimer
+          ref="jamTimer"
+          periodClock={@state.gameState.periodClock}
+          jamClock={@state.gameState.jamClock}
+          jamNumber={@state.gameState.jamNumber}
+          periodNumber={@state.gameState.periodNumber}
+          gameStateId={@state.gameState.id}
+          state={@state.gameState.state}
+          home={home}
+          away={away}/>
       when "lineup_tracker"
         <LineupTracker gameState={@state.gameState} setSelectorContext={@setSelectorContext} />
       when "scorekeeper"
