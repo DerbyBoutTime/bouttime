@@ -27,11 +27,6 @@ class Team extends Store
         team.setPenaltyBoxSkater(action.boxIndexOrPosition, action.skaterId)
         team.save()
         @emitChange()
-  @deserialize: (obj) ->
-    team = new Team(obj)
-    team._skaters = (Skater.deserialize(skater) for skater in obj._skaters)
-    team._jams = (Jam.deserialize(jam) for jam in obj._jams)
-    team
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -43,26 +38,34 @@ class Team extends Store
     @isTakingTimeout = options.isTakingTimeout || false
     @hasOfficialReview = options.hasOfficialReview || true
     @timeouts = options.timeouts || 3
-    @_skaters = options.skaters || []
-    for skater in @_skaters
-      skater.teamId = @id
-    @_jams = options.jams || [new Jam()]
-    for jam in @_jams
-      jam.teamId = @id
+    _skaters = @getSkaters()
+    if _skaters.length > 0
+      @skaters = _skaters
+    else if options.skaters?
+      @skaters = (new Skater(skater) for skater in options.skaters)
+    else
+      @skaters = []
+    _jams = @getJams()
+    if _jams.length > 0
+      @jams = _jams
+    else if options.jams?
+      @jams = (new Jam(jam) for jam in options.jams)
+    else
+      @jams = [new Jam(teamId: @id)]
     @penaltyBoxStates = options.penaltyBoxStates || []
   save: () ->
     super()
-    skater.save() for skater in @_skaters
-    jam.save() for jam in @_jams
+    skater.save() for skater in @skaters
+    jam.save() for jam in @jams
   getJams: () ->
-    Jam.findByTeamId(@id).sort (a, b) ->
+    Jam.findBy(teamId: @id).sort (a, b) ->
       a.jamNumber - b.jamNumber
   getSkaters: () ->
-    Skater.findByTeamId(@id)
+    Skater.findBy(teamId: @id)
   addSkater: (skater) ->
-    @_skaters.push skater
+    @skaters.push skater
   removeSkater: (skater) ->
-    @_skaters = (s for s in @_skaters when s.id isnt skater.id)
+    @skaters = (s for s in @skaters when s.id isnt skater.id)
     skater.destroy()
   getPoints: () ->
     @getJams().reduce ((sum, jam) -> sum += jam.getPoints()), 0
@@ -76,7 +79,7 @@ class Team extends Store
       for position in positionsInBox
         newJam[position] = lastJam[position]
         newJam.lineupStatuses[0][position] = 'sat_in_box'
-    @_jams.push newJam
+    @jams.push newJam
     AppDispatcher.emit
       type: ActionTypes.SAVE_JAM
       jam: newJam

@@ -9,7 +9,7 @@ module.exports = React.createClass
     setSelectorContextHandler: React.PropTypes.func.isRequired
   render: ()->
     <div className="jam-details">
-      {@props.team.getJams().map (jam, jamIndex) ->
+      {@props.team.jams.map (jam, jamIndex) ->
         <JamDetail
           key={jam.jamNumber}
           team={@props.team}

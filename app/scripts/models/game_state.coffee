@@ -78,17 +78,11 @@ class GameState extends Store
       when ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
         game.restoreAwayTeamOfficialReview()
       when ActionTypes.SAVE_GAME
-        game = GameState.deserialize(action.gameState)
+        game = new GameState(action.gameState)
       when ActionTypes.SYNC_GAMES
-        GameState.deserialize(obj).save() for obj in action.games
+        new GameState(obj).save() for obj in action.games
     game.save() if game?
     @emitChange()
-  @deserialize: (obj) ->
-    game = new GameState(obj)
-    game.id = obj.id
-    game.home = Team.deserialize(obj.home)
-    game.away = Team.deserialize(obj.away)
-    game
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -101,14 +95,13 @@ class GameState extends Store
     @jamNumber = options.jamNumber || 0
     @periodNumber = options.periodNumber || 0
     @clockManager = new ClockManager()
-    @jamClock = @clockManager.addClock "jamClock", PREGAME_CLOCK_SETTINGS
-    @periodClock = @clockManager.addClock "periodClock", PERIOD_CLOCK_SETTINGS
-    @jamClock = @clockManager.getClock("jamClock")
+    @jamClock = @clockManager.getOrAddClock "jamClock", PREGAME_CLOCK_SETTINGS
+    @periodClock = @clockManager.getOrAddClock "periodClock", PERIOD_CLOCK_SETTINGS
     @jamClock.emitter.on "clockExpiration", (evt) =>
       @handleClockExpiration(evt)
     @periodClock = @clockManager.getClock("periodClock")
-    @home = options.home || new Team()
-    @away = options.away || new Team()
+    @home = new Team(options.home)
+    @away = new Team(options.away)
     @penalties = [
       {code: "A", name: "High Block"},
       {code: "N", name: "Insubordination"},
@@ -138,7 +131,7 @@ class GameState extends Store
   getDisplayName: () ->
     "#{moment(@date, 'MM/DD/YYYY').format('YYYY-MM-DD')} #{@home.name} vs #{@away.name}"
   getCurrentJam: (team) ->
-    (jam for jam in team.getJams() when jam.jamNumber is @jamNumber)[0]
+    (jam for jam in team.jams when jam.jamNumber is @jamNumber)[0]
   startClock: ()->
     @jamClock.start()
   stopClock: () ->
@@ -155,10 +148,10 @@ class GameState extends Store
       @periodNumber = @periodNumber + 1
       @periodClock.reset(PERIOD_CLOCK_SETTINGS)
     @jamNumber = @jamNumber + 1
-    for i in [@away.getJams().length+1 .. @jamNumber] by 1
-      @away.getJams().push jamNumber: i
-    for i in [@home.getJams().length+1 .. @jamNumber] by 1
-      @home.getJams().push jamNumber: i
+    for i in [@away.jams.length+1 .. @jamNumber] by 1
+      @away.jams.push jamNumber: i
+    for i in [@home.jams.length+1 .. @jamNumber] by 1
+      @home.jams.push jamNumber: i
   stopJam: () =>
     @jamClock.stop()
     @startLineup()
