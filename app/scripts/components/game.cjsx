@@ -80,11 +80,15 @@ module.exports = React.createClass
     tab = switch @state.tab
       when "jam_timer"
         home =
+          officialReviewsRetained: @state.gameState.home.officialReviewsRetained
+          hasOfficialReview: @state.gameState.home.hasOfficialReview
           isTakingOfficialReview: @state.gameState.home.isTakingOfficialReview
           timeouts: @state.gameState.home.timeouts
           initials: @state.gameState.home.initials
           isTakingTimeout: @state.gameState.home.isTakingTimeout
         away =
+          officialReviewsRetained: @state.gameState.away.officialReviewsRetained
+          hasOfficialReview: @state.gameState.away.hasOfficialReview
           isTakingOfficialReview: @state.gameState.away.isTakingOfficialReview
           timeouts: @state.gameState.away.timeouts
           initials: @state.gameState.away.initials

@@ -31,16 +31,13 @@ class Team extends Store
     super options
     @name = options.name
     @initials = options.initials
-    @colorBarStyle = options.colorBarStyle || { backgroundColor: '', color: '' }
+    @colorBarStyle = options.colorBarStyle ? { backgroundColor: '', color: '' }
     @logo = options.logo
-    @officialReviewsRetained = options.officialReviewsRetained || 0
-    @isTakingOfficialReview = options.isTakingOfficialReview || false
-    @isTakingTimeout = options.isTakingTimeout || false
-    @hasOfficialReview = options.hasOfficialReview || true
-    if options.timeouts?
-      @timeouts = options.timeouts
-    else
-      @timeouts = 3
+    @officialReviewsRetained = options.officialReviewsRetained ? 0
+    @isTakingOfficialReview = options.isTakingOfficialReview ? false
+    @isTakingTimeout = options.isTakingTimeout ? false
+    @hasOfficialReview = options.hasOfficialReview ? true
+    @timeouts = options.timeouts ? 3
     _skaters = @getSkaters()
     if _skaters.length > 0
       @skaters = _skaters
@@ -55,7 +52,7 @@ class Team extends Store
       @jams = (new Jam(jam) for jam in options.jams)
     else
       @jams = [new Jam(teamId: @id)]
-    @penaltyBoxStates = options.penaltyBoxStates || []
+    @penaltyBoxStates = options.penaltyBoxStates ? []
   save: () ->
     super()
     skater.save() for skater in @skaters

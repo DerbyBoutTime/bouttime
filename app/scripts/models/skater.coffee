@@ -25,7 +25,7 @@ class Skater extends Store
     @teamId = options.teamId
     @name = options.name
     @number = options.number
-    @penalties = options.penalties || []
+    @penalties = options.penalties ? []
   setPenalty: (jamNumber, penalty) ->
     @penalties.push
       penalty: penalty

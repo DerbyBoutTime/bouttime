@@ -85,7 +85,7 @@ module.exports = React.createClass
               </div>
               <div className="col-sm-2 col-xs-2">
                 <div className="points boxed-good text-center">
-                  <strong>{@props.pass.points || 0}</strong>
+                  <strong>{@props.pass.points ? 0}</strong>
                 </div>
               </div>
             </div>

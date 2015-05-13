@@ -18,11 +18,15 @@ module.exports = React.createClass
     gameStateId: React.PropTypes.string
     state: React.PropTypes.oneOf ["jam", "lineup", "timeout", "pregame", "halftime", "unofficial_final", "final"]
     home: React.PropTypes.shape
+      hasOfficialReview: React.PropTypes.bool
+      officialReviewsRetained: React.PropTypes.number
       isTakingOfficialReview: React.PropTypes.bool
       isTakingTimeout: React.PropTypes.bool
       timeouts: React.PropTypes.number
       initials: React.PropTypes.string
     away: React.PropTypes.shape
+      hasOfficialReview: React.PropTypes.bool
+      officialReviewsRetained: React.PropTypes.number
       isTakingOfficialReview: React.PropTypes.bool
       isTakingTimeout: React.PropTypes.bool
       timeouts: React.PropTypes.number
@@ -306,20 +310,6 @@ module.exports = React.createClass
               <button className="bt-btn" onClick={@startLineup}>START LINEUP</button>
             </div>
           </div>
-    jamExplanationSectionCS =
-      if ["lineup", "timeout", "unofficial_final"].indexOf(@props.state) != -1
-        <div className='jam-explanation-section row margin-xs'>
-          <div className="col-xs-6">
-            <button className="bt-btn" onClick={@setJamEndedByCalloff}>
-              JAM CALLED
-            </button>
-          </div>
-          <div className="col-xs-6">
-            <button className="bt-btn" onClick={@setJamEndedByTime}>
-              ENDED BY TIME
-            </button>
-          </div>
-        </div>
     homeTeamOfficialReviewCS =
     homeTeamTimeoutClasses = [
       cx
@@ -401,7 +391,6 @@ module.exports = React.createClass
       {startJamSectionCS}
       {stopJamSectionCS}
       {startLineupSectionCS}
-      {jamExplanationSectionCS}
       <div className="modal" ref="modal">
         <div className="modal-dialog">
           <div className="modal-content">

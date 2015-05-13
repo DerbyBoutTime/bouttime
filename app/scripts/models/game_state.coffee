@@ -89,11 +89,11 @@ class GameState extends Store
     @venue = options.venue
     @date = options.date
     @time = options.time
-    @officials = options.officials || []
-    @debug = options.debug || false
-    @state = options.state || 'pregame'
-    @jamNumber = options.jamNumber || 0
-    @periodNumber = options.periodNumber || 0
+    @officials = options.officials ? []
+    @debug = options.debug ? false
+    @state = options.state ? 'pregame'
+    @jamNumber = options.jamNumber ? 0
+    @periodNumber = options.periodNumber ? 0
     @clockManager = new ClockManager()
     @jamClock = @clockManager.getOrAddClock "jamClock", PREGAME_CLOCK_SETTINGS
     @periodClock = @clockManager.getOrAddClock "periodClock", PERIOD_CLOCK_SETTINGS
@@ -139,7 +139,7 @@ class GameState extends Store
     @state = "jam"
     @home.jamPoints = 0
     @away.jamPoints = 0
-    if @periodNumber == 0 || @periodClock.time == 0
+    if @periodNumber == 0 ? @periodClock.time == 0
       @periodNumber = @periodNumber + 1
       @periodClock.reset(PERIOD_CLOCK_SETTINGS)
     @jamNumber = @jamNumber + 1
@@ -216,6 +216,7 @@ class GameState extends Store
     @timeout = "away_team_official_review"
   handleClockExpiration: () =>
     if @state == "jam"
+      #Mark as jam ended by time
       @stopJam()
   setJamEndedByCalloff: () =>
   setJamClock: (val) =>
