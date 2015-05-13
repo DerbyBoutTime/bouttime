@@ -12,7 +12,7 @@ module.exports = React.createClass
     team: React.PropTypes.object.isRequired
     setSelectorContext: React.PropTypes.func.isRequired
   selectedJam: () ->
-    @props.team.jams[@state.jamSelected || 0]
+    @props.team.getJams()[@state.jamSelected || 0]
   handleMainMenu: () ->
     @setState(jamSelected: null)
   handleJamSelection: (jamIndex, newJam) ->
@@ -22,7 +22,7 @@ module.exports = React.createClass
         teamId: @props.team.id
     @setState(jamSelected: jamIndex)
   handleNextJam: () ->
-    if @state.jamSelected < @props.team.jams.length - 1
+    if @state.jamSelected < @props.team.getJams().length - 1
       $('.scorekeeper .collapse.in').collapse('hide')
       @setState(jamSelected: @state.jamSelected + 1)
   handlePreviousJam: () ->
@@ -34,7 +34,7 @@ module.exports = React.createClass
   render: () ->
     JamItemFactory = React.createFactory(JamItem)
     # jam's schema is same as jam_state table
-    jamComponents = @props.team.jams.map (jam, jamIndex) =>
+    jamComponents = @props.team.getJams().map (jam, jamIndex) =>
       JamItemFactory
         key: jamIndex
         jam: jam
@@ -42,14 +42,14 @@ module.exports = React.createClass
         style: @props.team.colorBarStyle
         selectionHandler: @handleJamSelection.bind(this, jamIndex, false)
     # add a blank jam for adding a next jam
-    emptyJam = new Jam(jamNumber: @props.team.jams.length+1, teamId: @props.team.id)
+    emptyJam = new Jam(jamNumber: @props.team.getJams().length+1, teamId: @props.team.id)
     jamComponents.push(
       JamItemFactory
-        key: @props.team.jams.length
+        key: @props.team.getJams().length
         jam: emptyJam
         setSelectorContext: @props.setSelectorContext.bind(this, emptyJam)
         style: @props.team.colorBarStyle
-        selectionHandler: @handleJamSelection.bind(this, @props.team.jams.length, true)
+        selectionHandler: @handleJamSelection.bind(this, @props.team.getJams().length, true)
     )
     jamsContainerClass = cx
       'jams fade-hide': true

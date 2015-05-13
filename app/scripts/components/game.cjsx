@@ -58,7 +58,7 @@ module.exports = React.createClass
     tab: "jam_timer"
     skaterSelectorContext:
       team: gameState.away
-      jam: gameState.away.jams[0]
+      jam: gameState.away.getJams()[0]
       selectHandler: () ->
   setSelectorContext: (team, jam, selectHandler) ->
     @setState

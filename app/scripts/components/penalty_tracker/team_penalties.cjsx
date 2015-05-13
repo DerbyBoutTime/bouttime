@@ -45,11 +45,10 @@ module.exports = React.createClass
         {...@props}
         selectionHandler={@selectSkater}
         hidden={@state.selectedSkaterId?}/>
-      {@props.team.skaters.map (skater, skaterIndex) ->
+      {@props.team.getSkaters().map (skater, skaterIndex) ->
         <SkaterPenalties
           key={skaterIndex}
           skater={skater}
-          team={@props.team}
           hidden={@state.selectedSkaterId isnt skater.id}
           backHandler={@backHandler}
           editHandler={@editPenalty}/>

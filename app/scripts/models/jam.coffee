@@ -29,8 +29,8 @@ class Jam extends Store
         @emitChange()
       when ActionTypes.SET_POINTS
         AppDispatcher.waitFor([Pass.dispatchToken])
-        pass = Pass.find(action.passId)
-        jam = Jam.find(pass.jamId)
+        pass = @find(action.passId)
+        jam = pass.getJam()
         jam.createNextPass(action.newPassId) if pass.id is jam.getLastPass().id
         pass.save()
         @emitChange()
@@ -42,37 +42,46 @@ class Jam extends Store
       when ActionTypes.SET_PASS_JAMMER
         AppDispatcher.waitFor([Pass.dispatchToken])
         pass = @find(action.passId)
-        jam = Jam.find(pass.jamId)
+        jam = pass.getJam()
         if not jam.jammer?
           jam.setSkaterPosition('jammer', action.skaterId)
       when ActionTypes.SAVE_JAM
-        jam = new Jam(action.jam)
+        jam = Jam.deserialize(action.jam)
         jam.save()
         @emitChange()
+  @findByTeamId: (teamId) ->
+    (jam for id, jam of @store when jam.teamId is teamId and jam.type is 'Jam')
+  @deserialize: (obj) ->
+    jam = new Jam(obj)
+    jam._passes = (Pass.deserialize(pass) for pass in obj._passes)
+    jam.pivot = Skater.deserialize(obj.pivot) if obj.pivot
+    jam.blocker1 = Skater.deserialize(obj.blocker1) if obj.blocker1
+    jam.blocker2 = Skater.deserialize(obj.blocker2) if obj.blocker2
+    jam.blocker3 = Skater.deserialize(obj.blocker3) if obj.blocker3
+    jam.jammer = Skater.deserialize(obj.jammer) if obj.jammer
+    jam
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
     @jamNumber = options.jamNumber || 1
     @noPivot = options.noPivot || false
     @starPass = options.starPass || false
-    @pivot = new Skater(options.pivot) if options.pivot
-    @blocker1 = new Skater(options.blocker1) if options.blocker1
-    @blocker2 = new Skater(options.blocker2) if options.blocker2
-    @blocker3 = new Skater(options.blocker3) if options.blocker3
-    @jammer = new Skater(options.jammer) if options.jammer
-    _passes = @getPasses()
-    if _passes.length > 0
-      @passes = _passes
-    else if options.passes?
-      @passes = (new Pass(pass) for pass in options.passes)
-    else
-      @passes = [new Pass(jamId: @id)]
+    @pivot = options.pivotId
+    @blocker1 = options.blocker1
+    @blocker2 = options.blocker2
+    @blocker3 = options.blocker3
+    @jammer = options.jammer
+    @_passes = options.passes || [new Pass(jamId: @id)]
+    for pass in @_passes
+      pass.jamId = @id
     @lineupStatuses = options.lineupStatuses || []
   save: () ->
     super()
-    pass.save() for pass in @passes
+    pass.save() for pass in @_passes
+  getTeam: () ->
+    @constructor.find(@teamId)
   getPasses: () ->
-    Pass.findBy(jamId: @id).sort (a, b) ->
+    Pass.findByJamId(@id).sort (a, b) ->
       a.passNumber - b.passNumber
   getLastPass: () ->
     passes = @getPasses()
@@ -115,7 +124,7 @@ class Jam extends Store
     console.log ("Creating new pass with id #{passId}")
     lastPass = @getLastPass()
     newPass = new Pass(id: passId, passNumber: lastPass.passNumber + 1, jamId: @id)
-    @passes.push newPass
+    @_passes.push newPass
     @save()
   reorderPass: (sourcePassIndex, targetPassIndex) ->
     list = @getPasses()
