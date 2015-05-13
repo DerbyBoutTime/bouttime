@@ -31,7 +31,7 @@ module.exports = React.createClass
             <h4 className="modal-title">Select Skater</h4>
           </div>
           <div className="modal-body">
-            {@props.team.skaters.map (skater, skaterIndex) ->
+            {@props.team.getSkaters().map (skater, skaterIndex) ->
                 <button key={skaterIndex}
                   className={@buttonClass(skater)}
                   style={if @inLineup(skater) and not @isInjured(skater) then @props.team.colorBarStyle}

@@ -121,19 +121,19 @@ module.exports =
       penalties: []}
     ]
     new GameState
-      home:
+      home: new Team
         name: "Atlanta Rollergirls"
         initials: "ARG"
         colorBarStyle:
           backgroundColor: "#2082a6"
           color: "#ffffff"
         logo: "/images/team_logos/Atlanta.png"
-        skaters: homeSkaters
-      away:
+        skaters: (new Skater(skater) for skater in homeSkaters)
+      away: new Team
         name: "Gotham"
         initials: "GGRD"
         colorBarStyle:
           backgroundColor: "#f50031"
           color: "#ffffff"
         logo: "/images/team_logos/Gotham.png"
-        skaters: awaySkaters
+        skaters: (new Skater(skater) for skater in awaySkaters)

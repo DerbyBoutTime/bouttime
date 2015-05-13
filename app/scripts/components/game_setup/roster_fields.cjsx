@@ -11,7 +11,7 @@ module.exports = React.createClass
   render: () ->
     <div className='roster-fields'>
       <h3>Roster</h3>
-      {@props.teamState.skaters.map (skater, skaterIndex) ->
+      {@props.teamState._skaters.map (skater, skaterIndex) ->
         <div key={skater.id} className="skater-fields">
           <div className='row'>
             <button type="button" className="close" onClick={@props.actions.removeSkater.bind(null, @props.teamState, skater)}><span className="glyphicon glyphicon-remove"></span></button>

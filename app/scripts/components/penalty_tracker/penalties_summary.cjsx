@@ -12,7 +12,7 @@ module.exports = React.createClass
     selectionHandler: () ->
     hidden: false
   getLineup: () ->
-    jam = @props.team.jams[@props.team.jams.length-1]
+    jam = @props.team.getJams()[@props.team.getJams().length-1]
     positions = [jam.pivot, jam.blocker1, jam.blocker2, jam.blocker3, jam.jammer]
     positions.filter (position) ->
       position?
@@ -25,7 +25,7 @@ module.exports = React.createClass
       'penalties-summary': true
       'hidden': @props.hidden
     <div className={containerClass} >
-      {@props.team.skaters.map (skater, skaterIndex) ->
+      {@props.team.getSkaters().map (skater, skaterIndex) ->
         <div key={skaterIndex} className='row gutters-xs top-buffer'>
           <div className='col-xs-2'>
             <button className='bt-btn btn-boxed' onClick={@props.selectionHandler.bind(null, skater.id)} style={if @inLineup(skater) and not @isInjured(skater) then @props.team.colorBarStyle}>
