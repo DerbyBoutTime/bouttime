@@ -16,7 +16,7 @@ JAM_CLOCK_SETTINGS =
   warningTime: constants.JAM_WARNING_IN_MS
 LINEUP_CLOCK_SETTINGS =
   time: constants.LINEUP_DURATION_IN_MS
-TIMEOUT_CLOCK_SETTINGS = 
+TIMEOUT_CLOCK_SETTINGS =
   time: 0
   tickUp: true
 class GameState extends Store
@@ -149,9 +149,9 @@ class GameState extends Store
       @periodClock.reset(PERIOD_CLOCK_SETTINGS)
     @jamNumber = @jamNumber + 1
     for i in [@away.jams.length+1 .. @jamNumber] by 1
-      @away.jams.push jamNumber: i
+      @away.createNextJam()
     for i in [@home.jams.length+1 .. @jamNumber] by 1
-      @home.jams.push jamNumber: i
+      @home.createNextJam()
   stopJam: () =>
     @jamClock.stop()
     @startLineup()
