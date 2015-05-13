@@ -62,7 +62,7 @@ module.exports = React.createClass
             <PenaltyControl
               penaltyNumber={i+1}
               skaterPenalty={@props.skater.penalties[i]}
-              teamStyle={@prop.team.colorBarStyle}
+              teamStyle={@props.team.colorBarStyle}
               target={@getPenaltyId(i)} />
           </div>
         , this}
