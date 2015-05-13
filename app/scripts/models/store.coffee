@@ -1,11 +1,13 @@
+
 Constants = require '../constants'
 Functions = require '../functions'
+MemoryStorage = require('../memory_storage')
 AppDispatcher = require '../dispatcher/app_dispatcher'
 EventEmitter = require('events').EventEmitter
 ActionTypes = Constants.ActionTypes
 CHANGE_EVENT = 'JAM_CHANGE'
 class Store
-  @store: localStorage
+  @store: new MemoryStorage()
   @emitter: new EventEmitter()
   @find: (id) ->
     return null if not id?
