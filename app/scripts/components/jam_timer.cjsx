@@ -3,6 +3,9 @@ AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
 constants = require '../constants.coffee'
 {ActionTypes} = require '../constants.coffee'
 functions = require '../functions.coffee'
+JamAndPeriodNumbers = require './jam_timer/jam_and_period_numbers.cjsx'
+JTClocks = require './jam_timer/jt_clocks.cjsx'
+TimeoutBars = require './jam_timer/timeout_bars.cjsx'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'JamTimer'
@@ -185,128 +188,16 @@ module.exports = React.createClass
       gameId: @props.gameState.id
   render: () ->
     #CS = Class Set
-    timeoutSectionCS = cx
-      'timeout-section': true
-      'row': true
-      'margin-xs': true
-      'hidden':  ["jam", "lineup", "timeout", "unofficial_final"].indexOf(@props.gameState.state) == -1
-    timeoutExplanationSectionCS = cx
-      'timeout-explanation-section': true
-      'row': true
-      'margin-xs': true
-      'hidden': @props.gameState.state !="timeout"
-    startClockSectionCS = cx
-      'start-clock-section': true
-      'row': true
-      'margin-xs': true
-      'hidden': ["pregame", "halftime", "final"].indexOf(@props.gameState.state) == -1
-    stopClockSectionCS = cx
-      'stop-clock-section': true
-      'row': true
-      'margin-xs': true
-      'hidden': @props.gameState.state != ["pregame"]
-    startJamSectionCS = cx
-      'start-jam-section': true
-      'row': true
-      'margin-xs': true
-      'hidden': ["pregame", "halftime", "lineup"].indexOf(@props.gameState.state) == -1
-    stopJamSectionCS = cx
-      'stop-jam-section': true
-      'row': true
-      'margin-xs': true
-      'hidden': ["jam"].indexOf(@props.gameState.state) == -1
-    startLineupSectionCS = cx
-      'start-lineup-section': true
-      'row': true
-      'margin-xs': true
-      'hidden': ["pregame", "halftime",  "timeout", "unofficial_final", "final"].indexOf(@props.gameState.state) == -1
-    jamExplanationSectionCS = cx
-      'jam-explanation-section': true
-      'row': true
-      'margin-xs': true
-      'hidden': ["lineup", "timeout", "unofficial_final"].indexOf(@props.gameState.state) == -1
-    homeTeamOfficialReviewCS = cx
-      'official-review': true
-      'bar': true
-      'active': @props.gameState.home.isTakingOfficialReview
-      'inactive': @props.gameState.home.hasOfficialReview == false
-    homeTeamTimeouts1CS = cx
-      'bar': true
-      'active': @props.gameState.home.isTakingTimeout && @props.gameState.home.timeouts == 2
-      'inactive': @props.gameState.home.timeouts < 3
-    homeTeamTimeouts2CS = cx
-      'bar': true
-      'active': @props.gameState.home.isTakingTimeout && @props.gameState.home.timeouts == 1
-      'inactive': @props.gameState.home.timeouts < 2
-    homeTeamTimeouts3CS = cx
-      'bar': true
-      'active': @props.gameState.home.isTakingTimeout && @props.gameState.home.timeouts == 0
-      'inactive': @props.gameState.home.timeouts < 1
-    awayTeamOfficialReviewCS = cx
-      'official-review': true
-      'bar': true
-      'active': @props.gameState.away.isTakingOfficialReview
-      'inactive': @props.gameState.away.hasOfficialReview == false
-    awayTeamTimeouts1CS = cx
-      'bar': true
-      'active': @props.gameState.away.isTakingTimeout && @props.gameState.away.timeouts == 2
-      'inactive': @props.gameState.away.timeouts < 3
-    awayTeamTimeouts2CS = cx
-      'bar': true
-      'active': @props.gameState.away.isTakingTimeout && @props.gameState.away.timeouts == 1
-      'inactive': @props.gameState.away.timeouts < 2
-    awayTeamTimeouts3CS = cx
-      'bar': true
-      'active': @props.gameState.away.isTakingTimeout && @props.gameState.away.timeouts == 0
-      'inactive': @props.gameState.away.timeouts < 1
-    <div className="jam-timer">
-        <div className="row text-center">
-          <div className="col-md-2 col-xs-2">
-            <div className="timeout-bars home">
-              <span className="jt-label">{@props.gameState.home.initials}</span>
-              <div className={homeTeamOfficialReviewCS} onClick={@handleToggleTimeoutBar}>{@props.gameState.home.officialReviewsRetained}</div>
-              <div className={homeTeamTimeouts1CS} onClick={@handleToggleTimeoutBar}></div>
-              <div className={homeTeamTimeouts2CS} onClick={@handleToggleTimeoutBar}></div>
-              <div className={homeTeamTimeouts3CS} onClick={@handleToggleTimeoutBar}></div>
-            </div>
-          </div>
-          <div className="col-md-8 col-xs-8">
-            <div className="row">
-              <div className="col-xs-12">
-                <strong>
-                  <span className="jt-label pull-left" onClick={@clickPeriodEdit}>
-                    Period {@props.gameState.periodNumber}
-                  </span>
-                  <span className="jt-label pull-right" onClick={@clickJamEdit}>
-                    Jam {@props.gameState.jamNumber}
-                  </span>
-                </strong>
-              </div>
-              <div className="col-md-12 col-xs-12">
-                <div className="period-clock" onClick={@clickPeriodClockEdit}>{@props.gameState.periodClock.display()}</div>
-              </div>
-              <div className="col-md-12 col-xs-12">
-                <strong className="jt-label">{@props.gameState.state.replace(/_/g, ' ')}</strong>
-                <div className="jam-clock" onClick={@clickJamClockEdit}>{@props.gameState.jamClock.display()}</div>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-2 col-xs-2">
-            <div className="timeout-bars away">
-              <span className="jt-label">{@props.gameState.away.initials}</span>
-              <div className={awayTeamOfficialReviewCS} onClick={@handleToggleTimeoutBar}>{@props.gameState.away.officialReviewsRetained}</div>
-              <div className={awayTeamTimeouts1CS} onClick={@handleToggleTimeoutBar}></div>
-              <div className={awayTeamTimeouts2CS} onClick={@handleToggleTimeoutBar}></div>
-              <div className={awayTeamTimeouts3CS} onClick={@handleToggleTimeoutBar}></div>
-            </div>
-          </div>
-        </div>
-        <div className={timeoutSectionCS}>
+    timeoutSectionCS =
+      if ["jam", "lineup", "timeout", "unofficial_final"].indexOf(@props.gameState.state) != -1
+        <div className="timeout-section row margin-xs">
           <div className="col-xs-12">
             <button className="bt-btn" onClick={@startTimeout}>TIMEOUT</button>
           </div>
         </div>
-        <div className={timeoutExplanationSectionCS}>
+    timeoutExplanationSectionCS =
+      if @props.gameState.state =="timeout"
+        <div className="timeout-explanation-section row margin-xs">
           <div className="col-xs-4">
             <div className="home">
               <div className="row">
@@ -348,32 +239,45 @@ module.exports = React.createClass
             </div>
           </div>
         </div>
-        <div className={startClockSectionCS}>
-          <div className="col-xs-12">
-            <button className="bt-btn" onClick={@startClock}>START CLOCK</button>
-          </div>
+
+    startClockSectionCS =
+     if ["pregame", "halftime", "final"].indexOf(@props.gameState.state) != -1
+      <div className='start-clock-section row margin-xs'>
+        <div className="col-xs-12">
+          <button className="bt-btn" onClick={@startClock}>START CLOCK</button>
         </div>
-        <div className={stopClockSectionCS}>
+      </div>
+    stopClockSectionCS =
+      if ["pregame", "halftime", "final"].indexOf(@props.gameState.state) != -1
+        <div className='stop-clock-section row margin-xs'>
           <div className="col-xs-12">
             <button className="bt-btn" onClick={@stopClock}>STOP CLOCK</button>
           </div>
         </div>
-        <div className={startJamSectionCS}>
+    startJamSectionCS =
+      if ["pregame", "halftime", "lineup"].indexOf(@props.gameState.state) != -1
+        <div className='start-jam-section row margin-xs'>
           <div className="col-xs-12">
             <button className="bt-btn" onClick={@startJam}>START JAM</button>
           </div>
         </div>
-        <div className={stopJamSectionCS}>
+    stopJamSectionCS =
+      if ["jam"].indexOf(@props.gameState.state) != -1
+        <div className='stop-jam-section row margin-xs'>
           <div className="col-xs-12">
             <button className="bt-btn" onClick={@stopJam}>STOP JAM</button>
           </div>
         </div>
-        <div className={startLineupSectionCS}>
-          <div className="col-xs-12 start-lineup-section">
-            <button className="bt-btn" onClick={@startLineup}>START LINEUP</button>
+    startLineupSectionCS =
+      if ["pregame", "halftime",  "timeout", "unofficial_final", "final"].indexOf(@props.gameState.state) != -1
+          <div className='start-lineup-section row margin-xs'>
+            <div className="col-xs-12 start-lineup-section">
+              <button className="bt-btn" onClick={@startLineup}>START LINEUP</button>
+            </div>
           </div>
-        </div>
-        <div className={jamExplanationSectionCS}>
+    jamExplanationSectionCS =
+      if ["lineup", "timeout", "unofficial_final"].indexOf(@props.gameState.state) != -1
+        <div className='jam-explanation-section row margin-xs'>
           <div className="col-xs-6">
             <button className="bt-btn" onClick={@setJamEndedByCalloff}>
               JAM CALLED
@@ -385,20 +289,102 @@ module.exports = React.createClass
             </button>
           </div>
         </div>
-        <div className="modal" ref="modal">
-          <div className="modal-dialog">
-            <div className="modal-content">
-              <div className="modal-header">
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 className="modal-title">Edit</h4>
-              </div>
-              <div className="modal-body">
-                <input type="number" className="form-control" ref="modalInput"/>
-              </div>
-              <div className="modal-footer">
-                <button type="button" className="btn btn-primary" onClick={@handleModal}>Save changes</button>
-              </div>
+    homeTeamOfficialReviewCS =
+    homeTeamTimeoutClasses = [
+      cx
+        'official-review': true
+        'bar': true
+        'active': @props.gameState.home.isTakingOfficialReview
+        'inactive': @props.gameState.home.hasOfficialReview == false
+      cx
+        'bar': true
+        'active': @props.gameState.home.isTakingTimeout && @props.gameState.home.timeouts == 2
+        'inactive': @props.gameState.home.timeouts < 3
+      cx
+        'bar': true
+        'active': @props.gameState.home.isTakingTimeout && @props.gameState.home.timeouts == 1
+        'inactive': @props.gameState.home.timeouts < 2
+      cx
+        'bar': true
+        'active': @props.gameState.home.isTakingTimeout && @props.gameState.home.timeouts == 0
+        'inactive': @props.gameState.home.timeouts < 1
+    ]
+    awayTeamTimeoutClasses = [
+      cx
+        'official-review': true
+        'bar': true
+        'active': @props.gameState.away.isTakingOfficialReview
+        'inactive': @props.gameState.away.hasOfficialReview == false
+      cx
+        'bar': true
+        'active': @props.gameState.away.isTakingTimeout && @props.gameState.away.timeouts == 2
+        'inactive': @props.gameState.away.timeouts < 3
+      cx
+        'bar': true
+        'active': @props.gameState.away.isTakingTimeout && @props.gameState.away.timeouts == 1
+        'inactive': @props.gameState.away.timeouts < 2
+      cx
+        'bar': true
+        'active': @props.gameState.away.isTakingTimeout && @props.gameState.away.timeouts == 0
+        'inactive': @props.gameState.away.timeouts < 1
+    ]
+    <div className="jam-timer">
+      <div className="row text-center">
+        <div className="col-md-2 col-xs-2">
+          <TimeoutBars
+            homeOrAway="home"
+            initials={@props.gameState.home.initials}
+            classSets={homeTeamTimeoutClasses}
+            reviewsRetained={@props.gameState.home.officialReviewsRetained}
+            handleToggleTimeoutBar={@handleToggleTimeoutBar}
+          />
+        </div>
+        <div className="col-md-8 col-xs-8">
+          <JamAndPeriodNumbers
+            periodNumber={@props.gameState.periodNumber}
+            jamNumber={@props.gameState.jamNumber}
+            clickJamEdit={@clickJamEdit}
+            clickPeriodEdit={@clickPeriodEdit}/>
+          <JTClocks
+            jamLabel={@props.gameState.state.replace(/_/g, ' ')}
+            jamClock={@props.gameState.jamClock.display()}
+            periodClock={@props.gameState.periodClock.display()}
+            jamClockClickHandler={@clickPeriodClockEdit}
+            periodClockClickHandler={@clickPeriodClockEdit}
+            ref="clocks"/>
+        </div>
+        <div className="col-md-2 col-xs-2">
+          <TimeoutBars
+            homeOrAway="away"
+            initials={@props.gameState.away.initials}
+            classSets=awayTeamTimeoutClasses
+            reviewsRetained={@props.gameState.away.officialReviewsRetained}
+            handleToggleTimeoutBar={@handleToggleTimeoutBar}
+          />
+        </div>
+      </div>
+      {timeoutSectionCS}
+      {timeoutExplanationSectionCS}
+      {startClockSectionCS}
+      {stopClockSectionCS}
+      {startJamSectionCS}
+      {stopJamSectionCS}
+      {startLineupSectionCS}
+      {jamExplanationSectionCS}
+      <div className="modal" ref="modal">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+              <h4 className="modal-title">Edit</h4>
+            </div>
+            <div className="modal-body">
+              <input type="number" className="form-control" ref="modalInput"/>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-primary" onClick={@handleModal}>Save changes</button>
             </div>
           </div>
         </div>
+      </div>
     </div>

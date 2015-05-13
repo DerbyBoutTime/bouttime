@@ -39,7 +39,9 @@ module.exports =
       args = @serialize()
       func(args) for func in @listeners
     serialize: ()->
-      clock.serialize() for alias, clock of @clocks
+      h = {}
+      h[alias] = clock.serialize() for alias, clock of @clocks
+      h
   Clock: class Clock
     constructor: (options = {}) ->
       @id = functions.uniqueId()

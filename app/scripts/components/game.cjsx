@@ -18,13 +18,17 @@ SkaterSelectorModal = require './shared/skater_selector_modal.cjsx'
 Clocks = require '../clock.coffee'
 GameState = require '../models/game_state.coffee'
 cx = React.addons.classSet
+window.Perf = React.addons.Perf
 module.exports = React.createClass
   displayName: 'Game'
   componentDidMount: () ->
     @state.gameState.clockManager.initialize()
     GameState.addChangeListener @onChange
     @state.gameState.clockManager.addTickListener (clocks) =>
-      @setState(clocks)
+      console.log clocks
+      @refs.jamTimer.refs.clocks.setState
+        jamClock: clocks.jamClock.display
+        periodClock: clocks.periodClock.display
     $dom = $(@getDOMNode())
     $dom.on 'click', '.bad-status', null, (evt) ->
     $dom.on 'click', 'ul.nav li', null, (evt) =>
@@ -71,7 +75,7 @@ module.exports = React.createClass
   render: () ->
     tab = switch @state.tab
       when "jam_timer"
-        <JamTimer {...@state} />
+        <JamTimer {...@state} ref="jamTimer"/>
       when "lineup_tracker"
         <LineupTracker gameState={@state.gameState} setSelectorContext={@setSelectorContext} />
       when "scorekeeper"
