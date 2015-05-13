@@ -26,21 +26,20 @@ module.exports = React.createClass
   componentWillUnmount: () ->
     GameState.removeChangeListener @onChange
   render: () ->
-    hideIfSelected = cx 
+    hideIfSelected = cx
       'hidden': @state.selectedGame?
       'container': true
     <div className='game-picker'>
       <div className={hideIfSelected}>
-        <div>
-          <select ref="gameSelect">  
+        <h2>Game Select</h2>
+        <div style={height: "100px"}>
+          <select className="fancy-select" ref="gameSelect" style={height: "33px"}>
             {@state.games.map (game) ->
               <option key={game.id} value={game.id}>{game.getDisplayName()}</option>
             , this}
           </select>
-          <button className='btn' onClick={@openGame}>Open Game</button>
-        </div>
-        <div>
-          <button className='btn' onClick={@fillDemoGame}>
+          <button className='btn fancy-btn' onClick={@openGame}>Open Game</button>
+          <button className='btn fancy-btn' onClick={@fillDemoGame}>
             Fill Demo
           </button>
         </div>

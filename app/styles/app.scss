@@ -142,3 +142,18 @@ $input-color: $near-black;
   float:left;
   width: $width;
 }
+.fancy-btn {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 1em;
+}
+.fancy-select {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  font-size: 1.4em;
+  margin-top: 0;
+  width: 50%;
+}

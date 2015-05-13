@@ -28,8 +28,8 @@ module.exports = React.createClass
     @props.actions.saveGame()
   render: () ->
     <form className='game-form' onSubmit={@handleSubmit}>
+      <hr />
       <h2>Game Setup</h2>
-      <h3>Game Details</h3>
       <div className='form-group'>
         <label htmlFor="game-name">Name</label>
         <input type="text" className="form-control" id="game-name" value={@props.gameState.name} onChange={@handleNameChange} />
@@ -71,5 +71,5 @@ module.exports = React.createClass
         <TeamFields teamType='home' teamState={@props.gameState.home} actions={@props.actions}/>
         <TeamFields teamType='away' teamState={@props.gameState.away} actions={@props.actions}/>
       </div>
-      <button type="submit" className="btn btn-primary">Save Game</button>
+      <button type="submit" className="btn btn-primary margin-xs">Save Game</button>
     </form>
