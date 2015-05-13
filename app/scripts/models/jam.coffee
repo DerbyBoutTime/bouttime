@@ -41,7 +41,7 @@ class Jam extends Store
         @emitChange()
       when ActionTypes.SET_PASS_JAMMER
         AppDispatcher.waitFor([Pass.dispatchToken])
-        pass = @find(action.passId)
+        pass = Pass.find(action.passId)
         jam = Jam.find(pass.jamId)
         if not jam.jammer?
           jam.setSkaterPosition('jammer', action.skaterId)
