@@ -12,7 +12,7 @@ module.exports = React.createClass
     team: React.PropTypes.object.isRequired
     setSelectorContext: React.PropTypes.func.isRequired
   selectedJam: () ->
-    @props.team.jams[@state.jamSelected || 0]
+    @props.team.jams[@state.jamSelected ? 0]
   handleMainMenu: () ->
     @setState(jamSelected: null)
   handleJamSelection: (jamIndex, newJam) ->

@@ -3,6 +3,7 @@ module.exports =
   HALFTIME_DURATION_IN_MS: 30*60*1000
   PREGAME_DURATION_IN_MS: 60*60*1000
   CLOCK_SYNC_SAMPLE_DURATION_IN_MS: 10*1000
+  CLOCK_SYNC_SAMPLE_DURATION_MULTIPLIER: 1.15
   CLOCK_SYNC_DELAY_DURATION_IN_MS: 1*1000
   WEBSOCKETS_RETRY_TIME_IN_MS: 3000
   PERIOD_DURATION_IN_MS: 30*60*1000
@@ -12,7 +13,7 @@ module.exports =
   TIMEOUT_DURATION_IN_MS: 60*1000
   PENALTY_DURATION_IN_MS: 30*1000
   PENALTY_WARNING_IN_MS: 10*1000
-  CLOCK_REFRESH_RATE_IN_MS: 1000
+  CLOCK_REFRESH_RATE_IN_MS: 500
   GAMES_STATES: ["pregame", "halftime", "jam", "lineup", "timeout", "unofficial_final", "final"]
   TIMEOUT_STATES: ["official_timeout", "home_team_timeout", "home_team_official_review", "away_team_timeout", "away_team_official_review"]
   HOUR_IN_MS: 3600000
@@ -29,6 +30,7 @@ module.exports =
     START_UNOFFICIAL_FINAL: null
     START_OFFICIAL_FINAL: null
     START_TIMEOUT: null
+    HANDLE_CLOCK_EXPIRATION: null
     SET_TIMEOUT_AS_OFFICIAL_TIMEOUT: null
     SET_TIMEOUT_AS_HOME_TEAM_TIMEOUT: null
     SET_TIMEOUT_AS_HOME_TEAM_OFFICIAL_REVIEW: null

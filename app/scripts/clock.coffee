@@ -46,7 +46,9 @@ module.exports =
       args = @serialize()
       func(args) for func in @listeners
     serialize: ()->
-      clock.serialize() for alias, clock of @clocks
+      h = {}
+      h[alias] = clock.serialize() for alias, clock of @clocks
+      h
   Clock: class Clock
     constructor: (options = {}) ->
       @id = functions.uniqueId()
@@ -69,7 +71,6 @@ module.exports =
         clearInterval ticks[@id]
         ticks[@id] = null
     reset: (options={}) ->
-      @stop()
       @warningIssued = false
       @expirationIssued = false
       @tickUp = options.tickUp ? false

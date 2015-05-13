@@ -9,7 +9,7 @@ module.exports = React.createClass
   totalPoints: () ->
     points = 0
     @props.jam.getPasses().map (pass) =>
-      points += pass.points || 0
+      points += pass.points ? 0
     return points
   getNotes: () ->
     jam = @props.jam

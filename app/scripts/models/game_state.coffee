@@ -55,8 +55,8 @@ class GameState extends Store
         game.setTimeoutAsAwayTeamOfficialReview()
       when ActionTypes.SET_JAM_ENDED_BY_TIME
         game.setJamEndedByTime()
-      when ActionTypes.SET_JAM_ENDED_BY_CALLOFF
-        game.setJamEndedByCalloff()
+      when ActionTypes.HANDLE_CLOCK_EXPIRATION
+        game.handleClockExpiration()
       when ActionTypes.SET_JAM_CLOCK
         game.setJamClock(action.value)
       when ActionTypes.SET_PERIOD_CLOCK
@@ -89,16 +89,14 @@ class GameState extends Store
     @venue = options.venue
     @date = options.date
     @time = options.time
-    @officials = options.officials || []
-    @debug = options.debug || false
-    @state = options.state || 'pregame'
-    @jamNumber = options.jamNumber || 0
-    @periodNumber = options.periodNumber || 0
+    @officials = options.officials ? []
+    @debug = options.debug ? false
+    @state = options.state ? 'pregame'
+    @jamNumber = options.jamNumber ? 0
+    @periodNumber = options.periodNumber ? 0
     @clockManager = new ClockManager()
     @jamClock = @clockManager.getOrAddClock "jamClock", PREGAME_CLOCK_SETTINGS
     @periodClock = @clockManager.getOrAddClock "periodClock", PERIOD_CLOCK_SETTINGS
-    @jamClock.emitter.on "clockExpiration", (evt) =>
-      @handleClockExpiration(evt)
     @periodClock = @clockManager.getClock("periodClock")
     @home = new Team(options.home)
     @away = new Team(options.away)
@@ -121,9 +119,6 @@ class GameState extends Store
       {code: "I", name: "Illegal Procedure"},
       {code: "G", name: "Gross Misconduct"}
     ]
-  handleClockExpiration: (evt) ->
-    if @state == "jam"
-      @stopJam()
   save: () ->
     super()
     @home.save()
@@ -144,7 +139,7 @@ class GameState extends Store
     @state = "jam"
     @home.jamPoints = 0
     @away.jamPoints = 0
-    if @periodNumber == 0 || @periodClock.time == 0
+    if @periodNumber == 0 ? @periodClock.time == 0
       @periodNumber = @periodNumber + 1
       @periodClock.reset(PERIOD_CLOCK_SETTINGS)
     @jamNumber = @jamNumber + 1
@@ -194,6 +189,7 @@ class GameState extends Store
     @timeout = "home_team_timeout"
     @home.timeouts = @home.timeouts - 1
     @home.isTakingTimeout = true
+    console.log "timeouts=#{@home.timeouts}"
   setTimeoutAsHomeTeamOfficialReview: () =>
     if @_inTimeout() == false
       @startTimeout()
@@ -209,6 +205,7 @@ class GameState extends Store
     @timeout = "away_team_timeout"
     @away.timeouts = @away.timeouts - 1
     @away.isTakingTimeout = true
+    console.log "timeouts=#{@away.timeouts}"
   setTimeoutAsAwayTeamOfficialReview: () =>
     if @_inTimeout() == false
       @startTimeout()
@@ -217,7 +214,10 @@ class GameState extends Store
     @away.isTakingOfficialReview = true
     @state = "timeout"
     @timeout = "away_team_official_review"
-  setJamEndedByTime: () =>
+  handleClockExpiration: () =>
+    if @state == "jam"
+      #Mark as jam ended by time
+      @stopJam()
   setJamEndedByCalloff: () =>
   setJamClock: (val) =>
     @jamClock.reset(time: val*1000)

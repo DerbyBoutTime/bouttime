@@ -18,13 +18,13 @@ SkaterSelectorModal = require './shared/skater_selector_modal.cjsx'
 Clocks = require '../clock.coffee'
 GameState = require '../models/game_state.coffee'
 cx = React.addons.classSet
+window.Perf = React.addons.Perf
 module.exports = React.createClass
   displayName: 'Game'
   componentDidMount: () ->
     @state.gameState.clockManager.initialize()
     GameState.addChangeListener @onChange
-    @state.gameState.clockManager.addTickListener (clocks) =>
-      @setState(clocks)
+    @state.gameState.clockManager.addTickListener @tickListener
     $dom = $(@getDOMNode())
     $dom.on 'click', '.bad-status', null, (evt) ->
     $dom.on 'click', 'ul.nav li', null, (evt) =>
@@ -42,6 +42,14 @@ module.exports = React.createClass
     GameState.addChangeListener @onChange
   componentWillUnmount: () ->
     GameState.removeChangeListener @onChange
+  tickListener: (clocks) ->
+    h =
+      jamClock: clocks.jamClock.display
+      periodClock: clocks.periodClock.display
+    if @refs.scoreboard?
+      @refs.scoreboard.refs.clocks.setState(h)
+    if @refs.jamTimer
+      @refs.jamTimer.refs.clocks.setState(h)
   resetDeadmanTimer: () ->
     clearTimeout(exports.connectionTimeout)
     @gameDOM.addClass("connected")
@@ -71,7 +79,30 @@ module.exports = React.createClass
   render: () ->
     tab = switch @state.tab
       when "jam_timer"
-        <JamTimer {...@state} />
+        home =
+          officialReviewsRetained: @state.gameState.home.officialReviewsRetained
+          hasOfficialReview: @state.gameState.home.hasOfficialReview
+          isTakingOfficialReview: @state.gameState.home.isTakingOfficialReview
+          timeouts: @state.gameState.home.timeouts
+          initials: @state.gameState.home.initials
+          isTakingTimeout: @state.gameState.home.isTakingTimeout
+        away =
+          officialReviewsRetained: @state.gameState.away.officialReviewsRetained
+          hasOfficialReview: @state.gameState.away.hasOfficialReview
+          isTakingOfficialReview: @state.gameState.away.isTakingOfficialReview
+          timeouts: @state.gameState.away.timeouts
+          initials: @state.gameState.away.initials
+          isTakingTimeout: @state.gameState.away.isTakingTimeout
+        <JamTimer
+          ref="jamTimer"
+          periodClock={@state.gameState.periodClock}
+          jamClock={@state.gameState.jamClock}
+          jamNumber={@state.gameState.jamNumber}
+          periodNumber={@state.gameState.periodNumber}
+          gameStateId={@state.gameState.id}
+          state={@state.gameState.state}
+          home={home}
+          away={away}/>
       when "lineup_tracker"
         <LineupTracker gameState={@state.gameState} setSelectorContext={@setSelectorContext} />
       when "scorekeeper"
@@ -81,7 +112,7 @@ module.exports = React.createClass
       when "penalty_box_timer"
         <PenaltyBoxTimer gameState={@state.gameState} setSelectorContext={@setSelectorContext}/>
       when "scoreboard"
-        <Scoreboard gameState={@state.gameState} />
+        <Scoreboard gameState={@state.gameState} ref="scoreboard"/>
       when "penalty_whiteboard"
         <PenaltyWhiteboard {...@state} />
       when "announcers_feed"

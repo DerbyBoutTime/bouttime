@@ -44,14 +44,14 @@ class Pass extends Store
   constructor: (options={}) ->
     super options
     @jamId = options.jamId
-    @passNumber = options.passNumber || 1
-    @points = options.points || 0
+    @passNumber = options.passNumber ? 1
+    @points = options.points ? 0
     @jammerId = options.jammerId
-    @injury = options.injury || false
-    @lead = options.lead || false
-    @lostLead = options.lostLead || false
-    @calloff = options.calloff || false
-    @nopass = options.nopass || false
+    @injury = options.injury ? false
+    @lead = options.lead ? false
+    @lostLead = options.lostLead ? false
+    @calloff = options.calloff ? false
+    @nopass = options.nopass ? false
   toggleInjury: () ->
     @injury = not @injury
   toggleNopass: () ->

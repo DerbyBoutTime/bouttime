@@ -52,9 +52,9 @@ class Jam extends Store
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
-    @jamNumber = options.jamNumber || 1
-    @noPivot = options.noPivot || false
-    @starPass = options.starPass || false
+    @jamNumber = options.jamNumber ? 1
+    @noPivot = options.noPivot ? false
+    @starPass = options.starPass ? false
     @pivot = new Skater(options.pivot) if options.pivot
     @blocker1 = new Skater(options.blocker1) if options.blocker1
     @blocker2 = new Skater(options.blocker2) if options.blocker2
@@ -67,7 +67,7 @@ class Jam extends Store
       @passes = (new Pass(pass) for pass in options.passes)
     else
       @passes = [new Pass(jamId: @id)]
-    @lineupStatuses = options.lineupStatuses || []
+    @lineupStatuses = options.lineupStatuses ? []
   save: () ->
     super()
     pass.save() for pass in @passes

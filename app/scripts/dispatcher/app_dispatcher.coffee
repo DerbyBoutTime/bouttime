@@ -33,7 +33,7 @@ class AppDispatcher
     console.log "Delay is #{@delay}ms"
     setTimeout(() =>
       @syncClocks()
-    ,constants.CLOCK_SYNC_SAMPLE_DURATION_IN_MS)
+    ,constants.CLOCK_SYNC_SAMPLE_DURATION_IN_MS*constants.CLOCK_SYNC_SAMPLE_DURATION_MULTIPLIER**@delays.length)
   register: (callback) ->
     @dispatcher.register(callback)
   unregister: (id) ->
