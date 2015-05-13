@@ -5,10 +5,24 @@ EventEmitter = require('events').EventEmitter
 ActionTypes = Constants.ActionTypes
 CHANGE_EVENT = 'JAM_CHANGE'
 class Store
-  @store: {}
+  @store: localStorage
   @emitter: new EventEmitter()
   @find: (id) ->
-    @store[id]
+    return null if not id?
+    obj = JSON.parse(@store.getItem(id))
+    if obj then new this(obj) else null
+  @findBy: (opts={}) ->
+    predicate = (obj) =>
+      match = (obj.type is @name)
+      for key, val of opts
+        match &= (obj[key] is val)
+      match
+    matches = []
+    for id, json of @store
+      if typeof json is 'string' and json isnt 'undefined'
+        obj = JSON.parse(json)
+        matches.push(new this(obj)) if predicate(obj)
+    matches
   @all: () ->
     (obj for id, obj of @store when obj.type is @name)
   @emitChange: () ->
@@ -24,9 +38,9 @@ class Store
   save: (options={}) ->
     #console.log("Saving #{@constructor.name} #{@id}")
     if not @_destroy
-      @constructor.store[@id] = this
+      @constructor.store.setItem(@id, JSON.stringify(this))
     else
-      delete @constructor.store[@id]
+      @constructor.store.removeItem(@id)
   destroy: () ->
     @_destroy = true
 module.exports = Store

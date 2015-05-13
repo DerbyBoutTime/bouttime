@@ -9,6 +9,7 @@ module.exports = React.createClass
   displayName: 'SkaterPenalties'
   propTypes:
     skater: React.PropTypes.object.isRequired
+    team: React.PropTypes.object.isRequired
     hidden: React.PropTypes.bool
     backHandler: React.PropTypes.func.isRequired
     editHandler: React.PropTypes.func.isRequired
@@ -37,7 +38,6 @@ module.exports = React.createClass
     containerClass = cx
       'skater-penalties': true
       'hidden': @props.hidden
-    skaterTeam = @props.skater.getTeam()
     <div className={containerClass}>
       <div className='row gutters-xs top-buffer actions' >
         <div className='col-xs-12'>
@@ -62,7 +62,7 @@ module.exports = React.createClass
             <PenaltyControl
               penaltyNumber={i+1}
               skaterPenalty={@props.skater.penalties[i]}
-              teamStyle={skaterTeam.colorBarStyle}
+              teamStyle={@prop.team.colorBarStyle}
               target={@getPenaltyId(i)} />
           </div>
         , this}
