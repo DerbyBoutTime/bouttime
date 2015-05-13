@@ -25,10 +25,11 @@ module.exports = React.createClass
     @state.gameState.clockManager.initialize()
     GameState.addChangeListener @onChange
     @state.gameState.clockManager.addTickListener (clocks) =>
-      console.log clocks
-      @refs.jamTimer.refs.clocks.setState
+      h =
         jamClock: clocks.jamClock.display
         periodClock: clocks.periodClock.display
+      @refs.scoreboard.refs.clocks.setState(h) if @refs.scoreboard
+      @refs.jamTimer.refs.clocks.setState(h) if @refs.jamTimer
     $dom = $(@getDOMNode())
     $dom.on 'click', '.bad-status', null, (evt) ->
     $dom.on 'click', 'ul.nav li', null, (evt) =>
@@ -85,7 +86,7 @@ module.exports = React.createClass
       when "penalty_box_timer"
         <PenaltyBoxTimer gameState={@state.gameState} setSelectorContext={@setSelectorContext}/>
       when "scoreboard"
-        <Scoreboard gameState={@state.gameState} />
+        <Scoreboard gameState={@state.gameState} ref="scoreboard"/>
       when "penalty_whiteboard"
         <PenaltyWhiteboard {...@state} />
       when "announcers_feed"

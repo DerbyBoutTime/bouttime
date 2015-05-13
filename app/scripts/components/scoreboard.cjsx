@@ -3,6 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 React = require 'react/addons'
 Jam = require '../models/jam.coffee'
+ScoreboardClocks = require './scoreboard/scoreboard_clocks.cjsx'
 cx = React.addons.classSet
 module.exports = React.createClass
   render: () ->
@@ -149,14 +150,11 @@ module.exports = React.createClass
               <div className="number jam-number">{@props.gameState.jamNumber}</div>
             </div>
           </div>
-          <div className="period-clock">
-            <label className="visible-xs-block">Game</label>
-            <div className="clock period-clock">{@props.gameState.periodClock.display()}</div>
-          </div>
-          <div className="jam-clock">
-            <label className="jam-clock-label">{@props.gameState.state}</label>
-            <div className="clock">{@props.gameState.jamClock.display()}</div>
-          </div>
+          <ScoreboardClocks
+            ref="clocks"
+            jamLabel={@props.gameState.state.replace(/_/g, ' ')}
+            jamClock={@props.gameState.jamClock.display()}
+            periodClock={@props.gameState.periodClock.display()}/>
         </div>
         <div className="jam-points-wrapper">
           <div className="home-team-jam-points points">{homeJamPoints}</div>
