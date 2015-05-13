@@ -7,6 +7,7 @@ JamAndPeriodNumbers = require './jam_timer/jam_and_period_numbers.cjsx'
 JTClocks = require './jam_timer/jt_clocks.cjsx'
 Clocks = require '../clock.coffee'
 TimeoutBars = require './jam_timer/timeout_bars.cjsx'
+shallowEqual = require '../shallowEqual.js'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'JamTimer'
@@ -34,7 +35,10 @@ module.exports = React.createClass
   getInitialState: () ->
     modalHandler: () ->
   shouldComponentUpdate: (nprops, nstate) ->
-    true
+    #If any of these aren't shallowly the same then update
+    !shallowEqual(@props, nprops) ||
+    !shallowEqual(@props.home, nprops.home) ||
+    !shallowEqual(@props.away, nprops.away)
   componentDidMount: () ->
     @props.jamClock.emitter.addListener "clockExpiration", @jamClockExpired
   componentWillUnmount: () ->
