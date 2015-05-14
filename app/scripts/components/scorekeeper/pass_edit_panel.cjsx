@@ -26,6 +26,9 @@ module.exports = React.createClass
       type: ActionTypes.TOGGLE_LEAD
       passId: @props.pass.id
   setStarPass: () ->
+    if !@props.jam.pivot?
+      @props.selectPivot()
+      $("#skater-selector-modal").modal('show')
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_STAR_PASS
       passId: @props.pass.id

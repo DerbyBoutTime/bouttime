@@ -1,5 +1,8 @@
 React = require 'react/addons'
 functions = require '../../functions.coffee'
+AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
+{ActionTypes} = require '../../constants.coffee'
+SkaterSelector = require '../shared/skater_selector.cjsx'
 ScoreNote = require './score_note.cjsx'
 PassEditPanel = require './pass_edit_panel.cjsx'
 cx = React.addons.classSet
@@ -7,6 +10,14 @@ module.exports = React.createClass
   displayName: 'PassItem'
   propTypes:
     pass: React.PropTypes.object.isRequired
+  setJammer: (skaterId) ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.SET_SKATER_POSITION
+      jamId: @props.jam.id
+      position: @jammerLineupPosition()
+      skaterId: skaterId
+  jammerLineupPosition: () ->
+    if @props.jam.starPass and @props.pass.passNumber >= @props.jam.starPassNumber then 'pivot' else 'jammer'
   hidePanels: () ->
     $('.scorekeeper .collapse.in').collapse('hide');
   preventDefault: (evt) ->
@@ -29,8 +40,7 @@ module.exports = React.createClass
       'text-center': true
     editPassId = "edit-pass-#{functions.uniqueId()}"
     notes = @props.pass.getNotes()
-    jammer = if @props.jam.starPass and @props.pass.passNumber > @props.jam.starPassNumber then @props.jam.pivot else @props.jam.jammer
-    jammerNumber = if jammer? then jammer.number else <span>&nbsp;</span>
+    jammer = @props.jam[@jammerLineupPosition()]
     <div aria-multiselectable="true" draggable='true' onDragStart={@props.dragHandler} onDragOver={@preventDefault} onDrop={@props.dropHandler} onMouseDown={@props.mouseDownHandler}>
       <div className="columns">
         <div className="row gutters-xs">
@@ -46,9 +56,12 @@ module.exports = React.createClass
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <div className='boxed-good text-center'>
-                <strong>{jammerNumber}</strong>
-              </div>
+                <SkaterSelector
+                  skater={jammer}
+                  injured={@props.jam.isInjured(@jammerLineupPosition())}
+                  style={@props.style}
+                  setSelectorContext={@props.setSelectorContext}
+                  selectHandler={@setJammer} />
             </div>
             <div data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId} onClick={@hidePanels}>
               <div className="col-sm-2 col-xs-2">
@@ -69,5 +82,5 @@ module.exports = React.createClass
           </div>
         </div>
       </div>
-      <PassEditPanel {...@props} editPassId={editPassId}/>
+      <PassEditPanel {...@props} selectPivot={@props.setSelectorContext.bind(null, @setJammer)} editPassId={editPassId}/>
     </div>
