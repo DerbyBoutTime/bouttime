@@ -65,8 +65,8 @@ class GameState extends Store
         game.setHomeTeamTimeouts(action.value)
       when ActionTypes.SET_AWAY_TEAM_TIMEOUTS
         game.setAwayTeamTimeouts(action.value)
-      when ActionTypes.SET_PERIOD_NUMBER
-        game.setPeriodNumber(action.value)
+      when ActionTypes.SET_PERIOD
+        game.setPeriod(action.value)
       when ActionTypes.SET_JAM_NUMBER
         game.setJamNumber(action.value)
       when ActionTypes.REMOVE_HOME_TEAM_OFFICIAL_REVIEW
@@ -92,8 +92,8 @@ class GameState extends Store
     @officials = options.officials ? []
     @debug = options.debug ? false
     @state = options.state ? 'pregame'
+    @period = options.period ? 'pregame'
     @jamNumber = options.jamNumber ? 0
-    @periodNumber = options.periodNumber ? 0
     @clockManager = new ClockManager()
     @jamClock = @clockManager.getOrAddClock "jamClock", PREGAME_CLOCK_SETTINGS
     @periodClock = @clockManager.getOrAddClock "periodClock", PERIOD_CLOCK_SETTINGS
@@ -132,17 +132,22 @@ class GameState extends Store
     @jamClock.start()
   stopClock: () ->
     @jamClock.stop()
+  advancePeriod: () ->
+    if @period is "pregame"
+      @period = "period 1"
+      @periodClock.reset(PERIOD_CLOCK_SETTINGS)
+    else if @period is "halftime"
+      @period = "period 2"
+      @periodClock.reset(PERIOD_CLOCK_SETTINGS)
   startJam: () ->
     @_clearTimeouts()
     @jamClock.reset(JAM_CLOCK_SETTINGS)
     @jamClock.start()
     @periodClock.start()
     @state = "jam"
+    @advancePeriod()
     @home.jamPoints = 0
     @away.jamPoints = 0
-    if @periodNumber == 0 ? @periodClock.time == 0
-      @periodNumber = @periodNumber + 1
-      @periodClock.reset(PERIOD_CLOCK_SETTINGS)
     @jamNumber = @jamNumber + 1
     for i in [@away.jams.length+1 .. @jamNumber] by 1
       @away.createNextJam()
@@ -157,20 +162,23 @@ class GameState extends Store
     @jamClock.start()
     @periodClock.start()
     @state = "lineup"
+    @advancePeriod()
   startPregame: () =>
     @periodClock.reset(time: 0)
     @state = "pregame"
+    @period = "pregame"
     @jamClock.reset(PREGAME_CLOCK_SETTINGS)
   startHalftime: () =>
     @periodClock.reset(time: 0)
     @state = "halftime"
+    @period = "halftime"
     @jamClock.reset(HALFTIME_CLOCK_SETTINGS)
   startUnofficialFinal: () =>
-    @inUnofficialFinal = true
-    @inOfficialFinal =  false
+    @state = "unofficial final"
+    @period = "unofficial final"
   startOfficialFinal: () =>
-    @inUnofficialFinal = false
-    @inOfficialFinal =  true
+    @state = "official final"
+    @period = "official final"
   startTimeout: () =>
     @_stopClocks()
     @jamClock.reset(TIMEOUT_CLOCK_SETTINGS)
@@ -228,8 +236,8 @@ class GameState extends Store
     @home.timeouts = parseInt(val)
   setAwayTeamTimeouts: (val) =>
     @away.timeouts = parseInt(val)
-  setPeriodNumber: (val) =>
-    @periodNumber = parseInt(val)
+  setPeriod: (val) =>
+    @period = val
   setJamNumber: (val) =>
     @jamNumber = parseInt(val)
   removeHomeTeamOfficialReview: () =>
@@ -250,12 +258,6 @@ class GameState extends Store
       @state == "timeout"
   _clearAlerts: () =>
     @_clearTimeouts()
-    @inUnofficialFinal = false
-    @inOfficialFinal = false
-    @home.isUnofficialFinal = false
-    @home.isOfficialFinal = false
-    @away.isUnofficialFinal = false
-    @away.isOfficialFinal = false
   _clearTimeouts: () =>
     @home.isTakingTimeout = false
     @away.isTakingTimeout = false

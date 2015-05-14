@@ -17,9 +17,9 @@ module.exports = React.createClass
     periodClock: React.PropTypes.instanceOf(Clocks.Clock)
     jamClock: React.PropTypes.instanceOf(Clocks.Clock)
     jamNumber: React.PropTypes.number
-    periodNumber: React.PropTypes.number
     gameStateId: React.PropTypes.string
-    state: React.PropTypes.oneOf ["jam", "lineup", "timeout", "pregame", "halftime", "unofficial_final", "final"]
+    state: React.PropTypes.oneOf ["jam", "lineup", "timeout", "pregame", "halftime", "unofficial final", "official final"]
+    period: React.PropTypes.oneOf ["pregame", "period 1", "period 2", "halftime", "unofficial final", "official final"]
     home: React.PropTypes.shape
       hasOfficialReview: React.PropTypes.bool
       officialReviewsRetained: React.PropTypes.number
@@ -37,7 +37,7 @@ module.exports = React.createClass
   getInitialState: () ->
     modalHandler: () ->
   shouldComponentUpdate: (nprops, nstate) ->
-    _.isEqual(@props, nprops) == false
+    not _.isEqual(@props, nprops) or not _.isEqual(@state, nstate)
   componentDidMount: () ->
     @props.jamClock.emitter.addListener "clockExpiration", @jamClockExpired
   componentWillUnmount: () ->
@@ -79,33 +79,38 @@ module.exports = React.createClass
     $modal.modal('show')
   handleModal: () ->
     $modal = $(@refs.modal.getDOMNode())
-    $input = $(@refs.modalInput.getDOMNode())
+    $input = $(@refs[@state.modalInput].getDOMNode())
     $modal.modal('hide')
-    val = parseInt($input.val())
+    val = $input.val()
+    val = parseInt(val) if $input.attr('type') is 'number'
     @state.modalHandler(val)
   clickJamEdit: () ->
-    $input = $(@refs.modalInput.getDOMNode())
+    $input = $(@refs.modalInputNumber.getDOMNode())
     $input.val(@props.jamNumber)
     @openModal()
     @setState
+      modalInput: 'modalInputNumber'
       modalHandler: @setJamNumber
   clickPeriodEdit: () ->
-    $input = $(@refs.modalInput.getDOMNode())
-    $input.val(@props.periodNumber)
+    $input = $(@refs.modalPeriodSelect.getDOMNode())
+    $input.val(@props.period)
     @openModal()
     @setState
-      modalHandler: @setPeriodNumber
+      modalInput: 'modalPeriodSelect'
+      modalHandler: @setPeriod
   clickJamClockEdit: () ->
-    $input = $(@refs.modalInput.getDOMNode())
+    $input = $(@refs.modalInputNumber.getDOMNode())
     $input.val(@props.jamClock.time/1000)
     @openModal()
     @setState
+      modalInput: 'modalInputNumber'
       modalHandler: @setJamClock
   clickPeriodClockEdit: () ->
-    $input = $(@refs.modalInput.getDOMNode())
+    $input = $(@refs.modalInputNumber.getDOMNode())
     $input.val(@props.periodClock.time/1000)
     @openModal()
     @setState
+      modalInput: 'modalInputNumber'
       modalHandler: @setPeriodClock
   startClock: () ->
     AppDispatcher.dispatchAndEmit
@@ -195,9 +200,9 @@ module.exports = React.createClass
       type: ActionTypes.SET_AWAY_TEAM_TIMEOUTS
       gameId: @props.gameStateId
       value: value
-  setPeriodNumber: (value) ->
+  setPeriod: (value) ->
     AppDispatcher.dispatchAndEmit
-      type: ActionTypes.SET_PERIOD_NUMBER
+      type: ActionTypes.SET_PERIOD
       gameId: @props.gameStateId
       value: value
   setJamNumber: (value) ->
@@ -221,10 +226,14 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
       gameId: @props.gameStateId
+  modalInputClass: (ref) ->
+    cx
+      'form-control': true
+      'hidden': @state.modalInput isnt ref
   render: () ->
     #CS = Class Set
     timeoutSectionCS =
-      if ["jam", "lineup", "timeout", "unofficial_final"].indexOf(@props.state) != -1
+      if @props.state in ["jam", "lineup", "timeout", "unofficial final"]
         <div className="timeout-section row margin-xs">
           <div className="col-xs-12">
             <button className="bt-btn" onClick={@startTimeout}>TIMEOUT</button>
@@ -274,42 +283,62 @@ module.exports = React.createClass
             </div>
           </div>
         </div>
-
     startClockSectionCS =
-     if ["pregame", "halftime", "final"].indexOf(@props.state) != -1
-      <div className='start-clock-section row margin-xs'>
-        <div className="col-xs-12">
-          <button className="bt-btn" onClick={@startClock}>START CLOCK</button>
+      if @props.state in ["pregame", "halftime", "unofficial final", "official final"]
+        <div className='start-clock-section row margin-xs'>
+          <div className="col-xs-12">
+            <button className="bt-btn" onClick={@startClock}>START CLOCK</button>
+          </div>
         </div>
-      </div>
     stopClockSectionCS =
-      if ["pregame", "halftime", "final"].indexOf(@props.state) != -1
+      if @props.state in ["pregame", "halftime", "unofficial final", "official final"]
         <div className='stop-clock-section row margin-xs'>
           <div className="col-xs-12">
             <button className="bt-btn" onClick={@stopClock}>STOP CLOCK</button>
           </div>
         </div>
     startJamSectionCS =
-      if ["pregame", "halftime", "lineup", "timeout"].indexOf(@props.state) != -1
+      if @props.state in ["pregame", "halftime", "lineup", "timeout"]
         <div className='start-jam-section row margin-xs'>
           <div className="col-xs-12">
             <button className="bt-btn" onClick={@startJam}>START JAM</button>
           </div>
         </div>
     stopJamSectionCS =
-      if ["jam"].indexOf(@props.state) != -1
+      if @props.state is "jam"
         <div className='stop-jam-section row margin-xs'>
           <div className="col-xs-12">
             <button className="bt-btn" onClick={@stopJam}>STOP JAM</button>
           </div>
         </div>
     startLineupSectionCS =
-      if ["pregame", "halftime", "unofficial_final", "final"].indexOf(@props.state) != -1
-          <div className='start-lineup-section row margin-xs'>
-            <div className="col-xs-12 start-lineup-section">
-              <button className="bt-btn" onClick={@startLineup}>START LINEUP</button>
-            </div>
+      if @props.state in ["pregame", "halftime"]
+        <div className='start-lineup-section row margin-xs'>
+          <div className="col-xs-12 start-lineup-section">
+            <button className="bt-btn" onClick={@startLineup}>START LINEUP</button>
           </div>
+        </div>
+    startHalftimeSectionCS = 
+      if @props.state is "lineup" and @props.period is "period 1" and @props.periodClock.time is 0
+        <div className='start-halftime-section row margin-xs'>
+          <div className="col-xs-12 start-halftime-section">
+            <button className="bt-btn" onClick={@startHalftime}>START HALFTIME</button>
+          </div>
+        </div>
+    startUnofficialFinalSectionCS = 
+      if @props.state is "lineup" and @props.period is "period 2" and @props.periodClock.time is 0
+        <div className='start-unofficial-final-section row margin-xs'>
+          <div className="col-xs-12 start-unofficial-final-section">
+            <button className="bt-btn" onClick={@startUnofficialFinal}>START UNOFFICIAL FINAL</button>
+          </div>
+        </div>
+    startOfficialFinalSectionCS = 
+      if @props.state is "unofficial final"
+        <div className='start-halftime-section row margin-xs'>
+          <div className="col-xs-12 start-halftime-section">
+            <button className="bt-btn" onClick={@startOfficialFinal}>START OFFICIAL FINAL</button>
+          </div>
+        </div>
     homeTeamOfficialReviewCS =
     homeTeamTimeoutClasses = [
       cx
@@ -362,7 +391,7 @@ module.exports = React.createClass
         </div>
         <div className="col-md-8 col-xs-8">
           <JamAndPeriodNumbers
-            periodNumber={@props.periodNumber}
+            period={@props.period}
             jamNumber={@props.jamNumber}
             clickJamEdit={@clickJamEdit}
             clickPeriodEdit={@clickPeriodEdit}/>
@@ -391,6 +420,9 @@ module.exports = React.createClass
       {startJamSectionCS}
       {stopJamSectionCS}
       {startLineupSectionCS}
+      {startHalftimeSectionCS}
+      {startUnofficialFinalSectionCS}
+      {startOfficialFinalSectionCS}
       <div className="modal" ref="modal">
         <div className="modal-dialog">
           <div className="modal-content">
@@ -399,7 +431,15 @@ module.exports = React.createClass
               <h4 className="modal-title">Edit</h4>
             </div>
             <div className="modal-body">
-              <input type="number" className="form-control" ref="modalInput"/>
+              <select className={@modalInputClass('modalPeriodSelect')} ref="modalPeriodSelect">
+                <option value="pregame">Pregame</option>
+                <option value="period 1">Period 1</option>
+                <option value="halftime">Halftime</option>
+                <option value="period 2">Period 2</option>
+                <option value="unofficial final">Unofficial Final</option>
+                <option value="official final">Official Final</option>
+              </select>
+              <input type="number" className={@modalInputClass('modalInputNumber')} ref="modalInputNumber"/>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-primary" onClick={@handleModal}>Save changes</button>

@@ -8,7 +8,7 @@ module.exports = React.createClass
       <div className="col-xs-12">
         <strong>
           <span className="jt-label pull-left" onClick={@props.clickPeriodEdit}>
-            Period {@props.periodNumber}
+            {@props.period}
           </span>
           <span className="jt-label pull-right" onClick={@props.clickJamEdit}>
             Jam {@props.jamNumber}
