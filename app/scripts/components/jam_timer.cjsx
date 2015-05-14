@@ -290,7 +290,7 @@ module.exports = React.createClass
           </div>
         </div>
     startJamSectionCS =
-      if ["pregame", "halftime", "lineup"].indexOf(@props.state) != -1
+      if ["pregame", "halftime", "lineup", "timeout"].indexOf(@props.state) != -1
         <div className='start-jam-section row margin-xs'>
           <div className="col-xs-12">
             <button className="bt-btn" onClick={@startJam}>START JAM</button>
@@ -304,7 +304,7 @@ module.exports = React.createClass
           </div>
         </div>
     startLineupSectionCS =
-      if ["pregame", "halftime",  "timeout", "unofficial_final", "final"].indexOf(@props.state) != -1
+      if ["pregame", "halftime", "unofficial_final", "final"].indexOf(@props.state) != -1
           <div className='start-lineup-section row margin-xs'>
             <div className="col-xs-12 start-lineup-section">
               <button className="bt-btn" onClick={@startLineup}>START LINEUP</button>
