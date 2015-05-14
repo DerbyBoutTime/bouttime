@@ -16,6 +16,8 @@ module.exports = React.createClass
       when 'injured' then <span className="glyphicon glyphicon-paperclip"></span>
       when 'sat_in_box' then  'S'
       when 'sat_in_box_and_released' then '$'
+      when 'continuing_penalty' then '|'
+      when 'continuing_penalty_and_released' then '+'
   render: () ->
     injuryClass = cx
       'box-injury': @props.status is 'injured'

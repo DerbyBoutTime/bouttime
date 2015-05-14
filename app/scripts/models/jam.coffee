@@ -119,7 +119,9 @@ class Jam extends Store
       when 'went_to_box' then 'went_to_box_and_released'
       when 'went_to_box_and_released' then 'sat_in_box'
       when 'sat_in_box' then 'sat_in_box_and_released'
-      when 'sat_in_box_and_released' then 'injured'
+      when 'sat_in_box_and_released' then 'continuing_penalty'
+      when 'continuing_penalty' then 'continuing_penalty_and_released'
+      when 'continuing_penalty_and_released' then 'injured'
       when 'injured' then 'clear'
       else 'clear'
   cycleLineupStatus: (statusIndex, position) ->
