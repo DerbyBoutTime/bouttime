@@ -122,8 +122,11 @@
   }
   .edit-pass {
     @include border-arrow(95%);
-    .row:nth-child(2) {
+    .row {
       margin-top: 4px;
+      &:first-child {
+        margin-top: 0px;
+      }
     }
   }
   .edit-pass-number {
