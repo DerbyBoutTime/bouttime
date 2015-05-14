@@ -22,6 +22,7 @@ module.exports = React.createClass
       type: ActionTypes.TOGGLE_LOST_LEAD
       passId: @props.pass.id
   toggleLead: () ->
+    $("##{@props.editPassId}").collapse('hide')
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_LEAD
       passId: @props.pass.id
