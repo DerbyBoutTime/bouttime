@@ -34,12 +34,19 @@ class Jam extends Store
         jam.cycleLineupStatus(action.statusIndex, action.position)
         jam.save()
         @emitChange()
+      when ActionTypes.TOGGLE_LEAD
+        AppDispatcher.waitFor([Pass.dispatchToken])
+        pass = Pass.find(action.passId)
+        jam = Jam.find(pass.jamId)
+        jam.createNextPass(action.newPassId) if pass.id is jam.getLastPass().id
+        jam.save()
+        @emitChange()
       when ActionTypes.SET_POINTS
         AppDispatcher.waitFor([Pass.dispatchToken])
         pass = Pass.find(action.passId)
         jam = Jam.find(pass.jamId)
         jam.createNextPass(action.newPassId) if pass.id is jam.getLastPass().id
-        pass.save()
+        jam.save()
         @emitChange()
       when ActionTypes.REORDER_PASS
         jam = @find(action.jamId)
