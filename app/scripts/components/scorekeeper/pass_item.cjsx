@@ -1,36 +1,14 @@
 React = require 'react/addons'
-AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
-{ActionTypes} = require '../../constants.coffee'
 functions = require '../../functions.coffee'
-SkaterSelector = require '../shared/skater_selector.cjsx'
 ScoreNote = require './score_note.cjsx'
 PassEditPanel = require './pass_edit_panel.cjsx'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'PassItem'
   propTypes:
-    jam: React.PropTypes.object.isRequired
     pass: React.PropTypes.object.isRequired
-  setSkater: (skaterId) ->
-    AppDispatcher.dispatchAndEmit
-      type: ActionTypes.SET_PASS_JAMMER
-      passId: @props.pass.id
-      skaterId: skaterId
-  isInjured: (position) ->
-    @props.jam.lineupStatuses? and @props.jam.lineupStatuses.some (status) ->
-      status[position] is 'injured'
   hidePanels: () ->
     $('.scorekeeper .collapse.in').collapse('hide');
-  getNotes: () ->
-    pass = @props.pass
-    flags =
-      injury: pass.injury
-      nopass: pass.nopass
-      calloff: pass.calloff
-      lost: pass.lostLead
-      lead: pass.lead
-    Object.keys(flags).filter (key) ->
-      flags[key]
   preventDefault: (evt) ->
     evt.preventDefault()
   render: () ->
@@ -50,7 +28,9 @@ module.exports = React.createClass
       'lost': true
       'text-center': true
     editPassId = "edit-pass-#{functions.uniqueId()}"
-    notes = @getNotes()
+    notes = @props.pass.getNotes()
+    jammer = if @props.jam.starPass and @props.pass.passNumber > @props.jam.starPassNumber then @props.jam.pivot else @props.jam.jammer
+    jammerNumber = if jammer? then jammer.number else <span>&nbsp;</span>
     <div aria-multiselectable="true" draggable='true' onDragStart={@props.dragHandler} onDragOver={@preventDefault} onDrop={@props.dropHandler} onMouseDown={@props.mouseDownHandler}>
       <div className="columns">
         <div className="row gutters-xs">
@@ -66,13 +46,10 @@ module.exports = React.createClass
               </div>
             </div>
             <div className="col-sm-2 col-xs-2">
-              <SkaterSelector
-                skater={@props.pass.jammer}
-                injured={@isInjured('jammer')}
-                style={@props.style}
-                setSelectorContext={@props.setSelectorContext}
-                selectHandler={@setSkater} />
+              <div className='boxed-good text-center'>
+                <strong>{jammerNumber}</strong>
               </div>
+            </div>
             <div data-toggle="collapse" data-target={"##{editPassId}"} aria-expanded="false" aria-controls={editPassId} onClick={@hidePanels}>
               <div className="col-sm-2 col-xs-2">
                 <ScoreNote note={notes[0]} />

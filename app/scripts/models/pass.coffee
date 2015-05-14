@@ -31,6 +31,11 @@ class Pass extends Store
         pass.toggleLead()
         pass.save()
         @emitChange()
+      when ActionTypes.SET_STAR_PASS
+        pass = @find(action.passId)
+        pass.setPoints(0)
+        pass.save()
+        @emitChange()
       when ActionTypes.SET_POINTS
         pass = @find(action.passId)
         pass.setPoints(action.points)
@@ -66,4 +71,13 @@ class Pass extends Store
     @points = points
   setJammer: (skaterId) ->
     @jammer = Skater.find(skaterId)
+  getNotes: () ->
+    flags =
+      injury: @injury
+      nopass: @nopass
+      calloff: @calloff
+      lost: @lostLead
+      lead: @lead
+    Object.keys(flags).filter (key) ->
+      flags[key]
 module.exports = Pass

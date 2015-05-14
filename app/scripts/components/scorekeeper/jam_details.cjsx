@@ -9,11 +9,6 @@ module.exports = React.createClass
     mainMenuHandler: React.PropTypes.func
     prevJamHandler: React.PropTypes.func
     nextJamHandler: React.PropTypes.func
-  totalPoints: () ->
-    points = 0
-    @props.jam.getPasses().map (pass) =>
-      points += pass.points ? 0
-    return points
   render: () ->
     <div className="jam-details-container">
       <div className="links">
@@ -44,7 +39,7 @@ module.exports = React.createClass
           </div>
           <div className="col-sm-3 col-xs-3 text-right">
             <div className="jam-total-score">
-              <strong>{@totalPoints()}</strong>
+              <strong>{@props.jam.getPoints()}</strong>
             </div>
           </div>
         </div>

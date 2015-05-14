@@ -112,11 +112,11 @@ module.exports = React.createClass
     awayJammerLeadCS = cx
       'glyphicon': true
       'glyphicon-star': true
-      'hidden': not awayJam? or not awayJam.getPasses()[0]? or not awayJam.getPasses()[0].lead or awayJam.getPasses().some (pass) -> pass.lostLead?
+      'hidden': not awayJam? or not awayJam.passes[0]? or not awayJam.passes[0].lead or awayJam.passes.some (pass) -> pass.lostLead?
     homeJammerLeadCS = cx
       'glyphicon': true
       'glyphicon-star': true
-      'hidden': not homeJam? or not homeJam.getPasses()[0]? or not homeJam.getPasses()[0].lead or homeJam.getPasses().some (pass) -> pass.lostLead?
+      'hidden': not homeJam? or not homeJam.passes[0]? or not homeJam.passes[0].lead or homeJam.passes.some (pass) -> pass.lostLead?
     <div className="scoreboard" id="scoreboard">
       <section className="team home">
         <div className="logo">
