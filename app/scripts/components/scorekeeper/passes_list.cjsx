@@ -23,11 +23,11 @@ module.exports = React.createClass
       targetPassIndex: passIndex
   render: () ->
     PassItemFactory = React.createFactory(PassItem)
-    passComponents = @props.jam.getPasses().map (pass, passIndex) =>
+    passComponents = @props.jam.passes.map (pass, passIndex) =>
       PassItemFactory(
         key: passIndex
-        jam: @props.jam
         pass: pass
+        jam: @props.jam
         setSelectorContext: @props.setSelectorContext
         dragHandler: @dragHandler.bind(this, passIndex)
         dropHandler: @dropHandler.bind(this, passIndex)

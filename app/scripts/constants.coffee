@@ -58,6 +58,7 @@ module.exports =
     TOGGLE_CALLOFF: null
     TOGGLE_LOST_LEAD: null
     TOGGLE_LEAD: null
+    SET_STAR_PASS: null
     SET_POINTS: null
     REORDER_PASS: null
     SET_PASS_JAMMER: null

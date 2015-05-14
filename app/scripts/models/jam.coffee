@@ -17,6 +17,13 @@ class Jam extends Store
         jam.toggleStarPass()
         jam.save()
         @emitChange()
+      when ActionTypes.SET_STAR_PASS
+        pass = Pass.find(action.passId)
+        jam = Jam.find(pass.jamId)
+        jam.setStarPass(pass)
+        jam.createNextPass(action.newPassId) if pass.id is jam.getLastPass().id
+        jam.save()
+        @emitChange()
       when ActionTypes.SET_SKATER_POSITION
         jam = @find(action.jamId)
         jam.setSkaterPosition(action.position, action.skaterId)
@@ -55,6 +62,7 @@ class Jam extends Store
     @jamNumber = options.jamNumber ? 1
     @noPivot = options.noPivot ? false
     @starPass = options.starPass ? false
+    @starPassNumber = options.starPassNumber ? 0
     @pivot = new Skater(options.pivot) if options.pivot
     @blocker1 = new Skater(options.blocker1) if options.blocker1
     @blocker2 = new Skater(options.blocker2) if options.blocker2
@@ -75,8 +83,7 @@ class Jam extends Store
     Pass.findBy(jamId: @id).sort (a, b) ->
       a.passNumber - b.passNumber
   getLastPass: () ->
-    passes = @getPasses()
-    passes[passes.length - 1]
+    @passes[@passes.length - 1]
   getPositionsInBox: () ->
     positions = []
     for row in @lineupStatuses
@@ -84,13 +91,26 @@ class Jam extends Store
         positions.push(position) if status in ['went_to_box', 'sat_in_box']
     positions
   getPoints: () ->
-    @getPasses().reduce ((sum, pass) -> sum += pass.points), 0
+    @passes.reduce ((sum, pass) -> sum += pass.points), 0
+  getNotes: () ->
+    flags = @passes.reduce (prev, pass) ->
+      injury: prev.injury or pass.injury
+      nopass: prev.nopass or pass.nopass
+      calloff: prev.calloff or pass.calloff
+      lost: prev.lost  or pass.lostLead
+      lead: prev.lead or pass.lead
+    , {}
+    Object.keys(flags).filter (key) ->
+      flags[key]
   toggleNoPivot: () ->
     console.log "toggling no pivot #{@id}"
     @noPivot = not @noPivot
   toggleStarPass: () ->
     console.log "toggling star pass #{@id}"
     @starPass = not @starPass
+  setStarPass: (pass) ->
+    @starPass = not @starPass or @starPassNumber isnt pass.passNumber
+    @starPassNumber = pass.passNumber
   setSkaterPosition: (position, skaterId) ->
     @[position] = Skater.find(skaterId)
   statusTransition: (status) ->
@@ -118,7 +138,9 @@ class Jam extends Store
     @passes.push newPass
     @save()
   reorderPass: (sourcePassIndex, targetPassIndex) ->
-    list = @getPasses()
-    list.splice(targetPassIndex, 0, list.splice(sourcePassIndex, 1)[0])
-    pass.passNumber = i + 1 for pass, i in list
+    @passes.splice(targetPassIndex, 0, @passes.splice(sourcePassIndex, 1)[0])
+    pass.passNumber = i + 1 for pass, i in @passes
+  isInjured: (position) ->
+    @lineupStatuses? and @lineupStatuses.some (status) ->
+      status[position] is 'injured'
 module.exports = Jam
