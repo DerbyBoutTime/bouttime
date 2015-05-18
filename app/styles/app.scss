@@ -38,6 +38,7 @@ $input-color: $near-black;
   border-radius: 2px;
   font-size: 1.1em;
   line-height: $minimum-touch-target;
+  min-height: $minimum-touch-target;
 }
 .btn-boxed{
   @extend .boxed-good;
