@@ -75,11 +75,23 @@ module.exports =
       @expirationIssued = false
       @tickUp = options.tickUp ? false
       @refreshRateInMS = options.refreshRateInMs ? constants.CLOCK_REFRESH_RATE_IN_MS
-      @time = options.time ? 0
+      @time = @parse(options.time)
       @initialTime = @time
       @warningTime = options.warningTime ? null
     display: () =>
-      functions.toClock(@time, false)
+      moment.duration(@time).format('mm:ss')
+    parse: (time) =>
+      switch typeof time
+        when 'string'
+          parts = time.split(':')
+          while parts.length < 3
+            parts.unshift('00')
+          time = parts.join(':')
+          moment.duration(time).asMilliseconds()
+        when 'number'
+          time
+        else
+          0
     buildEventOptions: () =>
       id: @id
       time: @time

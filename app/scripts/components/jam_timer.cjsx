@@ -99,18 +99,18 @@ module.exports = React.createClass
       modalInput: 'modalPeriodSelect'
       modalHandler: @setPeriod
   clickJamClockEdit: () ->
-    $input = $(@refs.modalInputNumber.getDOMNode())
-    $input.val(@props.jamClock.time/1000)
+    $input = $(@refs.modalInputText.getDOMNode())
+    $input.val(@props.jamClock.display())
     @openModal()
     @setState
-      modalInput: 'modalInputNumber'
+      modalInput: 'modalInputText'
       modalHandler: @setJamClock
   clickPeriodClockEdit: () ->
-    $input = $(@refs.modalInputNumber.getDOMNode())
-    $input.val(@props.periodClock.time/1000)
+    $input = $(@refs.modalInputText.getDOMNode())
+    $input.val(@props.periodClock.display())
     @openModal()
     @setState
-      modalInput: 'modalInputNumber'
+      modalInput: 'modalInputText'
       modalHandler: @setPeriodClock
   startClock: () ->
     AppDispatcher.dispatchAndEmit
@@ -440,6 +440,7 @@ module.exports = React.createClass
                 <option value="official final">Official Final</option>
               </select>
               <input type="number" className={@modalInputClass('modalInputNumber')} ref="modalInputNumber"/>
+              <input type="text" className={@modalInputClass('modalInputText')} ref="modalInputText" />
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-primary" onClick={@handleModal}>Save changes</button>
