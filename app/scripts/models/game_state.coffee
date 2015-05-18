@@ -229,9 +229,9 @@ class GameState extends Store
       @stopJam()
   setJamEndedByCalloff: () =>
   setJamClock: (val) =>
-    @jamClock.reset(time: val*1000)
+    @jamClock.reset(time: val)
   setPeriodClock: (val) =>
-    @periodClock.reset(time: val*1000)
+    @periodClock.reset(time: val)
   setHomeTeamTimeouts: (val) =>
     @home.timeouts = parseInt(val)
   setAwayTeamTimeouts: (val) =>
