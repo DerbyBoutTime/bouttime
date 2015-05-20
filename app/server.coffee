@@ -13,12 +13,15 @@ module.exports = start: (port=3000) ->
   AppDispatcher = require('./scripts/dispatcher/app_dispatcher')
   {ActionTypes} = require './scripts/constants'
   app.use '/', express.static(__dirname)
+  games = GameState.all()
+  GameState.addChangeListener () ->
+    games = GameState.all()
   io.on 'connection', (socket) ->
     console.log('a user connected')
     socket.emit 'connected'
     socket.emit 'app dispatcher',
       type: ActionTypes.SYNC_GAMES
-      games: GameState.all()
+      games: games
     socket.on 'disconnect', () ->
       console.log('user disconnected')
     socket.on 'app dispatcher', (action) ->

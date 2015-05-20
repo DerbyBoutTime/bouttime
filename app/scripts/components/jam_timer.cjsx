@@ -397,11 +397,10 @@ module.exports = React.createClass
             clickPeriodEdit={@clickPeriodEdit}/>
           <JTClocks
             jamLabel={@props.state.replace(/_/g, ' ')}
-            jamClock={@props.jamClock.display()}
-            periodClock={@props.periodClock.display()}
+            jamClock={@props.jamClock}
+            periodClock={@props.periodClock}
             jamClockClickHandler={@clickJamClockEdit}
-            periodClockClickHandler={@clickPeriodClockEdit}
-            ref="clocks"/>
+            periodClockClickHandler={@clickPeriodClockEdit}/>
         </div>
         <div className="col-md-2 col-xs-2">
           <TimeoutBars

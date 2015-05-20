@@ -15,16 +15,14 @@ GameNotes = require './game_notes.cjsx'
 GameSetup = require './game_setup.cjsx'
 Login = require './login.cjsx'
 SkaterSelectorModal = require './shared/skater_selector_modal.cjsx'
-Clocks = require '../clock.coffee'
+{ClockManager} = require '../clock.coffee'
 GameState = require '../models/game_state.coffee'
 cx = React.addons.classSet
 window.Perf = React.addons.Perf
 module.exports = React.createClass
   displayName: 'Game'
   componentDidMount: () ->
-    @state.gameState.clockManager.initialize()
     GameState.addChangeListener @onChange
-    @state.gameState.clockManager.addTickListener @tickListener
     $dom = $(@getDOMNode())
     $dom.on 'click', '.bad-status', null, (evt) ->
     $dom.on 'click', 'ul.nav li', null, (evt) =>
@@ -39,17 +37,8 @@ module.exports = React.createClass
     $dom.on 'click', '#login', null, (evt) =>
       @setState
         tab: "login"
-    GameState.addChangeListener @onChange
   componentWillUnmount: () ->
     GameState.removeChangeListener @onChange
-  tickListener: (clocks) ->
-    h =
-      jamClock: clocks.jamClock.display
-      periodClock: clocks.periodClock.display
-    if @refs.scoreboard?
-      @refs.scoreboard.refs.clocks.setState(h)
-    if @refs.jamTimer
-      @refs.jamTimer.refs.clocks.setState(h)
   resetDeadmanTimer: () ->
     clearTimeout(exports.connectionTimeout)
     @gameDOM.addClass("connected")
@@ -59,6 +48,7 @@ module.exports = React.createClass
   loadGameState: () ->
     GameState.find(@props.gameStateId)
   onChange: () ->
+    console.log "reloading game"
     @setState(gameState: @loadGameState())
   getInitialState: () ->
     gameState = @loadGameState()
@@ -94,7 +84,6 @@ module.exports = React.createClass
           initials: @state.gameState.away.initials
           isTakingTimeout: @state.gameState.away.isTakingTimeout
         <JamTimer
-          ref="jamTimer"
           periodClock={@state.gameState.periodClock}
           jamClock={@state.gameState.jamClock}
           jamNumber={@state.gameState.jamNumber}
@@ -112,7 +101,7 @@ module.exports = React.createClass
       when "penalty_box_timer"
         <PenaltyBoxTimer gameState={@state.gameState} setSelectorContext={@setSelectorContext}/>
       when "scoreboard"
-        <Scoreboard gameState={@state.gameState} ref="scoreboard"/>
+        <Scoreboard gameState={@state.gameState}/>
       when "penalty_whiteboard"
         <PenaltyWhiteboard {...@state} />
       when "announcers_feed"

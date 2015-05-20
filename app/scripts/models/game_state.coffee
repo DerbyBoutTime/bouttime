@@ -95,9 +95,8 @@ class GameState extends Store
     @period = options.period ? 'pregame'
     @jamNumber = options.jamNumber ? 0
     @clockManager = new ClockManager()
-    @jamClock = @clockManager.getOrAddClock "jamClock", PREGAME_CLOCK_SETTINGS
-    @periodClock = @clockManager.getOrAddClock "periodClock", PERIOD_CLOCK_SETTINGS
-    @periodClock = @clockManager.getClock("periodClock")
+    @jamClock = @clockManager.getOrAddClock "jamClock-#{@id}", options.jamClock ? PREGAME_CLOCK_SETTINGS
+    @periodClock = @clockManager.getOrAddClock "periodClock-#{@id}", options.periodClock ? PERIOD_CLOCK_SETTINGS
     @home = new Team(options.home)
     @away = new Team(options.away)
     @timeout = options.timeout ? null
