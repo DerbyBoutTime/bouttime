@@ -1,3 +1,5 @@
+moment = require 'moment'
+require 'moment-duration-format'
 functions = require './functions'
 constants = require './constants'
 EventEmitter = require('events').EventEmitter
@@ -14,6 +16,8 @@ module.exports =
       @lastTick =  null
       @listeners = []
       @refreshRateInMS = options.refreshRateInMs ? constants.CLOCK_REFRESH_RATE_IN_MS
+      @emitter = new EventEmitter()
+      @initialize()
     initialize: () ->
       @lastTick = Date.now()
       exports.clockManagerInterval = setInterval(() =>
@@ -34,7 +38,9 @@ module.exports =
     getOrAddClock: (alias, options = {}) =>
       @getClock(alias) ? @addClock(alias, options)
     addTickListener: (listenerFunction) ->
-      @listeners.push(listenerFunction)
+      @emitter.on("masterTick", listenerFunction)
+    removeTickListener: (listenerFunction) ->
+      @emitter.removeListener("masterTick", listenerFunction)
     tick: () ->
       tick = Date.now()
       delta = tick - @lastTick
@@ -43,12 +49,7 @@ module.exports =
         clock.tick(delta) if clock.isRunning
       @issueTick()
     issueTick: () ->
-      args = @serialize()
-      func(args) for func in @listeners
-    serialize: ()->
-      h = {}
-      h[alias] = clock.serialize() for alias, clock of @clocks
-      h
+      @emitter.emit("masterTick")
   Clock: class Clock
     constructor: (options = {}) ->
       @id = functions.uniqueId()
@@ -71,8 +72,9 @@ module.exports =
         clearInterval ticks[@id]
         ticks[@id] = null
     reset: (options={}) ->
-      @warningIssued = false
-      @expirationIssued = false
+      @isRunning = options.isRunning ? false
+      @warningIssued = options.warningIssued ? false
+      @expirationIssued = options.expirationIssued ? false
       @tickUp = options.tickUp ? false
       @refreshRateInMS = options.refreshRateInMs ? constants.CLOCK_REFRESH_RATE_IN_MS
       @time = @parse(options.time)
@@ -92,28 +94,17 @@ module.exports =
           time
         else
           0
-    buildEventOptions: () =>
-      id: @id
-      time: @time
-      display: @display()
     issueExpiration: () =>
       @expirationIssued = true
       if @emitter
-        @emitter.emit("clockExpiration", @buildEventOptions())
+        @emitter.emit("clockExpiration")
     issueWarning: () =>
       @warningIssued = true
       if @emitter
-        @emitter.emit("clockWarning", @buildEventOptions())
+        @emitter.emit("clockWarning")
     issueTick: () =>
       if @emitter
-        @emitter.emit("clockTick", @buildEventOptions())
-    serialize: () =>
-      {
-        id: @id
-        alias: @alias
-        display: @display()
-        time: @time
-      }
+        @emitter.emit("clockTick")
     tick: (delta) ->
       # Synchronize with master tick
       if @lastTick
