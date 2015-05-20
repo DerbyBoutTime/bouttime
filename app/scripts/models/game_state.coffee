@@ -1,3 +1,5 @@
+moment = require 'moment'
+_ = require 'underscore'
 functions = require '../functions'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 Store = require './store'
@@ -25,24 +27,34 @@ class GameState extends Store
     switch action.type
       when ActionTypes.START_CLOCK
         game.startClock()
+        game.syncClocks(action)
       when ActionTypes.STOP_CLOCK
         game.stopClock()
+        game.syncClocks(action)
       when ActionTypes.START_JAM
         game.startJam()
+        game.syncClocks(action)
       when ActionTypes.STOP_JAM
         game.stopJam()
+        game.syncClocks(action)
       when ActionTypes.START_LINEUP
         game.startLineup()
+        game.syncClocks(action)
       when ActionTypes.START_PREGAME
         game.startPregame()
+        game.syncClocks(action)
       when ActionTypes.START_HALFTIME
         game.startHalftime()
+        game.syncClocks(action)
       when ActionTypes.START_UNOFFICIAL_FINAL
         game.startUnofficialFinal()
+        game.syncClocks(action)
       when ActionTypes.START_OFFICIAL_FINAL
         game.startOfficialFinal()
+        game.syncClocks(action)
       when ActionTypes.START_TIMEOUT
         game.startTimeout()
+        game.syncClocks(action)
       when ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT
         game.setTimeoutAsOfficialTimeout()
       when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_TIMEOUT
@@ -127,6 +139,9 @@ class GameState extends Store
     "#{moment(@date, 'MM/DD/YYYY').format('YYYY-MM-DD')} #{@home.name} vs #{@away.name}"
   getCurrentJam: (team) ->
     (jam for jam in team.jams when jam.jamNumber is @jamNumber)[0]
+  syncClocks: (clocks) ->
+    @jamClock.reset (clocks.jamClock)
+    @periodClock.reset (clocks.periodClock)
   startClock: ()->
     @jamClock.start()
   stopClock: () ->
@@ -142,9 +157,9 @@ class GameState extends Store
     @_clearTimeouts()
     @jamClock.reset(JAM_CLOCK_SETTINGS)
     @jamClock.start()
+    @advancePeriod()
     @periodClock.start()
     @state = "jam"
-    @advancePeriod()
     @home.jamPoints = 0
     @away.jamPoints = 0
     @jamNumber = @jamNumber + 1
@@ -159,9 +174,9 @@ class GameState extends Store
     @_clearTimeouts()
     @jamClock.reset(LINEUP_CLOCK_SETTINGS)
     @jamClock.start()
+    @advancePeriod()
     @periodClock.start()
     @state = "lineup"
-    @advancePeriod()
   startPregame: () =>
     @periodClock.reset(time: 0)
     @state = "pregame"
@@ -228,9 +243,9 @@ class GameState extends Store
       @stopJam()
   setJamEndedByCalloff: () =>
   setJamClock: (val) =>
-    @jamClock.reset(time: val)
+    @jamClock.reset(_.extend(@jamClock, time: val))
   setPeriodClock: (val) =>
-    @periodClock.reset(time: val)
+    @periodClock.reset(_.extend(@periodClock, time: val))
   setHomeTeamTimeouts: (val) =>
     @home.timeouts = parseInt(val)
   setAwayTeamTimeouts: (val) =>

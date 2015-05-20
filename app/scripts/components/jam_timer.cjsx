@@ -116,42 +116,62 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_CLOCK
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
   stopClock: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.STOP_CLOCK
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
   startJam: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_JAM
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
   stopJam: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.STOP_JAM
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
   startLineup: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_LINEUP
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
   startPregame: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_PREGAME
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
   startHalftime: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_HALFTIME
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
   startUnofficialFinal: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_UNOFFICIAL_FINAL
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
   startOfficialFinal: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_OFFICIAL_FINAL
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
   startTimeout: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_TIMEOUT
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
   setTimeoutAsOfficialTimeout: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT

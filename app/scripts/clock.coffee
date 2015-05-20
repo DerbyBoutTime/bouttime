@@ -1,3 +1,5 @@
+moment = require 'moment'
+require 'moment-duration-format'
 functions = require './functions'
 constants = require './constants'
 EventEmitter = require('events').EventEmitter
@@ -55,7 +57,6 @@ module.exports =
       @alias = options.alias
       @emitter = new EventEmitter()
       @isSynced = options.isSynced ? false
-      @isRunning = options.isRunning ? false
       @reset (options)
     start: () =>
       @stop() #Clear to prevent lost interval function
@@ -71,8 +72,9 @@ module.exports =
         clearInterval ticks[@id]
         ticks[@id] = null
     reset: (options={}) ->
-      @warningIssued = false
-      @expirationIssued = false
+      @isRunning = options.isRunning ? false
+      @warningIssued = options.warningIssued ? false
+      @expirationIssued = options.expirationIssued ? false
       @tickUp = options.tickUp ? false
       @refreshRateInMS = options.refreshRateInMs ? constants.CLOCK_REFRESH_RATE_IN_MS
       @time = @parse(options.time)
