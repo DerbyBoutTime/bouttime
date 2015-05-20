@@ -1,3 +1,4 @@
+_ = require 'underscore'
 functions = require '../functions'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 {ActionTypes} = require '../constants'
@@ -42,14 +43,14 @@ class Team extends Store
     if _skaters.length > 0
       @skaters = _skaters
     else if options.skaters?
-      @skaters = (new Skater(skater) for skater in options.skaters)
+      @skaters = (new Skater(_.extend(skater, teamId: @id)) for skater in options.skaters)
     else
       @skaters = []
     _jams = @getJams()
     if _jams.length > 0
       @jams = _jams
     else if options.jams?
-      @jams = (new Jam(jam) for jam in options.jams)
+      @jams = (new Jam(_.extend(jam, teamId: @id)) for jam in options.jams)
     else
       @jams = [new Jam(teamId: @id)]
     @penaltyBoxStates = options.penaltyBoxStates ? []
@@ -63,6 +64,7 @@ class Team extends Store
   getSkaters: () ->
     Skater.findBy(teamId: @id)
   addSkater: (skater) ->
+    skater.teamId = @id
     @skaters.push skater
   removeSkater: (skater) ->
     @skaters = (s for s in @skaters when s.id isnt skater.id)
