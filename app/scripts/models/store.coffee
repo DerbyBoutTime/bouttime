@@ -11,6 +11,8 @@ class Store
   @emitter: new EventEmitter()
   @find: (id) ->
     return null if not id?
+    json = @store.getItem(id)
+    return null if not json?
     obj = JSON.parse(@store.getItem(id))
     if obj then new this(obj) else null
   @findBy: (opts={}) ->

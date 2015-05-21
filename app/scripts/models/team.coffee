@@ -1,9 +1,14 @@
 functions = require '../functions'
+constants = require '../constants'
 AppDispatcher = require '../dispatcher/app_dispatcher'
-{ActionTypes} = require '../constants'
+ActionTypes = constants.ActionTypes
+{ClockManager} = require '../clock'
 Store = require './store'
 Jam = require './jam'
 Skater = require './skater'
+PENALTY_CLOCK_SETTINGS =
+  time: constants.PENALTY_DURATION_IN_MS
+  warningTime: constants.PENALTY_WARNING_IN_MS
 class Team extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
@@ -24,7 +29,22 @@ class Team extends Store
         @emitChange()
       when ActionTypes.SET_PENALTY_BOX_SKATER
         team = @find(action.teamId)
-        team.setPenaltyBoxSkater(action.boxIndexOrPosition, action.skaterId)
+        team.setPenaltyBoxSkater(action.boxIndexOrPosition, action.clockId, action.skaterId)
+        team.save()
+        @emitChange()
+      when ActionTypes.ADD_PENALTY_TIME
+        team = @find(action.teamId)
+        team.addPenaltyTime(action.boxIndex)
+        team.save()
+        @emitChange()
+      when ActionTypes.TOGGLE_PENALTY_TIMER
+        team = @find(action.teamId)
+        team.togglePenaltyTimer(action.boxIndex)
+        team.save()
+        @emitChange()
+      when ActionTypes.TOGGLE_ALL_PENALTY_TIMERS
+        team = @find(action.teamId)
+        team.toggleAllPenaltyTimers()
         team.save()
         @emitChange()
   constructor: (options={}) ->
@@ -53,6 +73,9 @@ class Team extends Store
     else
       @jams = [new Jam(teamId: @id)]
     @penaltyBoxStates = options.penaltyBoxStates ? []
+    @clockManager = new ClockManager()
+    for boxState in @penaltyBoxStates
+      boxState.clock = @clockManager.getOrAddClock(boxState.clock.alias, boxState.clock)
   save: () ->
     super()
     skater.save() for skater in @skaters
@@ -94,18 +117,37 @@ class Team extends Store
     if box?
       box.served = !box.served
       box.leftEarly = false
-  setPenaltyBoxSkater: (boxIndexOrPosition, skaterId) ->
-    box = @getOrCreatePenaltyBoxState(boxIndexOrPosition)
+  addPenaltyTime: (boxIndex)->
+    box = @penaltyBoxStates[boxIndex]
+    if box?
+      box.penaltyCount += 1
+      box.clock.time += constants.PENALTY_DURATION_IN_MS
+  togglePenaltyTimer: (boxIndex) ->
+    box = @penaltyBoxStates[boxIndex]
+    if box?
+      if box.clock.isRunning then box.clock.stop() else box.clock.start()
+  anyPenaltyTimerRunning: () ->
+    @penaltyBoxStates.some (boxState) ->
+      boxState.clock.isRunning
+  toggleAllPenaltyTimers: () ->
+    if @anyPenaltyTimerRunning()
+      boxState.clock.stop() for boxState in @penaltyBoxStates
+    else
+      boxState.clock.start() for boxState in @penaltyBoxStates
+  setPenaltyBoxSkater: (boxIndexOrPosition, clockId, skaterId) ->
+    box = @getOrCreatePenaltyBoxState(boxIndexOrPosition, clockId)
     skater = Skater.find(skaterId)
     box.skater = skater
-  newPenaltyBoxState: (position) ->
+  newPenaltyBoxState: (position, clockId) ->
     position: position
-  getOrCreatePenaltyBoxState: (boxIndexOrPosition) ->
+    penaltyCount: 1
+    clock: @clockManager.addClock(clockId ? functions.uniqueId(), PENALTY_CLOCK_SETTINGS)
+  getOrCreatePenaltyBoxState: (boxIndexOrPosition, clockId) ->
     switch typeof boxIndexOrPosition
       when 'number'
         @penaltyBoxStates[boxIndexOrPosition]
       when 'string'
-        box = @newPenaltyBoxState(boxIndexOrPosition)
+        box = @newPenaltyBoxState(boxIndexOrPosition, clockId)
         @penaltyBoxStates.push(box)
         box
 module.exports = Team

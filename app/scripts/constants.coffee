@@ -68,6 +68,9 @@ module.exports =
     TOGGLE_LEFT_EARLY: null
     TOGGLE_PENALTY_SERVED: null
     SET_PENALTY_BOX_SKATER: null
+    ADD_PENALTY_TIME: null
+    TOGGLE_PENALTY_TIMER: null
+    TOGGLE_ALL_PENALTY_TIMERS: null
     SAVE_GAME: null
     SAVE_JAM: null
     SAVE_PASS: null

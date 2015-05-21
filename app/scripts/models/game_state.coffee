@@ -109,8 +109,8 @@ class GameState extends Store
     @clockManager = new ClockManager()
     @jamClock = @clockManager.getOrAddClock "jamClock-#{@id}", options.jamClock ? PREGAME_CLOCK_SETTINGS
     @periodClock = @clockManager.getOrAddClock "periodClock-#{@id}", options.periodClock ? PERIOD_CLOCK_SETTINGS
-    @home = new Team(options.home)
-    @away = new Team(options.away)
+    @home = Team.find(options.home?.id) ? new Team(options.home)
+    @away = Team.find(options.away?.id) ? new Team(options.away)
     @timeout = options.timeout ? null
     @penalties = [
       {code: "A", name: "High Block"},
