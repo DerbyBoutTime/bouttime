@@ -154,8 +154,8 @@ module.exports = React.createClass
           <ScoreboardClocks
             ref="clocks"
             jamLabel={@props.gameState.state.replace(/_/g, ' ')}
-            jamClock={@props.gameState.jamClock.display()}
-            periodClock={@props.gameState.periodClock.display()}/>
+            jamClock={@props.gameState.jamClock}
+            periodClock={@props.gameState.periodClock}/>
         </div>
         <div className="jam-points-wrapper">
           <div className="home-team-jam-points points">{homeJamPoints}</div>
