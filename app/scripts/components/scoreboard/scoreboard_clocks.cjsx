@@ -8,6 +8,8 @@ module.exports = React.createClass
   componentDidMount: () ->
     @clockManager = new ClockManager()
     @clockManager.addTickListener @onTick
+  componentWillUnmount: () ->
+    @clockManager.removeTickListener @onTick
   onTick: () ->
     @forceUpdate()
   render: () ->
