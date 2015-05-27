@@ -68,10 +68,34 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.1.0"
   },
+  "browser": {
+    "jquery-minicolors": "./app/bower_components/jquery-minicolors/jquery.minicolors.min.js",
+    "bootstrap": "./app/bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js",
+    "bootstrap-datetimepicker": "./app/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
+  },
   "browserify": {
     "transform": [
+      "browserify-shim",
       "coffee-reactify"
     ]
+  },
+  "browserify-shim": {
+    "jquery-minicolors": {
+      "depends": [
+        "jquery:$"
+      ]
+    },
+    "bootstrap": {
+      "depends": [
+        "jquery:jQuery"
+      ]
+    },
+    "bootstrap-datetimepicker": {
+      "depends": [
+        "jquery:$",
+        "moment:moment"
+      ]
+    }
   },
   "jest": {
     "testDirectoryName": "test",

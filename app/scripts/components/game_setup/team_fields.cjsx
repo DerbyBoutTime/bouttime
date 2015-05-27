@@ -1,5 +1,6 @@
 React = require 'react/addons'
 $ = require 'jquery'
+require 'jquery-minicolors'
 RosterFields = require './roster_fields'
 cx = React.addons.classSet
 module.exports = React.createClass

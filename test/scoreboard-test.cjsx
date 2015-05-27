@@ -14,4 +14,8 @@ describe 'Scoreboard', () ->
     scoreboard = TestUtils.renderIntoDocument <Scoreboard gameState={gameState} />    
   it 'renders a component', () ->
     expect(TestUtils.isDOMComponent(scoreboard.getDOMNode()))
-
+  it "displays team names", () ->
+  it "displays team logos", () ->
+  it "displays the current jam number", () ->
+  it "displays the current period", () ->
+  it "displays the team scores", () ->
