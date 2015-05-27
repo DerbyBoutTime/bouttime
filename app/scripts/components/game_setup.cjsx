@@ -1,4 +1,5 @@
 React = require 'react/addons'
+$ = require 'jquery'
 GameForm = require './game_setup/game_form'
 Skater = require '../models/skater'
 AppDispatcher = require '../dispatcher/app_dispatcher'

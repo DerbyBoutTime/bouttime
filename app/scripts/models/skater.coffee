@@ -1,4 +1,5 @@
 functions = require '../functions'
+$ = require 'jquery'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 {ActionTypes} = require '../constants'
 Store = require './store'

@@ -1,4 +1,5 @@
 React = require 'react/addons'
+$ = require 'jquery'
 RosterFields = require './roster_fields'
 cx = React.addons.classSet
 module.exports = React.createClass

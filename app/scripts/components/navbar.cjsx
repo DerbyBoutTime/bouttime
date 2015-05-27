@@ -1,4 +1,5 @@
 React = require 'react/addons'
+$ = require 'jquery'
 cx = React.addons.classSet
 module.exports = React.createClass
   buildOptions: (opts = {}) ->

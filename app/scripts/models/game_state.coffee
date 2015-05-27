@@ -1,4 +1,5 @@
 moment = require 'moment'
+$ = require 'jquery'
 _ = require 'underscore'
 functions = require '../functions'
 AppDispatcher = require '../dispatcher/app_dispatcher'

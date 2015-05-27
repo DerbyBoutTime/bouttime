@@ -1,4 +1,5 @@
 React = require 'react/addons'
+$ = require 'jquery'
 moment = require 'moment'
 TeamFields = require './team_fields'
 cx = React.addons.classSet
