@@ -9,7 +9,6 @@ class AppDispatcher
     @delays = []
     @delay
     @socket = IO(config.get('socketUrl'))
-    console.log "Socket opened on #{@socket.io.uri}"
     @socket.on 'app dispatcher', (payload) =>
       @dispatch(payload)
     @socket.on 'sync games', (payload) =>

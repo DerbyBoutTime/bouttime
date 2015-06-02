@@ -61,6 +61,7 @@
     "gulp-webserver": "^0.9.0",
     "jest-cli": "^0.4.5",
     "main-bower-files": "^2.6.2",
+    "mock-browser": "^0.90.33",
     "react-tools": "^0.13.1",
     "require-dir": "^0.3.0",
     "strip-debug": "^1.1.1",
@@ -121,10 +122,14 @@
       "underscore",
       "moment",
       "moment-duration-format",
+      "keymirror",
       "socket.io-client",
       "app/scripts/components",
       "app/scripts/models",
-      "app/scripts/clock"
+      "app/scripts/demo_data",
+      "app/scripts/constants",
+      "app/scripts/functions",
+      "app/scripts/memory_storage"
     ]
   }
 }

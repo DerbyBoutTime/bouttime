@@ -96,6 +96,8 @@ class GameState extends Store
         new GameState(obj).save() for obj in action.games
     game.save() if game?
     @emitChange()
+    #return instance operated on for testing
+    game
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -161,13 +163,9 @@ class GameState extends Store
     @advancePeriod()
     @periodClock.start()
     @state = "jam"
-    @home.jamPoints = 0
-    @away.jamPoints = 0
     @jamNumber = @jamNumber + 1
-    for i in [@away.jams.length+1 .. @jamNumber] by 1
-      @away.createNextJam()
-    for i in [@home.jams.length+1 .. @jamNumber] by 1
-      @home.createNextJam()
+    @home.createJamsThrough @jamNumber
+    @away.createJamsThrough @jamNumber
   stopJam: () =>
     @jamClock.stop()
     @startLineup()
@@ -211,9 +209,7 @@ class GameState extends Store
       @startTimeout()
     @_clearTimeouts()
     @timeout = "home_team_timeout"
-    @home.timeouts = @home.timeouts - 1
-    @home.isTakingTimeout = true
-    console.log "timeouts=#{@home.timeouts}"
+    @home.startTimeout()
   setTimeoutAsHomeTeamOfficialReview: () =>
     if @_inTimeout() == false
       @startTimeout()
@@ -227,9 +223,7 @@ class GameState extends Store
     @_clearTimeouts()
     @state = "timeout"
     @timeout = "away_team_timeout"
-    @away.timeouts = @away.timeouts - 1
-    @away.isTakingTimeout = true
-    console.log "timeouts=#{@away.timeouts}"
+    @away.startTimeout()
   setTimeoutAsAwayTeamOfficialReview: () =>
     if @_inTimeout() == false
       @startTimeout()
@@ -256,19 +250,15 @@ class GameState extends Store
   setJamNumber: (val) =>
     @jamNumber = parseInt(val)
   removeHomeTeamOfficialReview: () =>
-    @home.hasOfficialReview = false
-    @home.officialReviewsRetained = @home.officialReviewsRetained - 1
+    @home.removeOfficialReview()
   removeAwayTeamOfficialReview: () =>
-    @away.hasOfficialReview = false
-    @away.officialReviewsRetained = @away.officialReviewsRetained - 1
+    @away.removeOfficialReview()
   restoreHomeTeamOfficialReview: () =>
-    @home.hasOfficialReview = true
     @_clearTimeouts()
-    @home.officialReviewsRetained = @home.officialReviewsRetained + 1
-  restoreAwayTeamOfficialReview: (retained = false) =>
-    @away.hasOfficialReview = true
+    @home.restoreOfficialReview()
+  restoreAwayTeamOfficialReview: () =>
     @_clearTimeouts()
-    @away.officialReviewsRetained = @away.officialReviewsRetained + 1
+    @away.restoreOfficialReview()
   _inTimeout: ()->
       @state == "timeout"
   _clearAlerts: () =>

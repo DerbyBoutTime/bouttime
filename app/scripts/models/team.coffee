@@ -109,6 +109,9 @@ class Team extends Store
       type: ActionTypes.SAVE_JAM
       jam: newJam
     newJam
+  createJamsThrough: (jamNumber) ->
+    for i in [@jams.length+1 .. jamNumber] by 1
+      @createNextJam()
   toggleLeftEarly: (boxIndex) ->
     box = @penaltyBoxStates[boxIndex]
     if box?
@@ -152,4 +155,13 @@ class Team extends Store
         box = @newPenaltyBoxState(boxIndexOrPosition, clockId)
         @penaltyBoxStates.push(box)
         box
+  startTimeout: () ->
+    @timeouts -= 1
+    @isTakingTimeout = true
+  removeOfficialReview: () ->
+    @hasOfficialReview = false
+    @officialReviewsRetained -= 1
+  restoreOfficialReview: () ->
+    @hasOfficialReview = true
+    @officialReviewsRetained += 1
 module.exports = Team
