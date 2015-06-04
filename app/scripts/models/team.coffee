@@ -18,36 +18,43 @@ class Team extends Store
         team.createNextJam()
         team.save()
         @emitChange()
+        return team
       when ActionTypes.TOGGLE_LEFT_EARLY
         team = @find(action.teamId)
         team.toggleLeftEarly(action.boxIndex)
         team.save()
         @emitChange()
+        return team
       when ActionTypes.TOGGLE_PENALTY_SERVED
         team = @find(action.teamId)
         team.toggleServed(action.boxIndex)
         team.save()
         @emitChange()
+        return team
       when ActionTypes.SET_PENALTY_BOX_SKATER
         team = @find(action.teamId)
         team.setPenaltyBoxSkater(action.boxIndexOrPosition, action.clockId, action.skaterId)
         team.save()
         @emitChange()
+        return team
       when ActionTypes.ADD_PENALTY_TIME
         team = @find(action.teamId)
         team.addPenaltyTime(action.boxIndex)
         team.save()
         @emitChange()
+        return team
       when ActionTypes.TOGGLE_PENALTY_TIMER
         team = @find(action.teamId)
         team.togglePenaltyTimer(action.boxIndex)
         team.save()
         @emitChange()
+        return team
       when ActionTypes.TOGGLE_ALL_PENALTY_TIMERS
         team = @find(action.teamId)
         team.toggleAllPenaltyTimers()
         team.save()
         @emitChange()
+        return team
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -93,11 +100,10 @@ class Team extends Store
     @skaters = (s for s in @skaters when s.id isnt skater.id)
     skater.destroy()
   getPoints: () ->
-    @getJams().reduce ((sum, jam) -> sum += jam.getPoints()), 0
+    @jams.reduce ((sum, jam) -> sum += jam.getPoints()), 0
   createNextJam: () ->
-    jams = @getJams()
-    lastJam = jams[jams.length - 1]
-    newJam = new Jam(jamNumber: lastJam.jamNumber + 1, teamId: @id)
+    lastJam = @jams[@jams.length - 1]
+    newJam = new Jam(jamNumber: @jams.length + 1, teamId: @id)
     positionsInBox = lastJam.getPositionsInBox()
     if positionsInBox.length > 0
       newJam.lineupStatuses[0] = {}

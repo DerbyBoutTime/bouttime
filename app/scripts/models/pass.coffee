@@ -11,41 +11,49 @@ class Pass extends Store
         pass.toggleInjury()
         pass.save()
         @emitChange()
+        return pass
       when ActionTypes.TOGGLE_NOPASS
         pass = @find(action.passId)
         pass.toggleNopass()
         pass.save()
         @emitChange()
+        return pass
       when ActionTypes.TOGGLE_CALLOFF
         pass = @find(action.passId)
         pass.toggleCalloff()
         pass.save()
         @emitChange()
+        return pass
       when ActionTypes.TOGGLE_LOST_LEAD
         pass = @find(action.passId)
         pass.toggleLostLead()
         pass.save()
         @emitChange()
+        return pass
       when ActionTypes.TOGGLE_LEAD
         pass = @find(action.passId)
         pass.toggleLead()
         pass.save()
         @emitChange()
+        return pass
       when ActionTypes.SET_STAR_PASS
         pass = @find(action.passId)
         pass.setPoints(0)
         pass.save()
         @emitChange()
+        return pass
       when ActionTypes.SET_POINTS
         pass = @find(action.passId)
         pass.setPoints(action.points)
         pass.save()
         @emitChange()
+        return pass
       when ActionTypes.SET_PASS_JAMMER
         pass = @find(action.passId)
         pass.setJammer(action.skaterId)
         pass.save()
         @emitChange()
+        return pass
   constructor: (options={}) ->
     super options
     @jamId = options.jamId

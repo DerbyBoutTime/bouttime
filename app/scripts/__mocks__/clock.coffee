@@ -1,5 +1,6 @@
 clockMock = jest.genMockFromModule('../clock')
-clocks = {}
-clockMock.ClockManager.prototype.getOrAddClock.mockImplementation (alias) ->
-  clocks[alias] ? clocks[alias] = new clockMock.Clock()
+clockMock.ClockManager.prototype.getOrAddClock.mockImplementation () ->
+  new clockMock.Clock()
+clockMock.ClockManager.prototype.addClock.mockImplementation () ->
+  new clockMock.Clock()
 module.exports = clockMock

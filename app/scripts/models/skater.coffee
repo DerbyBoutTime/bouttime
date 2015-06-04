@@ -11,16 +11,19 @@ class Skater extends Store
         skater.setPenalty(action.jamNumber, action.penalty)
         skater.save()
         @emitChange()
+        return skater
       when ActionTypes.CLEAR_PENALTY
         skater = @find(action.skaterId)
         skater.clearPenalty(action.skaterPenaltyIndex)
         skater.save()
         @emitChange()
+        return skater
       when ActionTypes.UPDATE_PENALTY
         skater = @find(action.skaterId)
         skater.updatePenalty(action.skaterPenaltyIndex, action.opts)
         skater.save()
         @emitChange()
+        return skater
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
