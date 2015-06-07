@@ -13,6 +13,14 @@ module.exports = React.createClass
       homeJamPoints = homeJam.getPoints()
     if awayJam
       awayJamPoints = awayJam.getPoints()
+    periodNumber = switch @props.gameState.period
+      when 'period 1' then '1'
+      when 'period 2' then '2'
+      when 'pregame' then 'Pre'
+      when 'halftime' then 'Half'
+      when 'unofficial final' then 'UF'
+      when 'official final' then 'OF'
+      else ''
     adsCS = cx
       'ads': true
       'hidden': $.inArray(@props.gameState.state, ["timeout"]) == -1
@@ -142,7 +150,7 @@ module.exports = React.createClass
             <div className="period">
               <label className="hidden-xs">Period</label>
               <label className="visible-xs-block">Per</label>
-              <div className="number period-number">{@props.gameState.periodNumber}</div>
+              <div className="number period-number">{periodNumber}</div>
             </div>
             <div className="jam">
               <label>Jam</label>

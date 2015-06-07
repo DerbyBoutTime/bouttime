@@ -17,7 +17,7 @@ describe 'Scoreboard', () ->
     expect(TestUtils.isDOMComponent(scoreboard.getDOMNode()))
   it "displays the current period", () ->
     periodContainer = TestUtils.findRenderedDOMComponentWithClass(scoreboard, 'period-number')
-    expect(periodContainer.getDOMNode().textContent).toEqual('Pregame')
+    expect(periodContainer.getDOMNode().textContent).toEqual('Pre')
   it "displays the current jam number", () ->
     jamContainer = TestUtils.findRenderedDOMComponentWithClass(scoreboard, 'jam-number')
     expect(jamContainer.getDOMNode().textContent).toEqual('0')
