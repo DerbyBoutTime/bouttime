@@ -16,6 +16,8 @@ class AppDispatcher
       @syncClocks()
     @socket.on "clocks synced", (args) =>
       @clocksSynced(args)
+  syncGame: (gameId) ->
+    @socket.emit 'sync game', gameId: gameId
   syncClocks: () ->
     @timing.A = new Date().getTime()
     @socket.emit 'sync clocks', {}

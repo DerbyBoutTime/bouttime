@@ -35,5 +35,9 @@ module.exports = start: (port=3000) ->
           timeX: timeX
           timeY: timeY
       ,constants.CLOCK_SYNC_DELAY_DURATION_IN_MS)
+    socket.on 'sync game', (payload) ->
+      socket.emit 'app dispatcher',
+        type: ActionTypes.SAVE_GAME
+        gameState: GameState.find(payload.gameId)
   http.listen port, () ->
     console.log("listening on *:#{port}")

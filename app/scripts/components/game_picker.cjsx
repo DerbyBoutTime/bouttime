@@ -1,5 +1,6 @@
 React = require 'react/addons'
 DemoData = require '../demo_data'
+AppDispatcher = require '../dispatcher/app_dispatcher'
 GameState = require '../models/game_state'
 GameSetup = require './game_setup'
 Game = require './game'
@@ -19,7 +20,8 @@ module.exports = React.createClass
     @setState(games: GameState.all())
   openGame: () ->
     gameId = React.findDOMNode(@refs.gameSelect).value
-    if gameId?
+    if gameId? and gameId.length > 0
+      AppDispatcher.syncGame(gameId)
       @selectGame(gameId)
   componentDidMount: () ->
     GameState.addChangeListener @onChange

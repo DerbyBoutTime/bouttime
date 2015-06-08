@@ -92,6 +92,7 @@ class GameState extends Store
         game.restoreAwayTeamOfficialReview()
       when ActionTypes.SAVE_GAME
         game = new GameState(action.gameState)
+        game.syncClocks(action.gameState)
       when ActionTypes.SYNC_GAMES
         new GameState(obj).save() for obj in action.games
     game.save() if game?
