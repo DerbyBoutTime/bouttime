@@ -13,11 +13,9 @@ module.exports = React.createClass
       when 'lost' then 'Lost'
       else <span>&nbsp;</span>
   render: () ->
-    noteClassArgs =
+    noteClass = cx
       'selected': @props.note?
       'boxed-good text-center notes': true
-    noteClassArgs[@props.note] = true
-    noteClass = cx noteClassArgs
     <div className={noteClass}>
       <strong>{@noteContent()}</strong>
     </div>

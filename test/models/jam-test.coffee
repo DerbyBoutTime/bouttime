@@ -42,6 +42,7 @@ describe 'Jam', () ->
           passNumber: 1
       expect(jam.starPass).toBe(true)
       expect(jam.starPassNumber).toBe(1)
+      expect(jam.passes.length).toBe(1)
     it "sets a skater to a position", () ->
       jam = callback
         type: ActionTypes.SET_SKATER_POSITION
@@ -64,3 +65,9 @@ describe 'Jam', () ->
         sourcePassIndex: 0
         targetPassIndex: 1
       expect(jam.reorderPass).toHaveBeenCalledWith(0, 1)
+    it "creates a new pass", () ->
+      jam = callback
+        type: ActionTypes.CREATE_NEXT_PASS
+        jamId: jam.id
+        passId: 'pass 2'
+      expect(jam.passes.length).toBe(2)

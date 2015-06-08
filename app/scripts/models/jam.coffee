@@ -23,7 +23,6 @@ class Jam extends Store
         pass = Pass.find(action.passId)
         jam = Jam.find(pass.jamId)
         jam.setStarPass(pass)
-        jam.createNextPass(action.newPassId) if pass.id is jam.getLastPass().id
         jam.save()
         @emitChange()
         return jam
@@ -39,25 +38,15 @@ class Jam extends Store
         jam.save()
         @emitChange()
         return jam
-      when ActionTypes.TOGGLE_LEAD
-        AppDispatcher.waitFor([Pass.dispatchToken])
-        pass = Pass.find(action.passId)
-        jam = Jam.find(pass.jamId)
-        jam.createNextPass(action.newPassId) if pass.id is jam.getLastPass().id
-        jam.save()
-        @emitChange()
-        return jam
-      when ActionTypes.SET_POINTS
-        AppDispatcher.waitFor([Pass.dispatchToken])
-        pass = Pass.find(action.passId)
-        jam = Jam.find(pass.jamId)
-        jam.createNextPass(action.newPassId) if pass.id is jam.getLastPass().id
-        jam.save()
-        @emitChange()
-        return jam
       when ActionTypes.REORDER_PASS
         jam = @find(action.jamId)
         jam.reorderPass(action.sourcePassIndex, action.targetPassIndex)
+        jam.save()
+        @emitChange()
+        return jam
+      when ActionTypes.CREATE_NEXT_PASS
+        jam = @find(action.jamId)
+        jam.createNextPass(action.passId)
         jam.save()
         @emitChange()
         return jam
@@ -99,8 +88,6 @@ class Jam extends Store
   getPasses: () ->
     Pass.findBy(jamId: @id).sort (a, b) ->
       a.passNumber - b.passNumber
-  getLastPass: () ->
-    @passes[@passes.length - 1]
   getPositionsInBox: () ->
     positions = []
     for row in @lineupStatuses
@@ -149,10 +136,8 @@ class Jam extends Store
     currentStatus = @lineupStatuses[statusIndex][position]
     @lineupStatuses[statusIndex][position] = @statusTransition(currentStatus)
   createNextPass: (passId) ->
-    lastPass = @getLastPass()
-    newPass = new Pass(id: passId, passNumber: lastPass.passNumber + 1, jamId: @id)
+    newPass = new Pass(id: passId, passNumber: @passes.length + 1, jamId: @id)
     @passes.push newPass
-    @save()
   reorderPass: (sourcePassIndex, targetPassIndex) ->
     @passes.splice(targetPassIndex, 0, @passes.splice(sourcePassIndex, 1)[0])
     pass.passNumber = i + 1 for pass, i in @passes
