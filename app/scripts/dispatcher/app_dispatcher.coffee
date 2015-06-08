@@ -11,8 +11,6 @@ class AppDispatcher
     @socket = IO(config.get('socketUrl'))
     @socket.on 'app dispatcher', (payload) =>
       @dispatch(payload)
-    @socket.on 'sync games', (payload) =>
-      console.log "received sync games"
     @socket.on 'connected', () =>
       console.log "connected"
       @syncClocks()
