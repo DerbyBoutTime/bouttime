@@ -145,6 +145,10 @@ class GameState extends Store
   syncClocks: (clocks) ->
     @jamClock.reset (clocks.jamClock)
     @periodClock.reset (clocks.periodClock)
+    if clocks.sourceDelay? and clocks.destinationDelay?
+      delta = (clocks.sourceDelay + clocks.destinationDelay) / 2.0
+      @jamClock.tick(delta)
+      @periodClock.tick(delta)
   startClock: ()->
     @jamClock.start()
   stopClock: () ->

@@ -7,9 +7,11 @@ class AppDispatcher
     @dispatcher = new Dispatcher()
     @timing = {}
     @delays = []
-    @delay
+    @delay = 0
     @socket = IO(config.get('socketUrl'))
     @socket.on 'app dispatcher', (payload) =>
+      if payload.sourceDelay?
+        payload.destinationDelay = @delay
       @dispatch(payload)
     @socket.on 'connected', () =>
       console.log "connected"
