@@ -1,11 +1,10 @@
-
 Constants = require '../constants'
 Functions = require '../functions'
 MemoryStorage = require('../memory_storage')
 AppDispatcher = require '../dispatcher/app_dispatcher'
-EventEmitter = require('events').EventEmitter
+{EventEmitter} = require 'events'
 ActionTypes = Constants.ActionTypes
-CHANGE_EVENT = 'JAM_CHANGE'
+CHANGE_EVENT = 'STORE_CHANGE'
 class Store
   @store: new MemoryStorage()
   @emitter: new EventEmitter()
@@ -40,7 +39,6 @@ class Store
     @type = @constructor.name
     @_destroy = false
   save: (options={}) ->
-    #console.log("Saving #{@constructor.name} #{@id}")
     if not @_destroy
       @constructor.store.setItem(@id, JSON.stringify(this))
     else

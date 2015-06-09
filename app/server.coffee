@@ -21,7 +21,7 @@ module.exports = start: (port=3000) ->
     socket.emit 'connected'
     socket.emit 'app dispatcher',
       type: ActionTypes.SYNC_GAMES
-      games: games
+      games: (game.getMetadata() for game in games)
     socket.on 'disconnect', () ->
       console.log('user disconnected')
     socket.on 'app dispatcher', (action) ->
