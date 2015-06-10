@@ -1,7 +1,7 @@
 .fade-hide {
   position:absolute;
-  left:0;
-  right:0;
+  left:2px;
+  right:2px;
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.15s, visibility 0.15s;
@@ -10,9 +10,6 @@
     visibility: visible;
     transition-delay: 0.15s;
   }
-}
-.row.gutters-xs {
-  @include gutters-xs;
 }
 .scorekeeper {
   .stats {
@@ -34,8 +31,7 @@
     .headers {
     }
     .columns {
-      margin-top: 4px;
-      .jam-row{
+      .jam-row, .pass-row{
         margin-top: 4px;
       }
       .col-sm-2, .col-xs-2 {
@@ -82,6 +78,16 @@
         cursor: move;
       }
     }
+    .actions {
+      margin-top: 4px;
+      .action {
+        background-color: $near-black;
+        border-color: $near-black;
+        color: $white;
+        text-transform: uppercase;
+      }
+    }
+
     // because collapse requires a .panel to work with data-parent,
     // https://github.com/twbs/bootstrap/blob/a577f1922ee7054a97b455ccfaa16857cb2b79fc/js/collapse.js#L49,
     // but we don't want the .panel styles.

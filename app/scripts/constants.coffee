@@ -53,6 +53,7 @@ module.exports =
     SET_SKATER_POSITION: null
     CYCLE_LINEUP_STATUS: null
     CREATE_NEXT_JAM: null
+    CREATE_NEXT_PASS: null
     TOGGLE_INJURY: null
     TOGGLE_NOPASS: null
     TOGGLE_CALLOFF: null

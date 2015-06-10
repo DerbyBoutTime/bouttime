@@ -16,11 +16,7 @@ module.exports = React.createClass
     @props.team.jams[@state.jamSelected ? 0]
   handleMainMenu: () ->
     @setState(jamSelected: null)
-  handleJamSelection: (jamIndex, newJam) ->
-    if newJam
-      AppDispatcher.dispatch
-        type: ActionTypes.CREATE_NEXT_JAM
-        teamId: @props.team.id
+  handleJamSelection: (jamIndex) ->
     @setState(jamSelected: jamIndex)
   handleNextJam: () ->
     if @state.jamSelected < @props.team.jams.length - 1
@@ -30,28 +26,13 @@ module.exports = React.createClass
     if @state.jamSelected > 0
       $('.scorekeeper .collapse.in').collapse('hide')
       @setState(jamSelected: @state.jamSelected - 1)
+  createNextJam: () ->
+    AppDispatcher.dispatch
+      type: ActionTypes.CREATE_NEXT_JAM
+      teamId: @props.team.id
   getInitialState: () ->
     jamSelected: null
   render: () ->
-    JamItemFactory = React.createFactory(JamItem)
-    # jam's schema is same as jam_state table
-    jamComponents = @props.team.jams.map (jam, jamIndex) =>
-      JamItemFactory
-        key: jamIndex
-        jam: jam
-        setSelectorContext: @props.setSelectorContext.bind(this, jam)
-        style: @props.team.colorBarStyle
-        selectionHandler: @handleJamSelection.bind(this, jamIndex, false)
-    # add a blank jam for adding a next jam
-    emptyJam = new Jam(jamNumber: @props.team.jams.length+1, teamId: @props.team.id)
-    jamComponents.push(
-      JamItemFactory
-        key: @props.team.jams.length
-        jam: emptyJam
-        setSelectorContext: @props.setSelectorContext.bind(this, emptyJam)
-        style: @props.team.colorBarStyle
-        selectionHandler: @handleJamSelection.bind(this, @props.team.jams.length, true)
-    )
     jamsContainerClass = cx
       'jams fade-hide': true
       'in': !@state.jamSelected?
@@ -103,7 +84,21 @@ module.exports = React.createClass
           </div>
         </div>
         <div className="columns">
-          {jamComponents}
+          {@props.team.jams.map (jam, jamIndex) ->
+            <JamItem
+              key={jamIndex}
+              jam={jam}
+              setSelectorContext={@props.setSelectorContext.bind(this, jam)}
+              style={@props.team.colorBarStyle}
+              selectionHandler={@handleJamSelection.bind(this, jamIndex)} />
+          , this}
+        </div>
+        <div className="actions">
+          <div className="row gutters-xs">
+            <div className="col-sm-12 col-xs-12">
+              <button className="bt-btn action" onClick={@createNextJam}>Next Jam</button>
+            </div>
+          </div>
         </div>
       </div>
       <div className={passesContainerClass}>
