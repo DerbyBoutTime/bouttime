@@ -52,7 +52,7 @@ describe 'Scoreboard', () ->
       awayContainer = TestUtils.findRenderedDOMComponentWithClass(away, 'timeouts')
       expect(homeContainer.getDOMNode().childNodes.length).toEqual(4)
       expect(awayContainer.getDOMNode().childNodes.length).toEqual(4)
-    it.only "display jammers with lead status", () ->
+    it "display jammers with lead status", () ->
       gameState.home.jams[0].jammer = gameState.home.skaters[0]
       gameState.away.jams[0].jammer = gameState.away.skaters[0]
       gameState.home.jams[0].passes[0].lead = true
@@ -66,7 +66,6 @@ describe 'Scoreboard', () ->
       awayContainer = TestUtils.findRenderedDOMComponentWithClass(away, 'jammer')
       awayName = TestUtils.findRenderedDOMComponentWithClass(awayContainer, 'name')
       awayLead = TestUtils.findRenderedDOMComponentWithClass(awayContainer, 'lead-status')
-      homeJam = gameState.home.jams[0]
       expect(homeName.getDOMNode().textContent).toEqual("6 Wild Cherri")
       expect(homeLead.getDOMNode().firstChild.className).not.toContain('hidden')
       expect(awayName.getDOMNode().textContent).toEqual("00 Ana Bollocks")
