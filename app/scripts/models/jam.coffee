@@ -67,6 +67,8 @@ class Jam extends Store
         jam = Jam.find(pass.jamId)
         if not jam.jammer?
           jam.setSkaterPosition('jammer', action.skaterId)
+        jam.save()
+        @emitChange()
         return jam
       when ActionTypes.SAVE_JAM
         jam = new Jam(action.jam)
@@ -149,8 +151,8 @@ class Jam extends Store
     currentStatus = @lineupStatuses[statusIndex][position]
     @lineupStatuses[statusIndex][position] = @statusTransition(currentStatus)
   createNextPass: (passId) ->
-    lastPass = @getLastPass()
-    newPass = new Pass(id: passId, passNumber: lastPass.passNumber + 1, jamId: @id)
+    lastPass = @passes[@passes.length - 1]
+    newPass = new Pass(id: passId, passNumber: @passes.length + 1, jamId: @id, jammer: lastPass.jammer)
     @passes.push newPass
     @save()
   reorderPass: (sourcePassIndex, targetPassIndex) ->

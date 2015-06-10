@@ -13,12 +13,9 @@ module.exports = React.createClass
     pass: React.PropTypes.object.isRequired
   setJammer: (skaterId) ->
     AppDispatcher.dispatchAndEmit
-      type: ActionTypes.SET_SKATER_POSITION
-      jamId: @props.jam.id
-      position: @jammerLineupPosition()
+      type: ActionTypes.SET_PASS_JAMMER
+      passId: @props.pass.id
       skaterId: skaterId
-  jammerLineupPosition: () ->
-    if @props.jam.starPass and @props.pass.passNumber >= @props.jam.starPassNumber then 'pivot' else 'jammer'
   hidePanels: () ->
     $('.scorekeeper .collapse.in').collapse('hide');
   preventDefault: (evt) ->
@@ -41,7 +38,7 @@ module.exports = React.createClass
       'text-center': true
     editPassId = "edit-pass-#{functions.uniqueId()}"
     notes = @props.pass.getNotes()
-    jammer = @props.jam[@jammerLineupPosition()]
+    jammer = @props.pass.jammer
     <div aria-multiselectable="true" draggable='true' onDragStart={@props.dragHandler} onDragOver={@preventDefault} onDrop={@props.dropHandler} onMouseDown={@props.mouseDownHandler}>
       <div className="columns">
         <div className="row gutters-xs">
@@ -59,7 +56,7 @@ module.exports = React.createClass
             <div className="col-sm-2 col-xs-2">
                 <SkaterSelector
                   skater={jammer}
-                  injured={@props.jam.isInjured(@jammerLineupPosition())}
+                  injured={@props.pass.injury}
                   style={@props.style}
                   setSelectorContext={@props.setSelectorContext}
                   selectHandler={@setJammer} />
