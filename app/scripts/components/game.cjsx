@@ -1,4 +1,5 @@
 React = require 'react/addons'
+$ = require 'jquery'
 constants = require '../constants.coffee'
 functions = require '../functions.coffee'
 Titlebar = require './titlebar.cjsx'

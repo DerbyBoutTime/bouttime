@@ -1,4 +1,5 @@
 React = require 'react/addons'
+$ = require 'jquery'
 functions = require '../../functions.coffee'
 AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../../constants.coffee'

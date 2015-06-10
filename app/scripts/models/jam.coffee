@@ -12,11 +12,13 @@ class Jam extends Store
         jam.toggleNoPivot()
         jam.save()
         @emitChange()
+        return jam
       when ActionTypes.TOGGLE_STAR_PASS
         jam = @find(action.jamId)
         jam.toggleStarPass()
         jam.save()
         @emitChange()
+        return jam
       when ActionTypes.SET_STAR_PASS
         pass = Pass.find(action.passId)
         jam = Jam.find(pass.jamId)
@@ -24,16 +26,19 @@ class Jam extends Store
         jam.createNextPass(action.newPassId) if pass.id is jam.getLastPass().id
         jam.save()
         @emitChange()
+        return jam
       when ActionTypes.SET_SKATER_POSITION
         jam = @find(action.jamId)
         jam.setSkaterPosition(action.position, action.skaterId)
         jam.save()
         @emitChange()
+        return jam
       when ActionTypes.CYCLE_LINEUP_STATUS
         jam = @find(action.jamId)
         jam.cycleLineupStatus(action.statusIndex, action.position)
         jam.save()
         @emitChange()
+        return jam
       when ActionTypes.TOGGLE_LEAD
         AppDispatcher.waitFor([Pass.dispatchToken])
         pass = Pass.find(action.passId)
@@ -41,6 +46,7 @@ class Jam extends Store
         jam.createNextPass(action.newPassId) if pass.id is jam.getLastPass().id
         jam.save()
         @emitChange()
+        return jam
       when ActionTypes.SET_POINTS
         AppDispatcher.waitFor([Pass.dispatchToken])
         pass = Pass.find(action.passId)
@@ -48,21 +54,25 @@ class Jam extends Store
         jam.createNextPass(action.newPassId) if pass.id is jam.getLastPass().id
         jam.save()
         @emitChange()
+        return jam
       when ActionTypes.REORDER_PASS
         jam = @find(action.jamId)
         jam.reorderPass(action.sourcePassIndex, action.targetPassIndex)
         jam.save()
         @emitChange()
+        return jam
       when ActionTypes.SET_PASS_JAMMER
         AppDispatcher.waitFor([Pass.dispatchToken])
         pass = Pass.find(action.passId)
         jam = Jam.find(pass.jamId)
         if not jam.jammer?
           jam.setSkaterPosition('jammer', action.skaterId)
+        return jam
       when ActionTypes.SAVE_JAM
         jam = new Jam(action.jam)
         jam.save()
         @emitChange()
+        return jam
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
@@ -110,10 +120,8 @@ class Jam extends Store
     Object.keys(flags).filter (key) ->
       flags[key]
   toggleNoPivot: () ->
-    console.log "toggling no pivot #{@id}"
     @noPivot = not @noPivot
   toggleStarPass: () ->
-    console.log "toggling star pass #{@id}"
     @starPass = not @starPass
   setStarPass: (pass) ->
     @starPass = not @starPass or @starPassNumber isnt pass.passNumber
@@ -141,7 +149,6 @@ class Jam extends Store
     currentStatus = @lineupStatuses[statusIndex][position]
     @lineupStatuses[statusIndex][position] = @statusTransition(currentStatus)
   createNextPass: (passId) ->
-    console.log ("Creating new pass with id #{passId}")
     lastPass = @getLastPass()
     newPass = new Pass(id: passId, passNumber: lastPass.passNumber + 1, jamId: @id)
     @passes.push newPass
