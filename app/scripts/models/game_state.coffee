@@ -6,6 +6,7 @@ AppDispatcher = require '../dispatcher/app_dispatcher'
 Store = require './store'
 {ClockManager} = require '../clock'
 Team = require './team'
+GameMetadata = require './game_metadata'
 {ActionTypes} = require '../constants'
 constants = require '../constants'
 PERIOD_CLOCK_SETTINGS =
@@ -92,8 +93,7 @@ class GameState extends Store
         game.restoreAwayTeamOfficialReview()
       when ActionTypes.SAVE_GAME
         game = new GameState(action.gameState)
-      when ActionTypes.SYNC_GAMES
-        new GameState(obj).save() for obj in action.games
+        game.syncClocks(action.gameState)
     game.save() if game?
     @emitChange()
     #return instance operated on for testing
@@ -145,6 +145,10 @@ class GameState extends Store
   syncClocks: (clocks) ->
     @jamClock.reset (clocks.jamClock)
     @periodClock.reset (clocks.periodClock)
+    if clocks.sourceDelay? and clocks.destinationDelay?
+      delta = (clocks.sourceDelay + clocks.destinationDelay) / 2.0
+      @jamClock.tick(delta)
+      @periodClock.tick(delta)
   startClock: ()->
     @jamClock.start()
   stopClock: () ->
@@ -257,6 +261,10 @@ class GameState extends Store
   restoreAwayTeamOfficialReview: () =>
     @_clearTimeouts()
     @away.restoreOfficialReview()
+  getMetadata: () ->
+    new GameMetadata
+      id: @id
+      display: @getDisplayName()
   _inTimeout: ()->
       @state == "timeout"
   _clearAlerts: () =>

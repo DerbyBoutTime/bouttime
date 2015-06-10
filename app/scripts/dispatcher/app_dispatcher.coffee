@@ -7,17 +7,19 @@ class AppDispatcher
     @dispatcher = new Dispatcher()
     @timing = {}
     @delays = []
-    @delay
+    @delay = 0
     @socket = IO(config.get('socketUrl'))
     @socket.on 'app dispatcher', (payload) =>
+      if payload.sourceDelay?
+        payload.destinationDelay = @delay
       @dispatch(payload)
-    @socket.on 'sync games', (payload) =>
-      console.log "received sync games"
     @socket.on 'connected', () =>
       console.log "connected"
       @syncClocks()
     @socket.on "clocks synced", (args) =>
       @clocksSynced(args)
+  syncGame: (gameId) ->
+    @socket.emit 'sync game', gameId: gameId
   syncClocks: () ->
     @timing.A = new Date().getTime()
     @socket.emit 'sync clocks', {}

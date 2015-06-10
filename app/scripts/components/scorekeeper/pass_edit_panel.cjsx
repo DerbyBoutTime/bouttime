@@ -2,7 +2,6 @@ React = require 'react/addons'
 $ = require 'jquery'
 AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../../constants.coffee'
-functions = require '../../functions.coffee'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'PassEditPanel'
@@ -34,13 +33,11 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_STAR_PASS
       passId: @props.pass.id
-      newPassId: functions.uniqueId()
     $("##{@props.editPassId}").collapse('hide')
   setPoints: (points) ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_POINTS
       passId: @props.pass.id
-      newPassId: functions.uniqueId()
       points: points
     $("##{@props.editPassId}").collapse('hide')
   isFirstPass: () ->

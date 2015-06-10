@@ -1,4 +1,5 @@
 jest.mock '../../app/scripts/models/team'
+jest.mock '../../app/scripts/models/game_metadata'
 _ = require 'underscore'
 constants = require '../../app/scripts/constants'
 ActionTypes = constants.ActionTypes
@@ -210,9 +211,4 @@ describe 'GameState', () ->
         type: ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
         gameId: gameState.id
       expect(gameState.away.restoreOfficialReview).toBeCalled()
-    it "syncs multiple games", () ->
-      gameState = callback
-        type: ActionTypes.SYNC_GAMES
-        games: "array of gamestates including gameState"
-
 
