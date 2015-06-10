@@ -177,8 +177,6 @@ class GameState extends Store
     @_clearTimeouts()
     @jamClock.reset(LINEUP_CLOCK_SETTINGS)
     @jamClock.start()
-    @advancePeriod()
-    @periodClock.start()
     @state = "lineup"
   startPregame: () =>
     @periodClock.reset(time: 0)

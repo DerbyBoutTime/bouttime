@@ -78,6 +78,8 @@ describe 'GameState', () ->
       expect(gameState.jamClock.reset).toBeCalledWith
         time: constants.LINEUP_DURATION_IN_MS
       expect(gameState.jamClock.start).toBeCalled()
+      expect(gameState.period).toBe('pregame')
+      expect(gameState.periodClock.start).not.toBeCalled()
     it "starts the pregame", () ->
       gameState = callback
         type: ActionTypes.START_PREGAME

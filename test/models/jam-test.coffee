@@ -3,6 +3,7 @@ jest.mock('../../app/scripts/models/skater')
 constants = require '../../app/scripts/constants'
 ActionTypes = constants.ActionTypes
 MemoryStorage = require '../../app/scripts/memory_storage'
+Pass = require '../../app/scripts/models/pass'
 describe 'Jam', () ->
   AppDispatcher = undefined
   Jam = undefined

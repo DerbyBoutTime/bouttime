@@ -52,3 +52,9 @@ describe 'Pass', () ->
         passId: pass.id
         points: 4
       expect(pass.points).toBe(4)
+    it "sets the pass jammer", () ->
+      pass = callback
+        type: ActionTypes.SET_PASS_JAMMER
+        passId: pass.id
+        skaterId: 'skater 1'
+      expect(pass.jammer).toBe('skater 1')
