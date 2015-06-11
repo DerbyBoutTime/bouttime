@@ -1,5 +1,4 @@
 React = require 'react/addons'
-$ = require 'jquery'
 constants = require '../constants.coffee'
 functions = require '../functions.coffee'
 Titlebar = require './titlebar.cjsx'
@@ -18,28 +17,17 @@ Login = require './login.cjsx'
 SkaterSelectorModal = require './shared/skater_selector_modal.cjsx'
 {ClockManager} = require '../clock.coffee'
 GameState = require '../models/game_state.coffee'
+AppDispatcher = require '../dispatcher/app_dispatcher'
 cx = React.addons.classSet
 window.Perf = React.addons.Perf
 module.exports = React.createClass
   displayName: 'Game'
   componentDidMount: () ->
     GameState.addChangeListener @onChange
-    $dom = $(@getDOMNode())
-    $dom.on 'click', '.bad-status', null, (evt) ->
-    $dom.on 'click', 'ul.nav li', null, (evt) =>
-      @setState
-        tab: evt.currentTarget.dataset.tabName
-    $dom.on 'click', '#setup', null, (evt) =>
-      @setState
-        tab: "game_setup"
-      setTimeout () =>
-        @refs.gameSetup.reloadState()
-      , 1000
-    $dom.on 'click', '#login', null, (evt) =>
-      @setState
-        tab: "login"
   componentWillUnmount: () ->
     GameState.removeChangeListener @onChange
+  setTab: (tab) ->
+    @setState tab: tab
   resetDeadmanTimer: () ->
     clearTimeout(exports.connectionTimeout)
     @gameDOM.addClass("connected")
@@ -47,17 +35,18 @@ module.exports = React.createClass
       @gameDOM.removeClass("connected")
     , constants.CLOCK_REFRESH_RATE_IN_MS*2)
   loadGameState: () ->
-    GameState.find(@props.gameStateId)
+    gs = GameState.find(@props.gameStateId)
+    AppDispatcher.syncGame(@props.gameStateId) if not gs?
+    gs
   onChange: () ->
-    console.log "reloading game"
     @setState(gameState: @loadGameState())
   getInitialState: () ->
     gameState = @loadGameState()
     gameState: gameState
     tab: "jam_timer"
     skaterSelectorContext:
-      team: gameState.away
-      jam: gameState.away.jams[0]
+      team: gameState?.away
+      jam: gameState?.away?.jams[0]
       selectHandler: () ->
   setSelectorContext: (team, jam, selectHandler) ->
     @setState
@@ -68,6 +57,8 @@ module.exports = React.createClass
   defaultTab: () ->
     @setState tab: 'jam_timer'
   render: () ->
+    if not @state.gameState?
+      return <span>Game Not Found</span>
     tab = switch @state.tab
       when "jam_timer"
         home =
@@ -116,7 +107,7 @@ module.exports = React.createClass
     <div ref="game" className="game" data-tab={@state.tab}>
       <header>
         <div className="container-fluid">
-          <Titlebar gameStateId={@state.gameState.id} />
+          <Titlebar gameStateId={@state.gameState.id} tabHandler={@setTab}/>
           <div className="logo">
             <div className="container">
               <a href="#">
@@ -125,7 +116,7 @@ module.exports = React.createClass
               </a>
             </div>
           </div>
-          <Navbar tab={@state.tab} backHandler={@props.backHandler}/>
+          <Navbar tab={@state.tab} tabHandler={@setTab}/>
         </div>
       </header>
       <div className="container">
