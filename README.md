@@ -52,7 +52,6 @@ Publish package to the private repository
 
 ```
 $ #Bump version numbers
-$ gulp build
 $ gulp package
 $ git commit -am "Version bump"
 $ git tag alpha.x.y.z #where alpha.x.y.z is the major,minor,version
