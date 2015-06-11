@@ -18,6 +18,7 @@ SkaterSelectorModal = require './shared/skater_selector_modal.cjsx'
 {ClockManager} = require '../clock.coffee'
 GameState = require '../models/game_state.coffee'
 AppDispatcher = require '../dispatcher/app_dispatcher'
+qs = require 'querystring'
 cx = React.addons.classSet
 window.Perf = React.addons.Perf
 module.exports = React.createClass
@@ -35,6 +36,8 @@ module.exports = React.createClass
       @gameDOM.removeClass("connected")
     , constants.CLOCK_REFRESH_RATE_IN_MS*2)
   loadGameState: () ->
+    if @props.gameState?.id isnt @props.gameStateId
+      window.history.pushState('', window.title, "/?#{qs.stringify(game_id: @props.gameStateId)}")
     gs = GameState.find(@props.gameStateId)
     AppDispatcher.syncGame(@props.gameStateId) if not gs?
     gs
