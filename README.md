@@ -51,8 +51,16 @@ Publishing
 Publish package to the private repository
 
 ```
+$ #Bump version numbers
+$ gulp build
 $ gulp package
+$ git commit -am "Version bump"
 $ git tag alpha.x.y.z #where alpha.x.y.z is the major,minor,version
 $ git push origin master --tags
 $ npm publish
+```
+
+To install the new version
+```
+$ npm update -g wftda-bouttime
 ```
