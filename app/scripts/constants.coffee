@@ -77,3 +77,4 @@ module.exports =
     SAVE_PASS: null
     SYNC_GAMES: null
     REMOVE_PASS: null
+    REMOVE_JAM: null

@@ -3,8 +3,9 @@ $ = require 'jquery'
 AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../../constants.coffee'
 functions = require '../../functions.coffee'
-JamItem = require './jam_item.cjsx'
-JamDetails = require './jam_details.cjsx'
+ItemRow = require './item_row'
+JamItem = require './jam_item'
+JamDetails = require './jam_details'
 Jam = require '../../models/jam.coffee'
 cx = React.addons.classSet
 module.exports = React.createClass
@@ -29,6 +30,11 @@ module.exports = React.createClass
   createNextJam: () ->
     AppDispatcher.dispatch
       type: ActionTypes.CREATE_NEXT_JAM
+      teamId: @props.team.id
+  removeJam: (jamId) ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.REMOVE_JAM
+      jamId: jamId
       teamId: @props.team.id
   getInitialState: () ->
     jamSelected: null
@@ -85,12 +91,15 @@ module.exports = React.createClass
         </div>
         <div className="columns">
           {@props.team.jams.map (jam, jamIndex) ->
-            <JamItem
-              key={jamIndex}
+            item = <JamItem
               jam={jam}
               setSelectorContext={@props.setSelectorContext.bind(this, jam)}
               style={@props.team.colorBarStyle}
               selectionHandler={@handleJamSelection.bind(this, jamIndex)} />
+            <ItemRow
+              key={jam.id}
+              item={item}
+              removeHandler={@removeJam.bind(this, jam.id)}/>
           , this}
         </div>
         <div className="actions">

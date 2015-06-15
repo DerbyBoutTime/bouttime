@@ -15,13 +15,13 @@ module.exports = React.createClass
   mouseDownHandler: (evt) ->
     @target = evt.target
   dragHandler: (evt) ->
-    if @props.reorderHandler?
+    if @props.reorderHandler? and @props.index?
       if $(@target).hasClass('drag-handle') or $(@target).parents('.drag-handle').length > 0
         evt.dataTransfer.setData 'passIndex', @props.index
       else
         evt.preventDefault()
   dropHandler: (evt) ->
-    if @props.reorderHandler?
+    if @props.reorderHandler? and @props.index?
       sourceIndex = evt.dataTransfer.getData 'passIndex'
       @props.reorderHandler(sourceIndex, @props.index)
   toggleOpened: () ->
@@ -30,16 +30,19 @@ module.exports = React.createClass
     containerClass = cx
       'item-row': true
       'opened': @state.opened
+    handleClass = cx
+      'options-button': true
+      'drag-handle': @props.reorderHandler? and @props.index?
     <div className={containerClass}
       aria-multiselectable="true"
-      draggable={@props.reorderHandler?}
+      draggable={@props.reorderHandler? and @props.index?}
       onDragStart={@dragHandler}
       onDragOver={@preventDefault}
       onDrop={@dropHandler}
       onMouseDown={@mouseDownHandler}>
       <div className="row gutters-xs">
         <div className="col-xs-1">
-          <div className="drag-handle" onClick={@toggleOpened}>
+          <div className={handleClass} onClick={@toggleOpened}>
             <span className="glyphicon glyphicon-option-horizontal" />
           </div>
         </div>

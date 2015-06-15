@@ -78,3 +78,8 @@ describe 'Jam', () ->
         jamId: jam.id
       expect(AppDispatcher.waitFor).toBeCalled()
       expect(jam.passes[0].passNumber).toBe(1)
+    it "removes a jam", () ->
+      jam = callback
+        type: ActionTypes.REMOVE_JAM
+        jamId: jam.id
+      expect(Jam.all().length).toBe(0)

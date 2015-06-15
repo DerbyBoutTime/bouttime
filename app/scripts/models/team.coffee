@@ -55,6 +55,13 @@ class Team extends Store
         team.save()
         @emitChange()
         return team
+      when ActionTypes.REMOVE_JAM
+        AppDispatcher.waitFor([Jam.dispatchToken])
+        team = @find(action.teamId)
+        team.renumberJams()
+        team.save()
+        @emitChange()
+        return team
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -170,4 +177,6 @@ class Team extends Store
   restoreOfficialReview: () ->
     @hasOfficialReview = true
     @officialReviewsRetained += 1
+  renumberJams: () ->
+    jam.jamNumber = i + 1 for jam, i in @jams
 module.exports = Team
