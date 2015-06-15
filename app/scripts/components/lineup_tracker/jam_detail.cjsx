@@ -111,7 +111,8 @@ module.exports = React.createClass
             injured={@isInjured('jammer')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition.bind(this, 'jammer')} />
+            selectHandler={@setSkaterPosition}
+            target="#lineup-selector-modal" />
         </div>
         <div className={pivotColumnClass}>
           <SkaterSelector
@@ -119,7 +120,8 @@ module.exports = React.createClass
             injured={@isInjured('pivot')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition.bind(this, 'pivot')} />
+            selectHandler={@setSkaterPosition}
+            target="#lineup-selector-modal" />
         </div>
         <div className="col-xs-5-cols">
           <SkaterSelector
@@ -127,7 +129,8 @@ module.exports = React.createClass
             injured={@isInjured('blocker1')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition.bind(this, 'blocker1')} />
+            selectHandler={@setSkaterPosition}
+            target="#lineup-selector-modal" />
         </div>
         <div className="col-xs-5-cols">
           <SkaterSelector
@@ -135,7 +138,8 @@ module.exports = React.createClass
             injured={@isInjured('blocker2')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition.bind(this, 'blocker2')} />
+            selectHandler={@setSkaterPosition}
+            target="#lineup-selector-modal" />
         </div>
         <div className="col-xs-5-cols">
           <SkaterSelector
@@ -143,7 +147,8 @@ module.exports = React.createClass
             injured={@isInjured('blocker3')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition.bind(this, 'blocker3')} />
+            selectHandler={@setSkaterPosition}
+            target="#lineup-selector-modal" />
         </div>
         <div className={blocker4ColumnClass}>
           <SkaterSelector
@@ -151,7 +156,8 @@ module.exports = React.createClass
             injured={@isInjured('pivot')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition.bind(this, 'pivot')} />
+            selectHandler={@setSkaterPosition}
+            target="#lineup-selector-modal" />
         </div>
       </div>
       {@props.jam.lineupStatuses.map (lineupStatus, statusIndex) ->
