@@ -72,3 +72,9 @@ describe 'Jam', () ->
         jamId: jam.id
         passId: 'pass 2'
       expect(jam.passes.length).toBe(2)
+    it "renumbers passes after one is removed", () ->
+      jam = callback
+        type: ActionTypes.REMOVE_PASS
+        jamId: jam.id
+      expect(AppDispatcher.waitFor).toBeCalled()
+      expect(jam.passes[0].passNumber).toBe(1)

@@ -31,8 +31,26 @@
     .headers {
     }
     .columns {
-      .jam-row, .pass-row{
+      .item-row{
         margin-top: 4px;
+        .item {
+          overflow: hidden;
+          position: relative;
+        }
+        .options {
+          position: absolute;
+          width: 0;
+          background-color: $muted-gray;
+          transform: translateX(-100%);
+          transition: transform 0.5s, width 0.0s 0.5s;
+        }
+        &.opened {
+          .options {
+            width: 100%;
+            transform: translateX(0);
+            transition: transform 0.5s, width 0.0s 0.0s;
+          }
+        }
       }
       .col-sm-2, .col-xs-2 {
           min-height: $minimum-touch-target;

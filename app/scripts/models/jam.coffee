@@ -64,6 +64,13 @@ class Jam extends Store
         jam.save()
         @emitChange()
         return jam
+      when ActionTypes.REMOVE_PASS
+        AppDispatcher.waitFor([Pass.dispatchToken])
+        jam = Jam.find(action.jamId)
+        jam.renumberPasses()
+        jam.save()
+        @emitChange()
+        return jam
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
@@ -141,9 +148,11 @@ class Jam extends Store
     lastPass = @passes[@passes.length - 1]
     newPass = new Pass(id: passId, passNumber: @passes.length + 1, jamId: @id, jammer: lastPass.jammer)
     @passes.push newPass
+  renumberPasses: () ->
+    pass.passNumber = i + 1 for pass, i in @passes    
   reorderPass: (sourcePassIndex, targetPassIndex) ->
     @passes.splice(targetPassIndex, 0, @passes.splice(sourcePassIndex, 1)[0])
-    pass.passNumber = i + 1 for pass, i in @passes
+    renumberPasses()
   isInjured: (position) ->
     @lineupStatuses? and @lineupStatuses.some (status) ->
       status[position] is 'injured'
