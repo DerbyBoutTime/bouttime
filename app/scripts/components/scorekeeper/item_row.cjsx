@@ -24,6 +24,9 @@ module.exports = React.createClass
     if @props.reorderHandler? and @props.index?
       sourceIndex = evt.dataTransfer.getData 'passIndex'
       @props.reorderHandler(sourceIndex, @props.index)
+  removeHandler: () ->
+    if window.confirm("Do you really want to remove this item? This action cannot be undone and affects other interfaces")
+      @props.removeHandler()
   toggleOpened: () ->
     @setState(opened: not @state.opened)
   render: () ->
@@ -52,7 +55,7 @@ module.exports = React.createClass
             <div className="options">
               <div className="row gutters-xs">
                 <div className="col-xs-2 col-xs-offset-5">
-                  <button className="bt-btn" onClick={@props.removeHandler}>
+                  <button className="bt-btn" onClick={@removeHandler}>
                     <span className="glyphicon glyphicon-trash"></span>
                   </button>
                 </div>
