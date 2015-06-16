@@ -34,6 +34,16 @@ describe 'Team', () ->
         teamId: team.id
         jamNumber: 2
       expect(team.jams.length).toBe(2)
+    it "does not create duplicate jams", () ->
+      team = callback
+        type: ActionTypes.CREATE_NEXT_JAM
+        teamId: team.id
+        jamNumber: 2
+      team = callback
+        type: ActionTypes.CREATE_NEXT_JAM
+        teamId: team.id
+        jamNumber: 2
+      expect(team.jams.length).toBe(2)
     describe "penalty box timers", () ->
       beforeEach () ->
         team = callback

@@ -72,3 +72,13 @@ describe 'Jam', () ->
         jamId: jam.id
         passNumber: 2
       expect(jam.passes.length).toBe(2)
+    it "does not create duplicate passes", () ->
+      jam = callback
+        type: ActionTypes.CREATE_NEXT_PASS
+        jamId: jam.id
+        passNumber: 2
+      jam = callback
+        type: ActionTypes.CREATE_NEXT_PASS
+        jamId: jam.id
+        passNumber: 2
+      expect(jam.passes.length).toBe(2)
