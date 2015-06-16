@@ -18,6 +18,8 @@ module.exports = React.createClass
                 <li>
                   <a id="setup" onClick={@props.tabHandler.bind(null, 'game_setup')}> Setup</a>
                 </li>
+                <li>
+                  <a id="back" onClick={@props.backHandler}> Back</a>
               </ul>
             </div>
             <span className="gamename">{@props.gameStateId}</span>

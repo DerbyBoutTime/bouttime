@@ -14,7 +14,7 @@ module.exports = React.createClass
     games: GameMetadata.all()
     newGame: new GameState()
   parseSelectedGame: () ->
-    qs.parse(window?.location?.search?.substring(1)).game_id
+    qs.parse(window?.location?.hash?.substring(1)).id
   selectGame: (gameId) ->
     @setState(selectedGame: gameId)
   fillDemoGame: () ->

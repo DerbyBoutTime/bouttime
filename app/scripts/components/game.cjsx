@@ -28,7 +28,9 @@ module.exports = React.createClass
   componentWillUnmount: () ->
     GameState.removeChangeListener @onChange
   setTab: (tab) ->
-    @setState tab: tab
+    if tab isnt @state.tab
+      @setState tab: tab
+      window.history.pushState('', window.title, @getFragment(@props.gameStateId, tab))
   resetDeadmanTimer: () ->
     clearTimeout(exports.connectionTimeout)
     @gameDOM.addClass("connected")
@@ -37,16 +39,23 @@ module.exports = React.createClass
     , constants.CLOCK_REFRESH_RATE_IN_MS*2)
   loadGameState: () ->
     if @props.gameState?.id isnt @props.gameStateId
-      window.history.pushState('', window.title, "/?#{qs.stringify(game_id: @props.gameStateId)}")
+      window.history.pushState('', window.title, @getFragment(@props.gameStateId, @parseTab()))
     gs = GameState.find(@props.gameStateId)
     AppDispatcher.syncGame(@props.gameStateId) if not gs?
     gs
   onChange: () ->
     @setState(gameState: @loadGameState())
+  parseTab: () ->
+    qs.parse(window?.location?.hash?.substring(1)).tab ? 'jam_timer'
+  getFragment: (id, tab) ->
+    "#" + 
+    qs.stringify
+      id: id
+      tab: tab
   getInitialState: () ->
     gameState = @loadGameState()
     gameState: gameState
-    tab: "jam_timer"
+    tab: @parseTab()
     skaterSelectorContext:
       team: gameState?.away
       jam: gameState?.away?.jams[0]
@@ -110,7 +119,7 @@ module.exports = React.createClass
     <div ref="game" className="game" data-tab={@state.tab}>
       <header>
         <div className="container-fluid">
-          <Titlebar gameStateId={@state.gameState.id} tabHandler={@setTab}/>
+          <Titlebar gameStateId={@state.gameState.id} tabHandler={@setTab} backHandler={@props.backHandler}/>
           <div className="logo">
             <div className="container">
               <a href="#">

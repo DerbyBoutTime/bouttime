@@ -24,49 +24,49 @@ module.exports = React.createClass
           <div className="col-xs-12 col-sm-12">
             <ul className="nav navbar-nav">
               <li className={jamTimerCS} onClick={@props.tabHandler.bind(null, "jam_timer")}>
-                <a href="#">
+                <a>
                   <img className="hidden-xs" src="/images/icons/jam-timer.svg" width="48"/>
                   <img className="visible-xs-block img-responsive" src="/images/icons/jam-timer.svg" width="32"/>
                 </a>
               </li>
               <li className={lineupTrackerCS} onClick={@props.tabHandler.bind(null, "lineup_tracker")}>
-                <a href="#">
+                <a>
                   <img className="hidden-xs" src="/images/icons/lineup-tracker.svg" width="48" />
                   <img className="visible-xs-block" src="/images/icons/lineup-tracker.svg" width="32"/>
                 </a>
               </li>
               <li className={scorekeeperCS} onClick={@props.tabHandler.bind(null, "scorekeeper")}>
-                <a href="#">
+                <a>
                   <img className="hidden-xs" src="/images/icons/scorekeeper.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/scorekeeper.svg" width="32"/>
                 </a>
               </li>
               <li className={penaltyTrackerCS} onClick={@props.tabHandler.bind(null, "penalty_tracker")}>
-                <a href="#">
+                <a>
                   <img className="hidden-xs" src="/images/icons/penalty-tracker.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/penalty-tracker.svg" width="32"/>
                 </a>
               </li>
               <li className={penaltyBoxTimerCS} onClick={@props.tabHandler.bind(null, "penalty_box_timer")}>
-                <a href="#">
+                <a>
                   <img className="hidden-xs" src="/images/icons/penalty-box.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/penalty-box.svg" width="32"/>
                 </a>
               </li>
               <li className={scoreboardCS} onClick={@props.tabHandler.bind(null, "scoreboard")}>
-                <a href="#">
+                <a>
                   <img className="hidden-xs" src="/images/icons/scoreboard.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/scoreboard.svg" width="32"/>
                 </a>
               </li>
               <li className={penaltyWhiteboardCS} onClick={@props.tabHandler.bind(null, "penalty_whiteboard")}>
-                <a href="#">
+                <a>
                   <img className="hidden-xs" src="/images/icons/whiteboard.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/whiteboard.svg" width="32"/>
                 </a>
               </li>
               <li className={announcersFeedCS} onClick={@props.tabHandler.bind(null, "announcers_feed")}>
-                <a href="#">
+                <a>
                   <img className="hidden-xs" src="/images/icons/announcers-feed.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/announcers-feed.svg" width="32"/>
                 </a>
