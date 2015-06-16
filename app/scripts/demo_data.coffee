@@ -121,6 +121,10 @@ module.exports =
       penalties: []}
     ]
     new GameState
+      name: "Demo Game"
+      venue: "The Internet"
+      date: "07/31/2015"
+      time: "5:00 PM"
       home:
         name: "Atlanta Rollergirls"
         initials: "ARG"
