@@ -73,6 +73,4 @@ module.exports =
     TOGGLE_PENALTY_TIMER: null
     TOGGLE_ALL_PENALTY_TIMERS: null
     SAVE_GAME: null
-    SAVE_JAM: null
-    SAVE_PASS: null
     SYNC_GAMES: null

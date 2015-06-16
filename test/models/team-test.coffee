@@ -26,12 +26,13 @@ describe 'Team', () ->
       DemoData = require '../../app/scripts/demo_data'
       team = DemoData.init().home
       team.save()
-    it "intializes with a single jame", () ->
+    it "intializes with a single jam", () ->
       expect(team.jams.length).toBe(1)
     it "creates the next jam", () ->
       team = callback
         type: ActionTypes.CREATE_NEXT_JAM
         teamId: team.id
+        jamNumber: 2
       expect(team.jams.length).toBe(2)
     describe "penalty box timers", () ->
       beforeEach () ->

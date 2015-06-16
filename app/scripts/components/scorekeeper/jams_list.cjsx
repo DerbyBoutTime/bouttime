@@ -27,9 +27,10 @@ module.exports = React.createClass
       $('.scorekeeper .collapse.in').collapse('hide')
       @setState(jamSelected: @state.jamSelected - 1)
   createNextJam: () ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.CREATE_NEXT_JAM
       teamId: @props.team.id
+      jamNumber: @props.team.jams.length + 1
   getInitialState: () ->
     jamSelected: null
   render: () ->
