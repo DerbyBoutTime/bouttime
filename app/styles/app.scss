@@ -160,3 +160,6 @@ $input-color: $near-black;
 .row.gutters-xs {
   @include gutters-xs;
 }
+.modal {
+  -webkit-overflow-scrolling: auto;
+}
