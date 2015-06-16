@@ -20,6 +20,7 @@ module.exports = React.createClass
                 </li>
                 <li>
                   <a id="back" onClick={@props.backHandler}> Back</a>
+                </li>
               </ul>
             </div>
             <span className="gamename">{@props.gameStateId}</span>
