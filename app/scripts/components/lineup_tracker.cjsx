@@ -6,6 +6,15 @@ Jam = require '../models/jam.coffee'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'LineupTracker'
+  componentDidMount: () ->
+    Jam.addChangeListener @onChange
+  componentWillUnmount: () ->
+    Jam.removeChangeListener @onChange
+  onChange: () ->
+    @setSelectorContext(
+      @state.lineupSelectorContext.team,
+      Jam.find(@state.lineupSelectorContext.jam?.id),
+      @state.lineupSelectorContext.selectHandler)
   getInitialState: () ->
     lineupSelectorContext:
       team: null

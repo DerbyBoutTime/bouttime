@@ -7,17 +7,8 @@ module.exports = React.createClass
     team: React.PropTypes.object
     jam: React.PropTypes.object
     selectHandler: React.PropTypes.func
-  getInitialState: () ->
-    jammer: @props.jam?.jammer?.id
-    pivot: @props.jam?.pivot?.id
-    blocker1: @props.jam?.blocker1?.id
-    blocker2: @props.jam?.blocker2?.id
-    blocker3: @props.jam?.blocker3?.id
   isSelected: (position, skater) ->
-    @state[position] is skater.id
-  selectHandler: (position, skaterId) ->
-    @state[position] = skaterId
-    @props.selectHandler(position, skaterId)
+    @props?.jam?[position]?.id is skater.id
   render: () ->
     <div className="modal" id="lineup-selector-modal">
       <div className="modal-dialog lineup-selector-dialog">
@@ -51,7 +42,7 @@ module.exports = React.createClass
                     <button key={skaterIndex}
                       className='bt-btn lineup-selector-dialog-btn': true
                       style={if @isSelected(position, skater) then @props.team.colorBarStyle}
-                      onClick={@selectHandler.bind(null, position, skater.id)}>
+                      onClick={@props.selectHandler.bind(null, position, skater.id)}>
                         <strong className="skater-number">{skater.number}</strong>
                     </button>
                   , this}
