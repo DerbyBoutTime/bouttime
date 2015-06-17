@@ -3,7 +3,7 @@ cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'SkaterSelectorModal'
   propTypes:
-    team: React.PropTypes.object.isRequired
+    team: React.PropTypes.object
     jam: React.PropTypes.object
     selectHandler: React.PropTypes.func
   getLineup: () ->
@@ -31,7 +31,7 @@ module.exports = React.createClass
             <h4 className="modal-title">Select Skater</h4>
           </div>
           <div className="modal-body">
-            {@props.team.skaters.map (skater, skaterIndex) ->
+            {@props.team?.skaters?.map (skater, skaterIndex) ->
                 <button key={skaterIndex}
                   className={@buttonClass(skater)}
                   style={if @inLineup(skater) and not @isInjured(skater) then @props.team.colorBarStyle}

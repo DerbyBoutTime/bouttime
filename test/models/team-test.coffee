@@ -110,4 +110,10 @@ describe 'Team', () ->
         team.toggleAllPenaltyTimers()
         expect(team.penaltyBoxStates[0].clock.stop).toBeCalled()
         expect(team.penaltyBoxStates[1].clock.start).not.toBeCalled()
+      it "renumbers jams after one is removed", () ->
+        team = callback
+          type: ActionTypes.REMOVE_JAM
+          teamId: team.id
+        expect(AppDispatcher.waitFor).toBeCalled()
+        expect(team.jams[0].jamNumber).toBe(1)
 

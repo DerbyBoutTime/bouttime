@@ -5,13 +5,16 @@ GameState = require '../models/game_state'
 GameMetadata = require '../models/game_metadata'
 GameSetup = require './game_setup'
 Game = require './game'
+qs = require 'querystring'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'GamePicker'
   getInitialState: () ->
-    selectedGame: null
+    selectedGame: @parseSelectedGame()
     games: GameMetadata.all()
     newGame: new GameState()
+  parseSelectedGame: () ->
+    qs.parse(window?.location?.hash?.substring(1)).id
   selectGame: (gameId) ->
     @setState(selectedGame: gameId)
   fillDemoGame: () ->
@@ -22,12 +25,11 @@ module.exports = React.createClass
   openGame: () ->
     gameId = React.findDOMNode(@refs.gameSelect).value
     if gameId? and gameId.length > 0
-      AppDispatcher.syncGame(gameId)
       @selectGame(gameId)
   componentDidMount: () ->
-    GameState.addChangeListener @onChange
+    GameMetadata.addChangeListener @onChange
   componentWillUnmount: () ->
-    GameState.removeChangeListener @onChange
+    GameMetadata.removeChangeListener @onChange
   render: () ->
     hideIfSelected = cx
       'hidden': @state.selectedGame?

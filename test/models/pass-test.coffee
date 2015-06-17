@@ -58,3 +58,8 @@ describe 'Pass', () ->
         passId: pass.id
         skaterId: 'skater 1'
       expect(pass.jammer).toBe('skater 1')
+    it "removes a pass", () ->
+      pass = callback
+        type: ActionTypes.REMOVE_PASS
+        passId: pass.id
+      expect(Pass.all().length).toBe(0)
