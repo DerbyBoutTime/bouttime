@@ -21,8 +21,8 @@ describe 'Jam', () ->
   describe "actions", () ->
     jam = undefined
     beforeEach () ->
-      jam = callback
-        type: ActionTypes.SAVE_JAM
+      jam = new Jam()
+      jam.save()
     it "saves a new jam", () ->
       expect(Jam.all().length).toBe(1)
     it "toggles no pivot", () ->
@@ -70,5 +70,15 @@ describe 'Jam', () ->
       jam = callback
         type: ActionTypes.CREATE_NEXT_PASS
         jamId: jam.id
-        passId: 'pass 2'
+        passNumber: 2
+      expect(jam.passes.length).toBe(2)
+    it "does not create duplicate passes", () ->
+      jam = callback
+        type: ActionTypes.CREATE_NEXT_PASS
+        jamId: jam.id
+        passNumber: 2
+      jam = callback
+        type: ActionTypes.CREATE_NEXT_PASS
+        jamId: jam.id
+        passNumber: 2
       expect(jam.passes.length).toBe(2)

@@ -1,4 +1,5 @@
-Functions = require '../functions'
+functions = require '../functions'
+seedrandom = require 'seedrandom'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 {ActionTypes} = require '../constants'
 Store = require './store'
@@ -46,7 +47,7 @@ class Jam extends Store
         return jam
       when ActionTypes.CREATE_NEXT_PASS
         jam = @find(action.jamId)
-        jam.createNextPass(action.passId)
+        jam.createPassesThrough(action.passNumber)
         jam.save()
         @emitChange()
         return jam
@@ -56,11 +57,6 @@ class Jam extends Store
         jam = Jam.find(pass.jamId)
         if not jam.jammer?
           jam.setSkaterPosition('jammer', action.skaterId)
-        jam.save()
-        @emitChange()
-        return jam
-      when ActionTypes.SAVE_JAM
-        jam = new Jam(action.jam)
         jam.save()
         @emitChange()
         return jam
@@ -76,15 +72,18 @@ class Jam extends Store
     @blocker2 = new Skater(options.blocker2) if options.blocker2
     @blocker3 = new Skater(options.blocker3) if options.blocker3
     @jammer = new Skater(options.jammer) if options.jammer
+    @passSequence = seedrandom(@id, state: options.passSequenceState ? true)
     _passes = @getPasses()
     if _passes.length > 0
       @passes = _passes
     else if options.passes?
       @passes = (new Pass(pass) for pass in options.passes)
     else
-      @passes = [new Pass(jamId: @id)]
+      @passes = [new Pass(id: functions.uniqueId(8, @passSequence), jamId: @id)]
     @lineupStatuses = options.lineupStatuses ? []
+    @passSequenceState = @passSequence.state()
   save: () ->
+    @passSequenceState = @passSequence.state()
     super()
     pass.save() for pass in @passes
   getPasses: () ->
@@ -137,10 +136,16 @@ class Jam extends Store
       @lineupStatuses[statusIndex][position] = 'clear'
     currentStatus = @lineupStatuses[statusIndex][position]
     @lineupStatuses[statusIndex][position] = @statusTransition(currentStatus)
-  createNextPass: (passId) ->
+  createNextPass: () ->
     lastPass = @passes[@passes.length - 1]
+    passId = functions.uniqueId(8, @passSequence)
+    if Pass.find(passId)?
+      return
     newPass = new Pass(id: passId, passNumber: @passes.length + 1, jamId: @id, jammer: lastPass.jammer)
     @passes.push newPass
+  createPassesThrough: (passNumber) ->
+    for i in [@passes.length+1 .. passNumber] by 1
+      @createNextPass()
   reorderPass: (sourcePassIndex, targetPassIndex) ->
     @passes.splice(targetPassIndex, 0, @passes.splice(sourcePassIndex, 1)[0])
     pass.passNumber = i + 1 for pass, i in @passes

@@ -1,6 +1,7 @@
 _ = require 'underscore'
 functions = require '../functions'
 constants = require '../constants'
+seedrandom = require 'seedrandom'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 ActionTypes = constants.ActionTypes
 {ClockManager} = require '../clock'
@@ -15,7 +16,7 @@ class Team extends Store
     switch action.type
       when ActionTypes.CREATE_NEXT_JAM
         team = @find(action.teamId)
-        team.createNextJam()
+        team.createJamsThrough(action.jamNumber)
         team.save()
         @emitChange()
         return team
@@ -74,17 +75,20 @@ class Team extends Store
     else
       @skaters = []
     _jams = @getJams()
+    @jamSequence = seedrandom(@id, state: options.jamSequenceState ? true)
     if _jams.length > 0
       @jams = _jams
     else if options.jams?
       @jams = (new Jam(_.extend(jam, teamId: @id)) for jam in options.jams)
     else
-      @jams = [new Jam(teamId: @id)]
+      @jams = [new Jam(id: functions.uniqueId(8, @jamSequence), teamId: @id)]
     @penaltyBoxStates = options.penaltyBoxStates ? []
     @clockManager = new ClockManager()
     for boxState in @penaltyBoxStates
       boxState.clock = @clockManager.getOrAddClock(boxState.clock.alias, boxState.clock)
+    @jamSequenceState = @jamSequence.state()
   save: () ->
+    @jamSequenceState = @jamSequence.state()
     super()
     skater.save() for skater in @skaters
     jam.save() for jam in @jams
@@ -103,7 +107,10 @@ class Team extends Store
     @jams.reduce ((sum, jam) -> sum += jam.getPoints()), 0
   createNextJam: () ->
     lastJam = @jams[@jams.length - 1]
-    newJam = new Jam(jamNumber: @jams.length + 1, teamId: @id)
+    jamId = functions.uniqueId(8, @jamSequence)
+    if (Jam.find(jamId)?)
+      return
+    newJam = new Jam(id: jamId, jamNumber: @jams.length + 1, teamId: @id)
     positionsInBox = lastJam.getPositionsInBox()
     if positionsInBox.length > 0
       newJam.lineupStatuses[0] = {}
@@ -111,10 +118,6 @@ class Team extends Store
         newJam[position] = lastJam[position]
         newJam.lineupStatuses[0][position] = 'sat_in_box'
     @jams.push newJam
-    AppDispatcher.emit
-      type: ActionTypes.SAVE_JAM
-      jam: newJam
-    newJam
   createJamsThrough: (jamNumber) ->
     for i in [@jams.length+1 .. jamNumber] by 1
       @createNextJam()

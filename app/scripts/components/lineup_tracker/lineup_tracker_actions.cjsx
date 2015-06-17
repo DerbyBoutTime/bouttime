@@ -8,9 +8,10 @@ module.exports = React.createClass
   propTypes:
     team: React.PropTypes.object.isRequired
   createNextJam: () ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.CREATE_NEXT_JAM
       teamId: @props.team.id
+      jamNumber: @props.team.jams.length + 1
   render: () ->
     <div className="row gutters-xs actions">
       <div className="col-sm-12 col-xs-12">
