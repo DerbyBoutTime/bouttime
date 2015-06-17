@@ -45,7 +45,7 @@ class Store
     if not @_destroy
       @constructor.store.setItem(@_storeId(), JSON.stringify(this))
     else
-      @constructor.store.removeItem(@id)
+      @constructor.store.removeItem(@_storeId())
   destroy: () ->
     @_destroy = true
   _storeId: () ->
