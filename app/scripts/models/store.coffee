@@ -8,11 +8,13 @@ CHANGE_EVENT = 'STORE_CHANGE'
 class Store
   @store: new MemoryStorage()
   @emitter: new EventEmitter()
+  @_storeId: (id) ->
+    "#{@name}-#{id}"
   @find: (id) ->
     return null if not id?
-    json = @store.getItem(id)
+    json = @store.getItem(@_storeId(id))
     return null if not json?
-    obj = JSON.parse(@store.getItem(id))
+    obj = JSON.parse(json)
     if obj then new this(obj) else null
   @findBy: (opts={}) ->
     predicate = (obj) =>
@@ -41,9 +43,11 @@ class Store
     @_destroy = false
   save: (options={}) ->
     if not @_destroy
-      @constructor.store.setItem(@id, JSON.stringify(this))
+      @constructor.store.setItem(@_storeId(), JSON.stringify(this))
     else
       @constructor.store.removeItem(@id)
   destroy: () ->
     @_destroy = true
+  _storeId: () ->
+    @constructor._storeId(@id)
 module.exports = Store

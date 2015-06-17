@@ -13,10 +13,13 @@ module.exports = React.createClass
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a id="login" href="#"> Sign In</a>
+                  <a id="login" onClick={@props.tabHandler.bind(null, 'login')}> Sign In</a>
                 </li>
                 <li>
-                  <a id="setup" href="#"> Setup</a>
+                  <a id="setup" onClick={@props.tabHandler.bind(null, 'game_setup')}> Setup</a>
+                </li>
+                <li>
+                  <a id="back" onClick={@props.backHandler}> Back</a>
                 </li>
               </ul>
             </div>

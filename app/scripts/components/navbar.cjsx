@@ -1,87 +1,72 @@
 React = require 'react/addons'
-$ = require 'jquery'
 cx = React.addons.classSet
 module.exports = React.createClass
-  buildOptions: (opts = {}) ->
-    std_opts =
-      role: 'Global'
-      timestamp: Date.now()
-      state: @state
-    $.extend(std_opts, opts)
-  componentDidMount: () ->
-    $dom = $(@getDOMNode())
-  getInitialState: () ->
-    props = @props
-    state =
-      tab: props.tab
-  componentWillReceiveProps: (props) ->
-    @state.tab = props.tab
   render: () ->
     jamTimerCS = cx
-      'active': @state.tab == "jam_timer"
+      'active': @props.tab == "jam_timer"
     lineupTrackerCS = cx
-      'active': @state.tab == "lineup_tracker"
+      'active': @props.tab == "lineup_tracker"
     scorekeeperCS = cx
-      'active': @state.tab == "scorekeeper"
+      'active': @props.tab == "scorekeeper"
     penaltyTrackerCS = cx
-      'active': @state.tab == "penalty_tracker"
+      'active': @props.tab == "penalty_tracker"
     penaltyBoxTimerCS = cx
-      'active': @state.tab == "penalty_box_timer"
+      'active': @props.tab == "penalty_box_timer"
     scoreboardCS = cx
-      'active': @state.tab == "scoreboard"
+      'active': @props.tab == "scoreboard"
     penaltyWhiteboardCS = cx
-      'active': @state.tab == "penalty_whiteboard"
+      'active': @props.tab == "penalty_whiteboard"
     announcersFeedCS = cx
-      'active': @state.tab == "announcers_feed"
+      'active': @props.tab == "announcers_feed"
     <div className="navbar">
       <div className="container">
         <div className="row">
           <div className="col-xs-12 col-sm-12">
             <ul className="nav navbar-nav">
-              <li className={jamTimerCS} data-tab-name="jam_timer">
-                <a href="#">
+              <li className={jamTimerCS} onClick={@props.tabHandler.bind(null, "jam_timer")}>
+                <a>
                   <img className="hidden-xs" src="/images/icons/jam-timer.svg" width="48"/>
                   <img className="visible-xs-block img-responsive" src="/images/icons/jam-timer.svg" width="32"/>
                 </a>
               </li>
-              <li className={lineupTrackerCS} data-tab-name="lineup_tracker">
-                <a href="#">
+              <li className={lineupTrackerCS} onClick={@props.tabHandler.bind(null, "lineup_tracker")}>
+                <a>
                   <img className="hidden-xs" src="/images/icons/lineup-tracker.svg" width="48" />
                   <img className="visible-xs-block" src="/images/icons/lineup-tracker.svg" width="32"/>
                 </a>
               </li>
-              <li className={scorekeeperCS} data-tab-name="scorekeeper">
-                <a href="#">
+              <li className={scorekeeperCS} onClick={@props.tabHandler.bind(null, "scorekeeper")}>
+                <a>
                   <img className="hidden-xs" src="/images/icons/scorekeeper.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/scorekeeper.svg" width="32"/>
                 </a>
               </li>
-              <li className={penaltyTrackerCS} data-tab-name="penalty_tracker">
-                <a href="#">
+              <li className={penaltyTrackerCS} onClick={@props.tabHandler.bind(null, "penalty_tracker")}>
+                <a>
                   <img className="hidden-xs" src="/images/icons/penalty-tracker.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/penalty-tracker.svg" width="32"/>
                 </a>
               </li>
-              <li className={penaltyBoxTimerCS} data-tab-name="penalty_box_timer">
-                <a href="#">
+              <li className={penaltyBoxTimerCS} onClick={@props.tabHandler.bind(null, "penalty_box_timer")}>
+                <a>
                   <img className="hidden-xs" src="/images/icons/penalty-box.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/penalty-box.svg" width="32"/>
                 </a>
               </li>
-              <li className={scoreboardCS} data-tab-name="scoreboard">
-                <a href="#">
+              <li className={scoreboardCS} onClick={@props.tabHandler.bind(null, "scoreboard")}>
+                <a>
                   <img className="hidden-xs" src="/images/icons/scoreboard.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/scoreboard.svg" width="32"/>
                 </a>
               </li>
-              <li className={penaltyWhiteboardCS} data-tab-name="penalty_whiteboard">
-                <a href="#">
+              <li className={penaltyWhiteboardCS} onClick={@props.tabHandler.bind(null, "penalty_whiteboard")}>
+                <a>
                   <img className="hidden-xs" src="/images/icons/whiteboard.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/whiteboard.svg" width="32"/>
                 </a>
               </li>
-              <li className={announcersFeedCS} data-tab-name="announcers_feed">
-                <a href="#">
+              <li className={announcersFeedCS} onClick={@props.tabHandler.bind(null, "announcers_feed")}>
+                <a>
                   <img className="hidden-xs" src="/images/icons/announcers-feed.svg" width="48"/>
                   <img className="visible-xs-block" src="/images/icons/announcers-feed.svg" width="32"/>
                 </a>
