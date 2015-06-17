@@ -152,4 +152,9 @@ class Jam extends Store
   isInjured: (position) ->
     @lineupStatuses? and @lineupStatuses.some (status) ->
       status[position] is 'injured'
+  getLineup: () ->
+    [@pivot, @blocker1, @blocker2, @blocker3, @jammer].filter (position) ->
+      position?
+  inLineup: (skater) ->
+    skater.number in @getLineup().map (s) -> s.number
 module.exports = Jam

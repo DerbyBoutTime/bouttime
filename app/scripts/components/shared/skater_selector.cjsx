@@ -9,6 +9,9 @@ module.exports = React.createClass
     setSelectorContext: React.PropTypes.func
     selectHandler: React.PropTypes.func
     placeholder: React.PropTypes.string
+    target: React.PropTypes.string
+  getDefaultProps: () ->
+    target: "#skater-selector-modal"
   buttonContent: () ->
     if @props.skater
       @props.skater.number
@@ -21,7 +24,7 @@ module.exports = React.createClass
       className={injuryClass + " skater-selector text-center bt-btn"}
       data-toggle="modal"
       style={if @props.skater and not @props.injured then @props.style else {}}
-      data-target="#skater-selector-modal"
+      data-target={@props.target}
       onClick={@props.setSelectorContext.bind(this, @props.selectHandler)}>
       <strong>{@buttonContent()}</strong>
     </button>

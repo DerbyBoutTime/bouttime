@@ -94,7 +94,7 @@ module.exports = React.createClass
           home={home}
           away={away}/>
       when "lineup_tracker"
-        <LineupTracker gameState={@state.gameState} setSelectorContext={@setSelectorContext} />
+        <LineupTracker gameState={@state.gameState} />
       when "scorekeeper"
         <Scorekeeper gameState={@state.gameState} setSelectorContext={@setSelectorContext} />
       when "penalty_tracker"
