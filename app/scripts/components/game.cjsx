@@ -70,7 +70,7 @@ module.exports = React.createClass
     @setState tab: 'jam_timer'
   render: () ->
     if not @state.gameState?
-      return <span>Game Not Found</span>
+      return <span>Loading</span>
     tab = switch @state.tab
       when "jam_timer"
         home =
