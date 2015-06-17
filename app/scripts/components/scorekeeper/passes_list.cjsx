@@ -25,7 +25,7 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.CREATE_NEXT_PASS
       jamId: @props.jam.id
-      passId: functions.uniqueId()
+      passNumber: @props.jam.passes.length + 1
   render: () ->
     <div className="passes">
       <div className="headers">
