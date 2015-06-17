@@ -72,6 +72,17 @@ describe 'Jam', () ->
         jamId: jam.id
         passNumber: 2
       expect(jam.passes.length).toBe(2)
+    it "renumbers passes after one is removed", () ->
+      jam = callback
+        type: ActionTypes.REMOVE_PASS
+        jamId: jam.id
+      expect(AppDispatcher.waitFor).toBeCalled()
+      expect(jam.passes[0].passNumber).toBe(1)
+    it "removes a jam", () ->
+      jam = callback
+        type: ActionTypes.REMOVE_JAM
+        jamId: jam.id
+      expect(Jam.all().length).toBe(0)
     it "does not create duplicate passes", () ->
       jam = callback
         type: ActionTypes.CREATE_NEXT_PASS

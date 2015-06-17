@@ -17,6 +17,7 @@ class Store
   @findBy: (opts={}) ->
     predicate = (obj) =>
       match = (obj.type is @name)
+      match &= not obj._destroy
       for key, val of opts
         match &= (obj[key] is val)
       match

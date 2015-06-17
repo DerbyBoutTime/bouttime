@@ -54,6 +54,12 @@ class Pass extends Store
         pass.save()
         @emitChange()
         return pass
+      when ActionTypes.REMOVE_PASS
+        pass = @find(action.passId)
+        pass.destroy()
+        pass.save()
+        @emitChange()
+        return pass
   constructor: (options={}) ->
     super options
     @jamId = options.jamId

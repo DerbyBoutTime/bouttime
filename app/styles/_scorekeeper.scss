@@ -31,8 +31,36 @@
     .headers {
     }
     .columns {
-      .jam-row, .pass-row{
+      .item-row{
         margin-top: 4px;
+        .options-button {
+          text-align: center;
+          line-height: $minimum-touch-target;
+        }
+        .drag-handle {
+          cursor: move;
+        }
+        .item {
+          overflow: hidden;
+          position: relative;
+        }
+        .options {
+          position: absolute;
+          top: 0;
+          width: 0;
+          visibility: hidden;
+          background-color: $muted-gray;
+          transform: translateX(-100%);
+          transition: transform 0.5s, visibility 0.0s 0.5s, width 0.0s 0.5s;
+        }
+        &.opened {
+          .options {
+            width: 100%;
+            visibility: visible;
+            transform: translateX(0);
+            transition: transform 0.5s, visibility 0.0s 0.0s, width 0.0s 0.0s;
+          }
+        }
       }
       .col-sm-2, .col-xs-2 {
           min-height: $minimum-touch-target;
@@ -71,11 +99,6 @@
           color: $near-black;
           line-height: $minimum-touch-target;
         }
-      }
-      .drag-handle {
-        text-align:center;
-        line-height: $minimum-touch-target;
-        cursor: move;
       }
     }
     .actions {

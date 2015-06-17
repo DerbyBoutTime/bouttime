@@ -95,7 +95,7 @@ module.exports = React.createClass
       'bt-btn scores six': true
       'selected': @props.pass.points == 6
     <div className="panel">
-      <div className="edit-pass collapse" id={@props.editPassId}>
+      <div className="edit-pass collapse" id={@props.panelId}>
         <div className="row gutters-xs">
           <div className="col-sm-3 col-xs-3">
             <button className={injuryClass} onClick={@toggleInjury}>

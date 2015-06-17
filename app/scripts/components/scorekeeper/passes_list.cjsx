@@ -1,28 +1,26 @@
 React = require 'react/addons'
-$ = require 'jquery'
 functions = require '../../functions'
 AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../../constants.coffee'
-PassItem = require './pass_item.cjsx'
+ItemRow = require './item_row'
+PassItem = require './pass_item'
+PassEditPanel = require './pass_edit_panel'
 module.exports = React.createClass
   displayName: 'PassesList'
   propTypes:
     jam: React.PropTypes.object.isRequired
     setSelectorContext: React.PropTypes.func.isRequired
-  mouseDownHandler: (evt) ->
-    @target = evt.target
-  dragHandler: (passIndex, evt) ->
-    if $(@target).hasClass('drag-handle') or $(@target).parents('.drag-handle').length > 0
-      evt.dataTransfer.setData 'passIndex', passIndex
-    else
-      evt.preventDefault()
-  dropHandler: (passIndex, evt) ->
-    sourceIndex = evt.dataTransfer.getData 'passIndex'
+  reorderHandler: (sourceIndex, targetIndex) ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.REORDER_PASS
       jamId: @props.jam.id
       sourcePassIndex: sourceIndex
-      targetPassIndex: passIndex
+      targetPassIndex: targetIndex
+  removeHandler: (passId) ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.REMOVE_PASS
+      jamId: @props.jam.id
+      passId: passId
   createNextPass: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.CREATE_NEXT_PASS
@@ -52,14 +50,20 @@ module.exports = React.createClass
       </div>
       <div className="columns">
         {@props.jam.passes.map (pass, passIndex) ->
-          <PassItem
-            key={passIndex}
-            pass={pass}
-            jam={@props.jam}
-            setSelectorContext={@props.setSelectorContext}
-            dragHandler={@dragHandler.bind(this, passIndex)}
-            dropHandler={@dropHandler.bind(this, passIndex)}
-            mouseDownHandler={@mouseDownHandler} />
+          args =
+            pass: pass
+            jam: @props.jam
+            panelId: "edit-pass-#{functions.uniqueId()}"
+            setSelectorContext: @props.setSelectorContext
+          item = <PassItem {...args} />
+          panel = <PassEditPanel {...args} />
+          <ItemRow
+            key={pass.id}
+            item={item}
+            panel={panel}
+            index={passIndex}
+            reorderHandler={@reorderHandler}
+            removeHandler={@removeHandler.bind(this, pass.id)} />
         , this}
       </div>
       <div className="actions">
