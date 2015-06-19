@@ -5,6 +5,7 @@ module.exports = React.createClass
   displayName: 'ItemRow'
   propTypes:
     item: React.PropTypes.node.isRequired
+    removeHandler: React.PropTypes.func.isRequired
     panel: React.PropTypes.node
     index: React.PropTypes.number
     reorderHandler: React.PropTypes.func
@@ -34,7 +35,7 @@ module.exports = React.createClass
       'item-row': true
       'opened': @state.opened
     handleClass = cx
-      'options-button': true
+      'bt-btn options-button': true
       'drag-handle': @props.reorderHandler? and @props.index?
     <div className={containerClass}
       aria-multiselectable="true"
@@ -45,9 +46,9 @@ module.exports = React.createClass
       onMouseDown={@mouseDownHandler}>
       <div className="row gutters-xs">
         <div className="col-xs-1">
-          <div className={handleClass} onClick={@toggleOpened}>
+          <button className={handleClass} onClick={@toggleOpened}>
             <span className="glyphicon glyphicon-option-horizontal" />
-          </div>
+          </button>
         </div>
         <div className="col-xs-11">
           <div className="item">
