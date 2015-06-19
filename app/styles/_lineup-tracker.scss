@@ -1,16 +1,19 @@
 .lineup-tracker {
-  .jam-details {
+  .team-lineup {
     margin-top: 4px;
   }
   .jam-detail {
     margin-bottom:4px;
     .jam-detail-number {
       background-color: $near-black;
+      border-color: $near-black;
       color: $white;
+      padding-left: 10px;
+      .item {
+        padding: 1px;
+      }
     }
-    .jam-detail-no-pivot, .jam-detail-star-pass {
-      line-height: $minimum-touch-target;
-      padding: 0;
+    .jam-detail-button {
       &.selected {
         background-color: $muted-gray;
         color: $white;
@@ -58,7 +61,6 @@
     }
   }
   .actions {
-    margin-top: 14px;
     .actions-action {
     }
     .actions-edit {
