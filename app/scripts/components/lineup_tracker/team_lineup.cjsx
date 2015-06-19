@@ -8,7 +8,7 @@ module.exports = React.createClass
     team: React.PropTypes.object.isRequired
     setSelectorContextHandler: React.PropTypes.func.isRequired
   render: ()->
-    <div className="team-lineup">
+    <div className="jam-details">
       {@props.team.jams.map (jam, jamIndex) ->
         <JamDetail
           key={jam.jamNumber}

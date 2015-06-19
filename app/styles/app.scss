@@ -20,7 +20,6 @@ $input-color: $near-black;
 @import "scorekeeper";
 @import "penalty-box-timer";
 @import "game-setup";
-@import "item-row";
 //Some additional resets
 *:focus {
   outline: 0 !important;
@@ -48,9 +47,6 @@ $input-color: $near-black;
 }
 .bt-btn {
   @include bt-button;
-  &.inverse {
-    @include button-variant($white, $light-gray, $near-black);
-  }
 }
 .btn-default {
   padding: 10px 5px;

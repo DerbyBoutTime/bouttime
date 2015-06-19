@@ -1,9 +1,8 @@
 React = require 'react/addons'
 AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../../constants.coffee'
-SkaterSelector = require '../shared/skater_selector'
-ItemRow = require '../shared/item_row'
-LineupBoxRow = require './lineup_box_row'
+SkaterSelector = require '../shared/skater_selector.cjsx'
+LineupBoxRow = require './lineup_box_row.cjsx'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'JamDetail'
@@ -31,36 +30,22 @@ module.exports = React.createClass
       jamId: @props.jam.id
       statusIndex: statusIndex
       position: position
-  removeJam: () ->
-    AppDispatcher.dispatchAndEmit
-      type: ActionTypes.REMOVE_JAM
-      jamId: @props.jam.id
-      teamId: @props.team.id
-  renderItem: () ->
+  isInjured: (position) ->
+    @props.jam.lineupStatuses.some (status) ->
+      status[position] is 'injured'
+  render: () ->
     noPivotButtonClass = cx
-      'bt-btn jam-detail-button': true
+      'btn': true
+      'btn-block': true
+      'jam-detail-no-pivot': true
+      'toggle-pivot-btn': true
       'selected': @props.jam.noPivot
     starPassButtonClass = cx
-      'bt-btn jam-detail-button': true
+      'btn': true
+      'btn-block': true
+      'jam-detail-star-pass': true
+      'toggle-star-pass-btn': true
       'selected': @props.jam.starPass
-    <div className="jam-item">
-      <div className="col-xs-6">
-        <div className="jam-detail-number boxed-good">
-          <strong>Jam {@props.jam.jamNumber}</strong>
-        </div>
-      </div>
-      <div className="col-xs-3">
-        <button className={noPivotButtonClass} onClick={@toggleNoPivot}>
-          <strong>No Pivot</strong>
-        </button>
-      </div>
-      <div className="col-xs-3">
-        <button className={starPassButtonClass} onClick={@toggleStarPass}>
-          <strong><span className="glyphicon glyphicon-star" aria-hidden="true"></span> Pass</strong>
-        </button>
-      </div>
-    </div>
-  renderPanel: () ->
     actionsClass = cx
       'row': true
       'gutters-xs': true
@@ -77,7 +62,28 @@ module.exports = React.createClass
     blocker4ColumnClass = cx
       'col-xs-5-cols': true
       'hidden': not @props.jam.noPivot
-    <div className="lineup">
+    <div className="jam-detail">
+      <div className="row gutters-xs">
+        <div className="col-xs-6">
+          <div className="jam-detail-number boxed-good">
+            <div className="row gutters-xs">
+              <div className="col-sm-11 col-xs-11 col-xs-offset-1">
+                Jam {@props.jam.jamNumber}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-xs-3">
+          <button className={noPivotButtonClass} onClick={@toggleNoPivot}>
+            <strong>No Pivot</strong>
+          </button>
+        </div>
+        <div className="col-xs-3">
+          <button className={starPassButtonClass} onClick={@toggleStarPass}>
+            <strong><span className="glyphicon glyphicon-star" aria-hidden="true"></span> Pass</strong>
+          </button>
+        </div>
+      </div>
       <div className="row gutters-xs positions">
         <div className="col-xs-5-cols text-center">
           <strong>J</strong>
@@ -102,7 +108,7 @@ module.exports = React.createClass
         <div className="col-xs-5-cols">
           <SkaterSelector
             skater={@props.jam.jammer}
-            injured={@props.jam.isInjured('jammer')}
+            injured={@isInjured('jammer')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@setSkaterPosition}
@@ -111,7 +117,7 @@ module.exports = React.createClass
         <div className={pivotColumnClass}>
           <SkaterSelector
             skater={@props.jam.pivot}
-            injured={@props.jam.isInjured('pivot')}
+            injured={@isInjured('pivot')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@setSkaterPosition}
@@ -120,7 +126,7 @@ module.exports = React.createClass
         <div className="col-xs-5-cols">
           <SkaterSelector
             skater={@props.jam.blocker1}
-            injured={@props.jam.isInjured('blocker1')}
+            injured={@isInjured('blocker1')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@setSkaterPosition}
@@ -129,7 +135,7 @@ module.exports = React.createClass
         <div className="col-xs-5-cols">
           <SkaterSelector
             skater={@props.jam.blocker2}
-            injured={@props.jam.isInjured('blocker2')}
+            injured={@isInjured('blocker2')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@setSkaterPosition}
@@ -138,7 +144,7 @@ module.exports = React.createClass
         <div className="col-xs-5-cols">
           <SkaterSelector
             skater={@props.jam.blocker3}
-            injured={@props.jam.isInjured('blocker3')}
+            injured={@isInjured('blocker3')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@setSkaterPosition}
@@ -147,7 +153,7 @@ module.exports = React.createClass
         <div className={blocker4ColumnClass}>
           <SkaterSelector
             skater={@props.jam.pivot}
-            injured={@props.jam.isInjured('pivot')}
+            injured={@isInjured('pivot')}
             style={@props.team.colorBarStyle}
             setSelectorContext={@props.setSelectorContextHandler}
             selectHandler={@setSkaterPosition}
@@ -158,11 +164,4 @@ module.exports = React.createClass
         <LineupBoxRow key={statusIndex} lineupStatus={lineupStatus} cycleLineupStatus={@cycleLineupStatus.bind(this, statusIndex)} />
       , this }
       <LineupBoxRow key={@props.jam.lineupStatuses.length} cycleLineupStatus={@cycleLineupStatus.bind(this, @props.jam.lineupStatuses.length)} />
-    </div>
-  render: () ->
-    <div className='jam-detail'>
-      <ItemRow
-        item={@renderItem()}
-        removeHandler={@removeJam}
-        panel={@renderPanel()} />
     </div>
