@@ -1,9 +1,4 @@
 @import "colors";
-//Bootstrap overrides
-$icon-font-path: "/fonts/";
-$font-family-sans-serif: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$gray-base: $near-black;
-$input-color: $near-black;
 @import "base/variables";
 @import "bootstrap";
 @import "/bower_components/jquery-minicolors/jquery.minicolors.css";
@@ -38,25 +33,14 @@ $input-color: $near-black;
   font-size: 1.1em;
   line-height: $minimum-touch-target;
 }
-.btn-boxed{
-  @extend .boxed-good;
-  padding: 0;
-  border-color: transparent;
-  background-color: $light-gray;
-  color: $near-black;
-}
 .bt-btn {
-  @include bt-button;
+  @extend .btn;
+  @extend .btn-block;
+  @extend .btn-default;
+  padding: 9px;
 }
-.btn-default {
-  padding: 10px 5px;
-  font-size: 0.85em;
-  @media (min-width: $screen-sm-min) {
-    padding: inherit;
-    font-size: inherit;
-  }
-  background-color: $light-gray;
-  color: $near-black;
+.btn-selected {
+  @include button-variant($btn-selected-color, $btn-selected-bg, $btn-selected-border);
 }
 .top-buffer {
   margin-top: 4px;

@@ -11,7 +11,7 @@
 // This will prevent navbar getting collapsed for extra small screen sizes:
 $grid-float-breakpoint: 320px;
 // Typography
-$font-size-base: 14px;
+$font-size-base: 16px;
 // Panels
 $panel-body-padding: 5px;
 // Design variables
@@ -20,3 +20,16 @@ $animation-duration: 2s;
 //Bootstrap overrides
 $grid-gutter-width : 16px;
 $padding-base-horizontal: 8px !default;
+$icon-font-path: "/fonts/";
+$font-family-sans-serif: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$gray-base: $near-black;
+$input-color: $near-black;
+$btn-default-color: $near-black;
+$btn-default-bg: $light-gray;
+$btn-default-border: $btn-default-bg;
+$btn-primary-color: $white;
+$btn-primary-bg: $near-black;
+$btn-primary-border: $btn-primary-bg;
+$btn-selected-color: $white;
+$btn-selected-bg: $muted-gray;
+$btn-selected-border: $btn-selected-bg;
