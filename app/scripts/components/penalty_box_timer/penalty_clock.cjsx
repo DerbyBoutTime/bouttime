@@ -89,8 +89,8 @@ module.exports = React.createClass
           </div>
         </div>
         <div className="col-xs-6">
-          <div className="penalty-count">{@props.boxState.penaltyCount}</div>
-          <button className="bt-btn clock" id={@clockId} onClick={@togglePenaltyTimer}>{@props.boxState.clock.display()}</button>
+          <div className="penalty-count bt-box box-primary">{@props.boxState.penaltyCount}</div>
+          <button className="bt-btn btn-default clock" id={@clockId} onClick={@togglePenaltyTimer}>{@props.boxState.clock.display()}</button>
         </div>
       </div>
     </div>
