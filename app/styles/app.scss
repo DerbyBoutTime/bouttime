@@ -16,6 +16,7 @@
 @import "penalty-box-timer";
 @import "game-setup";
 @import "skater-selector";
+@import "period-summary";
 //Some additional resets
 *:focus {
   outline: 0 !important;
@@ -56,6 +57,9 @@
   }
   &.box-selected {
     @include box-variant($btn-selected-color, $btn-selected-bg, $btn-selected-border);
+  }
+  &.box-lg {
+    font-size: 4em;
   }
 }
 .top-buffer {
