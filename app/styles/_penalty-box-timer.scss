@@ -34,7 +34,7 @@
       @include gutters-xs;
     }
     .clock {
-      @include bt-button;
+      @extend .bt-btn;
       @include button-variant($near-black, $white, $gray);
       border: 2px solid $gray;
       border-radius: 20px;
@@ -42,7 +42,7 @@
       line-height: 1.5em;
     }
     .served-button, .left-early-button {
-      @include bt-button;
+      @extend .bt-btn;
       @include make-xs-column(6);
       line-height: $minimum-touch-target;
     }

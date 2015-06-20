@@ -1,0 +1,5 @@
+@mixin box-variant($color, $bg, $border) {
+  color: $color;
+  background-color: $bg;
+  border-color: $border;
+}

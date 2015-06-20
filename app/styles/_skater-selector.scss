@@ -1,0 +1,10 @@
+.skater-selector {
+  color: $gray;
+  &.injury {
+    background-color: $white;
+    border: 5px solid $pink;
+    border-radius: 10px;
+    color: $pink;
+    padding: 5px;
+  }
+}

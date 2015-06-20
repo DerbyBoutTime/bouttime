@@ -20,14 +20,14 @@ module.exports = React.createClass
     awayStyle = if @state.selectedTeam is 'away' or displayBoth then @props.away.colorBarStyle else {}
     homeStyle = if @state.selectedTeam is 'home' or displayBoth then @props.home.colorBarStyle else {}
     <div className="team-selector">
-      <div className="row teams gutters-xs">
-        <div className="col-sm-6 col-xs-6">
-          <button className="team-name bt-btn btn-boxed" style={awayStyle} onClick={@selectTeam.bind(this, 'away')}>
+      <div className="row gutters-xs top-buffer">
+        <div className="col-xs-6">
+          <button className="bt-btn" style={awayStyle} onClick={@selectTeam.bind(this, 'away')}>
             {@props.away.name}
           </button>
         </div>
-        <div className="col-sm-6 col-xs-6">
-          <button className="team-name bt-btn btn-boxed" style={homeStyle} onClick={@selectTeam.bind(this, 'home')}>
+        <div className="col-xs-6">
+          <button className="bt-btn" style={homeStyle} onClick={@selectTeam.bind(this, 'home')}>
             {@props.home.name}
           </button>
         </div>
