@@ -13,9 +13,9 @@ module.exports = React.createClass
     false
   render: () ->
     containerClass = cx
-      'penalty-alert': true
-      'warning': @leftEarly()
-      'expulsion': @fouledOut() or @expelled()
+      'penalty-alert text-center text-uppercase bt-box': true
+      'box-warning': @leftEarly()
+      'box-danger': @fouledOut() or @expelled()
     displayContent = switch
       when @expelled() then 'Expelled'
       when @fouledOut() then 'Foul Out'

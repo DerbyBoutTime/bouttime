@@ -15,7 +15,7 @@ module.exports = React.createClass
       <div className='jam-number'>
         <strong>{@jamNumberDisplay()}</strong>
       </div>
-      <button className='bt-btn btn-boxed penalty-indicator-wrapper'
+      <button className='penalty-control-button'
         data-toggle="collapse"
         data-target={"##{@props.target}"}
         aria-expanded="false"

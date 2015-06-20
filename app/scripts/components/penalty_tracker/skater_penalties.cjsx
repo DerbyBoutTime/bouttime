@@ -39,16 +39,16 @@ module.exports = React.createClass
       'skater-penalties': true
       'hidden': @props.hidden
     <div className={containerClass}>
-      <div className='row gutters-xs top-buffer actions' >
+      <div className='row gutters-xs top-buffer' >
         <div className='col-xs-12'>
-          <button className='bt-btn btn-boxed action' onClick={@props.backHandler} >
+          <button className='bt-btn btn-primary' onClick={@props.backHandler} >
             <span className='icon glyphicon glyphicon-chevron-left'></span><strong>Back</strong>
           </button>
         </div>
       </div>
       <div className='row gutters-xs top-buffer'>
         <div className='col-xs-2'>
-          <div className='bt-btn btn-boxed' style={@props.teamStyle}>
+          <div className='bt-btn' style={@props.teamStyle}>
             <strong>{@props.skater.number}</strong>
           </div>
         </div>
@@ -56,7 +56,7 @@ module.exports = React.createClass
           <PenaltyAlert skater={@props.skater} />
         </div>
       </div>
-      <div className='row gutters-xs top-buffer penalty-controls'>
+      <div className='row gutters-xs top-buffer'>
         {[0...7].map (i) ->
           <div key={i} className='col-xs-7-cols'>
             <PenaltyControl
@@ -83,19 +83,17 @@ module.exports = React.createClass
           , this}
         </div>
       </div>
-      <div className='row-gutters-xs penalty-controls'>
-        <div className='col-xs-10'>
-          <div className='row gutters-xs'>
-            {@props.skater.penalties[7..].map (skaterPenalty, penaltyIndex) ->
-              <div key={penaltyIndex} className='col-xs-2'>
-                <PenaltyControl
-                  penaltyNumber={penaltyIndex + 1}
-                  skaterPenalty={skaterPenalty}
-                  teamStyle={@props.teamStyle}
-                  target={@getPenaltyId(penaltyIndex + 7)} />
-              </div>
-            , this}
-          </div>
+      <div className='row gutters-xs'>
+        <div className='row gutters-xs'>
+          {@props.skater.penalties[7..].map (skaterPenalty, penaltyIndex) ->
+            <div key={penaltyIndex} className='col-xs-7-cols'>
+              <PenaltyControl
+                penaltyNumber={penaltyIndex + 8}
+                skaterPenalty={skaterPenalty}
+                teamStyle={@props.teamStyle}
+                target={@getPenaltyId(penaltyIndex + 7)} />
+            </div>
+          , this}
         </div>
       </div>
       <div className='row gutters-xs'>
@@ -105,7 +103,7 @@ module.exports = React.createClass
               key={penaltyIndex}
               id={@getPenaltyId(penaltyIndex + 7)}
               skaterPenalty={skaterPenalty}
-              penaltyNumber={penaltyIndex+1}
+              penaltyNumber={penaltyIndex+8}
               incrementJamNumber={@incrementJamNumber.bind(this, penaltyIndex + 7)}
               decrementJamNumber={@decrementJamNumber.bind(this, penaltyIndex + 7)}
               clearPenalty={@clearPenalty.bind(this, penaltyIndex + 7)}

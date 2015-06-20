@@ -28,7 +28,7 @@ module.exports = React.createClass
       {@props.team.skaters.map (skater, skaterIndex) ->
         <div key={skaterIndex} className='row gutters-xs top-buffer'>
           <div className='col-xs-2'>
-            <button className='bt-btn btn-boxed' onClick={@props.selectionHandler.bind(null, skater.id)} style={if @inLineup(skater) and not @isInjured(skater) then @props.team.colorBarStyle}>
+            <button className='bt-btn' onClick={@props.selectionHandler.bind(null, skater.id)} style={if @inLineup(skater) and not @isInjured(skater) then @props.team.colorBarStyle}>
               <strong>{skater.number}</strong>
             </button>
           </div>

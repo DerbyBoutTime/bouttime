@@ -39,9 +39,7 @@
   font-weight: bold;
 }
 .bt-box {
-  border: 1px solid $gray;
-  color: $near-black;
-  border-radius: 4px;
+  @include box-variant($near-black, $white, $gray);
   padding: 9px;
   font-weight: bold;
   &.box-default {
@@ -49,6 +47,12 @@
   }
   &.box-primary {
     @include box-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+  }
+  &.box-warning {
+    @include box-variant($btn-warning-color, $btn-warning-bg, $btn-warning-border);
+  }
+  &.box-danger {
+    @include box-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
   }
   &.box-selected {
     @include box-variant($btn-selected-color, $btn-selected-bg, $btn-selected-border);
