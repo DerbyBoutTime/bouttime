@@ -59,7 +59,14 @@
     @include box-variant($btn-selected-color, $btn-selected-bg, $btn-selected-border);
   }
   &.box-lg {
-    font-size: 4em;
+    padding: 0;
+    font-size: 2.6em;
+    @media (min-width: $screen-sm-min) {
+      font-size: 2.8em;
+    }
+    @media (min-width: $screen-md-min) {
+      font-size: 4.8em;
+    }
   }
 }
 .top-buffer {
@@ -67,7 +74,6 @@
 }
 .game{
   .gamename {
-    font-size: 1.1em;
     margin-left: 1em;
   }
   .good-status, .bad-status {
