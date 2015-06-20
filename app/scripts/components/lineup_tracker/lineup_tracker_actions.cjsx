@@ -15,8 +15,8 @@ module.exports = React.createClass
   render: () ->
     <div className="row gutters-xs top-buffer">
       <div className="col-sm-12 col-xs-12">
-        <button className="bt-btn btn-primary" onClick={@createNextJam}>
-          NEXT JAM
+        <button className="bt-btn btn-primary text-uppercase" onClick={@createNextJam}>
+          Next Jam
         </button>
       </div>
     </div>

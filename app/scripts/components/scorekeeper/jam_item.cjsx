@@ -12,28 +12,28 @@ module.exports = React.createClass
     jammerNumber = if jammer? then jammer.number else <span>&nbsp;</span>
     <div className="jam-row">
       <div className="row gutters-xs" onClick={@props.selectionHandler}>
-        <div className="col-sm-2 col-xs-2">
-          <div className="jam boxed-good text-center">
+        <div className="col-xs-2">
+          <div className="bt-box box-primary text-center">
             {@props.jam.jamNumber}
           </div>
         </div>
-        <div className="col-sm-2 col-xs-2">
-          <div className="boxed-good text-center">
+        <div className="col-xs-2">
+          <div className="bt-box text-center">
             <strong>{jammerNumber}</strong>
           </div>
         </div>
         <div>
-          <div className="col-sm-2 col-xs-2">
+          <div className="col-xs-2">
             <ScoreNote note={notes[0]}/>
           </div>
-          <div className="col-sm-2 col-xs-2">
+          <div className="col-xs-2">
             <ScoreNote note={notes[1]}/>
           </div>
-          <div className="col-sm-2 col-xs-2">
+          <div className="col-xs-2">
             <ScoreNote note={notes[2]}/>
           </div>
-          <div className="col-sm-2 col-xs-2">
-            <div className="points boxed-good text-center">
+          <div className="col-xs-2">
+            <div className="bt-box box-default text-center">
               <strong>{@props.jam.getPoints()}</strong>
             </div>
           </div>

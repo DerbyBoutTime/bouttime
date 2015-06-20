@@ -1,10 +1,13 @@
-.skater-selector {
-  color: $gray;
+.bt-btn.btn-selector {
+  @include button-variant($dark-gray, $light-gray, $light-gray);
   &.injury {
     background-color: $white;
     border: 5px solid $pink;
     border-radius: 10px;
     color: $pink;
     padding: 5px;
+  }
+  &.selected {
+    color: $near-black;
   }
 }

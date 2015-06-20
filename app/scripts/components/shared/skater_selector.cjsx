@@ -19,8 +19,9 @@ module.exports = React.createClass
       <strong>{@props.placeholder}<span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></strong>
   render: () ->
     buttonClass = cx
-      'skater-selector bt-btn': true
+      'bt-btn btn-selector': true
       'injury': @props.injured
+      'selected': @props.skater?
     <button
       className={buttonClass}
       data-toggle="modal"

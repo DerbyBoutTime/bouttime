@@ -43,7 +43,7 @@ module.exports = React.createClass
       onDragOver={@preventDefault}
       onDrop={@dropHandler}
       onMouseDown={@mouseDownHandler}>
-      <div className="row gutters-xs">
+      <div className="row gutters-xs top-buffer">
         <div className="col-xs-1">
           <div className={handleClass} onClick={@toggleOpened}>
             <span className="glyphicon glyphicon-option-horizontal" />
@@ -52,7 +52,7 @@ module.exports = React.createClass
         <div className="col-xs-11">
           <div className="item">
             {@props.item}
-            <div className="options">
+            <div className="options bt-box box-selected">
               <div className="row gutters-xs">
                 <div className="col-xs-2 col-xs-offset-5">
                   <button className="bt-btn" onClick={@removeHandler}>
