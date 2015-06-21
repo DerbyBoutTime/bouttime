@@ -126,7 +126,7 @@ module.exports =
       date: "07/31/2015"
       time: "5:00 PM"
       home:
-        name: "Atlanta Rollergirls"
+        name: "Atlanta"
         initials: "ARG"
         colorBarStyle:
           backgroundColor: "#2082a6"

@@ -35,17 +35,11 @@ module.exports = React.createClass
       status[position] is 'injured'
   render: () ->
     noPivotButtonClass = cx
-      'btn': true
-      'btn-block': true
-      'jam-detail-no-pivot': true
-      'toggle-pivot-btn': true
-      'selected': @props.jam.noPivot
+      'bt-btn': true
+      'btn-selected': @props.jam.noPivot
     starPassButtonClass = cx
-      'btn': true
-      'btn-block': true
-      'jam-detail-star-pass': true
-      'toggle-star-pass-btn': true
-      'selected': @props.jam.starPass
+      'bt-btn': true
+      'btn-selected': @props.jam.starPass
     actionsClass = cx
       'row': true
       'gutters-xs': true
@@ -63,11 +57,11 @@ module.exports = React.createClass
       'col-xs-5-cols': true
       'hidden': not @props.jam.noPivot
     <div className="jam-detail">
-      <div className="row gutters-xs">
+      <div className="row gutters-xs top-buffer">
         <div className="col-xs-6">
-          <div className="jam-detail-number boxed-good">
+          <div className="jam-detail-number bt-box box-primary">
             <div className="row gutters-xs">
-              <div className="col-sm-11 col-xs-11 col-xs-offset-1">
+              <div className="col-xs-11">
                 Jam {@props.jam.jamNumber}
               </div>
             </div>
@@ -84,7 +78,7 @@ module.exports = React.createClass
           </button>
         </div>
       </div>
-      <div className="row gutters-xs positions">
+      <div className="row gutters-xs top-buffer">
         <div className="col-xs-5-cols text-center">
           <strong>J</strong>
         </div>
@@ -104,7 +98,7 @@ module.exports = React.createClass
           <strong>B4</strong>
         </div>
       </div>
-      <div className="row gutters-xs skaters">
+      <div className="row gutters-xs top-buffer">
         <div className="col-xs-5-cols">
           <SkaterSelector
             skater={@props.jam.jammer}

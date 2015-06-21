@@ -1,99 +1,29 @@
-.spacer-xs {
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
 .penalty-box-timer {
-  .penalty-clocks {
+  .penalty-clock {
     .penalty-count {
       position: absolute;
       height: 2em;
       width: 2em;
-      background-color: $dark-gray;
       right: 2px;
       top: 0px;
-      border-radius: 0 50% 0 50%;
-      color: $white;
       text-align: center;
       padding-top: 0.25em;
     }
-    .skater-selector {
-      .glyphicon {
-        position: absolute;
-        top: 1em;
-        right: 0.5em;
-      }
-    }
-    .skater-wrapper {
-      @include make-row;
-      @include make-xs-column(6);
-      @include gutters-xs;
-    }
-    .penalty-clock {
-      @include make-row;
-      @include margin-xs;
-      @include gutters-xs;
-    }
     .clock {
-      @include bt-button;
-      @include button-variant($near-black, $white, $gray);
-      border: 2px solid $gray;
-      border-radius: 20px;
-      font-size: 4em;
-      line-height: 1.5em;
-    }
-    .served-button, .left-early-button {
-      @include bt-button;
-      @include make-xs-column(6);
-      line-height: $minimum-touch-target;
-    }
-    .served-button.selected {
-      background-color: $green;
-    }
-    .left-early-button.selected {
-      @include button-variant($near-black, $alert-yellow, $white);
-    }
-    .skater-data {
-      @include make-row;
-      margin: 0;
-      @include margin-xs;
-      padding: 0 2px;
+      padding: 1px;
+      font-size: 3.7em;
     }
   }
   .period-clock {
-    @extend .well-sm;
-    @extend .well;
-    @extend .clock;
     background-color: $white;
     font-weight: lighter;
     margin-bottom: 10px;
   }
   .jam-clock {
-    @extend .well-sm;
-    @extend .well;
-    @extend .clock;
     border: none;
     font-weight: bold;
     background-color: $light-gray;
     color: $near-black;
     margin-bottom: 10px;
-  }
-  .edit-btn {
-    >.glyphicon{
-      padding-left: 1em;
-    }
-  }
-  .jt-label {
-    text-transform: capitalize;
-    text-align: center;
-    width: 100%;
-    display: inline-block;
-  }
-  .select-skater-button {
-    .glyphicon {
-      @include vertical-align;
-      position: absolute;
-      top: 25%;
-      right: 0.5em;
-    }
   }
 }

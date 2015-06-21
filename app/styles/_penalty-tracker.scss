@@ -1,105 +1,53 @@
 .penalty-tracker, .penalty-whiteboard {
   .penalty-indicator {
-    text-align: center;
-    border: 1px solid $gray;
-    border-radius: 2px;
-    background-color: $white;
-    color: $gray;
-    text-transform: uppercase;
     white-space: nowrap;
-    font-size: 0.8em;
-    @media (min-width: $screen-tablet){
-      font-size: 1.0em;
-    }
-    line-height: $minimum-touch-target;
-    &.warning {
-      background-color: $alert-yellow;
-      color: $near-black;
-    }
-    &.expulsion {
-      background-color: $dark-red;
-      color: $white;
-    }
+    color: $gray;
   }
   .penalty-alert {
     @extend .penalty-indicator;
   }
-	.team-penalties {
-    .skater-penalties {
-      .actions {
-        .action {
-          background-color: $near-black;
-          color: $white;
-          position: relative;
-          &.apply .icon {
-            position: absolute;
-            left: 10px;
-            top: 7px;
-          }
-          &.cancel .icon {
-            position: absolute;
-            right: 10px;
-            top: 8px;
-          }
-        }
-      }
-      .penalty-controls {
-        .penalty-control {
-          .jam-number {
-            color: $near-black;
-            font-size: 0.6em;
-            text-align: center;
-          }
-          .penalty-indicator-wrapper {
-            .penalty-indicator {
-              border: 0px;
-            }
-          }
-        }
-      }
-      .edit-penalty {
-        $column-offset: 100%/7.0;
-        &.penalty-1 {
-          @include border-arrow($column-offset * 0.5)
-        }
-        &.penalty-2 {
-          @include border-arrow($column-offset * 1.5)
-        }
-        &.penalty-3 {
-          @include border-arrow($column-offset * 2.5)
-        }
-        &.penalty-4 {
-          @include border-arrow($column-offset * 3.5)
-        }
-        &.penalty-5 {
-          @include border-arrow($column-offset * 4.5)
-        }
-        &.penalty-6 {
-          @include border-arrow($column-offset * 5.5)
-        }
-        &.penalty-7 {
-          @include border-arrow($column-offset * 6.5)
-        }
-        .jam-number-control {
-          background-color: $white;
-          text-align: center;
-          width:100%;
-          .plus, .minus {
-            background-color: transparent;
-            color: $gray;
-          }
-          .plus {
-            float: right;
-          }
-          .minus {
-            float: left;
-          }
-        }
-        .action {
-          background-color: $near-black;
-          color: $white;
-        }
-      }
+  .penalty-control {
+    .jam-number {
+      color: $near-black;
+      font-size: 0.6em;
+      text-align: center;
+    }
+    .penalty-control-button {
+      padding: 0;
+      width: 100%;
+      border: none;
+      background: none;
+    }
+  }
+  .edit-penalty {
+    $column-offset: 100%/7.0;
+    &.penalty-1 {
+      @include border-arrow($column-offset * 0.5)
+    }
+    &.penalty-2 {
+      @include border-arrow($column-offset * 1.5)
+    }
+    &.penalty-3 {
+      @include border-arrow($column-offset * 2.5)
+    }
+    &.penalty-4 {
+      @include border-arrow($column-offset * 3.5)
+    }
+    &.penalty-5 {
+      @include border-arrow($column-offset * 4.5)
+    }
+    &.penalty-6 {
+      @include border-arrow($column-offset * 5.5)
+    }
+    &.penalty-0 {
+      @include border-arrow($column-offset * 6.5)
+    }
+    .jam-number-button {
+      color: $gray;
+      background: none;
+      border: none;
+      padding: 0;
+      width: 100%;
     }
   }
 }

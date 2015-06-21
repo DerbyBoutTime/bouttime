@@ -30,7 +30,7 @@ describe 'Scoreboard', () ->
     it "display names", () ->
       homeContainer = TestUtils.scryRenderedDOMComponentsWithClass(home, 'name')[0]
       awayContainer = TestUtils.scryRenderedDOMComponentsWithClass(away, 'name')[0]
-      expect(homeContainer.getDOMNode().textContent).toEqual('Atlanta Rollergirls')
+      expect(homeContainer.getDOMNode().textContent).toEqual('Atlanta')
       expect(awayContainer.getDOMNode().textContent).toEqual('Gotham')
     it "display logos", () ->
       homeContainer = TestUtils.findRenderedDOMComponentWithClass(home, 'logo')

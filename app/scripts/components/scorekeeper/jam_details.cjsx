@@ -10,36 +10,34 @@ module.exports = React.createClass
     prevJamHandler: React.PropTypes.func
     nextJamHandler: React.PropTypes.func
   render: () ->
-    <div className="jam-details-container">
-      <div className="links">
-        <div className="row text-center gutters-xs">
-          <div className="col-sm-6 col-xs-6">
-            <button className="main-menu link bt-btn" onClick={@props.mainMenuHandler}>
-              Main Menu
-            </button>
-          </div>
-          <div className="col-sm-3 col-xs-3">
-           <button className="prev link bt-btn" onClick={@props.prevJamHandler}>
-              Prev
-            </button>
-          </div>
-          <div className="col-sm-3 col-xs-3">
-            <button className="next link bt-btn" onClick={@props.nextJamHandler}>
-              Next
-            </button>
-          </div>
+    <div className="jam-details">
+      <div className="row gutters-xs top-buffer">
+        <div className="col-xs-6">
+          <button className="bt-btn btn-primary text-uppercase" onClick={@props.mainMenuHandler}>
+            Main Menu
+          </button>
+        </div>
+        <div className="col-xs-3">
+         <button className="bt-btn btn-primary text-uppercase" onClick={@props.prevJamHandler}>
+            Prev
+          </button>
+        </div>
+        <div className="col-xs-3">
+          <button className="bt-btn btn-primary text-uppercase" onClick={@props.nextJamHandler}>
+            Next
+          </button>
         </div>
       </div>
-      <div className="jam-details">
-        <div className="row gutters-xs">
-          <div className="col-sm-3 col-xs-3 col-sm-offset-6 col-xs-offset-6">
-            <div className="jam-number">
-              <strong>Jam {@props.jam.jamNumber}</strong>
-            </div>
-          </div>
-          <div className="col-sm-3 col-xs-3 text-right">
-            <div className="jam-total-score">
-              <strong>{@props.jam.getPoints()}</strong>
+      <div className="row gutters-xs top-buffer">
+        <div className="col-xs-6 col-xs-offset-6">
+          <div className="bt-box">
+            <div className="row gutters-xs">
+              <div className="col-xs-9">
+                Jam {@props.jam.jamNumber}
+              </div>
+              <div className="col-xs-3 text-right">
+                {@props.jam.getPoints()}
+              </div>
             </div>
           </div>
         </div>
