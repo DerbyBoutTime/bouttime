@@ -14,8 +14,8 @@ module.exports = React.createClass
       else <span>&nbsp;</span>
   render: () ->
     noteClass = cx
-      'selected': @props.note?
-      'boxed-good text-center notes': true
+      'box-primary': @props.note?
+      'bt-box box-default text-center': true
     <div className={noteClass}>
       <strong>{@noteContent()}</strong>
     </div>

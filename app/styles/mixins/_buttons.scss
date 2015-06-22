@@ -1,9 +1,0 @@
-@mixin bt-button() {
-  @extend .btn;
-  @include button-variant($near-black, $light-gray, $white);
-  border-radius: 8px;
-  font-size: 1.1em;
-  line-height: $minimum-touch-target;
-  padding: 0;
-  width: 100%;
-}

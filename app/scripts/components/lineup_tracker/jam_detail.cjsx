@@ -38,14 +38,14 @@ module.exports = React.createClass
       teamId: @props.team.id
   renderItem: () ->
     noPivotButtonClass = cx
-      'bt-btn jam-detail-button': true
-      'selected': @props.jam.noPivot
+      'bt-btn': true
+      'btn-selected': @props.jam.noPivot
     starPassButtonClass = cx
-      'bt-btn jam-detail-button': true
-      'selected': @props.jam.starPass
-    <div className="jam-item">
+      'bt-btn': true
+      'btn-selected': @props.jam.starPass
+    <div className="row gutters-xs">
       <div className="col-xs-6">
-        <div className="jam-detail-number boxed-good">
+        <div className="bt-box box-primary">
           <strong>Jam {@props.jam.jamNumber}</strong>
         </div>
       </div>
@@ -77,8 +77,8 @@ module.exports = React.createClass
     blocker4ColumnClass = cx
       'col-xs-5-cols': true
       'hidden': not @props.jam.noPivot
-    <div className="lineup">
-      <div className="row gutters-xs positions">
+    <div>
+      <div className="row gutters-xs top-buffer">
         <div className="col-xs-5-cols text-center">
           <strong>J</strong>
         </div>
@@ -98,7 +98,7 @@ module.exports = React.createClass
           <strong>B4</strong>
         </div>
       </div>
-      <div className="row gutters-xs skaters">
+      <div className="row gutters-xs top-buffer">
         <div className="col-xs-5-cols">
           <SkaterSelector
             skater={@props.jam.jammer}

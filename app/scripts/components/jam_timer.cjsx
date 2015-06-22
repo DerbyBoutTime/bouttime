@@ -4,8 +4,8 @@ AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
 constants = require '../constants.coffee'
 {ActionTypes} = require '../constants.coffee'
 functions = require '../functions.coffee'
-JamAndPeriodNumbers = require './jam_timer/jam_and_period_numbers.cjsx'
-JTClocks = require './jam_timer/jt_clocks.cjsx'
+PeriodSummary = require './shared/period_summary'
+JamSummary = require './shared/jam_summary'
 Clocks = require '../clock.coffee'
 TimeoutBars = require './jam_timer/timeout_bars.cjsx'
 shallowEqual = require '../shallowEqual.js'
@@ -421,17 +421,17 @@ module.exports = React.createClass
           />
         </div>
         <div className="col-md-8 col-xs-8">
-          <JamAndPeriodNumbers
+          <PeriodSummary
             period={@props.period}
             jamNumber={@props.jamNumber}
-            clickJamEdit={@clickJamEdit}
-            clickPeriodEdit={@clickPeriodEdit}/>
-          <JTClocks
-            jamLabel={@props.state.replace(/_/g, ' ')}
-            jamClock={@props.jamClock}
-            periodClock={@props.periodClock}
-            jamClockClickHandler={@clickJamClockEdit}
-            periodClockClickHandler={@clickPeriodClockEdit}/>
+            clickJam={@clickJamEdit}
+            clickPeriod={@clickPeriodEdit}
+            clickClock={@clickPeriodClockEdit}
+            clock={@props.periodClock} />
+          <JamSummary
+            state={@props.state}
+            clickClock={@clickJamClockEdit}
+            clock={@props.jamClock} />
         </div>
         <div className="col-md-2 col-xs-2">
           <TimeoutBars

@@ -14,20 +14,20 @@ module.exports = React.createClass
       blocker3: 'clear'
       jammer: 'clear'
   render: () ->
-    <div className="row gutters-xs boxes">
-        <div className="col-xs-5-cols">
-          <LineupBox status={@props.lineupStatus.jammer} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'jammer')} />
-        </div>
-        <div className="col-xs-5-cols">
-          <LineupBox status={@props.lineupStatus.pivot} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'pivot')} />
-        </div>
-        <div className="col-xs-5-cols">
-          <LineupBox status={@props.lineupStatus.blocker1} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker1')} />
-        </div>
-        <div className="col-xs-5-cols">
-          <LineupBox status={@props.lineupStatus.blocker2} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker2')} />
-        </div>
-        <div className="col-xs-5-cols">
-          <LineupBox status={@props.lineupStatus.blocker3} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker3')} />
-        </div>
+    <div className="row gutters-xs top-buffer">
+      <div className="col-xs-5-cols">
+        <LineupBox status={@props.lineupStatus.jammer} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'jammer')} />
       </div>
+      <div className="col-xs-5-cols">
+        <LineupBox status={@props.lineupStatus.pivot} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'pivot')} />
+      </div>
+      <div className="col-xs-5-cols">
+        <LineupBox status={@props.lineupStatus.blocker1} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker1')} />
+      </div>
+      <div className="col-xs-5-cols">
+        <LineupBox status={@props.lineupStatus.blocker2} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker2')} />
+      </div>
+      <div className="col-xs-5-cols">
+        <LineupBox status={@props.lineupStatus.blocker3} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker3')} />
+      </div>
+    </div>

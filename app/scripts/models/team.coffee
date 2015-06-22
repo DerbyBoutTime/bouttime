@@ -68,6 +68,7 @@ class Team extends Store
     @name = options.name
     @initials = options.initials
     @colorBarStyle = options.colorBarStyle ? { backgroundColor: '', color: '' }
+    @colorBarStyle.borderColor = @colorBarStyle.backgroundColor
     @logo = options.logo
     @officialReviewsRetained = options.officialReviewsRetained ? 0
     @isTakingOfficialReview = options.isTakingOfficialReview ? false

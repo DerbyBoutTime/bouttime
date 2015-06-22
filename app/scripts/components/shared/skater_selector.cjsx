@@ -18,10 +18,12 @@ module.exports = React.createClass
     else
       <strong>{@props.placeholder}<span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></strong>
   render: () ->
-    injuryClass = cx
-      'skater-injury': @props.injured
+    buttonClass = cx
+      'bt-btn btn-selector': true
+      'injury': @props.injured
+      'selected': @props.skater?
     <button
-      className={injuryClass + " skater-selector text-center bt-btn"}
+      className={buttonClass}
       data-toggle="modal"
       style={if @props.skater and not @props.injured then @props.style else {}}
       data-target={@props.target}

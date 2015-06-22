@@ -53,36 +53,44 @@ module.exports = React.createClass
       'penalty-clock': true
       'hidden': @props.hidden
     leftEarlyButtonClass = cx
-      'left-early-button': true
-      'selected': @props.boxState.leftEarly
+      'bt-btn': true
+      'btn-warning': @props.boxState.leftEarly
     servedButtonClass = cx
-      'served-button': true
-      'selected': @props.boxState.served
+      'bt-btn': true
+      'btn-success': @props.boxState.served
     <div className={containerClass}>
-      <div className="skater-wrapper">
+      <div className="row gutters-xs top-buffer">
         <div className="col-xs-6">
-          <button className="bt-btn" onClick={@addPenaltyTime}>+30</button>
+          <div className="row gutters-xs">
+            <div className="col-xs-6">
+              <button className="bt-btn" onClick={@addPenaltyTime}>+30</button>
+            </div>
+            <div className="col-xs-6">
+              <SkaterSelector
+                skater={@props.boxState.skater}
+                style={teamStyle}
+                setSelectorContext={@props.setSelectorContext}
+                selectHandler={@setSkater}
+                placeholder={placeholder}
+                />
+            </div>
+          </div>
+          <div className="row gutters-xs top-buffer">
+            <div className="col-xs-6">
+              <button className={leftEarlyButtonClass} onClick={@toggleLeftEarly}>
+                <strong>Early</strong>
+              </button>
+            </div>
+            <div className="col-xs-6">
+              <button className={servedButtonClass} onClick={@toggleServed}>
+                <span className="glyphicon glyphicon-ok"></span>
+              </button>
+            </div>
+          </div>
         </div>
         <div className="col-xs-6">
-          <SkaterSelector
-            skater={@props.boxState.skater}
-            style={teamStyle}
-            setSelectorContext={@props.setSelectorContext}
-            selectHandler={@setSkater}
-            placeholder={placeholder}
-            />
+          <div className="penalty-count bt-box box-primary">{@props.boxState.penaltyCount}</div>
+          <button className="bt-btn btn-default clock" id={@clockId} onClick={@togglePenaltyTimer}>{@props.boxState.clock.display()}</button>
         </div>
-        <div className="skater-data">
-          <button className={leftEarlyButtonClass} onClick={@toggleLeftEarly}>
-            <strong>Early</strong>
-          </button>
-          <button className={servedButtonClass} onClick={@toggleServed}>
-            <span className="glyphicon glyphicon-ok"></span>
-          </button>
-        </div>
-      </div>
-      <div className="col-xs-6">
-        <div className="penalty-count">{@props.boxState.penaltyCount}</div>
-        <button className="clock" id={@clockId} onClick={@togglePenaltyTimer}>{@props.boxState.clock.display()}</button>
       </div>
     </div>
