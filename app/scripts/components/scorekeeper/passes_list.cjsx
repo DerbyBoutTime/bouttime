@@ -29,19 +29,17 @@ module.exports = React.createClass
   render: () ->
     <div className="passes-list">
       <div className="row gutters-xs top-buffer">
-        <div className="col-xs-11 col-xs-offset-1">
-          <div className="col-xs-2 text-center">
-            <strong>Pass</strong>
-          </div>
-          <div className="col-xs-2 text-center">
-            <strong>Skater</strong>
-          </div>
-          <div className="col-xs-2 col-xs-offset-2 text-center">
-            <strong>Notes</strong>
-          </div>
-          <div className="col-xs-2 col-xs-offset-2 text-center">
-            <strong>Points</strong>
-          </div>
+        <div className="col-xs-2 text-center">
+          <strong>Pass</strong>
+        </div>
+        <div className="col-xs-2 text-center">
+          <strong>Skater</strong>
+        </div>
+        <div className="col-xs-2 col-xs-offset-2 text-center">
+          <strong>Notes</strong>
+        </div>
+        <div className="col-xs-2 col-xs-offset-2 text-center">
+          <strong>Points</strong>
         </div>
       </div>
       {@props.jam.passes.map (pass, passIndex) ->

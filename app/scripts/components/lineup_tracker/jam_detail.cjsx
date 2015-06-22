@@ -43,8 +43,8 @@ module.exports = React.createClass
     starPassButtonClass = cx
       'bt-btn': true
       'btn-selected': @props.jam.starPass
-    <div className="row gutters-xs">
-      <div className="col-xs-6">
+    <div>
+      <div className="col-xs-5">
         <div className="bt-box box-primary">
           <strong>Jam {@props.jam.jamNumber}</strong>
         </div>

@@ -7,7 +7,7 @@
     margin-bottom: 0;
   }
   .edit-pass {
-    @include border-arrow(100% * (11/12 * 11/12 + 1/12));
+    @include border-arrow(92%);
     .btn-score {
       @include button-variant($near-black, $white, $white);
     }

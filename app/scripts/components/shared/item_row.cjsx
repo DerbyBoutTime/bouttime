@@ -50,16 +50,14 @@ module.exports = React.createClass
             <span className="glyphicon glyphicon-option-horizontal" />
           </button>
         </div>
-        <div className="col-xs-11">
-          <div className="item">
-            {@props.item}
-            <div className="options bt-box box-selected">
-              <div className="row gutters-xs">
-                <div className="col-xs-2 col-xs-offset-5">
-                  <button className="bt-btn" onClick={@removeHandler}>
-                    <span className="glyphicon glyphicon-trash"></span>
-                  </button>
-                </div>
+        {@props.item}
+        <div className="options-wrapper col-xs-11 col-xs-offset-1">
+          <div className="options bt-box box-selected">
+            <div className="row gutters-xs">
+              <div className="col-xs-2 col-xs-offset-5">
+                <button className="bt-btn" onClick={@removeHandler}>
+                  <span className="glyphicon glyphicon-trash"></span>
+                </button>
               </div>
             </div>
           </div>

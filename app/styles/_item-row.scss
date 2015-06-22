@@ -2,28 +2,26 @@
   .drag-handle {
     cursor: move;
   }
-  .item {
-    overflow: hidden;
-    position: relative;
-  }
-  .options {
+  .options-wrapper {
     position: absolute;
-    top: 0;
-    width: 0;
-    padding: 0;
+    overflow: hidden;
     visibility: hidden;
-    transform: translateX(-100%);
-    transition: transform 0.5s, visibility 0.0s 0.5s, width 0.0s 0.5s;
-    .btn {
-      padding: 8px;
-    }
+    .options {
+      padding: 0;
+      transform: translateX(-100%);
+      transition: transform 0.5s, visibility 0.0s 0.5s;
+      .btn {
+        padding: 8px;
+      }
+    }    
   }
   &.opened {
-    .options {
-      width: 100%;
+    .options-wrapper {
       visibility: visible;
-      transform: translateX(0);
-      transition: transform 0.5s, visibility 0.0s 0.0s, width 0.0s 0.0s;
+      .options {
+        transform: translateX(0);
+        transition: transform 0.5s, visibility 0.0s 0.0s;
+      }
     }
   }
 }
