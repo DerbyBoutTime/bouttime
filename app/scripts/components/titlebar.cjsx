@@ -1,4 +1,5 @@
 React = require 'react/addons'
+DownloadJSON = require './shared/download_json'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: "TitleBar"
@@ -20,6 +21,9 @@ module.exports = React.createClass
                 </li>
                 <li>
                   <a id="back" onClick={@props.backHandler}> Back</a>
+                </li>
+                <li>
+                  <a href="/export/#{@props.gameStateId}"> Export</a>
                 </li>
               </ul>
             </div>
