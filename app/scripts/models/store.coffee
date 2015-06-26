@@ -1,53 +1,76 @@
-Constants = require '../constants'
-Functions = require '../functions'
-MemoryStorage = require('../memory_storage')
-AppDispatcher = require '../dispatcher/app_dispatcher'
+_ = require 'underscore'
+functions = require '../functions'
 {EventEmitter} = require 'events'
-ActionTypes = Constants.ActionTypes
+Promise = require 'bluebird'
+Datastore = require 'nedb'
 CHANGE_EVENT = 'STORE_CHANGE'
 class Store
-  @store: new MemoryStorage()
+  @stores = {}
   @emitter: new EventEmitter()
-  @_storeId: (id) ->
-    "#{@name}-#{id}"
+  @_store: () ->
+    store = @stores[@name]
+    if not store?
+      store = new Datastore()
+      Promise.promisifyAll(store)
+      @stores[@name] = store
+    store
   @find: (id) ->
-    return null if not id?
-    json = @store.getItem(@_storeId(id))
-    return null if not json?
-    obj = JSON.parse(json)
-    if obj then new this(obj) else null
-  @findBy: (opts={}) ->
-    predicate = (obj) =>
-      match = (obj.type is @name)
-      match &= not obj._destroy
-      for key, val of opts
-        match &= (obj[key] is val)
-      match
-    matches = []
-    for id, json of @store
-      if typeof json is 'string' and json isnt 'undefined'
-        obj = JSON.parse(json)
-        matches.push(new this(obj)) if predicate(obj)
-    matches
+    new Promise (resolve, reject) =>
+      @_store().findOneAsync _id: id
+      .then (doc) =>
+        if doc? then new this(doc) else null
+      .then (obj) ->
+        if obj?
+          obj.load().then (obj) ->
+            resolve(obj)
+        else
+          resolve(obj)
+  @findOrCreate: (opts={}) ->
+    new Promise (resolve, reject) =>
+      @_store().findOneAsync _id: opts?.id
+      .then (doc) =>
+        if doc? then new this(doc) else new this(opts)
+      .then (obj) ->
+        obj.load().then (obj) ->
+          resolve(obj)
+  @findBy: (query={}) ->
+    @_store().findAsync query
+    .map (doc) =>
+      this.new(doc)
+    .all()
+  @findByOrCreate: (query, opts, defaultArgs) ->
+    @_store().findAsync query
+    .then (docs) ->
+      if docs.length > 0
+        docs
+      else if opts?
+        opts.map (opt) ->
+          _.extend(opt, query)
+      else if defaultArgs?
+        defaultArgs()
+      else
+        []
+    .map (args) =>
+      this.new(args)
+    .all()
   @all: () ->
     @findBy()
-  @emitChange: () ->
+  @new: (opts={}) ->
+    new this(opts).load()
+  @emitChange: () =>
+    console.log "EMIT CHANGE"
     @emitter.emit(CHANGE_EVENT)
   @addChangeListener: (callback) ->
     @emitter.on(CHANGE_EVENT, callback)
   @removeChangeListener: (callback) ->
     @emitter.removeListener(CHANGE_EVENT, callback)
   constructor: (options={}) ->
-    @id = options.id ? Functions.uniqueId()
-    @type = @constructor.name
-    @_destroy = false
-  save: (options={}) ->
-    if not @_destroy
-      @constructor.store.setItem(@_storeId(), JSON.stringify(this))
-    else
-      @constructor.store.removeItem(@_storeId())
+    @id = options.id ? functions.uniqueId()
+    @_id = @id
+  load: () ->
+    Promise.resolve(this)
+  save: (cascade=false) ->
+    @constructor._store().update({_id: @_id}, this, {upsert: true}, @constructor.emitChange)
   destroy: () ->
-    @_destroy = true
-  _storeId: () ->
-    @constructor._storeId(@id)
+    @constructor._store().remove({_id: @_id}, {}, @constructor.emitChange)
 module.exports = Store

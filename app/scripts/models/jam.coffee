@@ -1,4 +1,5 @@
 functions = require '../functions'
+Promise = require 'bluebird'
 seedrandom = require 'seedrandom'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 {ActionTypes} = require '../constants'
@@ -9,70 +10,51 @@ class Jam extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
       when ActionTypes.TOGGLE_NO_PIVOT
-        jam = @find(action.jamId)
-        jam.toggleNoPivot()
-        jam.save()
-        @emitChange()
-        return jam
+        @find(action.jamId).then (jam) =>
+          jam.toggleNoPivot()
+          jam.save()
       when ActionTypes.TOGGLE_STAR_PASS
-        jam = @find(action.jamId)
-        jam.toggleStarPass()
-        jam.save()
-        @emitChange()
-        return jam
+        @find(action.jamId).then (jam) =>
+          jam.toggleStarPass()
+          jam.save()
       when ActionTypes.SET_STAR_PASS
-        pass = Pass.find(action.passId)
-        jam = Jam.find(pass.jamId)
-        jam.setStarPass(pass)
-        jam.save()
-        @emitChange()
-        return jam
+        new Promise (resolve, reject) =>
+          Pass.find(action.passId).then (pass) =>
+            Pass.find (pass.jamId).then (jam) =>
+              jam.setStarPass(pass)
+              resolve jam.save()
       when ActionTypes.SET_SKATER_POSITION
-        jam = @find(action.jamId)
-        jam.setSkaterPosition(action.position, action.skaterId)
-        jam.save()
-        @emitChange()
-        return jam
+        @find(action.jamId).then (jam) =>
+          jam.setSkaterPosition(action.position, action.skaterId)
+          jam.save()
       when ActionTypes.CYCLE_LINEUP_STATUS
-        jam = @find(action.jamId)
-        jam.cycleLineupStatus(action.statusIndex, action.position)
-        jam.save()
-        @emitChange()
-        return jam
+        @find(action.jamId).then (jam) =>
+          jam.cycleLineupStatus(action.statusIndex, action.position)
+          jam.save()
       when ActionTypes.REORDER_PASS
-        jam = @find(action.jamId)
-        jam.reorderPass(action.sourcePassIndex, action.targetPassIndex)
-        jam.save()
-        @emitChange()
-        return jam
+        @find(action.jamId).then (jam) =>
+          jam.reorderPass(action.sourcePassIndex, action.targetPassIndex)
+          jam.save()
       when ActionTypes.CREATE_NEXT_PASS
-        jam = @find(action.jamId)
-        jam.createPassesThrough(action.passNumber)
-        jam.save()
-        @emitChange()
-        return jam
+        @find(action.jamId).then (jam) =>
+          jam.createPassesThrough(action.passNumber)
+          jam.save()
       when ActionTypes.SET_PASS_JAMMER
         AppDispatcher.waitFor([Pass.dispatchToken])
-        pass = Pass.find(action.passId)
-        jam = Jam.find(pass.jamId)
-        if not jam.jammer?
-          jam.setSkaterPosition('jammer', action.skaterId)
-        jam.save()
-        @emitChange()
-        return jam
+        new Promise (resolve, reject) =>
+          Pass.find(action.passId).then (pass) =>
+            Jam.find(pass.jamId).then (jam) =>
+              if not jam.jammer?
+                jam.setSkaterPosition('jammer', action.skaterId)
+              resolve jam.save()
       when ActionTypes.REMOVE_PASS
         AppDispatcher.waitFor([Pass.dispatchToken])
-        jam = Jam.find(action.jamId)
-        jam.renumberPasses()
-        jam.save()
-        @emitChange()
-        return jam
+        @find(action.jamId).then (jam) =>
+          jam.renumberPasses()
+          jam.save()
       when ActionTypes.REMOVE_JAM
-        jam = Jam.find(action.jamId)
-        jam.destroy()
-        jam.save()
-        @emitChange()
-        return jam
+        @find(action.jamId).then (jam) =>
+          jam.destroy()
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
@@ -80,28 +62,41 @@ class Jam extends Store
     @noPivot = options.noPivot ? false
     @starPass = options.starPass ? false
     @starPassNumber = options.starPassNumber ? 0
-    @pivot = new Skater(options.pivot) if options.pivot
-    @blocker1 = new Skater(options.blocker1) if options.blocker1
-    @blocker2 = new Skater(options.blocker2) if options.blocker2
-    @blocker3 = new Skater(options.blocker3) if options.blocker3
-    @jammer = new Skater(options.jammer) if options.jammer
+    @pivot = options.pivot
+    @blocker1 = options.blocker1
+    @blocker2 = options.blocker2
+    @blocker3 = options.blocker3
+    @jammer = options.jammer
     @passSequence = seedrandom(@id, state: options.passSequenceState ? true)
-    _passes = @getPasses()
-    if _passes.length > 0
-      @passes = _passes
-    else if options.passes?
-      @passes = (new Pass(pass) for pass in options.passes)
-    else
-      @passes = [new Pass(id: functions.uniqueId(8, @passSequence), jamId: @id)]
-    @lineupStatuses = options.lineupStatuses ? []
     @passSequenceState = @passSequence.state()
-  save: () ->
+    Pass.findBy(jamId: @id).then (_passes) ->
+      if _passes.length > 0
+        @passes = _passes.sort (a, b) ->
+          a.passNumber - b.passNumber
+      else if options.passes?
+        @passes = (new Pass(pass) for pass in options.passes)
+      else
+        @passes = [new Pass(id: functions.uniqueId(8, @passSequence), jamId: @id)]
+    @lineupStatuses = options.lineupStatuses ? []
+  load: () ->
+    lineup = ['jammer', 'pivot', 'blocker1', 'blocker2', 'blocker3'].map (position) =>
+      if @[position]
+        Skater.new(@[position]).then (skater) =>
+          @[position] = skater
+      else
+        null
+    lineup = Promise.all(lineup)
+    passes = Pass.findByOrCreate jamId: @id, @passes, () =>
+      [id: functions.uniqueId(8, @passSequence), jamId: @id]
+    .then (passes) =>
+      @passes = passes.sort (a, b) ->
+        a.passNumber > b.passNumber
+    Promise.join(lineup, passes).return(this)
+  save: (cascade=false) ->
     @passSequenceState = @passSequence.state()
     super()
-    pass.save() for pass in @passes
-  getPasses: () ->
-    Pass.findBy(jamId: @id).sort (a, b) ->
-      a.passNumber - b.passNumber
+    if cascade
+      pass.save(true) for pass in @passes
   getPositionsInBox: () ->
     positions = []
     for row in @lineupStatuses
@@ -152,10 +147,10 @@ class Jam extends Store
   createNextPass: () ->
     lastPass = @passes[@passes.length - 1]
     passId = functions.uniqueId(8, @passSequence)
-    if Pass.find(passId)?
-      return
-    newPass = new Pass(id: passId, passNumber: @passes.length + 1, jamId: @id, jammer: lastPass.jammer)
-    @passes.push newPass
+    Pass.findOrCreate(id: passId, passNumber: @passes.length + 1, jamId: @id, jammer: lastPass.jammer)
+    .then (newPass) =>
+      newPass.save(true)
+      @passes.push newPass
   renumberPasses: () ->
     pass.passNumber = i + 1 for pass, i in @passes    
   createPassesThrough: (passNumber) ->

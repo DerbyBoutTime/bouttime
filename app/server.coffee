@@ -19,9 +19,12 @@ module.exports = start: (port=3000) ->
   io.on 'connection', (socket) ->
     console.log('a user connected')
     socket.emit 'connected'
-    socket.emit 'app dispatcher',
-      type: ActionTypes.SYNC_GAMES
-      games: (game.getMetadata() for game in games)
+    games.map (game) ->
+      game.getMetadata()
+    .then (metadata) ->
+      socket.emit 'app dispatcher',
+        type: ActionTypes.SYNC_GAMES
+        games: metadata
     socket.on 'disconnect', () ->
       console.log('user disconnected')
     socket.on 'app dispatcher', (action) ->
@@ -36,8 +39,9 @@ module.exports = start: (port=3000) ->
           timeY: timeY
       ,constants.CLOCK_SYNC_DELAY_DURATION_IN_MS)
     socket.on 'sync game', (payload) ->
-      socket.emit 'app dispatcher',
-        type: ActionTypes.SAVE_GAME
-        gameState: GameState.find(payload.gameId)
+      GameState.find(payload.gameId).then (game) ->
+        socket.emit 'app dispatcher',
+          type: ActionTypes.SAVE_GAME
+          gameState: game
   http.listen port, () ->
     console.log("listening on *:#{port}")

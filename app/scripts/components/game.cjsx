@@ -40,11 +40,12 @@ module.exports = React.createClass
   loadGameState: () ->
     if @props.gameState?.id isnt @props.gameStateId
       window.history.pushState('', window.title, @getFragment(@props.gameStateId, @parseTab()))
-    gs = GameState.find(@props.gameStateId)
-    AppDispatcher.syncGame(@props.gameStateId) if not gs?
-    gs
+    GameState.find(@props.gameStateId).then (gs) =>
+      AppDispatcher.syncGame(@props.gameStateId) if not gs?
+      gs
   onChange: () ->
-    @setState(gameState: @loadGameState())
+    @loadGameState().then (gs) =>
+      @setState gameState: gs
   parseTab: () ->
     qs.parse(window?.location?.hash?.substring(1)).tab ? 'jam_timer'
   getFragment: (id, tab) ->
@@ -54,12 +55,9 @@ module.exports = React.createClass
       tab: tab
   getInitialState: () ->
     gameState = @loadGameState()
-    gameState: gameState
+    gameState: null
     tab: @parseTab()
-    skaterSelectorContext:
-      team: gameState?.away
-      jam: gameState?.away?.jams[0]
-      selectHandler: () ->
+    skaterSelectorContext: null
   setSelectorContext: (team, jam, selectHandler) ->
     @setState
       skaterSelectorContext:

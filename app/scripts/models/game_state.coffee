@@ -1,6 +1,7 @@
 moment = require 'moment'
 $ = require 'jquery'
 _ = require 'underscore'
+Promise = require 'bluebird'
 functions = require '../functions'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 Store = require './store'
@@ -25,79 +26,77 @@ TIMEOUT_CLOCK_SETTINGS =
   tickUp: true
 class GameState extends Store
   @dispatchToken: AppDispatcher.register (action) =>
-    game = @find(action.gameId)
-    switch action.type
-      when ActionTypes.START_CLOCK
-        game.startClock()
-        game.syncClocks(action)
-      when ActionTypes.STOP_CLOCK
-        game.stopClock()
-        game.syncClocks(action)
-      when ActionTypes.START_JAM
-        game.startJam()
-        game.syncClocks(action)
-      when ActionTypes.STOP_JAM
-        game.stopJam()
-        game.syncClocks(action)
-      when ActionTypes.START_LINEUP
-        game.startLineup()
-        game.syncClocks(action)
-      when ActionTypes.START_PREGAME
-        game.startPregame()
-        game.syncClocks(action)
-      when ActionTypes.START_HALFTIME
-        game.startHalftime()
-        game.syncClocks(action)
-      when ActionTypes.START_UNOFFICIAL_FINAL
-        game.startUnofficialFinal()
-        game.syncClocks(action)
-      when ActionTypes.START_OFFICIAL_FINAL
-        game.startOfficialFinal()
-        game.syncClocks(action)
-      when ActionTypes.START_TIMEOUT
-        game.startTimeout()
-        game.syncClocks(action)
-      when ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT
-        game.setTimeoutAsOfficialTimeout()
-      when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_TIMEOUT
-        game.setTimeoutAsHomeTeamTimeout()
-      when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_OFFICIAL_REVIEW
-        game.setTimeoutAsHomeTeamOfficialReview()
-      when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_TIMEOUT
-        game.setTimeoutAsAwayTeamTimeout()
-      when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_OFFICIAL_REVIEW
-        game.setTimeoutAsAwayTeamOfficialReview()
-      when ActionTypes.SET_JAM_ENDED_BY_TIME
-        game.setJamEndedByTime()
-      when ActionTypes.HANDLE_CLOCK_EXPIRATION
-        game.handleClockExpiration()
-      when ActionTypes.SET_JAM_CLOCK
-        game.setJamClock(action.value)
-      when ActionTypes.SET_PERIOD_CLOCK
-        game.setPeriodClock(action.value)
-      when ActionTypes.SET_HOME_TEAM_TIMEOUTS
-        game.setHomeTeamTimeouts(action.value)
-      when ActionTypes.SET_AWAY_TEAM_TIMEOUTS
-        game.setAwayTeamTimeouts(action.value)
-      when ActionTypes.SET_PERIOD
-        game.setPeriod(action.value)
-      when ActionTypes.SET_JAM_NUMBER
-        game.setJamNumber(action.value)
-      when ActionTypes.REMOVE_HOME_TEAM_OFFICIAL_REVIEW
-        game.removeHomeTeamOfficialReview()
-      when ActionTypes.REMOVE_AWAY_TEAM_OFFICIAL_REVIEW
-        game.removeAwayTeamOfficialReview()
-      when ActionTypes.RESTORE_HOME_TEAM_OFFICIAL_REVIEW
-        game.restoreHomeTeamOfficialReview()
-      when ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
-        game.restoreAwayTeamOfficialReview()
-      when ActionTypes.SAVE_GAME
-        game = new GameState(action.gameState)
-        game.syncClocks(action.gameState)
-    game.save() if game?
-    @emitChange()
-    #return instance operated on for testing
-    game
+    @find(action.gameId).then (game) =>
+      switch action.type
+        when ActionTypes.START_CLOCK
+          game.startClock()
+          game.syncClocks(action)
+        when ActionTypes.STOP_CLOCK
+          game.stopClock()
+          game.syncClocks(action)
+        when ActionTypes.START_JAM
+          game.startJam()
+          game.syncClocks(action)
+        when ActionTypes.STOP_JAM
+          game.stopJam()
+          game.syncClocks(action)
+        when ActionTypes.START_LINEUP
+          game.startLineup()
+          game.syncClocks(action)
+        when ActionTypes.START_PREGAME
+          game.startPregame()
+          game.syncClocks(action)
+        when ActionTypes.START_HALFTIME
+          game.startHalftime()
+          game.syncClocks(action)
+        when ActionTypes.START_UNOFFICIAL_FINAL
+          game.startUnofficialFinal()
+          game.syncClocks(action)
+        when ActionTypes.START_OFFICIAL_FINAL
+          game.startOfficialFinal()
+          game.syncClocks(action)
+        when ActionTypes.START_TIMEOUT
+          game.startTimeout()
+          game.syncClocks(action)
+        when ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT
+          game.setTimeoutAsOfficialTimeout()
+        when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_TIMEOUT
+          game.setTimeoutAsHomeTeamTimeout()
+        when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_OFFICIAL_REVIEW
+          game.setTimeoutAsHomeTeamOfficialReview()
+        when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_TIMEOUT
+          game.setTimeoutAsAwayTeamTimeout()
+        when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_OFFICIAL_REVIEW
+          game.setTimeoutAsAwayTeamOfficialReview()
+        when ActionTypes.SET_JAM_ENDED_BY_TIME
+          game.setJamEndedByTime()
+        when ActionTypes.HANDLE_CLOCK_EXPIRATION
+          game.handleClockExpiration()
+        when ActionTypes.SET_JAM_CLOCK
+          game.setJamClock(action.value)
+        when ActionTypes.SET_PERIOD_CLOCK
+          game.setPeriodClock(action.value)
+        when ActionTypes.SET_HOME_TEAM_TIMEOUTS
+          game.setHomeTeamTimeouts(action.value)
+        when ActionTypes.SET_AWAY_TEAM_TIMEOUTS
+          game.setAwayTeamTimeouts(action.value)
+        when ActionTypes.SET_PERIOD
+          game.setPeriod(action.value)
+        when ActionTypes.SET_JAM_NUMBER
+          game.setJamNumber(action.value)
+        when ActionTypes.REMOVE_HOME_TEAM_OFFICIAL_REVIEW
+          game.removeHomeTeamOfficialReview()
+        when ActionTypes.REMOVE_AWAY_TEAM_OFFICIAL_REVIEW
+          game.removeAwayTeamOfficialReview()
+        when ActionTypes.RESTORE_HOME_TEAM_OFFICIAL_REVIEW
+          game.restoreHomeTeamOfficialReview()
+        when ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
+          game.restoreAwayTeamOfficialReview()
+        when ActionTypes.SAVE_GAME
+          GameState.new(action.gameState).then (gs) ->
+            gs.syncClocks(action.gameState)
+            gs.save(true)
+      game.save() if game?
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -112,9 +111,9 @@ class GameState extends Store
     @clockManager = new ClockManager()
     @jamClock = @clockManager.getOrAddClock "jamClock-#{@id}", options.jamClock ? PREGAME_CLOCK_SETTINGS
     @periodClock = @clockManager.getOrAddClock "periodClock-#{@id}", options.periodClock ? PERIOD_CLOCK_SETTINGS
-    @home = Team.find(options.home?.id) ? new Team(options.home)
-    @away = Team.find(options.away?.id) ? new Team(options.away)
     @timeout = options.timeout ? null
+    @home = options.home
+    @away = options.away
     @penalties = [
       {code: "A", name: "High Block"},
       {code: "N", name: "Insubordination"},
@@ -134,10 +133,17 @@ class GameState extends Store
       {code: "I", name: "Illegal Procedure"},
       {code: "G", name: "Gross Misconduct"}
     ]
-  save: () ->
+  load: (options={}) ->
+    home = Team.findOrCreate(@home).then (home) =>
+      @home = home
+    away = Team.findOrCreate(@away).then (away) =>
+      @away = away    
+    Promise.join(home, away).return(this)
+  save: (cascade=false) ->
     super()
-    @home.save()
-    @away.save()
+    if cascade
+      @home.save(true)
+      @away.save(true)
   getDisplayName: () ->
     "#{moment(@date, 'MM/DD/YYYY').format('YYYY-MM-DD')} #{@home.name} vs #{@away.name}"
   getCurrentJam: (team) ->

@@ -1,7 +1,7 @@
-_ = require 'underscore'
 functions = require '../functions'
 constants = require '../constants'
 seedrandom = require 'seedrandom'
+Promise = require 'bluebird'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 ActionTypes = constants.ActionTypes
 {ClockManager} = require '../clock'
@@ -15,54 +15,38 @@ class Team extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
       when ActionTypes.CREATE_NEXT_JAM
-        team = @find(action.teamId)
-        team.createJamsThrough(action.jamNumber)
-        team.save()
-        @emitChange()
-        return team
+        @find(action.teamId).then (team) =>
+          team.createJamsThrough(action.jamNumber)
+          team.save()
       when ActionTypes.TOGGLE_LEFT_EARLY
-        team = @find(action.teamId)
+        @find(action.teamId).then (team) =>
         team.toggleLeftEarly(action.boxIndex)
         team.save()
-        @emitChange()
-        return team
       when ActionTypes.TOGGLE_PENALTY_SERVED
-        team = @find(action.teamId)
-        team.toggleServed(action.boxIndex)
-        team.save()
-        @emitChange()
-        return team
+        @find(action.teamId).then (team) =>
+          team.toggleServed(action.boxIndex)
+          team.save()
       when ActionTypes.SET_PENALTY_BOX_SKATER
-        team = @find(action.teamId)
-        team.setPenaltyBoxSkater(action.boxIndexOrPosition, action.clockId, action.skaterId)
-        team.save()
-        @emitChange()
-        return team
+        @find(action.teamId).then (team) =>
+          team.setPenaltyBoxSkater(action.boxIndexOrPosition, action.clockId, action.skaterId)
+          team.save()
       when ActionTypes.ADD_PENALTY_TIME
-        team = @find(action.teamId)
-        team.addPenaltyTime(action.boxIndex)
-        team.save()
-        @emitChange()
-        return team
+        @find(action.teamId).then (team) =>
+          team.addPenaltyTime(action.boxIndex)
+          team.save()
       when ActionTypes.TOGGLE_PENALTY_TIMER
-        team = @find(action.teamId)
-        team.togglePenaltyTimer(action.boxIndex)
-        team.save()
-        @emitChange()
-        return team
+        @find(action.teamId).then (team) =>
+          team.togglePenaltyTimer(action.boxIndex)
+          team.save()
       when ActionTypes.TOGGLE_ALL_PENALTY_TIMERS
-        team = @find(action.teamId)
-        team.toggleAllPenaltyTimers()
-        team.save()
-        @emitChange()
-        return team
+        @find(action.teamId).then (team) =>
+          team.toggleAllPenaltyTimers()
+          team.save()
       when ActionTypes.REMOVE_JAM
         AppDispatcher.waitFor([Jam.dispatchToken])
-        team = @find(action.teamId)
-        team.renumberJams()
-        team.save()
-        @emitChange()
-        return team
+        @find(action.teamId).then (team) =>
+          team.renumberJams()
+          team.save()
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -75,36 +59,29 @@ class Team extends Store
     @isTakingTimeout = options.isTakingTimeout ? false
     @hasOfficialReview = options.hasOfficialReview ? true
     @timeouts = options.timeouts ? 3
-    _skaters = @getSkaters()
-    if _skaters.length > 0
-      @skaters = _skaters
-    else if options.skaters?
-      @skaters = (new Skater(_.extend(skater, teamId: @id)) for skater in options.skaters)
-    else
-      @skaters = []
-    _jams = @getJams()
     @jamSequence = seedrandom(@id, state: options.jamSequenceState ? true)
-    if _jams.length > 0
-      @jams = _jams
-    else if options.jams?
-      @jams = (new Jam(_.extend(jam, teamId: @id)) for jam in options.jams)
-    else
-      @jams = [new Jam(id: functions.uniqueId(8, @jamSequence), teamId: @id)]
+    @jamSequenceState = @jamSequence.state()
+    @skaters = options.skaters
+    @jams = options.jams
     @penaltyBoxStates = options.penaltyBoxStates ? []
     @clockManager = new ClockManager()
     for boxState in @penaltyBoxStates
       boxState.clock = @clockManager.getOrAddClock(boxState.clock.alias, boxState.clock)
-    @jamSequenceState = @jamSequence.state()
-  save: () ->
+  save: (cascade=false) ->
     @jamSequenceState = @jamSequence.state()
     super()
-    skater.save() for skater in @skaters
-    jam.save() for jam in @jams
-  getJams: () ->
-    Jam.findBy(teamId: @id).sort (a, b) ->
-      a.jamNumber - b.jamNumber
-  getSkaters: () ->
-    Skater.findBy(teamId: @id)
+    if cascade
+      jam.save(true) for jam in @jams
+      skater.save(true) for skater in @skaters
+  load: () ->
+    skaters = Skater.findByOrCreate(teamId: @id, @skaters).then (skaters) =>
+      @skaters = skaters
+    jams = Jam.findByOrCreate teamId: @id, @jams, () =>
+      [id: functions.uniqueId(8, @jamSequence), teamId: @id]
+    .then (jams) =>
+      @jams = jams.sort (a, b) ->
+        a.jamNumber > b.jamNumber
+    Promise.join(skaters, jams).return(this)
   addSkater: (skater) ->
     skater.teamId = @id
     @skaters.push skater
@@ -116,16 +93,16 @@ class Team extends Store
   createNextJam: () ->
     lastJam = @jams[@jams.length - 1]
     jamId = functions.uniqueId(8, @jamSequence)
-    if (Jam.find(jamId)?)
-      return
-    newJam = new Jam(id: jamId, jamNumber: @jams.length + 1, teamId: @id)
+    args = id: jamId, jamNumber: @jams.length + 1, teamId: @id
     positionsInBox = lastJam.getPositionsInBox()
     if positionsInBox.length > 0
-      newJam.lineupStatuses[0] = {}
+      args.lineupStatuses[0] = {}
       for position in positionsInBox
-        newJam[position] = lastJam[position]
-        newJam.lineupStatuses[0][position] = 'sat_in_box'
-    @jams.push newJam
+        args[position] = lastJam[position]
+        args.lineupStatuses[0][position] = 'sat_in_box'
+    Jam.findOrCreate(args).then (newJam) =>
+      newJam.save(true)
+      @jams.push newJam
   createJamsThrough: (jamNumber) ->
     for i in [@jams.length+1 .. jamNumber] by 1
       @createNextJam()
