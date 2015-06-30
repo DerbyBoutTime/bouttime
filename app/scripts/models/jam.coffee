@@ -18,14 +18,15 @@ class Jam extends Store
           jam.toggleStarPass()
           jam.save()
       when ActionTypes.SET_STAR_PASS
-        new Promise (resolve, reject) =>
-          Pass.find(action.passId).then (pass) =>
-            Pass.find (pass.jamId).then (jam) =>
-              jam.setStarPass(pass)
-              resolve jam.save()
+          Pass.find(action.passId).then (pass) ->
+            [Jam.find(pass.jamId), pass.passNumber]
+          .spread (jam, passNumber) ->
+            jam.setStarPass(passNumber)
+            jam.save()
       when ActionTypes.SET_SKATER_POSITION
-        @find(action.jamId).then (jam) =>
+        @find(action.jamId).tap (jam) =>
           jam.setSkaterPosition(action.position, action.skaterId)
+        .then (jam) ->
           jam.save()
       when ActionTypes.CYCLE_LINEUP_STATUS
         @find(action.jamId).then (jam) =>
@@ -41,12 +42,12 @@ class Jam extends Store
           jam.save()
       when ActionTypes.SET_PASS_JAMMER
         AppDispatcher.waitFor([Pass.dispatchToken])
-        new Promise (resolve, reject) =>
-          Pass.find(action.passId).then (pass) =>
-            Jam.find(pass.jamId).then (jam) =>
-              if not jam.jammer?
-                jam.setSkaterPosition('jammer', action.skaterId)
-              resolve jam.save()
+        Pass.find(action.passId).then (pass) =>
+          Jam.find(pass.jamId)
+        .then (jam) =>
+          if not jam.jammer?
+            jam.setSkaterPosition('jammer', action.skaterId)
+          jam.save()
       when ActionTypes.REMOVE_PASS
         AppDispatcher.waitFor([Pass.dispatchToken])
         @find(action.jamId).then (jam) =>
@@ -68,15 +69,8 @@ class Jam extends Store
     @blocker3 = options.blocker3
     @jammer = options.jammer
     @passSequence = seedrandom(@id, state: options.passSequenceState ? true)
+    @passes = options.passes ? [id: functions.uniqueId(8, @passSequence)]
     @passSequenceState = @passSequence.state()
-    Pass.findBy(jamId: @id).then (_passes) ->
-      if _passes.length > 0
-        @passes = _passes.sort (a, b) ->
-          a.passNumber - b.passNumber
-      else if options.passes?
-        @passes = (new Pass(pass) for pass in options.passes)
-      else
-        @passes = [new Pass(id: functions.uniqueId(8, @passSequence), jamId: @id)]
     @lineupStatuses = options.lineupStatuses ? []
   load: () ->
     lineup = ['jammer', 'pivot', 'blocker1', 'blocker2', 'blocker3'].map (position) =>
@@ -86,17 +80,19 @@ class Jam extends Store
       else
         null
     lineup = Promise.all(lineup)
-    passes = Pass.findByOrCreate jamId: @id, @passes, () =>
-      [id: functions.uniqueId(8, @passSequence), jamId: @id]
+    passes = Pass.findByOrCreate jamId: @id, @passes
     .then (passes) =>
       @passes = passes.sort (a, b) ->
         a.passNumber > b.passNumber
     Promise.join(lineup, passes).return(this)
   save: (cascade=false) ->
     @passSequenceState = @passSequence.state()
-    super()
+    promise = super()
     if cascade
-      pass.save(true) for pass in @passes
+      promise = promise.get('passes').map (pass) ->
+        pass.save(true)
+      .return this
+    promise
   getPositionsInBox: () ->
     positions = []
     for row in @lineupStatuses
@@ -119,11 +115,12 @@ class Jam extends Store
     @noPivot = not @noPivot
   toggleStarPass: () ->
     @starPass = not @starPass
-  setStarPass: (pass) ->
-    @starPass = not @starPass or @starPassNumber isnt pass.passNumber
-    @starPassNumber = pass.passNumber
+  setStarPass: (passNumber) ->
+    @starPass = not @starPass or @starPassNumber isnt passNumber
+    @starPassNumber = passNumber
   setSkaterPosition: (position, skaterId) ->
-    @[position] = Skater.find(skaterId)
+    Skater.find(skaterId).then (skater) =>
+      @[position] = skater
   statusTransition: (status) ->
     switch status
       when 'clear' then 'went_to_box'
@@ -149,8 +146,8 @@ class Jam extends Store
     passId = functions.uniqueId(8, @passSequence)
     Pass.findOrCreate(id: passId, passNumber: @passes.length + 1, jamId: @id, jammer: lastPass.jammer)
     .then (newPass) =>
-      newPass.save(true)
       @passes.push newPass
+      newPass.save(true)
   renumberPasses: () ->
     pass.passNumber = i + 1 for pass, i in @passes    
   createPassesThrough: (passNumber) ->

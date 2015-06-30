@@ -7,17 +7,17 @@ class Skater extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
       when ActionTypes.SET_PENALTY
-        skater = @find(action.skaterId)
-        skater.setPenalty(action.jamNumber, action.penalty)
-        skater.save()
+        @find(action.skaterId).then (skater) ->
+          skater.setPenalty(action.jamNumber, action.penalty)
+          skater.save()
       when ActionTypes.CLEAR_PENALTY
-        skater = @find(action.skaterId)
-        skater.clearPenalty(action.skaterPenaltyIndex)
-        skater.save()
+        @find(action.skaterId).then (skater) ->
+          skater.clearPenalty(action.skaterPenaltyIndex)
+          skater.save()
       when ActionTypes.UPDATE_PENALTY
-        skater = @find(action.skaterId)
-        skater.updatePenalty(action.skaterPenaltyIndex, action.opts)
-        skater.save()
+        @find(action.skaterId).then (skater) ->
+          skater.updatePenalty(action.skaterPenaltyIndex, action.opts)
+          skater.save()
   constructor: (options={}) ->
     super options
     @teamId = options.teamId

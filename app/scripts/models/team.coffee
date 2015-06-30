@@ -20,8 +20,8 @@ class Team extends Store
           team.save()
       when ActionTypes.TOGGLE_LEFT_EARLY
         @find(action.teamId).then (team) =>
-        team.toggleLeftEarly(action.boxIndex)
-        team.save()
+          team.toggleLeftEarly(action.boxIndex)
+          team.save()
       when ActionTypes.TOGGLE_PENALTY_SERVED
         @find(action.teamId).then (team) =>
           team.toggleServed(action.boxIndex)
@@ -61,23 +61,26 @@ class Team extends Store
     @timeouts = options.timeouts ? 3
     @jamSequence = seedrandom(@id, state: options.jamSequenceState ? true)
     @jamSequenceState = @jamSequence.state()
-    @skaters = options.skaters
-    @jams = options.jams
+    @skaters = options.skaters ? []
+    @jams = options.jams ? [id: functions.uniqueId(8, @jamSequence)]
     @penaltyBoxStates = options.penaltyBoxStates ? []
     @clockManager = new ClockManager()
     for boxState in @penaltyBoxStates
       boxState.clock = @clockManager.getOrAddClock(boxState.clock.alias, boxState.clock)
   save: (cascade=false) ->
     @jamSequenceState = @jamSequence.state()
-    super()
+    promise = super()
     if cascade
-      jam.save(true) for jam in @jams
-      skater.save(true) for skater in @skaters
+      jams = @jams.map (jam) -> jam.save(true)
+      skaters = @skaters.map (skater) -> skater.save(true)
+      promise = promise.then () ->
+        Promise.join(skaters, jams)
+      .return this
+    promise
   load: () ->
     skaters = Skater.findByOrCreate(teamId: @id, @skaters).then (skaters) =>
       @skaters = skaters
-    jams = Jam.findByOrCreate teamId: @id, @jams, () =>
-      [id: functions.uniqueId(8, @jamSequence), teamId: @id]
+    jams = Jam.findByOrCreate(teamId: @id, @jams)
     .then (jams) =>
       @jams = jams.sort (a, b) ->
         a.jamNumber > b.jamNumber
@@ -135,8 +138,8 @@ class Team extends Store
       boxState.clock.start() for boxState in @penaltyBoxStates
   setPenaltyBoxSkater: (boxIndexOrPosition, clockId, skaterId) ->
     box = @getOrCreatePenaltyBoxState(boxIndexOrPosition, clockId)
-    skater = Skater.find(skaterId)
-    box.skater = skater
+    Skater.find(skaterId).then (skater) ->
+      box.skater = skater
   newPenaltyBoxState: (position, clockId) ->
     position: position
     penaltyCount: 1

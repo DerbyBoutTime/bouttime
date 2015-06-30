@@ -119,6 +119,8 @@
       "js"
     ],
     "unmockedModulePathPatterns": [
+      "bluebird",
+      "nedb",
       "react",
       "react/addons",
       "jquery",

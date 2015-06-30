@@ -42,7 +42,6 @@ class Pass extends Store
       when ActionTypes.REMOVE_PASS
         @find(action.passId).then (pass) =>
           pass.destroy()
-          pass.save()
   constructor: (options={}) ->
     super options
     @jamId = options.jamId
@@ -74,7 +73,8 @@ class Pass extends Store
   setPoints: (points) ->
     @points = points
   setJammer: (skaterId) ->
-    @jammer = Skater.find(skaterId)
+    Skater.find(skaterId).then (skater) ->
+      @jammer = skater
   getNotes: () ->
     flags =
       injury: @injury

@@ -38,7 +38,7 @@ class Store
     .map (doc) =>
       this.new(doc)
     .all()
-  @findByOrCreate: (query, opts, defaultArgs) ->
+  @findByOrCreate: (query, opts) ->
     @_store().findAsync query
     .then (docs) ->
       if docs.length > 0
@@ -46,8 +46,6 @@ class Store
       else if opts?
         opts.map (opt) ->
           _.extend(opt, query)
-      else if defaultArgs?
-        defaultArgs()
       else
         []
     .map (args) =>
@@ -58,19 +56,27 @@ class Store
   @new: (opts={}) ->
     new this(opts).load()
   @emitChange: () =>
-    console.log "EMIT CHANGE"
     @emitter.emit(CHANGE_EVENT)
   @addChangeListener: (callback) ->
     @emitter.on(CHANGE_EVENT, callback)
   @removeChangeListener: (callback) ->
     @emitter.removeListener(CHANGE_EVENT, callback)
+  @save: (obj) ->
+    obj.save()
+  @load: (obj) ->
+    obj.load()
+  @destroy: (obj) ->
+    obj.destroy()
   constructor: (options={}) ->
     @id = options.id ? functions.uniqueId()
     @_id = @id
   load: () ->
     Promise.resolve(this)
   save: (cascade=false) ->
-    @constructor._store().update({_id: @_id}, this, {upsert: true}, @constructor.emitChange)
+    @constructor._store().updateAsync({_id: @_id}, this, {upsert: true})
+    .then @constructor.emitChange
+    .return this
   destroy: () ->
-    @constructor._store().remove({_id: @_id}, {}, @constructor.emitChange)
+    @constructor._store().removeAsync({_id: @_id}, {})
+    .then @constructor.emitChange
 module.exports = Store

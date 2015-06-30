@@ -26,77 +26,129 @@ TIMEOUT_CLOCK_SETTINGS =
   tickUp: true
 class GameState extends Store
   @dispatchToken: AppDispatcher.register (action) =>
-    @find(action.gameId).then (game) =>
-      switch action.type
-        when ActionTypes.START_CLOCK
+    switch action.type
+      when ActionTypes.START_CLOCK
+        @find(action.gameId).then (game) ->
           game.startClock()
           game.syncClocks(action)
-        when ActionTypes.STOP_CLOCK
+          game.save()
+      when ActionTypes.STOP_CLOCK
+        @find(action.gameId).then (game) ->
           game.stopClock()
           game.syncClocks(action)
-        when ActionTypes.START_JAM
+          game.save()
+      when ActionTypes.START_JAM
+        @find(action.gameId).then (game) ->
           game.startJam()
           game.syncClocks(action)
-        when ActionTypes.STOP_JAM
+          game.save()
+      when ActionTypes.STOP_JAM
+        @find(action.gameId).then (game) ->
           game.stopJam()
           game.syncClocks(action)
-        when ActionTypes.START_LINEUP
+          game.save()
+      when ActionTypes.START_LINEUP
+        @find(action.gameId).then (game) ->
           game.startLineup()
           game.syncClocks(action)
-        when ActionTypes.START_PREGAME
+          game.save()
+      when ActionTypes.START_PREGAME
+        @find(action.gameId).then (game) ->
           game.startPregame()
           game.syncClocks(action)
-        when ActionTypes.START_HALFTIME
+          game.save()
+      when ActionTypes.START_HALFTIME
+        @find(action.gameId).then (game) ->
           game.startHalftime()
           game.syncClocks(action)
-        when ActionTypes.START_UNOFFICIAL_FINAL
+          game.save()
+      when ActionTypes.START_UNOFFICIAL_FINAL
+        @find(action.gameId).then (game) ->
           game.startUnofficialFinal()
           game.syncClocks(action)
-        when ActionTypes.START_OFFICIAL_FINAL
+          game.save()
+      when ActionTypes.START_OFFICIAL_FINAL
+        @find(action.gameId).then (game) ->
           game.startOfficialFinal()
           game.syncClocks(action)
-        when ActionTypes.START_TIMEOUT
+          game.save()
+      when ActionTypes.START_TIMEOUT
+        @find(action.gameId).then (game) ->
           game.startTimeout()
           game.syncClocks(action)
-        when ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT
+          game.save()
+      when ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT
+        @find(action.gameId).then (game) ->
           game.setTimeoutAsOfficialTimeout()
-        when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_TIMEOUT
+          game.save()
+      when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_TIMEOUT
+        @find(action.gameId).then (game) ->
           game.setTimeoutAsHomeTeamTimeout()
-        when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_OFFICIAL_REVIEW
+          game.save()
+      when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_OFFICIAL_REVIEW
+        @find(action.gameId).then (game) ->
           game.setTimeoutAsHomeTeamOfficialReview()
-        when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_TIMEOUT
+          game.save()
+      when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_TIMEOUT
+        @find(action.gameId).then (game) ->
           game.setTimeoutAsAwayTeamTimeout()
-        when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_OFFICIAL_REVIEW
+          game.save()
+      when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_OFFICIAL_REVIEW
+        @find(action.gameId).then (game) ->
           game.setTimeoutAsAwayTeamOfficialReview()
-        when ActionTypes.SET_JAM_ENDED_BY_TIME
+          game.save()
+      when ActionTypes.SET_JAM_ENDED_BY_TIME
+        @find(action.gameId).then (game) ->
           game.setJamEndedByTime()
-        when ActionTypes.HANDLE_CLOCK_EXPIRATION
+          game.save()
+      when ActionTypes.HANDLE_CLOCK_EXPIRATION
+        @find(action.gameId).then (game) ->
           game.handleClockExpiration()
-        when ActionTypes.SET_JAM_CLOCK
+          game.save()
+      when ActionTypes.SET_JAM_CLOCK
+        @find(action.gameId).then (game) ->
           game.setJamClock(action.value)
-        when ActionTypes.SET_PERIOD_CLOCK
+          game.save()
+      when ActionTypes.SET_PERIOD_CLOCK
+        @find(action.gameId).then (game) ->
           game.setPeriodClock(action.value)
-        when ActionTypes.SET_HOME_TEAM_TIMEOUTS
+          game.save()
+      when ActionTypes.SET_HOME_TEAM_TIMEOUTS
+        @find(action.gameId).then (game) ->
           game.setHomeTeamTimeouts(action.value)
-        when ActionTypes.SET_AWAY_TEAM_TIMEOUTS
+          game.save()
+      when ActionTypes.SET_AWAY_TEAM_TIMEOUTS
+        @find(action.gameId).then (game) ->
           game.setAwayTeamTimeouts(action.value)
-        when ActionTypes.SET_PERIOD
+          game.save()
+      when ActionTypes.SET_PERIOD
+        @find(action.gameId).then (game) ->
           game.setPeriod(action.value)
-        when ActionTypes.SET_JAM_NUMBER
+          game.save()
+      when ActionTypes.SET_JAM_NUMBER
+        @find(action.gameId).then (game) ->
           game.setJamNumber(action.value)
-        when ActionTypes.REMOVE_HOME_TEAM_OFFICIAL_REVIEW
+          game.save()
+      when ActionTypes.REMOVE_HOME_TEAM_OFFICIAL_REVIEW
+        @find(action.gameId).then (game) ->
           game.removeHomeTeamOfficialReview()
-        when ActionTypes.REMOVE_AWAY_TEAM_OFFICIAL_REVIEW
+          game.save()
+      when ActionTypes.REMOVE_AWAY_TEAM_OFFICIAL_REVIEW
+        @find(action.gameId).then (game) ->
           game.removeAwayTeamOfficialReview()
-        when ActionTypes.RESTORE_HOME_TEAM_OFFICIAL_REVIEW
+          game.save()
+      when ActionTypes.RESTORE_HOME_TEAM_OFFICIAL_REVIEW
+        @find(action.gameId).then (game) ->
           game.restoreHomeTeamOfficialReview()
-        when ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
+          game.save()
+      when ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
+        @find(action.gameId).then (game) ->
           game.restoreAwayTeamOfficialReview()
-        when ActionTypes.SAVE_GAME
-          GameState.new(action.gameState).then (gs) ->
-            gs.syncClocks(action.gameState)
-            gs.save(true)
-      game.save() if game?
+          game.save()
+      when ActionTypes.SAVE_GAME
+        @new(action.gameState).then (game) ->
+          game.syncClocks(action.gameState)
+          game.save(true)
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -140,10 +192,12 @@ class GameState extends Store
       @away = away    
     Promise.join(home, away).return(this)
   save: (cascade=false) ->
-    super()
+    promise = super()
     if cascade
-      @home.save(true)
-      @away.save(true)
+      promise = promise.then () =>
+        Promise.join(@home.save(true), @away.save(true))
+      .return this
+    promise
   getDisplayName: () ->
     "#{moment(@date, 'MM/DD/YYYY').format('YYYY-MM-DD')} #{@home.name} vs #{@away.name}"
   getCurrentJam: (team) ->
