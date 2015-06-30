@@ -3,6 +3,7 @@ constants = require '../../app/scripts/constants'
 ActionTypes = constants.ActionTypes
 MemoryStorage = require '../../app/scripts/memory_storage'
 describe 'Pass', () ->
+  process.setMaxListeners(0)
   AppDispatcher = undefined
   Pass = undefined
   callback = undefined

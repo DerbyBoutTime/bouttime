@@ -73,7 +73,7 @@ class Pass extends Store
   setPoints: (points) ->
     @points = points
   setJammer: (skaterId) ->
-    Skater.find(skaterId).then (skater) ->
+    Skater.find(skaterId).then (skater) =>
       @jammer = skater
   getNotes: () ->
     flags =
