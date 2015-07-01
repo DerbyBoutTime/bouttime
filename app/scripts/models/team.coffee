@@ -27,8 +27,9 @@ class Team extends Store
           team.toggleServed(action.boxIndex)
           team.save()
       when ActionTypes.SET_PENALTY_BOX_SKATER
-        @find(action.teamId).then (team) =>
+        @find(action.teamId).tap (team) =>
           team.setPenaltyBoxSkater(action.boxIndexOrPosition, action.clockId, action.skaterId)
+        .then (team) ->
           team.save()
       when ActionTypes.ADD_PENALTY_TIME
         @find(action.teamId).then (team) =>

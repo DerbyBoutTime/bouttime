@@ -36,8 +36,9 @@ class Pass extends Store
           pass.setPoints(action.points)
           pass.save()
       when ActionTypes.SET_PASS_JAMMER
-        @find(action.passId).then (pass) =>
+        @find(action.passId).tap (pass) ->
           pass.setJammer(action.skaterId)
+        .then (pass) ->
           pass.save()
       when ActionTypes.REMOVE_PASS
         @find(action.passId).then (pass) =>
@@ -47,14 +48,14 @@ class Pass extends Store
     @jamId = options.jamId
     @passNumber = options.passNumber ? 1
     @points = options.points ? 0
-    @jammer = new Skater(options.jammer) if options.jammer
+    @jammer = options.jammer
     @injury = options.injury ? false
     @lead = options.lead ? false
     @lostLead = options.lostLead ? false
     @calloff = options.calloff ? false
     @nopass = options.nopass ? false
   load: () ->
-    if @jammer
+    if @jammer?
       Skater.new(@jammer).then (jammer) =>
         @jammer = jammer
       .return(this)
