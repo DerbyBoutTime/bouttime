@@ -27,8 +27,8 @@ module.exports = React.createClass
       type: ActionTypes.TOGGLE_LEAD
       passId: @props.pass.id
   setStarPass: () ->
-    if !@props.jam.pivot?
-      @props.selectPivot()
+    if !@props.jam.starPass
+      @props.setSelectorContext(@setJammer)
       $("#skater-selector-modal").modal('show')
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_STAR_PASS
@@ -40,6 +40,11 @@ module.exports = React.createClass
       passId: @props.pass.id
       points: points
     $("##{@props.editPassId}").collapse('hide')
+  setJammer: (skaterId) ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.SET_PASS_JAMMER
+      passId: @props.pass.id
+      skaterId: skaterId
   isFirstPass: () ->
     @props.pass.passNumber == 1
   render: () ->

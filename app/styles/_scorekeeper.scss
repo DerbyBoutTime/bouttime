@@ -1,38 +1,4 @@
 .scorekeeper {
-  .item-row{
-    .options-button {
-      text-align: center;
-      line-height: $minimum-touch-target;
-    }
-    .drag-handle {
-      cursor: move;
-    }
-    .item {
-      overflow: hidden;
-      position: relative;
-    }
-    .options {
-      position: absolute;
-      top: 0;
-      width: 0;
-      padding: 0;
-      visibility: hidden;
-      background-color: $muted-gray;
-      transform: translateX(-100%);
-      transition: transform 0.5s, visibility 0.0s 0.5s, width 0.0s 0.5s;
-      .btn {
-        padding: 8px;
-      }
-    }
-    &.opened {
-      .options {
-        width: 100%;
-        visibility: visible;
-        transform: translateX(0);
-        transition: transform 0.5s, visibility 0.0s 0.0s, width 0.0s 0.0s;
-      }
-    }
-  }
   // because collapse requires a .panel to work with data-parent,
   // https://github.com/twbs/bootstrap/blob/a577f1922ee7054a97b455ccfaa16857cb2b79fc/js/collapse.js#L49,
   // but we don't want the .panel styles.
@@ -41,7 +7,7 @@
     margin-bottom: 0;
   }
   .edit-pass {
-    @include border-arrow(100% * (11/12 * 11/12 + 1/12));
+    @include border-arrow(92%);
     .btn-score {
       @include button-variant($near-black, $white, $white);
     }

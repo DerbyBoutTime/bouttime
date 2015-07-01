@@ -3,7 +3,7 @@ $ = require 'jquery'
 AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../../constants.coffee'
 functions = require '../../functions.coffee'
-ItemRow = require './item_row'
+ItemRow = require '../shared/item_row'
 JamItem = require './jam_item'
 JamDetails = require './jam_details'
 Jam = require '../../models/jam.coffee'
@@ -75,19 +75,17 @@ module.exports = React.createClass
       </div>
       <div className={jamsContainerClass}>
         <div className="row gutters-xs top-buffer">
-          <div className="col-xs-11 col-xs-offset-1">
-            <div className="col-xs-2">
-              <strong>Jam</strong>
-            </div>
-            <div className="col-xs-2">
-              <strong>Skater</strong>
-            </div>
-            <div className="col-xs-2 col-xs-offset-2 text-center">
-              <strong>Notes</strong>
-            </div>
-            <div className="col-xs-2 col-xs-offset-2 text-center">
-              <strong>Points</strong>
-            </div>
+          <div className="col-xs-2 text-center">
+            <strong>Jam</strong>
+          </div>
+          <div className="col-xs-2 text-center">
+            <strong>Skater</strong>
+          </div>
+          <div className="col-xs-2 col-xs-offset-2 text-center">
+            <strong>Notes</strong>
+          </div>
+          <div className="col-xs-2 col-xs-offset-2 text-center">
+            <strong>Points</strong>
           </div>
         </div>
         {@props.team.jams.map (jam, jamIndex) ->
