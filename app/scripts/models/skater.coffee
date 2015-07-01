@@ -1,5 +1,5 @@
 functions = require '../functions'
-$ = require 'jquery'
+_ = require 'underscore'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 {ActionTypes} = require '../constants'
 Store = require './store'
@@ -32,5 +32,5 @@ class Skater extends Store
     @penalties.splice(skaterPenaltyIndex, 1)
   updatePenalty: (skaterPenaltyIndex, opts={}) ->
     skaterPenalty = @penalties[skaterPenaltyIndex]
-    $.extend(skaterPenalty, opts)
+    _.extend(skaterPenalty, opts)
 module.exports = Skater

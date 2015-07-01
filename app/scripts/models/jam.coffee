@@ -50,7 +50,9 @@ class Jam extends Store
           jam.save()
       when ActionTypes.REMOVE_PASS
         AppDispatcher.waitFor([Pass.dispatchToken])
-        @find(action.jamId).then (jam) =>
+        .spread (pass) =>
+          @find(pass.jamId)
+        .then (jam) ->
           jam.renumberPasses()
           jam.save()
       when ActionTypes.REMOVE_JAM
@@ -85,12 +87,12 @@ class Jam extends Store
       @passes = passes.sort (a, b) ->
         a.passNumber > b.passNumber
     Promise.join(lineup, passes).return(this)
-  save: (cascade=false) ->
+  save: (cascade=false, emit=true) ->
     @passSequenceState = @passSequence.state()
     promise = super()
     if cascade
       promise = promise.get('passes').map (pass) ->
-        pass.save(true)
+        pass.save(true, false)
       .return this
     promise
   getPositionsInBox: () ->
@@ -149,7 +151,9 @@ class Jam extends Store
       @passes.push newPass
       newPass.save(true)
   renumberPasses: () ->
-    pass.passNumber = i + 1 for pass, i in @passes    
+    for pass, i in @passes
+      pass.passNumber = i + 1
+      pass.save()
   createPassesThrough: (passNumber) ->
     for i in [@passes.length+1 .. passNumber] by 1
       @createNextPass()

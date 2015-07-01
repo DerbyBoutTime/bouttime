@@ -43,8 +43,10 @@ class Team extends Store
           team.toggleAllPenaltyTimers()
           team.save()
       when ActionTypes.REMOVE_JAM
-        AppDispatcher.waitFor([Jam.dispatchToken])
-        @find(action.teamId).then (team) =>
+        AppDispatcher.waitFor [Jam.dispatchToken]
+        .spread (jam) =>
+          @find(jam.teamId)
+        .then (team) =>
           team.renumberJams()
           team.save()
   constructor: (options={}) ->
@@ -60,9 +62,9 @@ class Team extends Store
     @hasOfficialReview = options.hasOfficialReview ? true
     @timeouts = options.timeouts ? 3
     @jamSequence = seedrandom(@id, state: options.jamSequenceState ? true)
+    @jams = options.jams ? [id: functions.uniqueId(8, @jamSequence)]
     @jamSequenceState = @jamSequence.state()
     @skaters = options.skaters ? []
-    @jams = options.jams ? [id: functions.uniqueId(8, @jamSequence)]
     @penaltyBoxStates = options.penaltyBoxStates ? []
     @clockManager = new ClockManager()
     for boxState in @penaltyBoxStates
@@ -162,5 +164,7 @@ class Team extends Store
     @hasOfficialReview = true
     @officialReviewsRetained += 1
   renumberJams: () ->
-    jam.jamNumber = i + 1 for jam, i in @jams
+    for jam, i in @jams
+      jam.jamNumber = i + 1
+      jam.save()
 module.exports = Team

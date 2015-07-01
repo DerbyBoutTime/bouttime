@@ -2,6 +2,7 @@ constants = require '../../app/scripts/constants'
 ActionTypes = constants.ActionTypes
 MemoryStorage = require '../../app/scripts/memory_storage'
 describe 'Skater', () ->
+  process.setMaxListeners(0)
   AppDispatcher = undefined
   Skater = undefined
   callback = undefined

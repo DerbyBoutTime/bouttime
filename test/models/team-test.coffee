@@ -10,11 +10,12 @@ describe 'Team', () ->
   process.setMaxListeners(0)
   AppDispatcher = undefined
   Team = undefined
+  Jam = undefined
   callback = undefined
   beforeEach () ->
     AppDispatcher = require '../../app/scripts/dispatcher/app_dispatcher'
+    Jam = require '../../app/scripts/models/jam'
     Team = require '../../app/scripts/models/team'
-    Team.store = new MemoryStorage()
     callback = AppDispatcher.register.mock.calls[0][0]
   it 'registers a callback with the dispatcher', () ->
     expect(AppDispatcher.register.mock.calls.length).toBe(1)
@@ -49,6 +50,15 @@ describe 'Team', () ->
           jamNumber: 2
       .then (team) ->
         expect(team.jams.length).toBe(2)
+    pit "renumbers jams after one is removed", () ->
+      team.then (team) ->
+        Jam.dispatchToken = teamId: team.id
+        callback
+          type: ActionTypes.REMOVE_JAM
+      .then (team) ->
+        expect(AppDispatcher.waitFor).toBeCalled()
+        expect(team.jams[0].jamNumber).toBe(1)
+        expect(team.jams[0].save).toBeCalled()
     describe "penalty box timers", () ->
       beforeEach () ->
         team = team.then (team) ->
@@ -130,12 +140,4 @@ describe 'Team', () ->
           team.toggleAllPenaltyTimers()
           expect(team.penaltyBoxStates[0].clock.stop).toBeCalled()
           expect(team.penaltyBoxStates[1].clock.start).not.toBeCalled()
-      pit "renumbers jams after one is removed", () ->
-        team.then (team) ->
-          callback
-            type: ActionTypes.REMOVE_JAM
-            teamId: team.id
-        .then (team) ->
-          expect(AppDispatcher.waitFor).toBeCalled()
-          expect(team.jams[0].jamNumber).toBe(1)
 

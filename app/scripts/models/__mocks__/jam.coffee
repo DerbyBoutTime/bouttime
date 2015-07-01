@@ -1,5 +1,7 @@
 Promise = require.requireActual('bluebird')
 jamMock = jest.genMockFromModule('../jam')
+jamMock.find.mockImplementation (id) ->
+  Promise.resolve(if typeof id is 'object' then id else null)
 jamMock.findBy.mockReturnValue(Promise.resolve([]))
 jamMock.findByOrCreate.mockImplementation (query, opts) ->
   Promise.resolve(new jamMock(opts) for opt in opts)

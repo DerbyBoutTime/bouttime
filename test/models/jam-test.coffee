@@ -3,14 +3,15 @@ jest.mock('../../app/scripts/models/skater')
 constants = require '../../app/scripts/constants'
 ActionTypes = constants.ActionTypes
 MemoryStorage = require '../../app/scripts/memory_storage'
-Pass = require '../../app/scripts/models/pass'
 describe 'Jam', () ->
   process.setMaxListeners(0)
   AppDispatcher = undefined
+  Pass = undefined
   Jam = undefined
   callback = undefined
   beforeEach () ->
     AppDispatcher = require '../../app/scripts/dispatcher/app_dispatcher'
+    Pass = require '../../app/scripts/models/pass'
     Jam = require '../../app/scripts/models/jam'
     callback = AppDispatcher.register.mock.calls[0][0]
   it 'registers a callback with the dispatcher', () ->
@@ -90,12 +91,13 @@ describe 'Jam', () ->
         expect(jam.passes.length).toBe(2)
     pit "renumbers passes after one is removed", () ->
       jam.then (jam) ->
+        Pass.dispatchToken = jamId: jam.id
         callback
           type: ActionTypes.REMOVE_PASS
-          jamId: jam.id
       .then (jam) ->
         expect(AppDispatcher.waitFor).toBeCalled()
         expect(jam.passes[0].passNumber).toBe(1)
+        expect(jam.passes[0].save).toBeCalled()
     pit "removes a jam", () ->
       jam.then (jam) ->
         callback

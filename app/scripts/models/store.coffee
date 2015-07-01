@@ -72,11 +72,13 @@ class Store
     @_id = @id
   load: () ->
     Promise.resolve(this)
-  save: (cascade=false) ->
+  save: (cascade=false, emit=true) ->
     @constructor._store().updateAsync({_id: @_id}, this, {upsert: true})
-    .then @constructor.emitChange
+    .then () =>
+      @constructor.emitChange() if emit
     .return this
   destroy: () ->
     @constructor._store().removeAsync({_id: @_id}, {})
     .then @constructor.emitChange
+    .return this
 module.exports = Store
