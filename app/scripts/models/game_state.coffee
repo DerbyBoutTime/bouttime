@@ -42,7 +42,7 @@ class GameState extends Store
           game.syncClocks(action)
           game.startJam()
         .then (game) ->
-          game.save()
+          Promise.join game.save(), game.home.save(), game.away.save()
       when ActionTypes.STOP_JAM
         @find(action.gameId).then (game) ->
           game.syncClocks(action)
@@ -52,7 +52,7 @@ class GameState extends Store
         @find(action.gameId).then (game) ->
           game.syncClocks(action)
           game.startLineup()
-          game.save()
+          Promise.join game.save(), game.home.save(), game.away.save()
       when ActionTypes.START_PREGAME
         @find(action.gameId).then (game) ->
           game.syncClocks(action)
@@ -85,19 +85,19 @@ class GameState extends Store
       when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_TIMEOUT
         @find(action.gameId).then (game) ->
           game.setTimeoutAsHomeTeamTimeout()
-          game.save()
+          Promise.join(game.save(), game.home.save())
       when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_OFFICIAL_REVIEW
         @find(action.gameId).then (game) ->
           game.setTimeoutAsHomeTeamOfficialReview()
-          game.save()
+          Promise.join(game.save(), game.home.save())
       when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_TIMEOUT
         @find(action.gameId).then (game) ->
           game.setTimeoutAsAwayTeamTimeout()
-          game.save()
+          Promise.join(game.save(), game.away.save())
       when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_OFFICIAL_REVIEW
         @find(action.gameId).then (game) ->
           game.setTimeoutAsAwayTeamOfficialReview()
-          game.save()
+          Promise.join(game.save(), game.away.save())
       when ActionTypes.SET_JAM_ENDED_BY_TIME
         @find(action.gameId).then (game) ->
           game.setJamEndedByTime()
@@ -117,11 +117,11 @@ class GameState extends Store
       when ActionTypes.SET_HOME_TEAM_TIMEOUTS
         @find(action.gameId).then (game) ->
           game.setHomeTeamTimeouts(action.value)
-          game.save()
+          Promise.join game.save(), game.home.save()
       when ActionTypes.SET_AWAY_TEAM_TIMEOUTS
         @find(action.gameId).then (game) ->
           game.setAwayTeamTimeouts(action.value)
-          game.save()
+          Promise.join game.save(), game.home.save()
       when ActionTypes.SET_PERIOD
         @find(action.gameId).then (game) ->
           game.setPeriod(action.value)
@@ -133,19 +133,19 @@ class GameState extends Store
       when ActionTypes.REMOVE_HOME_TEAM_OFFICIAL_REVIEW
         @find(action.gameId).then (game) ->
           game.removeHomeTeamOfficialReview()
-          game.save()
+          Promise.join game.save(), game.home.save()
       when ActionTypes.REMOVE_AWAY_TEAM_OFFICIAL_REVIEW
         @find(action.gameId).then (game) ->
           game.removeAwayTeamOfficialReview()
-          game.save()
+          Promise.join game.save(), game.away.save()
       when ActionTypes.RESTORE_HOME_TEAM_OFFICIAL_REVIEW
         @find(action.gameId).then (game) ->
           game.restoreHomeTeamOfficialReview()
-          game.save()
+          Promise.join game.save(), game.home.save()
       when ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
         @find(action.gameId).then (game) ->
           game.restoreAwayTeamOfficialReview()
-          game.save()
+          Promise.join game.save(), game.away.save()
       when ActionTypes.SAVE_GAME
         @new(action.gameState).then (game) ->
           game.syncClocks(action.gameState)
@@ -229,8 +229,8 @@ class GameState extends Store
     @periodClock.start()
     @state = "jam"
     @jamNumber = @jamNumber + 1
-    home = @home.createJamsThrough(@jamNumber).then Team.save
-    away = @away.createJamsThrough(@jamNumber).then Team.save
+    home = @home.createJamsThrough(@jamNumber)
+    away = @away.createJamsThrough(@jamNumber)
     Promise.join home, away
   stopJam: () =>
     @jamClock.stop()

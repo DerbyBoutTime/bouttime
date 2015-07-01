@@ -63,6 +63,7 @@ class AppDispatcher
     invariant(
       not @_isDispatching,
       'Dispatcher.dispatch(...): Cannot dispatched in the middle of a dispatch.')
+    console.log payload
     @_dispatch = Promise.resolve(payload)
     .then (payload) =>
       @_promises = {}
