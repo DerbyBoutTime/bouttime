@@ -38,9 +38,10 @@ class GameState extends Store
           game.stopClock()
           game.save()
       when ActionTypes.START_JAM
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.syncClocks(action)
           game.startJam()
+        .then (game) ->
           game.save()
       when ActionTypes.STOP_JAM
         @find(action.gameId).then (game) ->
@@ -228,8 +229,9 @@ class GameState extends Store
     @periodClock.start()
     @state = "jam"
     @jamNumber = @jamNumber + 1
-    @home.createJamsThrough @jamNumber
-    @away.createJamsThrough @jamNumber
+    home = @home.createJamsThrough(@jamNumber).then Team.save
+    away = @away.createJamsThrough(@jamNumber).then Team.save
+    Promise.join home, away
   stopJam: () =>
     @jamClock.stop()
     @startLineup()

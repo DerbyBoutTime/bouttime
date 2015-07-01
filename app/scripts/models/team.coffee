@@ -15,8 +15,9 @@ class Team extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
       when ActionTypes.CREATE_NEXT_JAM
-        @find(action.teamId).then (team) =>
+        @find(action.teamId).tap (team) ->
           team.createJamsThrough(action.jamNumber)
+        .then (team) ->
           team.save()
       when ActionTypes.TOGGLE_LEFT_EARLY
         @find(action.teamId).then (team) =>
@@ -107,11 +108,12 @@ class Team extends Store
         args[position] = lastJam[position]
         args.lineupStatuses[0][position] = 'sat_in_box'
     Jam.findOrCreate(args).then (newJam) =>
-      newJam.save(true)
       @jams.push newJam
+      newJam.save(true)
   createJamsThrough: (jamNumber) ->
-    for i in [@jams.length+1 .. jamNumber] by 1
-      @createNextJam()
+    jamNumbers = (i for i in [@jams.length+1 .. jamNumber] by 1)
+    Promise.each (jamNumbers), @createNextJam.bind(this)
+    .return this
   toggleLeftEarly: (boxIndex) ->
     box = @penaltyBoxStates[boxIndex]
     if box?
