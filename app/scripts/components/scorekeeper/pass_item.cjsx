@@ -22,8 +22,8 @@ module.exports = React.createClass
   render: () ->
     notes = @props.pass.getNotes()
     jammer = @props.pass.jammer
-    <div className='pass-row'>
-      <div className="col-xs-2">
+    <div className='pass-item'>
+      <div className="col-xs-1">
         <div className="bt-box box-primary text-center" >
           {@props.pass.passNumber}
         </div>
