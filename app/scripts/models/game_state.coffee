@@ -41,7 +41,7 @@ class GameState extends Store
         @find(action.gameId).tap (game) ->
           game.syncClocks(action)
           game.startJam()
-        .then (game) ->
+        .tap (game) ->
           Promise.join game.save(), game.home.save(), game.away.save()
       when ActionTypes.STOP_JAM
         @find(action.gameId).then (game) ->
@@ -49,7 +49,7 @@ class GameState extends Store
           game.stopJam()
           game.save()
       when ActionTypes.START_LINEUP
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.syncClocks(action)
           game.startLineup()
           Promise.join game.save(), game.home.save(), game.away.save()
@@ -83,19 +83,19 @@ class GameState extends Store
           game.setTimeoutAsOfficialTimeout()
           game.save()
       when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_TIMEOUT
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.setTimeoutAsHomeTeamTimeout()
           Promise.join(game.save(), game.home.save())
       when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_OFFICIAL_REVIEW
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.setTimeoutAsHomeTeamOfficialReview()
           Promise.join(game.save(), game.home.save())
       when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_TIMEOUT
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.setTimeoutAsAwayTeamTimeout()
           Promise.join(game.save(), game.away.save())
       when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_OFFICIAL_REVIEW
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.setTimeoutAsAwayTeamOfficialReview()
           Promise.join(game.save(), game.away.save())
       when ActionTypes.SET_JAM_ENDED_BY_TIME
@@ -115,11 +115,11 @@ class GameState extends Store
           game.setPeriodClock(action.value)
           game.save()
       when ActionTypes.SET_HOME_TEAM_TIMEOUTS
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.setHomeTeamTimeouts(action.value)
           Promise.join game.save(), game.home.save()
       when ActionTypes.SET_AWAY_TEAM_TIMEOUTS
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.setAwayTeamTimeouts(action.value)
           Promise.join game.save(), game.home.save()
       when ActionTypes.SET_PERIOD
@@ -131,19 +131,19 @@ class GameState extends Store
           game.setJamNumber(action.value)
           game.save()
       when ActionTypes.REMOVE_HOME_TEAM_OFFICIAL_REVIEW
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.removeHomeTeamOfficialReview()
           Promise.join game.save(), game.home.save()
       when ActionTypes.REMOVE_AWAY_TEAM_OFFICIAL_REVIEW
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.removeAwayTeamOfficialReview()
           Promise.join game.save(), game.away.save()
       when ActionTypes.RESTORE_HOME_TEAM_OFFICIAL_REVIEW
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.restoreHomeTeamOfficialReview()
           Promise.join game.save(), game.home.save()
       when ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.restoreAwayTeamOfficialReview()
           Promise.join game.save(), game.away.save()
       when ActionTypes.SAVE_GAME
