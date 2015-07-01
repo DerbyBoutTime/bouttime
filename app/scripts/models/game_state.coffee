@@ -29,53 +29,53 @@ class GameState extends Store
     switch action.type
       when ActionTypes.START_CLOCK
         @find(action.gameId).then (game) ->
-          game.startClock()
           game.syncClocks(action)
+          game.startClock()
           game.save()
       when ActionTypes.STOP_CLOCK
         @find(action.gameId).then (game) ->
-          game.stopClock()
           game.syncClocks(action)
+          game.stopClock()
           game.save()
       when ActionTypes.START_JAM
         @find(action.gameId).then (game) ->
-          game.startJam()
           game.syncClocks(action)
+          game.startJam()
           game.save()
       when ActionTypes.STOP_JAM
         @find(action.gameId).then (game) ->
-          game.stopJam()
           game.syncClocks(action)
+          game.stopJam()
           game.save()
       when ActionTypes.START_LINEUP
         @find(action.gameId).then (game) ->
-          game.startLineup()
           game.syncClocks(action)
+          game.startLineup()
           game.save()
       when ActionTypes.START_PREGAME
         @find(action.gameId).then (game) ->
-          game.startPregame()
           game.syncClocks(action)
+          game.startPregame()
           game.save()
       when ActionTypes.START_HALFTIME
         @find(action.gameId).then (game) ->
-          game.startHalftime()
           game.syncClocks(action)
+          game.startHalftime()
           game.save()
       when ActionTypes.START_UNOFFICIAL_FINAL
         @find(action.gameId).then (game) ->
-          game.startUnofficialFinal()
           game.syncClocks(action)
+          game.startUnofficialFinal()
           game.save()
       when ActionTypes.START_OFFICIAL_FINAL
         @find(action.gameId).then (game) ->
-          game.startOfficialFinal()
           game.syncClocks(action)
+          game.startOfficialFinal()
           game.save()
       when ActionTypes.START_TIMEOUT
         @find(action.gameId).then (game) ->
-          game.startTimeout()
           game.syncClocks(action)
+          game.startTimeout()
           game.save()
       when ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT
         @find(action.gameId).then (game) ->
