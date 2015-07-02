@@ -12,7 +12,7 @@ class AppDispatcher
     @_timing = {}
     @_delays = []
     @_delay = 0
-    @_socket = IO(config.get('socketUrl'))
+    @_socket = IO(config.socketUrl)
     @_socket.on 'app dispatcher', (payload) =>
       if payload.sourceDelay?
         payload.destinationDelay = @_delay

@@ -1,9 +1,7 @@
-unless localStorage?
-  {LocalStorage} = require('node-localstorage')
-  GLOBAL.localStorage = new LocalStorage('./scratch')
 config = require('./scripts/config')
 module.exports = start: (port=3000) ->
-  config.set('socketUrl', "localhost:#{port}")
+  config.socketUrl = "localhost:#{port}"
+  config.server = true
   express = require('express')
   app = express();
   http = require('http').Server(app);
