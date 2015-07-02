@@ -79,7 +79,7 @@ class GameState extends Store
           game.startTimeout()
           game.save()
       when ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT
-        @find(action.gameId).then (game) ->
+        @find(action.gameId).tap (game) ->
           game.setTimeoutAsOfficialTimeout()
           Promise.join(game.save(), game.home.save(), game.away.save())
       when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_TIMEOUT
