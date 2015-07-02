@@ -81,23 +81,23 @@ class GameState extends Store
       when ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT
         @find(action.gameId).then (game) ->
           game.setTimeoutAsOfficialTimeout()
-          game.save()
+          Promise.join(game.save(), game.home.save(), game.away.save())
       when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_TIMEOUT
         @find(action.gameId).tap (game) ->
           game.setTimeoutAsHomeTeamTimeout()
-          Promise.join(game.save(), game.home.save())
+          Promise.join(game.save(), game.home.save(), game.away.save())
       when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_OFFICIAL_REVIEW
         @find(action.gameId).tap (game) ->
           game.setTimeoutAsHomeTeamOfficialReview()
-          Promise.join(game.save(), game.home.save())
+          Promise.join(game.save(), game.home.save(), game.away.save())
       when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_TIMEOUT
         @find(action.gameId).tap (game) ->
           game.setTimeoutAsAwayTeamTimeout()
-          Promise.join(game.save(), game.away.save())
+          Promise.join(game.save(), game.home.save(), game.away.save())
       when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_OFFICIAL_REVIEW
         @find(action.gameId).tap (game) ->
           game.setTimeoutAsAwayTeamOfficialReview()
-          Promise.join(game.save(), game.away.save())
+          Promise.join(game.save(), game.home.save(), game.away.save())
       when ActionTypes.SET_JAM_ENDED_BY_TIME
         @find(action.gameId).then (game) ->
           game.setJamEndedByTime()
@@ -121,7 +121,7 @@ class GameState extends Store
       when ActionTypes.SET_AWAY_TEAM_TIMEOUTS
         @find(action.gameId).tap (game) ->
           game.setAwayTeamTimeouts(action.value)
-          Promise.join game.save(), game.home.save()
+          Promise.join game.save(), game.away.save()
       when ActionTypes.SET_PERIOD
         @find(action.gameId).then (game) ->
           game.setPeriod(action.value)
