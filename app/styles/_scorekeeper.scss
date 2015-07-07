@@ -12,4 +12,7 @@
       @include button-variant($near-black, $white, $white);
     }
   }
+  .jam-item {
+    cursor: pointer;
+  }
 }
