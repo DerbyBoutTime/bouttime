@@ -35,7 +35,7 @@ module.exports = React.createClass
             setSelectorContext={@props.setSelectorContext}
             selectHandler={@setJammer} />
       </div>
-      <div data-toggle="collapse" data-target={"##{@props.panelId}"} aria-expanded="false" aria-controls={@props.panelId} onClick={@hidePanels}>
+      <div className="clickable" data-toggle="collapse" data-target={"##{@props.panelId}"} aria-expanded="false" aria-controls={@props.panelId} onClick={@hidePanels}>
         <div className="col-xs-2">
           <ScoreNote note={notes[0]} />
         </div>

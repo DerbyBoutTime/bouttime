@@ -10,7 +10,7 @@ module.exports = React.createClass
     notes = @props.jam.getNotes()
     jammer = @props.jam.jammer
     jammerNumber = if jammer? then jammer.number else <span>&nbsp;</span>
-    <div className="jam-item" onClick={@props.selectionHandler}>
+    <div className="jam-item clickable" onClick={@props.selectionHandler}>
       <div className="col-xs-1">
         <div className="bt-box box-primary text-center">
           {@props.jam.jamNumber}
