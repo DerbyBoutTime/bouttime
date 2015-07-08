@@ -1,0 +1,5 @@
+ratings:
+  paths:
+  - "app/**"
+exclude_paths:
+- "app/bower_components/**" #Paths that you want excluded from our analysis.
