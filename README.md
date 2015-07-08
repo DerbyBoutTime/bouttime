@@ -1,3 +1,7 @@
+[![Code Climate](https://codeclimate.com/repos/559a0472e30ba07010002dbe/badges/9909fa76b2506419a836/gpa.svg)](https://codeclimate.com/repos/559a0472e30ba07010002dbe/feed)
+
+[![Test Coverage](https://codeclimate.com/repos/559a0472e30ba07010002dbe/badges/9909fa76b2506419a836/coverage.svg)](https://codeclimate.com/repos/559a0472e30ba07010002dbe/coverage)
+
 Prerequisites
 ===
 BoutTime requires [node.js](https://nodejs.org/) to run, which can be installed from their website. Alternatively, you may install node on OSX via [Homebrew](http://brew.sh/)
