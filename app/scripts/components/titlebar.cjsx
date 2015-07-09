@@ -1,5 +1,4 @@
 React = require 'react/addons'
-DownloadJSON = require './shared/download_json'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: "TitleBar"

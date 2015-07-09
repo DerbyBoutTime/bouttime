@@ -265,8 +265,6 @@ class GameState extends Store
     new GameMetadata
       id: @id
       display: @getDisplayName()
-  export: () ->
-    this
   _inTimeout: ()->
       @state == "timeout"
   _clearAlerts: () =>

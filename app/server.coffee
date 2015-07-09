@@ -11,11 +11,12 @@ module.exports = start: (port=3000) ->
   constants = require('./scripts/constants')
   GameState = require('./scripts/models/game_state')
   AppDispatcher = require('./scripts/dispatcher/app_dispatcher')
+  Exporter = require './scripts/util/exporter'
   {ActionTypes} = require './scripts/constants'
   app.get '/export/:id', (req, res) ->
     game = GameState.find(req.params.id)
     res.setHeader 'Content-disposition', "attachment; filename=#{game.getDisplayName()}.json"
-    res.json game.export()
+    res.json Exporter.export(game)
   app.use '/', express.static(__dirname)
   games = GameState.all()
   GameState.addChangeListener () ->
