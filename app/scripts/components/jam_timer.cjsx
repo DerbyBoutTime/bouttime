@@ -257,6 +257,14 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
       gameId: @props.gameStateId
+  undo: () ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.JAM_TIMER_UNDO
+      gameId: @props.gameStateId
+  redo: () ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.JAM_TIMER_REDO
+      gameId: @props.gameStateId
   modalInputClass: (ref) ->
     cx
       'form-control': true
@@ -370,7 +378,20 @@ module.exports = React.createClass
             <button className="bt-btn" onClick={@startOfficialFinal}>START OFFICIAL FINAL</button>
           </div>
         </div>
-    homeTeamOfficialReviewCS =
+    undoSectionCS = 
+      if @props.isUndoable
+        <div className='row margin-xs'>
+          <div className='col-xs-12'>
+            <button className='bt-btn' onClick={@undo}>UNDO</button>
+          </div>
+        </div>
+    redoSectionCS = 
+      if @props.isRedoable
+        <div className='row margin-xs'>
+          <div className='col-xs-12'>
+            <button className='bt-btn' onClick={@redo}>REDO</button>
+          </div>
+        </div>
     homeTeamTimeoutClasses = [
       cx
         'official-review': true
@@ -453,6 +474,8 @@ module.exports = React.createClass
       {startHalftimeSectionCS}
       {startUnofficialFinalSectionCS}
       {startOfficialFinalSectionCS}
+      {undoSectionCS}
+      {redoSectionCS}
       <div className="modal" ref="modal">
         <div className="modal-dialog">
           <div className="modal-content">

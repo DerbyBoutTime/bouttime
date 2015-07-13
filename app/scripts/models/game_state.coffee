@@ -18,11 +18,14 @@ HALFTIME_CLOCK_SETTINGS =
 JAM_CLOCK_SETTINGS =
   time: constants.JAM_DURATION_IN_MS
   warningTime: constants.JAM_WARNING_IN_MS
+  isRunning: true
 LINEUP_CLOCK_SETTINGS =
   time: constants.LINEUP_DURATION_IN_MS
+  isRunning: true
 TIMEOUT_CLOCK_SETTINGS =
   time: 0
   tickUp: true
+  isRunning: true
 class GameState extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     game = @find(action.gameId)
@@ -91,6 +94,10 @@ class GameState extends Store
         game.restoreHomeTeamOfficialReview()
       when ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
         game.restoreAwayTeamOfficialReview()
+      when ActionTypes.JAM_TIMER_UNDO
+        game.undo()
+      when ActionTypes.JAM_TIMER_REDO
+        game.redo()
       when ActionTypes.SAVE_GAME
         game = new GameState(action.gameState)
         game.syncClocks(action.gameState)
@@ -134,6 +141,8 @@ class GameState extends Store
       {code: "I", name: "Illegal Procedure"},
       {code: "G", name: "Gross Misconduct"}
     ]
+    @_undoStack = options._undoStack ? []
+    @_redoStack = options._redoStack ? []
   save: () ->
     super()
     @home.save()
@@ -143,15 +152,19 @@ class GameState extends Store
   getCurrentJam: (team) ->
     (jam for jam in team.jams when jam.jamNumber is @jamNumber)[0]
   syncClocks: (clocks) ->
-    @jamClock.reset (clocks.jamClock)
-    @periodClock.reset (clocks.periodClock)
+    @jamClock.sync(clocks.jamClock)
+    @periodClock.sync(clocks.periodClock)
     if clocks.sourceDelay? and clocks.destinationDelay?
       delta = (clocks.sourceDelay + clocks.destinationDelay) / 2.0
       @jamClock.tick(delta)
       @periodClock.tick(delta)
   startClock: ()->
+    @_pushUndo()
+    @periodClock.reset() #Dummy reset
     @jamClock.start()
   stopClock: () ->
+    @_pushUndo()
+    @periodClock.reset() #Dummy reset
     @jamClock.stop()
   advancePeriod: () ->
     if @period is "pregame"
@@ -160,126 +173,183 @@ class GameState extends Store
     else if @period is "halftime"
       @period = "period 2"
       @periodClock.reset(PERIOD_CLOCK_SETTINGS)
+    else
+      #Dummy reset
+      @periodClock.reset()
   startJam: () ->
     @_clearTimeouts()
+    @_pushUndo()
     @jamClock.reset(JAM_CLOCK_SETTINGS)
-    @jamClock.start()
     @advancePeriod()
-    @periodClock.start()
     @state = "jam"
     @jamNumber = @jamNumber + 1
     @home.createJamsThrough @jamNumber
     @away.createJamsThrough @jamNumber
-  stopJam: () =>
-    @jamClock.stop()
+  stopJam: () ->
     @startLineup()
-  startLineup: () =>
+  startLineup: () ->
     @_clearTimeouts()
+    @_pushUndo()
+    @periodClock.reset() #Dummy reset
     @jamClock.reset(LINEUP_CLOCK_SETTINGS)
-    @jamClock.start()
     @state = "lineup"
-  startPregame: () =>
+  startPregame: () ->
+    @_pushUndo()
     @periodClock.reset(time: 0)
+    @jamClock.reset(PREGAME_CLOCK_SETTINGS)
     @state = "pregame"
     @period = "pregame"
-    @jamClock.reset(PREGAME_CLOCK_SETTINGS)
-  startHalftime: () =>
+  startHalftime: () ->
+    @_pushUndo()
     @periodClock.reset(time: 0)
+    @jamClock.reset(HALFTIME_CLOCK_SETTINGS)
     @state = "halftime"
     @period = "halftime"
-    @jamClock.reset(HALFTIME_CLOCK_SETTINGS)
-  startUnofficialFinal: () =>
+  startUnofficialFinal: () ->
+    @_pushUndo()
+    @periodClock.reset() #Dummy reset
+    @jamClock.reset() #Dummy reset
     @state = "unofficial final"
     @period = "unofficial final"
-  startOfficialFinal: () =>
+  startOfficialFinal: () ->
+    @_pushUndo()
+    @periodClock.reset() #Dummy reset
+    @jamClock.reset() #Dummy reset
     @state = "official final"
     @period = "official final"
-  startTimeout: () =>
-    @_stopClocks()
+  startTimeout: () ->
+    @_pushUndo()
+    @periodClock.reset() #Dummy reset
     @jamClock.reset(TIMEOUT_CLOCK_SETTINGS)
-    @jamClock.start()
     @state = "timeout"
     @timeout = null
-  setTimeoutAsOfficialTimeout: () =>
+  setTimeoutAsOfficialTimeout: () ->
     if @_inTimeout() == false
       @startTimeout()
     @_clearTimeouts()
+    @_clearUndo()
     @timeout = "official_timeout"
     @inOfficialTimeout = true
-  setTimeoutAsHomeTeamTimeout: () =>
+  setTimeoutAsHomeTeamTimeout: () ->
     if @_inTimeout() == false
       @startTimeout()
     @_clearTimeouts()
+    @_clearUndo()
     @timeout = "home_team_timeout"
     @home.startTimeout()
-  setTimeoutAsHomeTeamOfficialReview: () =>
+  setTimeoutAsHomeTeamOfficialReview: () ->
     if @_inTimeout() == false
       @startTimeout()
     @_clearTimeouts()
+    @_clearUndo()
     @home.hasOfficialReview = false
     @home.isTakingOfficialReview = true
     @timeout = "home_team_official_review"
-  setTimeoutAsAwayTeamTimeout: () =>
+  setTimeoutAsAwayTeamTimeout: () ->
     if @_inTimeout() == false
       @startTimeout()
     @_clearTimeouts()
+    @_clearUndo()
     @state = "timeout"
     @timeout = "away_team_timeout"
     @away.startTimeout()
-  setTimeoutAsAwayTeamOfficialReview: () =>
+  setTimeoutAsAwayTeamOfficialReview: () ->
     if @_inTimeout() == false
       @startTimeout()
     @_clearTimeouts()
+    @_clearUndo()
     @away.hasOfficialReview = false
     @away.isTakingOfficialReview = true
     @state = "timeout"
     @timeout = "away_team_official_review"
-  handleClockExpiration: () =>
+  handleClockExpiration: () ->
     if @state == "jam"
       #Mark as jam ended by time
       @stopJam()
-  setJamEndedByCalloff: () =>
-  setJamClock: (val) =>
+  setJamClock: (val) ->
+    @_pushUndo()
+    @periodClock.reset() #Dummy reset
     @jamClock.reset(_.extend(@jamClock, time: val))
-  setPeriodClock: (val) =>
+  setPeriodClock: (val) ->
+    @_pushUndo()
+    @jamClock.reset() #Dummy reset
     @periodClock.reset(_.extend(@periodClock, time: val))
-  setHomeTeamTimeouts: (val) =>
+  setHomeTeamTimeouts: (val) ->
     @home.timeouts = parseInt(val)
-  setAwayTeamTimeouts: (val) =>
+  setAwayTeamTimeouts: (val) ->
     @away.timeouts = parseInt(val)
-  setPeriod: (val) =>
+  setPeriod: (val) ->
+    @_pushUndo()
+    @periodClock.reset() #Dummy reset
+    @jamClock.reset() #Dummy reset
     @period = val
-  setJamNumber: (val) =>
+  setJamNumber: (val) ->
+    @_pushUndo()
+    @periodClock.reset() #Dummy reset
+    @jamClock.reset() #Dummy reset
     @jamNumber = parseInt(val)
-  removeHomeTeamOfficialReview: () =>
+  removeHomeTeamOfficialReview: () ->
     @home.removeOfficialReview()
-  removeAwayTeamOfficialReview: () =>
+  removeAwayTeamOfficialReview: () ->
     @away.removeOfficialReview()
-  restoreHomeTeamOfficialReview: () =>
+  restoreHomeTeamOfficialReview: () ->
     @_clearTimeouts()
     @home.restoreOfficialReview()
-  restoreAwayTeamOfficialReview: () =>
+  restoreAwayTeamOfficialReview: () ->
     @_clearTimeouts()
     @away.restoreOfficialReview()
   getMetadata: () ->
     new GameMetadata
       id: @id
       display: @getDisplayName()
+  undo: () ->
+    @_popUndo()
+    @jamClock.undo()
+    @periodClock.undo()
+  redo: () ->
+    @_popRedo()
+    @jamClock.redo()
+    @periodClock.redo()
+  isUndoable: () ->
+    @_undoStack.length > 0 and @jamClock.isUndoable() and @periodClock.isUndoable()
+  isRedoable: () ->
+    @_redoStack.length > 0 and @jamClock.isRedoable() and @periodClock.isRedoable()
   _inTimeout: ()->
       @state == "timeout"
-  _clearAlerts: () =>
+  _clearAlerts: () ->
     @_clearTimeouts()
-  _clearTimeouts: () =>
+  _clearTimeouts: () ->
     @home.isTakingTimeout = false
     @away.isTakingTimeout = false
     @home.isTakingOfficialReview = false
     @away.isTakingOfficialReview = false
-  _buildOptions: (opts = {}) =>
-    std_opts =
-      role: 'Jam Timer'
-      state: @state
-    $.extend(std_opts, opts)
-  _stopClocks: () ->
-    @jamClock.stop()
-    @periodClock.stop()
+  _historyFrame: () ->
+    state: @state
+    period: @period
+    jamNumber: @jamNumber
+  _pushFrame: (stack) ->
+    stack.push @_historyFrame()
+  _popFrame: (stack) ->
+    for key, value of stack.pop()
+      @[key] = value
+  _pushUndo: () ->
+    @_clearRedo()
+    @_pushFrame @_undoStack
+  _popUndo: () ->
+    @_pushRedo()
+    @_popFrame @_undoStack
+  _clearUndo: () ->
+    @_clearRedo()
+    @_undoStack = []
+    @jamClock.clearUndo()
+    @periodClock.clearUndo()
+  _pushRedo: () ->
+    @_pushFrame @_redoStack
+  _popRedo: () ->
+    @_pushFrame @_undoStack
+    @_popFrame @_redoStack
+  _clearRedo: () ->
+    @_redoStack = []
+    @jamClock.clearRedo()
+    @periodClock.clearRedo()
 module.exports = GameState

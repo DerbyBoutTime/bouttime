@@ -76,3 +76,5 @@ module.exports =
     SYNC_GAMES: null
     REMOVE_PASS: null
     REMOVE_JAM: null
+    JAM_TIMER_UNDO: null
+    JAM_TIMER_REDO: null

@@ -94,6 +94,8 @@ module.exports = React.createClass
           period={@state.gameState.period}
           gameStateId={@state.gameState.id}
           state={@state.gameState.state}
+          isUndoable={@state.gameState.isUndoable()}
+          isRedoable={@state.gameState.isRedoable()}
           home={home}
           away={away}/>
       when "lineup_tracker"
