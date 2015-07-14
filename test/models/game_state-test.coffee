@@ -49,10 +49,12 @@ describe 'GameState', () ->
         expect(gameState.jamClock.reset).toBeCalledWith
           time: constants.JAM_DURATION_IN_MS
           warningTime: constants.JAM_WARNING_IN_MS
-        expect(gameState.jamClock.start).toBeCalled()
+          isRunning: true
       it "advances the period and starts the period clock", () ->
         expect(gameState.period).toBe('period 1')
-        expect(gameState.periodClock.start).toBeCalled()
+        expect(gameState.periodClock.reset).toBeCalledWith
+          time: constants.PERIOD_DURATION_IN_MS
+          isRunning: true
         gameState.period = 'halftime'
         gameState.save()
         gameState = callback
@@ -68,7 +70,6 @@ describe 'GameState', () ->
       gameState = callback
         type: ActionTypes.STOP_JAM
         gameId: gameState.id
-      expect(gameState.jamClock.stop).toBeCalled()
       expect(gameState.state).toBe('lineup')
     it "starts a new lineup", () ->
       gameState = callback
@@ -77,7 +78,7 @@ describe 'GameState', () ->
       expect(gameState.state).toBe('lineup')
       expect(gameState.jamClock.reset).toBeCalledWith
         time: constants.LINEUP_DURATION_IN_MS
-      expect(gameState.jamClock.start).toBeCalled()
+        isRunning: true
       expect(gameState.period).toBe('pregame')
       expect(gameState.periodClock.start).not.toBeCalled()
     it "starts the pregame", () ->
@@ -117,7 +118,7 @@ describe 'GameState', () ->
       expect(gameState.jamClock.reset).toBeCalledWith
         time: 0
         tickUp: true
-      expect(gameState.jamClock.start).toBeCalled()
+        isRunning: true
     it "sets a timeout as an official timeout", () ->
       gameState = callback
         type: ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT

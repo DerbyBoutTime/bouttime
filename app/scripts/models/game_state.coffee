@@ -11,6 +11,7 @@ GameMetadata = require './game_metadata'
 constants = require '../constants'
 PERIOD_CLOCK_SETTINGS =
   time: constants.PERIOD_DURATION_IN_MS
+  isRunning: true
 PREGAME_CLOCK_SETTINGS =
   time: constants.PREGAME_DURATION_IN_MS
 HALFTIME_CLOCK_SETTINGS =
@@ -219,7 +220,7 @@ class GameState extends Store
     @period = "official final"
   startTimeout: () ->
     @_pushUndo()
-    @periodClock.reset() #Dummy reset
+    @periodClock.stop()
     @jamClock.reset(TIMEOUT_CLOCK_SETTINGS)
     @state = "timeout"
     @timeout = null
