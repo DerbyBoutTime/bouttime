@@ -258,6 +258,14 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
       gameId: @props.gameStateId
+  undo: () ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.JAM_TIMER_UNDO
+      gameId: @props.gameStateId
+  redo: () ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.JAM_TIMER_REDO
+      gameId: @props.gameStateId
   modalInputClass: (ref) ->
     cx
       'form-control': true
@@ -282,6 +290,10 @@ module.exports = React.createClass
       buttons.push <ShortcutButton className="bt-btn" onClick={@startUnofficialFinal} shortcut='u'>START UNOFFICIAL FINAL</ShortcutButton>
     if @props.state is "unofficial final"
       buttons.push <ShortcutButton className="bt-btn" onClick={@startOfficialFinal} shortcut='o'>START OFFICIAL FINAL</ShortcutButton>
+    if @props.isUndoable
+      buttons.push <ShortcutButton className='bt-btn' onClick={@undo} shortcut='mod+z'>UNDO</ShortcutButton>
+    if @props.isRedoable
+      buttons.push <ShortcutButton className='bt-btn' onClick={@redo} shortcut='mod+shift+z'>REDO</ShortcutButton>
     timeoutExplanation =
       if @props.state =="timeout"
         <div className="timeout-explanation-section row margin-xs">
