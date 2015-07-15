@@ -36,7 +36,6 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.REMOVE_JAM
       jamId: jamId
-      teamId: @props.team.id
   getInitialState: () ->
     jamSelected: null
   render: () ->

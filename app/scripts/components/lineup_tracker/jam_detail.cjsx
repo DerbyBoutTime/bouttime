@@ -35,7 +35,6 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.REMOVE_JAM
       jamId: @props.jam.id
-      teamId: @props.team.id
   renderItem: () ->
     noPivotButtonClass = cx
       'bt-btn': true

@@ -1,6 +1,7 @@
 moment = require 'moment'
 $ = require 'jquery'
 _ = require 'underscore'
+Promise = require 'bluebird'
 functions = require '../functions'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 Store = require './store'
@@ -29,83 +30,138 @@ TIMEOUT_CLOCK_SETTINGS =
   isRunning: true
 class GameState extends Store
   @dispatchToken: AppDispatcher.register (action) =>
-    game = @find(action.gameId)
     switch action.type
       when ActionTypes.START_CLOCK
-        game.startClock()
-        game.syncClocks(action)
+        @find(action.gameId).then (game) ->
+          game.syncClocks(action)
+          game.startClock()
+          game.save()
       when ActionTypes.STOP_CLOCK
-        game.stopClock()
-        game.syncClocks(action)
+        @find(action.gameId).then (game) ->
+          game.syncClocks(action)
+          game.stopClock()
+          game.save()
       when ActionTypes.START_JAM
-        game.startJam()
-        game.syncClocks(action)
+        @find(action.gameId).tap (game) ->
+          game.syncClocks(action)
+          game.startJam()
+        .tap (game) ->
+          Promise.join game.save(), game.home.save(), game.away.save()
       when ActionTypes.STOP_JAM
-        game.stopJam()
-        game.syncClocks(action)
+        @find(action.gameId).then (game) ->
+          game.syncClocks(action)
+          game.stopJam()
+          game.save()
       when ActionTypes.START_LINEUP
-        game.startLineup()
-        game.syncClocks(action)
+        @find(action.gameId).tap (game) ->
+          game.syncClocks(action)
+          game.startLineup()
+          Promise.join game.save(), game.home.save(), game.away.save()
       when ActionTypes.START_PREGAME
-        game.startPregame()
-        game.syncClocks(action)
+        @find(action.gameId).then (game) ->
+          game.syncClocks(action)
+          game.startPregame()
+          game.save()
       when ActionTypes.START_HALFTIME
-        game.startHalftime()
-        game.syncClocks(action)
+        @find(action.gameId).then (game) ->
+          game.syncClocks(action)
+          game.startHalftime()
+          game.save()
       when ActionTypes.START_UNOFFICIAL_FINAL
-        game.startUnofficialFinal()
-        game.syncClocks(action)
+        @find(action.gameId).then (game) ->
+          game.syncClocks(action)
+          game.startUnofficialFinal()
+          game.save()
       when ActionTypes.START_OFFICIAL_FINAL
-        game.startOfficialFinal()
-        game.syncClocks(action)
+        @find(action.gameId).then (game) ->
+          game.syncClocks(action)
+          game.startOfficialFinal()
+          game.save()
       when ActionTypes.START_TIMEOUT
-        game.startTimeout()
-        game.syncClocks(action)
+        @find(action.gameId).then (game) ->
+          game.syncClocks(action)
+          game.startTimeout()
+          game.save()
       when ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT
-        game.setTimeoutAsOfficialTimeout()
+        @find(action.gameId).tap (game) ->
+          game.setTimeoutAsOfficialTimeout()
+          Promise.join(game.save(), game.home.save(), game.away.save())
       when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_TIMEOUT
-        game.setTimeoutAsHomeTeamTimeout()
+        @find(action.gameId).tap (game) ->
+          game.setTimeoutAsHomeTeamTimeout()
+          Promise.join(game.save(), game.home.save(), game.away.save())
       when ActionTypes.SET_TIMEOUT_AS_HOME_TEAM_OFFICIAL_REVIEW
-        game.setTimeoutAsHomeTeamOfficialReview()
+        @find(action.gameId).tap (game) ->
+          game.setTimeoutAsHomeTeamOfficialReview()
+          Promise.join(game.save(), game.home.save(), game.away.save())
       when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_TIMEOUT
-        game.setTimeoutAsAwayTeamTimeout()
+        @find(action.gameId).tap (game) ->
+          game.setTimeoutAsAwayTeamTimeout()
+          Promise.join(game.save(), game.home.save(), game.away.save())
       when ActionTypes.SET_TIMEOUT_AS_AWAY_TEAM_OFFICIAL_REVIEW
-        game.setTimeoutAsAwayTeamOfficialReview()
+        @find(action.gameId).tap (game) ->
+          game.setTimeoutAsAwayTeamOfficialReview()
+          Promise.join(game.save(), game.home.save(), game.away.save())
       when ActionTypes.SET_JAM_ENDED_BY_TIME
-        game.setJamEndedByTime()
+        @find(action.gameId).then (game) ->
+          game.setJamEndedByTime()
+          game.save()
       when ActionTypes.HANDLE_CLOCK_EXPIRATION
-        game.handleClockExpiration()
+        @find(action.gameId).then (game) ->
+          game.handleClockExpiration()
+          game.save()
       when ActionTypes.SET_JAM_CLOCK
-        game.setJamClock(action.value)
+        @find(action.gameId).then (game) ->
+          game.setJamClock(action.value)
+          game.save()
       when ActionTypes.SET_PERIOD_CLOCK
-        game.setPeriodClock(action.value)
+        @find(action.gameId).then (game) ->
+          game.setPeriodClock(action.value)
+          game.save()
       when ActionTypes.SET_HOME_TEAM_TIMEOUTS
-        game.setHomeTeamTimeouts(action.value)
+        @find(action.gameId).tap (game) ->
+          game.setHomeTeamTimeouts(action.value)
+          Promise.join game.save(), game.home.save()
       when ActionTypes.SET_AWAY_TEAM_TIMEOUTS
-        game.setAwayTeamTimeouts(action.value)
+        @find(action.gameId).tap (game) ->
+          game.setAwayTeamTimeouts(action.value)
+          Promise.join game.save(), game.away.save()
       when ActionTypes.SET_PERIOD
-        game.setPeriod(action.value)
+        @find(action.gameId).then (game) ->
+          game.setPeriod(action.value)
+          game.save()
       when ActionTypes.SET_JAM_NUMBER
-        game.setJamNumber(action.value)
+        @find(action.gameId).then (game) ->
+          game.setJamNumber(action.value)
+          game.save()
       when ActionTypes.REMOVE_HOME_TEAM_OFFICIAL_REVIEW
-        game.removeHomeTeamOfficialReview()
+        @find(action.gameId).tap (game) ->
+          game.removeHomeTeamOfficialReview()
+          Promise.join game.save(), game.home.save()
       when ActionTypes.REMOVE_AWAY_TEAM_OFFICIAL_REVIEW
-        game.removeAwayTeamOfficialReview()
+        @find(action.gameId).tap (game) ->
+          game.removeAwayTeamOfficialReview()
+          Promise.join game.save(), game.away.save()
       when ActionTypes.RESTORE_HOME_TEAM_OFFICIAL_REVIEW
-        game.restoreHomeTeamOfficialReview()
+        @find(action.gameId).tap (game) ->
+          game.restoreHomeTeamOfficialReview()
+          Promise.join game.save(), game.home.save()
       when ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
-        game.restoreAwayTeamOfficialReview()
+        @find(action.gameId).tap (game) ->
+          game.restoreAwayTeamOfficialReview()
+          Promise.join game.save(), game.away.save()
       when ActionTypes.JAM_TIMER_UNDO
-        game.undo()
+        @find(action.gameId).tap (game) ->
+          game.undo()
+          game.save()
       when ActionTypes.JAM_TIMER_REDO
-        game.redo()
+        @find(action.gameId).tap (game) ->
+          game.redo()
+          game.save()
       when ActionTypes.SAVE_GAME
-        game = new GameState(action.gameState)
-        game.syncClocks(action.gameState)
-    game.save() if game?
-    @emitChange()
-    #return instance operated on for testing
-    game
+        @new(action.gameState).then (game) ->
+          game.syncClocks(action.gameState)
+          game.save(true)
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -120,9 +176,9 @@ class GameState extends Store
     @clockManager = new ClockManager()
     @jamClock = @clockManager.getOrAddClock "jamClock-#{@id}", options.jamClock ? PREGAME_CLOCK_SETTINGS
     @periodClock = @clockManager.getOrAddClock "periodClock-#{@id}", options.periodClock ? PERIOD_CLOCK_SETTINGS
-    @home = Team.find(options.home?.id) ? new Team(options.home)
-    @away = Team.find(options.away?.id) ? new Team(options.away)
     @timeout = options.timeout ? null
+    @home = options.home
+    @away = options.away
     @penalties = [
       {code: "A", name: "High Block"},
       {code: "N", name: "Insubordination"},
@@ -144,10 +200,19 @@ class GameState extends Store
     ]
     @_undoStack = options._undoStack ? []
     @_redoStack = options._redoStack ? []
-  save: () ->
-    super()
-    @home.save()
-    @away.save()
+  load: (options={}) ->
+    home = Team.findOrCreate(@home).then (home) =>
+      @home = home
+    away = Team.findOrCreate(@away).then (away) =>
+      @away = away    
+    Promise.join(home, away).return(this)
+  save: (cascade=false) ->
+    promise = super()
+    if cascade
+      promise = promise.then () =>
+        Promise.join(@home.save(true), @away.save(true))
+      .return this
+    promise
   getDisplayName: () ->
     "#{moment(@date, 'MM/DD/YYYY').format('YYYY-MM-DD')} #{@home.name} vs #{@away.name}"
   getCurrentJam: (team) ->
@@ -184,9 +249,10 @@ class GameState extends Store
     @advancePeriod()
     @state = "jam"
     @jamNumber = @jamNumber + 1
-    @home.createJamsThrough @jamNumber
-    @away.createJamsThrough @jamNumber
-  stopJam: () ->
+    home = @home.createJamsThrough(@jamNumber)
+    away = @away.createJamsThrough(@jamNumber)
+    Promise.join home, away
+  stopJam: () =>
     @startLineup()
   startLineup: () ->
     @_clearTimeouts()
