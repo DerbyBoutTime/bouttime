@@ -120,7 +120,7 @@ module.exports =
       number: "999 Lives"
       penalties: []}
     ]
-    new GameState
+    GameState.new 
       name: "Demo Game"
       venue: "The Internet"
       date: "07/31/2015"

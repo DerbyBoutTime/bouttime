@@ -1,6 +1,4 @@
 React = require 'react/addons'
-cx = React.addons.classSet
-GameState = require '../../models/game_state'
 module.exports = React.createClass
   displayName: 'LineupSelector'
   propTypes:

@@ -11,23 +11,28 @@ module.exports = React.createClass
   displayName: 'GamePicker'
   getInitialState: () ->
     selectedGame: @parseSelectedGame()
-    games: GameMetadata.all()
-    newGame: new GameState()
+    games: []
+    newGame: null
   parseSelectedGame: () ->
     qs.parse(window?.location?.hash?.substring(1)).id
   selectGame: (gameId) ->
     @setState(selectedGame: gameId)
   fillDemoGame: () ->
     @refs.gameSetup.reloadState()
-    @setState newGame: DemoData.init()
+    DemoData.init().then (game) =>
+      @setState(newGame: game)
   onChange: () ->
-    @setState(games: GameMetadata.all())
+    GameMetadata.all().then (games) =>
+      @setState(games: games)
   openGame: () ->
     gameId = React.findDOMNode(@refs.gameSelect).value
     if gameId? and gameId.length > 0
       @selectGame(gameId)
   componentDidMount: () ->
+    @onChange()
     GameMetadata.addChangeListener @onChange
+    GameState.new().then (game) =>
+      @setState(newGame: game)
   componentWillUnmount: () ->
     GameMetadata.removeChangeListener @onChange
   render: () ->
@@ -48,9 +53,12 @@ module.exports = React.createClass
             Fill Demo
           </button>
         </div>
-        <GameSetup ref='gameSetup' gameState={@state.newGame} onSave={@selectGame.bind(this, @state.newGame.id)}/>
+        {if @state.newGame? 
+          <GameSetup ref='gameSetup' gameState={@state.newGame} onSave={@selectGame.bind(this, @state.newGame.id)}/>
+        }
       </div>
       {if @state.selectedGame?
         <Game gameStateId={@state.selectedGame} backHandler={@selectGame.bind(this, null)}/>
       }
+
     </div>

@@ -10,3 +10,4 @@ npm-debug.log
 /dist/
 /scratch/
 .sass-cache/
+*.db
