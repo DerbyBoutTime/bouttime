@@ -19,7 +19,6 @@ module.exports = React.createClass
   removeHandler: (passId) ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.REMOVE_PASS
-      jamId: @props.jam.id
       passId: passId
   createNextPass: () ->
     AppDispatcher.dispatchAndEmit

@@ -11,7 +11,7 @@ module.exports = React.createClass
     <div className="team-lineup">
       {@props.team.jams.map (jam, jamIndex) ->
         <JamDetail
-          key={jam.jamNumber}
+          key={jam.id}
           team={@props.team}
           jam={jam}
           setSelectorContextHandler={@props.setSelectorContextHandler.bind(this, jam)} />

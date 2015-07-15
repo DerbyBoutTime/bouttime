@@ -5,7 +5,7 @@ LineupSelector = require '../../app/scripts/components/lineup_tracker/lineup_sel
 TeamLineup = require '../../app/scripts/components/lineup_tracker/team_lineup'
 TestUtils = React.addons.TestUtils
 DemoData = require '../../app/scripts/demo_data'
-
+Promise = require 'bluebird'
 describe 'LineupTracker', () ->
   gameState = null
   setSelectorContext = (team, jam, func) ->
@@ -13,18 +13,22 @@ describe 'LineupTracker', () ->
   lineupTracker = null
   beforeEach () ->
     gameState = DemoData.init()
-    shallowRenderer = TestUtils.createRenderer()
-    shallowRenderer.render <LineupTracker gameState={gameState} setSelectorContext={setSelectorContext} /> 
-    lineupTracker = shallowRenderer.getRenderOutput()
-  it 'renders a component', () ->
-    expect(TestUtils.isDOMComponent(lineupTracker))
-  it 'renders a team selector with team lineups', () ->
-    teamSelector = lineupTracker.props.children[0]
-    expect(TestUtils.isElementOfType(teamSelector, TeamSelector)).toBe(true)
-    expect(TestUtils.isElementOfType(teamSelector.props.awayElement, TeamLineup)).toBe(true)
-    expect(TestUtils.isElementOfType(teamSelector.props.homeElement, TeamLineup)).toBe(true)
-    expect(teamSelector.props.awayElement.props.team).toBe(gameState.away)
-    expect(teamSelector.props.homeElement.props.team).toBe(gameState.home)
-  it 'renders a lineup selector', () ->
-    lineupSelector = lineupTracker.props.children[1]
-    expect(TestUtils.isElementOfType(lineupSelector, LineupSelector)).toBe(true)
+    lineupTracker = gameState.then (gameState) ->
+      shallowRenderer = TestUtils.createRenderer()
+      shallowRenderer.render <LineupTracker gameState={gameState} setSelectorContext={setSelectorContext} /> 
+      shallowRenderer.getRenderOutput()
+  pit 'renders a component', () ->
+    lineupTracker.then (lineupTracker) ->
+      expect(TestUtils.isDOMComponent(lineupTracker))
+  pit 'renders a team selector with team lineups', () ->
+    Promise.join gameState, lineupTracker, (gameState, lineupTracker) ->
+      teamSelector = lineupTracker.props.children[0]
+      expect(TestUtils.isElementOfType(teamSelector, TeamSelector)).toBe(true)
+      expect(TestUtils.isElementOfType(teamSelector.props.awayElement, TeamLineup)).toBe(true)
+      expect(TestUtils.isElementOfType(teamSelector.props.homeElement, TeamLineup)).toBe(true)
+      expect(teamSelector.props.awayElement.props.team).toBe(gameState.away)
+      expect(teamSelector.props.homeElement.props.team).toBe(gameState.home)
+  pit 'renders a lineup selector', () ->
+    lineupTracker.then (lineupTracker) ->
+      lineupSelector = lineupTracker.props.children[1]
+      expect(TestUtils.isElementOfType(lineupSelector, LineupSelector)).toBe(true)

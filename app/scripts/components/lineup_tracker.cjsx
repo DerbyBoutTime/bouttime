@@ -11,10 +11,12 @@ module.exports = React.createClass
   componentWillUnmount: () ->
     Jam.removeChangeListener @onChange
   onChange: () ->
-    @setSelectorContext(
-      @state.lineupSelectorContext.team,
-      Jam.find(@state.lineupSelectorContext.jam?.id),
-      @state.lineupSelectorContext.selectHandler)
+    Jam.find @state.lineupSelectorContext.jam?.id
+    .then (jam) =>
+      @setSelectorContext(
+        @state.lineupSelectorContext.team,
+        jam,
+        @state.lineupSelectorContext.selectHandler)
   getInitialState: () ->
     lineupSelectorContext:
       team: null
