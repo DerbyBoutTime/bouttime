@@ -26,44 +26,44 @@ describe 'Scoreboard', () ->
     scoreboard.then (scoreboard) ->
       jamContainer = TestUtils.findRenderedDOMComponentWithClass(scoreboard, 'jam-number')
       expect(jamContainer.getDOMNode().textContent).toEqual('0')
+  pit "display jam points", () ->
+    scoreboard.then (scoreboard) ->
+      TestUtils.findRenderedDOMComponentWithClass(scoreboard, 'jam-points')
+    .then (jamPoints) ->
+      TestUtils.scryRenderedDOMComponentsWithClass(jamPoints, 'points')
+    .spread (home, away) ->
+      expect(home.getDOMNode().textContent).toEqual('0')
+      expect(away.getDOMNode().textContent).toEqual('0')
   describe 'teams', () ->
-    home = null
-    away = null
+    teams = null
     beforeEach () ->
-      home = scoreboard.then (scoreboard) -> TestUtils.findRenderedDOMComponentWithClass(scoreboard, 'team home')
-      away = scoreboard.then (scoreboard) -> TestUtils.findRenderedDOMComponentWithClass(scoreboard, 'team away')
+      teams = scoreboard.then (scoreboard) -> TestUtils.scryRenderedDOMComponentsWithClass(scoreboard, 'team')
     pit "display names", () ->
-      Promise.join home, away, (home, away) ->
-        homeContainer = TestUtils.scryRenderedDOMComponentsWithClass(home, 'name')[0]
-        awayContainer = TestUtils.scryRenderedDOMComponentsWithClass(away, 'name')[0]
+      teams.spread (home, away) ->
+        homeContainer = TestUtils.scryRenderedDOMComponentsWithClass(home, 'team-name')[0]
+        awayContainer = TestUtils.scryRenderedDOMComponentsWithClass(away, 'team-name')[0]
         expect(homeContainer.getDOMNode().textContent).toEqual('Atlanta')
         expect(awayContainer.getDOMNode().textContent).toEqual('Gotham')
     pit "display logos", () ->
-      Promise.join home, away, (home, away) ->
+      teams.spread (home, away) ->
         homeContainer = TestUtils.findRenderedDOMComponentWithClass(home, 'logo')
         awayContainer = TestUtils.findRenderedDOMComponentWithClass(away, 'logo')
         expect(homeContainer.getDOMNode().firstChild.nodeName).toEqual('IMG')
         expect(awayContainer.getDOMNode().firstChild.nodeName).toEqual('IMG')
     pit "display game scores", () ->
-      Promise.join home, away, (home, away) ->
+      teams.spread (home, away) ->
         homeContainer = TestUtils.findRenderedDOMComponentWithClass(home, 'score')
         awayContainer = TestUtils.findRenderedDOMComponentWithClass(away, 'score')
         expect(homeContainer.getDOMNode().textContent).toEqual('0')
         expect(awayContainer.getDOMNode().textContent).toEqual('0')
-    pit "display jam points", () ->
-      scoreboard.then (scoreboard) ->
-        homeContainer = TestUtils.findRenderedDOMComponentWithClass(scoreboard, 'home-team-jam-points')
-        awayContainer = TestUtils.findRenderedDOMComponentWithClass(scoreboard, 'away-team-jam-points')
-        expect(homeContainer.getDOMNode().textContent).toEqual('0')
-        expect(awayContainer.getDOMNode().textContent).toEqual('0')
     pit "display timeouts", () ->
-      Promise.join home, away, (home, away) ->
+      teams.spread (home, away) ->
         homeContainer = TestUtils.findRenderedDOMComponentWithClass(home, 'timeouts')
         awayContainer = TestUtils.findRenderedDOMComponentWithClass(away, 'timeouts')
         expect(homeContainer.getDOMNode().childNodes.length).toEqual(4)
         expect(awayContainer.getDOMNode().childNodes.length).toEqual(4)
     pit "display jammers with lead status", () ->
-      Promise.join home, away, gameState, (home, away, gameState) ->
+      teams.spread gameState, (home, away, gameState) ->
         gameState.home.jams[0].jammer = gameState.home.skaters[0]
         gameState.away.jams[0].jammer = gameState.away.skaters[0]
         gameState.home.jams[0].passes[0].lead = true
@@ -85,15 +85,6 @@ describe 'Scoreboard', () ->
     alerts = null
     beforeEach () ->
       alerts = scoreboard.then (scoreboard) -> TestUtils.findRenderedDOMComponentWithClass(scoreboard, 'alerts')
-    pit "display home alerts", () ->
+    pit "displays an alert", () ->
       alerts.then (alerts) ->
-        alertContainer = TestUtils.findRenderedDOMComponentWithClass(alerts, 'alert-home')
-        expect(alertContainer.getDOMNode().childNodes.length).toEqual(4)
-    pit "display away alerts", () ->
-      alerts.then (alerts) ->
-        alertContainer = TestUtils.findRenderedDOMComponentWithClass(alerts, 'alert-away')
-        expect(alertContainer.getDOMNode().childNodes.length).toEqual(4)
-    pit "display neutral alerts", () ->
-      alerts.then (alerts) ->
-        alertContainer = TestUtils.findRenderedDOMComponentWithClass(alerts, 'alert-neutral')
-        expect(alertContainer.getDOMNode().childNodes.length).toEqual(4)
+        TestUtils.findRenderedDOMComponentWithClass(alerts, 'scoreboard-alert')
