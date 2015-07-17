@@ -289,20 +289,20 @@ class GameState extends Store
     @periodClock.stop()
     @jamClock.reset(TIMEOUT_CLOCK_SETTINGS)
     @state = "timeout"
-    @timeout = null
+    @timeout = "timeout"
   setTimeoutAsOfficialTimeout: () ->
     if @_inTimeout() == false
       @startTimeout()
     @_clearTimeouts()
     @_clearUndo()
-    @timeout = "official_timeout"
+    @timeout = "official timeout"
     @inOfficialTimeout = true
   setTimeoutAsHomeTeamTimeout: () ->
     if @_inTimeout() == false
       @startTimeout()
     @_clearTimeouts()
     @_clearUndo()
-    @timeout = "home_team_timeout"
+    @timeout = "timeout"
     @home.startTimeout()
   setTimeoutAsHomeTeamOfficialReview: () ->
     if @_inTimeout() == false
@@ -311,14 +311,13 @@ class GameState extends Store
     @_clearUndo()
     @home.hasOfficialReview = false
     @home.isTakingOfficialReview = true
-    @timeout = "home_team_official_review"
+    @timeout = "official review"
   setTimeoutAsAwayTeamTimeout: () ->
     if @_inTimeout() == false
       @startTimeout()
     @_clearTimeouts()
     @_clearUndo()
-    @state = "timeout"
-    @timeout = "away_team_timeout"
+    @timeout = "timeout"
     @away.startTimeout()
   setTimeoutAsAwayTeamOfficialReview: () ->
     if @_inTimeout() == false
@@ -328,7 +327,7 @@ class GameState extends Store
     @away.hasOfficialReview = false
     @away.isTakingOfficialReview = true
     @state = "timeout"
-    @timeout = "away_team_official_review"
+    @timeout = "official review"
   handleClockExpiration: () ->
     if @state == "jam"
       #Mark as jam ended by time

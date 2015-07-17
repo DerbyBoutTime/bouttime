@@ -380,6 +380,7 @@ module.exports = React.createClass
             homeOrAway="home"
             initials={@props.home.initials}
             classSets={homeTeamTimeoutClasses}
+            style={@props.home.colorBarStyle}
             reviewsRetained={@props.home.officialReviewsRetained}
             handleToggleTimeoutBar={@handleToggleTimeoutBar}
           />
@@ -402,6 +403,7 @@ module.exports = React.createClass
             homeOrAway="away"
             initials={@props.away.initials}
             classSets=awayTeamTimeoutClasses
+            style={@props.away.colorBarStyle}
             reviewsRetained={@props.away.officialReviewsRetained}
             handleToggleTimeoutBar={@handleToggleTimeoutBar}
           />

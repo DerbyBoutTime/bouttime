@@ -190,3 +190,12 @@
 .clickable {
   cursor: pointer;
 }
+.margin-xs {
+  @include margin-xs;
+}
+@keyframes active-animation {
+  0%   { background-color: $inactive-color; }
+  50% { background-color: $alert-color; }
+  100%   { background-color: $inactive-color; }
+}
+

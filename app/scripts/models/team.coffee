@@ -170,4 +170,6 @@ class Team extends Store
     for jam, i in @jams
       jam.jamNumber = i + 1
       jam.save()
+  isTakingTimeoutOrOfficialReview: () ->
+    @isTakingTimeout or @isTakingOfficialReview
 module.exports = Team

@@ -1,46 +1,46 @@
-// Place all the styles related to the ScoreboardController controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-@mixin scoreboard-label(){
-  text-transform: uppercase;
-  margin-top: 1em;
-  margin-bottom: 0.5em;
-  font-size: 0.85em;
-  @media (min-width: $screen-sm-min){
-    font-size: 1.4em;
-  }
-  @media (min-width: $screen-md-min){
-    font-size: 1.9em;
-  }
-  @media (min-width: $screen-lg-min){
-    font-size: 2.5em;
-  }
-}
-@keyframes active-animation {
-  0%   { background-color: $inactive-color; }
-  50% { background-color: $alert-color; }
-  100%   { background-color: $inactive-color; }
-}
 .scoreboard {
-  margin-bottom: 15px;
-  .scoreboard-label {
-    @include scoreboard-label;
-  }
-  .team, .clocks{
-    @include make-sm-column(4);
-  }
   .clocks {
-    padding: 0;
-    * {
-      text-align: center;
+    border-radius: 0px 0px 20px 20px;
+    border: 2px solid $muted-gray;
+    border-top: none;
+    padding: 0px 20px;
+    margin: 0px -8px;
+    text-align: center;
+    > .row {
+      border-bottom: 2px solid $muted-gray;
+      &:last-child {
+        @media (min-width: $screen-sm-min) {
+          border-bottom: none;
+        }
+      }
+      > .col-xs-6 {
+        border-right: 2px solid $muted-gray;          
+        &:last-child {
+          border-right: none;
+        }
+      }
+      > .col-sm-12 {
+        @media (min-width: $screen-sm-min) {
+          border-bottom: 2px solid $muted-gray;
+          border-right: none;
+        }
+        &:last-child {
+          border-bottom: none;
+        }
+      }
     }
-    .clocks-border {
-      border-radius: 0px 0px 20px 20px;
-      border: 2px solid $muted-gray;
-      border-top: none;
-      padding: 0px 20px;
-      > div {
-        @include make-row;
+    label {
+      margin: 1em 0 0.5em 0;
+      text-transform: uppercase;
+      font-size: 0.85em;
+      @media (min-width: $screen-sm-min){
+        font-size: 1.4em;
+      }
+      @media (min-width: $screen-md-min) {
+        font-size: 1.9em;
+      }
+      @media (min-width: $screen-lg-min) {
+        font-size: 2.5em;
       }
     }
     .period-number, .jam-number {
@@ -54,69 +54,8 @@
       }
       font-weight: bold;
     }
-    .jam-points-wrapper {
-      display: none;
-      @media (min-width: $screen-sm-min){
-        display: block;
-        padding: 2em 1em 0 1em;
-      }
-      @media (min-width: $screen-md-min){
-        padding: 2em 1em 0 1em;
-      }
-      @media (min-width: $screen-lg-min){
-        padding: 2em 1em 0 1em;
-      }
-      @include make-row;
-      .points{
-        &.home-team-jam-points {
-          background-color: $home-team-bg-color;
-          color: $home-team-text-color;
-        }
-        &.away-team-jam-points {
-          background-color: $away-team-bg-color;
-          color: $away-team-text-color;
-        }
-        @include make-sm-column(6);
-        @media (min-width: $screen-sm-min){
-          font-size: 2em;
-          padding: 0.5em 0;
-        }
-        @media (min-width: $screen-md-min){
-          font-size: 4em;
-        }
-        @media (min-width: $screen-lg-min){
-          font-size: 4em;
-          padding: 0.4em 0;
-        }
-        background-color: $inactive-color;
-        color: $near-black;
-        text-align: center;
-      }
-    }
-    label {
-      @include scoreboard-label;
-    }
-    .period-jam-counts {
-      margin: 0px 20px;
-      @media (min-width: $screen-tablet){
-        border-bottom: 2px solid $muted-gray;
-      }
-      @include clearfix;
-      .jam, .period {
-        @include make-xs-column(6);
-      }
-      .period{
-        @media (min-width: $screen-sm-min) {
-          border-right: 2px solid $muted-gray;
-          border-bottom: none;
-        }
-      }
-    }
-    .period-clock .clock {
+    .period-clock{
       font-weight: lighter;
-      @media (min-width: $screen-tablet){
-        border-bottom: 2px solid $muted-gray;
-      }
       font-size: 2em;
       @media (min-width: $screen-sm-min) {
         font-size: 4.25em;
@@ -127,12 +66,14 @@
       line-height: 1;
       padding: 0.25em 0;
     }
-    .jam-clock .clock {
+    .jam-clock {
       font-weight: bolder;
       color: $near-black;
       font-size: 2em;
       @media (min-width: $screen-sm-min){
         font-size: 5em;
+        padding-top: 0;
+        line-height: 0.8em;
       }
       @media (min-width: $screen-md-min){
         font-size: 7em;
@@ -140,243 +81,162 @@
       @media (min-width: $screen-lg-min){
         font-size: 8em;
       }
-      line-height: 0.8;
-      margin-bottom: 0.25em;
+      line-height: 1;
+      padding: 0.25em 0;
     }
   }
-  > .alerts, .ads, .fly-ins{
-    @include make-row;
-  }
-  .logo {
-    position: relative;
-    display: block;
-    text-align: center;
-    height: 80px;
-    @media (min-width: $screen-sm-min){
-      height: 146px;
-    }
-    @media (min-width: $screen-md-min){
-      height: 195px;
-    }
-    @media (min-width: $screen-lg-min){
-      height: 240px;
-    }
-    img {
-      max-width: 100%;
-      max-height: 100%;
-      // position: absolute;
-      // bottom: 0;
-      padding-top: 15px;
+  .jam-points {
+    margin-top: 2em;
+    .points {
+      @media (min-width: $screen-sm-min){
+        font-size: 2em;
+        padding: 0.5em 0;
+      }
+      @media (min-width: $screen-md-min){
+        font-size: 4em;
+      }
+      @media (min-width: $screen-lg-min){
+        font-size: 4em;
+        padding: 0.4em 0;
+      }
+      text-align: center;
     }
   }
-  .color-bar {
-    height: 18px;
-    background-color: $inactive-color;
-    border-radius: 4px;
-    &.home-team-color-bar {
-      background-color: $home-team-bg-color;
+  .team {
+    .logo {
+      position: relative;
+      display: block;
+      text-align: center;
+      height: 80px;
+      @media (min-width: $screen-sm-min){
+        height: 146px;
+      }
+      @media (min-width: $screen-md-min){
+        height: 195px;
+      }
+      @media (min-width: $screen-lg-min){
+        height: 240px;
+      }
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        padding-top: 15px;
+      }
     }
-    &.away-team-color-bar {
-      background-color: $away-team-bg-color;
+    .color-bar {
+      height: 18px;
+      background-color: $inactive-color;
+      border-radius: 4px;
     }
-  }
-  .jammer {
-      display: flex;
+    .jammer {
+        display: flex;
+        @media (min-width: $screen-sm-min){
+          font-size: 1.625em;
+        }
+        @media (min-width: $screen-md-min){
+          font-size: 2em;
+        }
+        color: $near-black;
+        text-align: center;
+        margin-bottom: 0.125em;
+        margin-top: 0.125em;
+      }
+    .team-name {
+      min-height: 2em;
+      font-size: 1.15em;
       @media (min-width: $screen-sm-min){
         font-size: 1.625em;
       }
       @media (min-width: $screen-md-min){
-        font-size: 2em;
+        font-size: 3em;
       }
       color: $near-black;
       text-align: center;
       margin-bottom: 0.125em;
       margin-top: 0.125em;
     }
-  .name {
-    min-height: 2em;
-    font-size: 1.15em;
-    @media (min-width: $screen-sm-min){
-      font-size: 1.625em;
+    .jammer {
+      display:flex;
+      .jammer-name {
+        flex-grow: 1;
+        font-size: 0.8em;
+        @media (min-width: $screen-sm-min){
+          margin-top: 0.25em;
+        }
+        @media (min-width: $screen-md-min){
+          margin-top: 0.5;
+        }
+        @media (min-width: $screen-lg-min){
+          font-size: 1em;
+        }
+      }
+      .lead-status {
+        @media (min-width: $screen-sm-min){font-size: 1.25em;}
+        @media (min-width: $screen-md-min){font-size: 1.5em;}
+      }
     }
-    @media (min-width: $screen-md-min){
-      font-size: 3em;
-    }
-    color: $near-black;
-    text-align: center;
-    margin-bottom: 0.125em;
-    margin-top: 0.125em;
-  }
-  .jammer {
-    @include clearfix;
-    .name {
-      float: left !important;
-      flex-grow: 1;
+    .score {
+      font-size: 6em;
       @media (min-width: $screen-sm-min){
-        font-size: 0.80em;
-        margin-top: 0.25em;
+        font-size: 8em;
       }
       @media (min-width: $screen-md-min){
-        margin-top: 0.5;
+        font-size: 11em;
       }
       @media (min-width: $screen-lg-min){
-        font-size: 1em;
+        font-size: 13em;
       }
-    }
-    .lead-status {
-      .glyphicon {
-        margin-top: 4px;
-      }
-      @media (min-width: $screen-sm-min){font-size: 1.25em;}
-      @media (min-width: $screen-md-min){font-size: 1.5em;}
-    }
-  }
-  .home-team-jammer {
-    .lead-status {
-      color: $home-team-bg-color;
-      float: right !important;
-      order: 2;
-    }
-    .name {
-      float: right !important;
-      order: 1;
-    }
-  }
-  .away-team-jammer {
-    .lead-status {
-      color: $away-team-bg-color;
-      float: left !important;
-    }
-    .name {
-      float: left !important;
-    }
-  }
-  .score {
-    font-size: 6em;
-    @media (min-width: $screen-sm-min){
-      font-size: 8em;
-    }
-    @media (min-width: $screen-md-min){
-      font-size: 11em;
-    }
-    @media (min-width: $screen-lg-min){
-      font-size: 13em;
-    }
-    color: $near-black;
-    text-align: center;
-    font-weight: bold;
-    line-height: 1.25;
-  }
-  .timeouts {
-    @include clearfix;
-    @include make-row;
-    margin:0;
-    &.home-team-timeouts .timeout-bar {
-      float: right !important;
-      background-color: $home-team-bg-color;
-      color: $home-team-text-color;
-    }
-    &.away-team-timeouts .timeout-bar {
-      float: left !important;
-      background-color: $away-team-bg-color;
-      color: $away-team-text-color;
-    }
-    .timeout-bar {
-      width: 22%;
-      margin-right: 3%;
-      height: 20px;
-      &.inactive {
-        background-color: $inactive-color;
-      }
-      &.active{
-        animation: active-animation $animation-duration infinite;
-      }
-      &.timeout {
-        border-radius: 4px;
-      }
-      &.official-review{
-        border-radius: 20px;
-      }
-    }
-  }
-  .alerts {
-    .alert-home, .alert-away, .alert-neutral {
-      margin-top: 15px;
-      text-transform: uppercase;
-      text-align: center;
-      font-size: 2.75em;
-      min-height: 0px !important;
-    }
-    .alert-home {
-      float: left !important;
-      background-color: $home-team-bg-color;
-      color: $home-team-text-color;
-      @include make-sm-column(6);
-    }
-    .alert-away {
-      float: right !important;
-      background-color: $away-team-bg-color;
-      color: $away-team-text-color;
-      @include make-sm-column(6);
-    }
-    .alert-neutral {
-      background-color: $alert-color;
       color: $near-black;
-      @include make-sm-column(12);
+      text-align: center;
+      font-weight: bold;
+      line-height: 1.25;
+    }
+    .timeouts {
+      display:flex;
+      .timeout-bar {
+        width: 22%;
+        margin-right: 3%;
+        height: 20px;
+        &.inactive {
+          background-color: $inactive-color;
+        }
+        &.active{
+          animation: active-animation $animation-duration infinite;
+        }
+        &.timeout {
+          border-radius: 4px;
+        }
+        &.official-review{
+          border-radius: 20px;
+        }
+      }
+    }
+  }
+  .scoreboard-alert {
+    margin-top: 15px;
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 2.75em;
+    min-height: 0px !important;
+    background-color: $alert-color;
+    color: $near-black;
+  }
+  .reversed {
+    .reversible {
+      flex-direction: row-reverse;
     }
   }
   @media (max-width: -1px + $screen-tablet){
     display: flex;
-    flex-direction: column;
-    .jammer .name {
-      font-size: 0.8em;
+    flex-flow: row wrap;
+    > .first-xs {
+      order: -1;
     }
-    .team.home {
-      order: 2;
-      width: 50%;
-      .jammer .name {
-        text-align: right;
-        padding-right: 1em;
-      }
-    }
-    .team.away {
-      order: 3;
-      width: 50%;
-      left: 50%;
-      transform: translateY(-100%);
-      position: absolute;
-      .jammer .name {
-        text-align: left;
-        padding-left: 1em;
-      }
+    > .col-xs-6 {
+      margin: 0px -1px;
     }
     .clocks {
-      order: 1;
-    }
-    .alerts {
-      order: 4;
-    }
-    .ads {
-      order: 5;
-    }
-    .fly-ins {
-      order: 6;
-    }
-    .clocks .clocks-border {
-      display: flex;
-      border-radius: 0px;
-      border-left: none;
-      border-right: none;
-      padding: 0;
-      .period-jam-counts, .period-clock, .jam-clock {
-        flex: 1 0px;
-      }
-      .period-clock {
-        padding-top: 0 !important;
-      }
-      .period-jam-counts .period, .period-jam-counts .jam {
-        padding: 0;
-      }
+      border:none;
     }
   }
 }
