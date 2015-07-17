@@ -47,8 +47,8 @@ module.exports = React.createClass
   render: () ->
     teamStyle = @props.team.colorBarStyle
     placeholder = switch @props.boxState.position
-      when 'jammer' then "Jammer"
-      when 'blocker' then "Blocker"
+      when 'jammer' then "J"
+      when 'blocker' then "B"
     containerClass = cx
       'penalty-clock': true
       'hidden': @props.hidden
