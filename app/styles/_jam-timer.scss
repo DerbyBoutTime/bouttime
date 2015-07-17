@@ -29,7 +29,7 @@
         border-radius: 20px;
       }
       &.inactive {
-        background-color: $inactive-color;
+        background-color: $inactive-color !important;
       }
       &.active{
         animation: active-animation $animation-duration infinite;

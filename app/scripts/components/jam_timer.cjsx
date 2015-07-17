@@ -29,6 +29,7 @@ module.exports = React.createClass
       isTakingTimeout: React.PropTypes.bool
       timeouts: React.PropTypes.number
       initials: React.PropTypes.string
+      colorBarStyle: React.PropTypes.object
     away: React.PropTypes.shape
       hasOfficialReview: React.PropTypes.bool
       officialReviewsRetained: React.PropTypes.number
@@ -36,6 +37,7 @@ module.exports = React.createClass
       isTakingTimeout: React.PropTypes.bool
       timeouts: React.PropTypes.number
       initials: React.PropTypes.string
+      colorBarStyle: React.PropTypes.object
   getInitialState: () ->
     modalHandler: () ->
   shouldComponentUpdate: (nprops, nstate) ->
@@ -301,12 +303,12 @@ module.exports = React.createClass
             <div className="home">
               <div className="row">
                 <div className="col-md-12 col-xs-12">
-                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsHomeTeamTimeout} shortcut='h'>TIMEOUT</ShortcutButton>
+                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsHomeTeamTimeout} style={@props.home.colorBarStyle} shortcut='h'>TIMEOUT</ShortcutButton>
                 </div>
               </div>
               <div className="row margin-xs">
                 <div className="col-md-12 col-xs-12">
-                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsHomeTeamOfficialReview} shortcut='H'>
+                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsHomeTeamOfficialReview} style={@props.home.colorBarStyle} shortcut='H'>
                     <span className="hidden-xs">OFFICIAL REVIEW</span>
                     <span className="visible-xs-inline">REVIEW</span>
                   </ShortcutButton>
@@ -321,12 +323,12 @@ module.exports = React.createClass
             <div className="away">
               <div className="row">
                 <div className="col-md-12 col-xs-12">
-                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsAwayTeamTimeout} shortcut='a'>TIMEOUT</ShortcutButton>
+                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsAwayTeamTimeout} style={@props.away.colorBarStyle} shortcut='a'>TIMEOUT</ShortcutButton>
                 </div>
               </div>
               <div className="row margin-xs">
                 <div className="col-md-12 col-xs-12">
-                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsAwayTeamOfficialReview} shortcut='A'>
+                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsAwayTeamOfficialReview} style={@props.away.colorBarStyle} shortcut='A'>
                     <span className="hidden-xs">OFFICIAL REVIEW</span>
                     <span className="visible-xs-inline">REVIEW</span>
                   </ShortcutButton>
