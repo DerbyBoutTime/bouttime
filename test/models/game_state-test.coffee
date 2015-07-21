@@ -63,14 +63,24 @@ describe 'GameState', () ->
           expect(gameState.periodClock.reset).toBeCalledWith
             time: constants.PERIOD_DURATION_IN_MS
             isRunning: true
+        .then (gameState) ->
+          callback
+            type: ActionTypes.START_JAM
+            gameId: gameState.id
+        .tap (gameState) ->
+          expect(gameState.period).toBe 'period 1'
+          expect(gameState.periodClock.start).toBeCalled()
           gameState.period = 'halftime'
-        .tap GameState.save
+          gameState.save()
         .then (gameState) ->
           callback
             type: ActionTypes.START_JAM
             gameId: gameState.id
         .then (gameState) ->
           expect(gameState.period).toBe('period 2')
+          expect(gameState.periodClock.reset).toBeCalledWith
+            time: constants.PERIOD_DURATION_IN_MS
+            isRunning: true
       pit "sets the state to jam", () ->
         gameState.then (gameState) ->
           expect(gameState.state).toBe('jam')
