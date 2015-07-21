@@ -23,7 +23,7 @@ module.exports = React.createClass
                 </li>
               </ul>
             </div>
-            <span className="gamename">{@props.gameStateId}</span>
+            <span className="gamename">{@props.gameName}</span>
             <span className="glyphicon glyphicon-ok-sign good-status"></span>
             <span className="glyphicon glyphicon-remove-sign bad-status"></span>
           </div>
