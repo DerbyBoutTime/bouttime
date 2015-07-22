@@ -1,5 +1,6 @@
 React = require 'react/addons'
 cx = React.addons.classSet
+ConnectionStatus = require './shared/connection_status'
 module.exports = React.createClass
   displayName: "TitleBar"
   render: () ->
@@ -24,8 +25,7 @@ module.exports = React.createClass
               </ul>
             </div>
             <span className="gamename">{@props.gameName}</span>
-            <span className="glyphicon glyphicon-ok-sign good-status"></span>
-            <span className="glyphicon glyphicon-remove-sign bad-status"></span>
+            <ConnectionStatus />
           </div>
         </div>
       </div>

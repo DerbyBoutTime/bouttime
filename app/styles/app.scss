@@ -77,31 +77,17 @@
   .gamename {
     margin-left: 1em;
   }
-  .good-status, .bad-status {
+  .connection-status {
     font-size: 2em;
-    position: relative;
-    top: 8px;
-    left: 10px;
-  }
-  .good-status {
-    color: green;
-  }
-  .bad-status {
-    color: red;
-  }
-  &.connected {
-    .good-status {
-      display: inline-block;
+    position: absolute;
+    top: 3px;
+    margin-left: 10px;
+    &.good-status {
+      color: green;
     }
-    .bad-status {
-      display: none;
+    &.bad-status {
+      color: red;
     }
-  }
-  .good-status {
-    display: none;
-  }
-  .bad-status {
-    display: inline-block;
   }
   .login, .jam-timer, .lineup-tracker, .scorekeeper, .penalty-tracker, .penalty-box-timer, .scoreboard, .penalty-whiteboard, .announcers-feed, .game-setup {
     display: none;
