@@ -2,16 +2,18 @@ jest.mock('../../app/scripts/models/pass')
 jest.mock('../../app/scripts/models/skater')
 constants = require '../../app/scripts/constants'
 ActionTypes = constants.ActionTypes
-MemoryStorage = require '../../app/scripts/memory_storage'
+Promise = require 'bluebird'
 describe 'Jam', () ->
   process.setMaxListeners(0)
   AppDispatcher = undefined
   Pass = undefined
   Jam = undefined
+  Skater = undefined
   callback = undefined
   beforeEach () ->
     AppDispatcher = require '../../app/scripts/dispatcher/app_dispatcher'
     Pass = require '../../app/scripts/models/pass'
+    Skater = require '../../app/scripts/models/skater'
     Jam = require '../../app/scripts/models/jam'
     callback = AppDispatcher.register.mock.calls[0][0]
   it 'registers a callback with the dispatcher', () ->
@@ -53,15 +55,24 @@ describe 'Jam', () ->
         expect(jam.starPass).toBe(true)
         expect(jam.starPassNumber).toBe(1)
         expect(jam.passes.length).toBe(1)
-    pit "sets a skater to a position", () ->
+    pit "sets and unsets a skater to a position", () ->
       jam.then (jam) ->
         callback
           type: ActionTypes.SET_SKATER_POSITION
           jamId: jam.id
           position: 'blocker2'
           skaterId: 'skater 1'
+      .tap (jam) ->
+        expect(jam.blocker2.id).toBe('skater 1')
+        Skater.new.mockReturnValueOnce Promise.resolve(id: 'skater 1')
       .then (jam) ->
-        expect(jam.blocker2).toBe('skater 1')
+        callback
+          type:ActionTypes.SET_SKATER_POSITION
+          jamId: jam.id
+          position: 'blocker2'
+          skaterId: 'skater 1'
+      .tap (jam) ->
+        expect(jam.blocker2).toBe(null)
     pit "cycles a lineup status", () ->
       jam.then (jam) ->
         callback

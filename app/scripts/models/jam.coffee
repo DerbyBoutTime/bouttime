@@ -122,7 +122,10 @@ class Jam extends Store
     @starPassNumber = passNumber
   setSkaterPosition: (position, skaterId) ->
     Skater.find(skaterId).then (skater) =>
-      @[position] = skater
+      if @[position]?.id is skater.id
+        @[position] = null
+      else
+        @[position] = skater
   statusTransition: (status) ->
     switch status
       when 'clear' then 'went_to_box'
