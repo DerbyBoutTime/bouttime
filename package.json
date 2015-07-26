@@ -1,6 +1,6 @@
 {
   "name": "wftda-bouttime",
-  "version": "0.0.6",
+  "version": "0.0.18",
   "description": "WFTDA BoutTime App",
   "preferGlobal": true,
   "main": "dist/server.js",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "gulp && bin/bouttime-server",
-    "test": "node test/all.js"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,12 +21,19 @@
   },
   "homepage": "https://github.com/wftda/bouttime",
   "dependencies": {
+    "bluebird": "^2.9.30",
     "commander": "^2.8.0",
     "express": "^4.12.3",
-    "flux": "^2.0.1",
+    "invariant": "^2.1.0",
+    "jquery": "^2.1.4",
     "keymirror": "^0.1.1",
-    "node-localstorage": "^0.5.0",
+    "moment": "^2.10.3",
+    "moment-duration-format": "^1.3.0",
+    "mousetrap": "^1.5.3",
+    "nedb": "^1.1.2",
+    "querystring": "^0.2.0",
     "react": "^0.13.1",
+    "seedrandom": "^2.4.0",
     "socket.io": "^1.3.5",
     "socket.io-client": "^1.3.5",
     "underscore": "^1.8.3"
@@ -34,7 +41,9 @@
   "devDependencies": {
     "browserify": "^9.0.8",
     "browserify-shim": "^3.8.5",
+    "coffee-react-transform": "^3.1.0",
     "coffee-reactify": "^3.0.0",
+    "coffee-script": "^1.9.3",
     "coffeeify": "^1.0.0",
     "del": "^1.1.1",
     "gulp": "^3.8.11",
@@ -54,6 +63,7 @@
     "gulp-useref": "^1.1.2",
     "gulp-util": "^3.0.4",
     "gulp-webserver": "^0.9.0",
+    "jest-cli": "^0.4.5",
     "main-bower-files": "^2.6.2",
     "react-tools": "^0.13.1",
     "require-dir": "^0.3.0",
@@ -62,9 +72,70 @@
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.1.0"
   },
+  "browser": {
+    "jquery-minicolors": "./app/bower_components/jquery-minicolors/jquery.minicolors.min.js",
+    "bootstrap": "./app/bower_components/bootstrap-sass/assets/javascripts/bootstrap.min.js",
+    "bootstrap-datetimepicker": "./app/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"
+  },
   "browserify": {
     "transform": [
+      "browserify-shim",
       "coffee-reactify"
+    ]
+  },
+  "browserify-shim": {
+    "jquery-minicolors": {
+      "depends": [
+        "jquery:$"
+      ]
+    },
+    "bootstrap": {
+      "depends": [
+        "jquery:jQuery"
+      ]
+    },
+    "bootstrap-datetimepicker": {
+      "depends": [
+        "jquery:$",
+        "moment:moment"
+      ]
+    }
+  },
+  "jest": {
+    "testDirectoryName": "test",
+    "scriptPreprocessor": "preprocessor.js",
+    "testFileExtensions": [
+      "coffee",
+      "litcoffee",
+      "coffee.md",
+      "cjsx",
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "coffee",
+      "litcoffee",
+      "coffee.md",
+      "cjsx",
+      "js"
+    ],
+    "unmockedModulePathPatterns": [
+      "bluebird",
+      "nedb",
+      "react",
+      "react/addons",
+      "jquery",
+      "underscore",
+      "moment",
+      "moment-duration-format",
+      "keymirror",
+      "socket.io-client",
+      "seedrandom",
+      "app/scripts/components",
+      "app/scripts/models",
+      "app/scripts/demo_data",
+      "app/scripts/constants",
+      "app/scripts/functions",
+      "app/scripts/memory_storage"
     ]
   }
 }

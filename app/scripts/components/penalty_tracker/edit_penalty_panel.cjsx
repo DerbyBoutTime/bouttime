@@ -1,4 +1,5 @@
 React = require 'react/addons'
+$ = require 'jquery'
 AppDispatcher = require '../../dispatcher/app_dispatcher.coffee'
 {ActionTypes} = require '../../constants.coffee'
 cx = React.addons.classSet
@@ -28,28 +29,36 @@ module.exports = React.createClass
   render: () ->
     classArgs =
       'edit-penalty collapse': true
-    classArgs["penalty-#{@props.penaltyNumber}"] = true
+    classArgs["penalty-#{@props.penaltyNumber % 7}"] = true
     containerClass = cx classArgs
     <div className={containerClass} id={@props.id}>
       <div className='row gutters-xs'>
         <div className='col-xs-1'>
-          <button className='bt-btn btn-boxed action' onClick={@clearPenalty}>
+          <button className='bt-btn btn-primary' onClick={@clearPenalty}>
             <span className='glyphicon glyphicon-trash'></span>
           </button>
         </div>
         <div className='col-xs-10'>
-          <div className='jam-number-control boxed-good'>
-            <button className='btn btn-boxed minus' onClick={@props.decrementJamNumber}>
-              <span className='glyphicon glyphicon-minus'></span>
-            </button>
-            <strong>Jam {@props.skaterPenalty.jamNumber}</strong>
-            <button className='btn btn-boxed plus' onClick={@props.incrementJamNumber}>
-              <span className='glyphicon glyphicon-plus'></span>
-            </button>
+          <div className='bt-box'>
+            <div className='row gutters-xs'>
+              <div className="col-xs-1">
+                <button className='jam-number-button' onClick={@props.decrementJamNumber}>
+                  <span className='glyphicon glyphicon-minus'></span>
+                </button>
+              </div>
+              <div className="col-xs-10 text-center">
+                <strong>Jam {@props.skaterPenalty.jamNumber}</strong>
+              </div>
+              <div className="col-xs-1">
+                <button className='jam-number-button' onClick={@props.incrementJamNumber}>
+                  <span className='glyphicon glyphicon-plus'></span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <div className='col-xs-1'>
-          <button className='bt-btn btn-boxed action' onClick={@closePanel}>
+          <button className='bt-btn btn-primary' onClick={@closePanel}>
             <span className='glyphicon glyphicon-remove'></span>
           </button>
         </div>

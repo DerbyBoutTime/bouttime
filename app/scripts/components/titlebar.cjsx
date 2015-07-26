@@ -1,5 +1,6 @@
 React = require 'react/addons'
 cx = React.addons.classSet
+ConnectionStatus = require './shared/connection_status'
 module.exports = React.createClass
   displayName: "TitleBar"
   render: () ->
@@ -13,16 +14,18 @@ module.exports = React.createClass
               </a>
               <ul className="dropdown-menu">
                 <li>
-                  <a id="login" href="#"> Sign In</a>
+                  <a id="login" onClick={@props.tabHandler.bind(null, 'login')}> Sign In</a>
                 </li>
                 <li>
-                  <a id="setup" href="#"> Setup</a>
+                  <a id="setup" onClick={@props.tabHandler.bind(null, 'game_setup')}> Setup</a>
+                </li>
+                <li>
+                  <a id="back" onClick={@props.backHandler}> Back</a>
                 </li>
               </ul>
             </div>
-            <span className="gamename">{@props.gameStateId}</span>
-            <span className="glyphicon glyphicon-ok-sign good-status"></span>
-            <span className="glyphicon glyphicon-remove-sign bad-status"></span>
+            <span className="gamename">{@props.gameName}</span>
+            <ConnectionStatus />
           </div>
         </div>
       </div>

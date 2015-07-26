@@ -19,8 +19,9 @@ module.exports = React.createClass
       when 'continuing_penalty' then '|'
       when 'continuing_penalty_and_released' then '+'
   render: () ->
-    injuryClass = cx
-      'box-injury': @props.status is 'injured'
-    <button className={injuryClass + " box text-center bt-btn btn-box"} onClick={@props.cycleLineupStatus}>
+    buttonClass = cx
+      'lineup-box bt-btn': true
+      'injury': @props.status is 'injured'
+    <button className={buttonClass} onClick={@props.cycleLineupStatus}>
       <strong>{@boxContent()}</strong>
     </button>

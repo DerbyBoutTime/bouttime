@@ -120,9 +120,13 @@ module.exports =
       number: "999 Lives"
       penalties: []}
     ]
-    new GameState
+    GameState.new 
+      name: "Demo Game"
+      venue: "The Internet"
+      date: "07/31/2015"
+      time: "5:00 PM"
       home:
-        name: "Atlanta Rollergirls"
+        name: "Atlanta"
         initials: "ARG"
         colorBarStyle:
           backgroundColor: "#2082a6"

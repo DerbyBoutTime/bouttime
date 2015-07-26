@@ -1,3 +1,7 @@
+[![Code Climate](https://codeclimate.com/repos/559a0472e30ba07010002dbe/badges/9909fa76b2506419a836/gpa.svg)](https://codeclimate.com/repos/559a0472e30ba07010002dbe/feed)
+
+[![Test Coverage](https://codeclimate.com/repos/559a0472e30ba07010002dbe/badges/9909fa76b2506419a836/coverage.svg)](https://codeclimate.com/repos/559a0472e30ba07010002dbe/coverage)
+
 Prerequisites
 ===
 BoutTime requires [node.js](https://nodejs.org/) to run, which can be installed from their website. Alternatively, you may install node on OSX via [Homebrew](http://brew.sh/)
@@ -51,8 +55,15 @@ Publishing
 Publish package to the private repository
 
 ```
+$ #Bump version numbers
 $ gulp package
+$ git commit -am "Version bump"
 $ git tag alpha.x.y.z #where alpha.x.y.z is the major,minor,version
 $ git push origin master --tags
 $ npm publish
+```
+
+To install the new version
+```
+$ npm update -g wftda-bouttime
 ```

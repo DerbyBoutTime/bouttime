@@ -53,6 +53,7 @@ module.exports =
     SET_SKATER_POSITION: null
     CYCLE_LINEUP_STATUS: null
     CREATE_NEXT_JAM: null
+    CREATE_NEXT_PASS: null
     TOGGLE_INJURY: null
     TOGGLE_NOPASS: null
     TOGGLE_CALLOFF: null
@@ -68,7 +69,12 @@ module.exports =
     TOGGLE_LEFT_EARLY: null
     TOGGLE_PENALTY_SERVED: null
     SET_PENALTY_BOX_SKATER: null
+    ADD_PENALTY_TIME: null
+    TOGGLE_PENALTY_TIMER: null
+    TOGGLE_ALL_PENALTY_TIMERS: null
     SAVE_GAME: null
-    SAVE_JAM: null
-    SAVE_PASS: null
     SYNC_GAMES: null
+    REMOVE_PASS: null
+    REMOVE_JAM: null
+    JAM_TIMER_UNDO: null
+    JAM_TIMER_REDO: null

@@ -13,9 +13,9 @@ module.exports = React.createClass
     if @props.skaterPenalty? and @props.skaterPenalty.penalty? then @props.skaterPenalty.penalty.code else @props.penaltyNumber
   render: () ->
     containerClass = cx
-      'penalty-indicator': true
-      'warning': @props.skaterPenalty? and @props.penaltyNumber is 6
-      'expulsion': @props.skaterPenalty? and @props.penaltyNumber is 7
+      'penalty-indicator text-center text-uppercase bt-box': true
+      'box-warning': @props.skaterPenalty? and @props.penaltyNumber is 6
+      'box-danger': @props.skaterPenalty? and @props.penaltyNumber >= 7
     <div className={containerClass} style={@props.teamStyle if @props.skaterPenalty? and @props.penaltyNumber < 6}>
       <strong>{@displayContent()}</strong>
     </div>

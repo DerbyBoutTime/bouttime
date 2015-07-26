@@ -8,10 +8,10 @@ module.exports = React.createClass
     team: React.PropTypes.object.isRequired
     setSelectorContextHandler: React.PropTypes.func.isRequired
   render: ()->
-    <div className="jam-details">
+    <div className="team-lineup">
       {@props.team.jams.map (jam, jamIndex) ->
         <JamDetail
-          key={jam.jamNumber}
+          key={jam.id}
           team={@props.team}
           jam={jam}
           setSelectorContextHandler={@props.setSelectorContextHandler.bind(this, jam)} />

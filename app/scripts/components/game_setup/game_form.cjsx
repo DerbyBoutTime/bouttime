@@ -1,4 +1,7 @@
 React = require 'react/addons'
+$ = require 'jquery'
+require 'bootstrap-datetimepicker'
+moment = require 'moment'
 TeamFields = require './team_fields'
 cx = React.addons.classSet
 module.exports = React.createClass

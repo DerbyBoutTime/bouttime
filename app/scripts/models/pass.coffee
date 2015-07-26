@@ -1,3 +1,4 @@
+Promise = require 'bluebird'
 functions = require '../functions'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 {ActionTypes} = require '../constants'
@@ -7,56 +8,59 @@ class Pass extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
       when ActionTypes.TOGGLE_INJURY
-        pass = @find(action.passId)
-        pass.toggleInjury()
-        pass.save()
-        @emitChange()
+        @find(action.passId).then (pass) =>
+          pass.toggleInjury()
+          pass.save()
       when ActionTypes.TOGGLE_NOPASS
-        pass = @find(action.passId)
-        pass.toggleNopass()
-        pass.save()
-        @emitChange()
+        @find(action.passId).then (pass) =>
+          pass.toggleNopass()
+          pass.save()
       when ActionTypes.TOGGLE_CALLOFF
-        pass = @find(action.passId)
-        pass.toggleCalloff()
-        pass.save()
-        @emitChange()
+        @find(action.passId).then (pass) =>
+          pass.toggleCalloff()
+          pass.save()
       when ActionTypes.TOGGLE_LOST_LEAD
-        pass = @find(action.passId)
-        pass.toggleLostLead()
-        pass.save()
-        @emitChange()
+        @find(action.passId).then (pass) =>
+          pass.toggleLostLead()
+          pass.save()
       when ActionTypes.TOGGLE_LEAD
-        pass = @find(action.passId)
-        pass.toggleLead()
-        pass.save()
-        @emitChange()
+        @find(action.passId).then (pass) =>
+          pass.toggleLead()
+          pass.save()
       when ActionTypes.SET_STAR_PASS
-        pass = @find(action.passId)
-        pass.setPoints(0)
-        pass.save()
-        @emitChange()
+        @find(action.passId).then (pass) =>
+          pass.setPoints(0)
+          pass.save()
       when ActionTypes.SET_POINTS
-        pass = @find(action.passId)
-        pass.setPoints(action.points)
-        pass.save()
-        @emitChange()
+        @find(action.passId).then (pass) =>
+          pass.setPoints(action.points)
+          pass.save()
       when ActionTypes.SET_PASS_JAMMER
-        pass = @find(action.passId)
-        pass.setJammer(action.skaterId)
-        pass.save()
-        @emitChange()
+        @find(action.passId).tap (pass) ->
+          pass.setJammer(action.skaterId)
+        .then (pass) ->
+          pass.save()
+      when ActionTypes.REMOVE_PASS
+        @find(action.passId).then (pass) =>
+          pass.destroy()
   constructor: (options={}) ->
     super options
     @jamId = options.jamId
     @passNumber = options.passNumber ? 1
     @points = options.points ? 0
-    @jammerId = options.jammerId
+    @jammer = options.jammer
     @injury = options.injury ? false
     @lead = options.lead ? false
     @lostLead = options.lostLead ? false
     @calloff = options.calloff ? false
     @nopass = options.nopass ? false
+  load: () ->
+    if @jammer?
+      Skater.new(@jammer).then (jammer) =>
+        @jammer = jammer
+      .return(this)
+    else
+      Promise.resolve(this)
   toggleInjury: () ->
     @injury = not @injury
   toggleNopass: () ->
@@ -70,7 +74,8 @@ class Pass extends Store
   setPoints: (points) ->
     @points = points
   setJammer: (skaterId) ->
-    @jammer = Skater.find(skaterId)
+    Skater.find(skaterId).then (skater) =>
+      @jammer = skater
   getNotes: () ->
     flags =
       injury: @injury

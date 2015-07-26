@@ -6,17 +6,6 @@
   50% { background-color: $alert-color; }
   100%   { background-color: $inactive-color; }
 }
-.clock {
-  font-size: 3em;
-  text-align: center;
-  @media (min-width: $screen-md-min) {
-    font-size: 4.5em;
-  }
-  padding: 3px;
-  span.subseconds{
-    font-size: 0.8em;
-  }
-}
 .jam-timer {
   margin-bottom: 15px;
   .period-clock {

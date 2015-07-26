@@ -1,0 +1,27 @@
+.item-row{
+  .drag-handle {
+    cursor: move;
+  }
+  .options-wrapper {
+    position: absolute;
+    overflow: hidden;
+    visibility: hidden;
+    .options {
+      padding: 0;
+      transform: translateX(-100%);
+      transition: transform 0.5s, visibility 0.0s 0.5s;
+      .btn {
+        padding: 8px;
+      }
+    }    
+  }
+  &.opened {
+    .options-wrapper {
+      visibility: visible;
+      .options {
+        transform: translateX(0);
+        transition: transform 0.5s, visibility 0.0s 0.0s;
+      }
+    }
+  }
+}

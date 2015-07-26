@@ -1,9 +1,4 @@
 @import "colors";
-//Bootstrap overrides
-$icon-font-path: "/fonts/";
-$font-family-sans-serif: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$gray-base: $near-black;
-$input-color: $near-black;
 @import "base/variables";
 @import "bootstrap";
 @import "/bower_components/jquery-minicolors/jquery.minicolors.css";
@@ -11,7 +6,7 @@ $input-color: $near-black;
 @import "mixins/vertical-align";
 @import "mixins/gutters";
 @import "mixins/margins";
-@import "mixins/buttons";
+@import "mixins/boxes";
 @import "header";
 @import "jam-timer";
 @import "lineup-tracker";
@@ -21,6 +16,9 @@ $input-color: $near-black;
 @import "penalty-box-timer";
 @import "game-setup";
 @import "announcers-feed";
+@import "item-row";
+@import "skater-selector";
+@import "period-summary";
 //Some additional resets
 *:focus {
   outline: 0 !important;
@@ -33,6 +31,7 @@ $input-color: $near-black;
   margin-bottom: 10px;
   border-radius: 0;
 }
+<<<<<<< HEAD
 .boxed-good {
   border: 1px solid $gray;
   border-radius: 2px;
@@ -46,53 +45,66 @@ $input-color: $near-black;
   border-color: transparent;
   background-color: $light-gray;
   color: $near-black;
+=======
+.btn-selected {
+  @include button-variant($btn-selected-color, $btn-selected-bg, $btn-selected-border);
+>>>>>>> master
 }
 .bt-btn {
-  @include bt-button;
+  @extend .btn;
+  @extend .btn-block;
+  @extend .btn-default;
+  padding: 9px 2px;
+  font-weight: bold;
 }
-.btn-default {
-  padding: 10px 5px;
-  font-size: 0.85em;
-  @media (min-width: $screen-sm-min) {
-    padding: inherit;
-    font-size: inherit;
+.bt-box {
+  @include box-variant($near-black, $white, $gray);
+  padding: 9px 2px;
+  font-weight: bold;
+  &.box-default {
+    @include box-variant($btn-default-color, $btn-default-bg, $btn-default-border);
   }
-  background-color: $light-gray;
-  color: $near-black;
+  &.box-primary {
+    @include box-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+  }
+  &.box-warning {
+    @include box-variant($btn-warning-color, $btn-warning-bg, $btn-warning-border);
+  }
+  &.box-danger {
+    @include box-variant($btn-danger-color, $btn-danger-bg, $btn-danger-border);
+  }
+  &.box-selected {
+    @include box-variant($btn-selected-color, $btn-selected-bg, $btn-selected-border);
+  }
+  &.box-lg {
+    padding: 0;
+    font-size: 2.6em;
+    @media (min-width: $screen-sm-min) {
+      font-size: 2.8em;
+    }
+    @media (min-width: $screen-md-min) {
+      font-size: 4.8em;
+    }
+  }
 }
 .top-buffer {
   margin-top: 4px;
 }
 .game{
   .gamename {
-    font-size: 1.1em;
     margin-left: 1em;
   }
-  .good-status, .bad-status {
+  .connection-status {
     font-size: 2em;
-    position: relative;
-    top: 8px;
-    left: 10px;
-  }
-  .good-status {
-    color: green;
-  }
-  .bad-status {
-    color: red;
-  }
-  &.connected {
-    .good-status {
-      display: inline-block;
+    position: absolute;
+    top: 3px;
+    margin-left: 10px;
+    &.good-status {
+      color: green;
     }
-    .bad-status {
-      display: none;
+    &.bad-status {
+      color: red;
     }
-  }
-  .good-status {
-    display: none;
-  }
-  .bad-status {
-    display: inline-block;
   }
   .login, .jam-timer, .lineup-tracker, .scorekeeper, .penalty-tracker, .penalty-box-timer, .scoreboard, .penalty-whiteboard, .announcers-feed, .game-setup {
     display: none;
@@ -158,4 +170,26 @@ $input-color: $near-black;
   font-size: 1.4em;
   margin-top: 0;
   width: 50%;
+}
+.row.gutters-xs {
+  @include gutters-xs;
+}
+.modal {
+  -webkit-overflow-scrolling: auto;
+}
+.fade-hide {
+  position:absolute;
+  left:2px;
+  right:2px;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0.15s;
+  &.in {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0.15s;
+  }
+}
+.clickable {
+  cursor: pointer;
 }

@@ -8,14 +8,15 @@ module.exports = React.createClass
   propTypes:
     team: React.PropTypes.object.isRequired
   createNextJam: () ->
-    AppDispatcher.dispatch
+    AppDispatcher.dispatchAndEmit
       type: ActionTypes.CREATE_NEXT_JAM
       teamId: @props.team.id
+      jamNumber: @props.team.jams.length + 1
   render: () ->
-    <div className="row gutters-xs actions">
+    <div className="row gutters-xs top-buffer">
       <div className="col-sm-12 col-xs-12">
-        <button className="actions-action actions-edit text-center bt-btn" onClick={@createNextJam}>
-          NEXT JAM
+        <button className="bt-btn btn-primary text-uppercase" onClick={@createNextJam}>
+          Next Jam
         </button>
       </div>
     </div>

@@ -1,10 +1,12 @@
 React = require 'react/addons'
+$ = require 'jquery'
 AppDispatcher = require '../dispatcher/app_dispatcher.coffee'
 constants = require '../constants.coffee'
 {ActionTypes} = require '../constants.coffee'
 functions = require '../functions.coffee'
-JamAndPeriodNumbers = require './jam_timer/jam_and_period_numbers.cjsx'
-JTClocks = require './jam_timer/jt_clocks.cjsx'
+PeriodSummary = require './shared/period_summary'
+JamSummary = require './shared/jam_summary'
+ShortcutButton = require './shared/shortcut_button'
 Clocks = require '../clock.coffee'
 TimeoutBars = require './jam_timer/timeout_bars.cjsx'
 shallowEqual = require '../shallowEqual.js'
@@ -116,42 +118,72 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_CLOCK
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
+      sourceDelay: AppDispatcher.delay
   stopClock: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.STOP_CLOCK
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
+      sourceDelay: AppDispatcher.delay
   startJam: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_JAM
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
+      sourceDelay: AppDispatcher.delay
   stopJam: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.STOP_JAM
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
+      sourceDelay: AppDispatcher.delay
   startLineup: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_LINEUP
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
+      sourceDelay: AppDispatcher.delay
   startPregame: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_PREGAME
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
+      sourceDelay: AppDispatcher.delay
   startHalftime: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_HALFTIME
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
+      sourceDelay: AppDispatcher.delay
   startUnofficialFinal: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_UNOFFICIAL_FINAL
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
+      sourceDelay: AppDispatcher.delay
   startOfficialFinal: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_OFFICIAL_FINAL
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
+      sourceDelay: AppDispatcher.delay
   startTimeout: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_TIMEOUT
       gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
+      sourceDelay: AppDispatcher.delay
   setTimeoutAsOfficialTimeout: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_TIMEOUT_AS_OFFICIAL_TIMEOUT
@@ -226,120 +258,83 @@ module.exports = React.createClass
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.RESTORE_AWAY_TEAM_OFFICIAL_REVIEW
       gameId: @props.gameStateId
+  undo: () ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.JAM_TIMER_UNDO
+      gameId: @props.gameStateId
+  redo: () ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.JAM_TIMER_REDO
+      gameId: @props.gameStateId
   modalInputClass: (ref) ->
     cx
       'form-control': true
       'hidden': @state.modalInput isnt ref
   render: () ->
-    #CS = Class Set
-    timeoutSectionCS =
-      if @props.state in ["jam", "lineup", "timeout", "unofficial final"]
-        <div className="timeout-section row margin-xs">
-          <div className="col-xs-12">
-            <button className="bt-btn" onClick={@startTimeout}>TIMEOUT</button>
-          </div>
-        </div>
-    timeoutExplanationSectionCS =
+    buttons = []
+    if @props.state in ["jam", "lineup", "unofficial final"]
+      buttons.push <ShortcutButton className='bt-btn' onClick={@startTimeout} shortcut='t'>TIMEOUT</ShortcutButton>
+    if @props.state in ["pregame", "halftime", "unofficial final", "official final"]
+      buttons.push <ShortcutButton className='bt-btn' onClick={@startClock} shortcut='c'>START CLOCK</ShortcutButton>
+    if @props.state in ["pregame", "halftime", "unofficial final", "official final"]
+      buttons.push <ShortcutButton className="bt-btn" onClick={@stopClock} shortcut='C'>STOP CLOCK</ShortcutButton>
+    if @props.state in ["pregame", "halftime", "lineup", "timeout"]
+      buttons.push <ShortcutButton className="bt-btn" onClick={@startJam} shortcut='j'>START JAM</ShortcutButton>
+    if @props.state is "jam"
+      buttons.push <ShortcutButton className="bt-btn" onClick={@stopJam} shortcut='J'>STOP JAM</ShortcutButton>
+    if @props.state in ["pregame", "halftime"]
+      buttons.push <ShortcutButton className="bt-btn" onClick={@startLineup} shortcut='l'>START LINEUP</ShortcutButton>
+    if @props.state is "lineup" and @props.period is "period 1" and @props.periodClock.time is 0
+      buttons.push <ShortcutButton className="bt-btn" onClick={@startHalftime} shortcut='h'>START HALFTIME</ShortcutButton>
+    if @props.state is "lineup" and @props.period is "period 2" and @props.periodClock.time is 0
+      buttons.push <ShortcutButton className="bt-btn" onClick={@startUnofficialFinal} shortcut='u'>START UNOFFICIAL FINAL</ShortcutButton>
+    if @props.state is "unofficial final"
+      buttons.push <ShortcutButton className="bt-btn" onClick={@startOfficialFinal} shortcut='o'>START OFFICIAL FINAL</ShortcutButton>
+    if @props.isUndoable
+      buttons.push <ShortcutButton className='bt-btn' onClick={@undo} shortcut='mod+z'>UNDO</ShortcutButton>
+    if @props.isRedoable
+      buttons.push <ShortcutButton className='bt-btn' onClick={@redo} shortcut='mod+shift+z'>REDO</ShortcutButton>
+    timeoutExplanation =
       if @props.state =="timeout"
         <div className="timeout-explanation-section row margin-xs">
           <div className="col-xs-4">
             <div className="home">
               <div className="row">
                 <div className="col-md-12 col-xs-12">
-                  <button className="bt-btn" onClick={@setTimeoutAsHomeTeamTimeout}>TIMEOUT</button>
+                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsHomeTeamTimeout} shortcut='h'>TIMEOUT</ShortcutButton>
                 </div>
               </div>
               <div className="row margin-xs">
                 <div className="col-md-12 col-xs-12">
-                  <button className="bt-btn" onClick={@setTimeoutAsHomeTeamOfficialReview}>
+                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsHomeTeamOfficialReview} shortcut='H'>
                     <span className="hidden-xs">OFFICIAL REVIEW</span>
                     <span className="visible-xs-inline">REVIEW</span>
-                  </button>
+                  </ShortcutButton>
                 </div>
               </div>
             </div>
           </div>
           <div className="col-md-4 col-xs-4">
-            <button className="bt-btn" onClick={@setTimeoutAsOfficialTimeout}>
-              <div>OFFICIAL</div>
-              <div>TIMEOUT</div>
-            </button>
+            <ShortcutButton className="bt-btn" onClick={@setTimeoutAsOfficialTimeout} shortcut='o'>OFFICIAL<br/>TIMEOUT</ShortcutButton>
           </div>
           <div className="col-md-4 col-xs-4 timeouts">
             <div className="away">
               <div className="row">
                 <div className="col-md-12 col-xs-12">
-                  <button className="bt-btn" onClick={@setTimeoutAsAwayTeamTimeout}>TIMEOUT</button>
+                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsAwayTeamTimeout} shortcut='a'>TIMEOUT</ShortcutButton>
                 </div>
               </div>
               <div className="row margin-xs">
                 <div className="col-md-12 col-xs-12">
-                  <button className="bt-btn" onClick={@setTimeoutAsAwayTeamOfficialReview}>
+                  <ShortcutButton className="bt-btn" onClick={@setTimeoutAsAwayTeamOfficialReview} shortcut='A'>
                     <span className="hidden-xs">OFFICIAL REVIEW</span>
                     <span className="visible-xs-inline">REVIEW</span>
-                  </button>
+                  </ShortcutButton>
                 </div>
               </div>
             </div>
           </div>
         </div>
-    startClockSectionCS =
-      if @props.state in ["pregame", "halftime", "unofficial final", "official final"]
-        <div className='start-clock-section row margin-xs'>
-          <div className="col-xs-12">
-            <button className="bt-btn" onClick={@startClock}>START CLOCK</button>
-          </div>
-        </div>
-    stopClockSectionCS =
-      if @props.state in ["pregame", "halftime", "unofficial final", "official final"]
-        <div className='stop-clock-section row margin-xs'>
-          <div className="col-xs-12">
-            <button className="bt-btn" onClick={@stopClock}>STOP CLOCK</button>
-          </div>
-        </div>
-    startJamSectionCS =
-      if @props.state in ["pregame", "halftime", "lineup", "timeout"]
-        <div className='start-jam-section row margin-xs'>
-          <div className="col-xs-12">
-            <button className="bt-btn" onClick={@startJam}>START JAM</button>
-          </div>
-        </div>
-    stopJamSectionCS =
-      if @props.state is "jam"
-        <div className='stop-jam-section row margin-xs'>
-          <div className="col-xs-12">
-            <button className="bt-btn" onClick={@stopJam}>STOP JAM</button>
-          </div>
-        </div>
-    startLineupSectionCS =
-      if @props.state in ["pregame", "halftime"]
-        <div className='start-lineup-section row margin-xs'>
-          <div className="col-xs-12 start-lineup-section">
-            <button className="bt-btn" onClick={@startLineup}>START LINEUP</button>
-          </div>
-        </div>
-    startHalftimeSectionCS = 
-      if @props.state is "lineup" and @props.period is "period 1" and @props.periodClock.time is 0
-        <div className='start-halftime-section row margin-xs'>
-          <div className="col-xs-12 start-halftime-section">
-            <button className="bt-btn" onClick={@startHalftime}>START HALFTIME</button>
-          </div>
-        </div>
-    startUnofficialFinalSectionCS = 
-      if @props.state is "lineup" and @props.period is "period 2" and @props.periodClock.time is 0
-        <div className='start-unofficial-final-section row margin-xs'>
-          <div className="col-xs-12 start-unofficial-final-section">
-            <button className="bt-btn" onClick={@startUnofficialFinal}>START UNOFFICIAL FINAL</button>
-          </div>
-        </div>
-    startOfficialFinalSectionCS = 
-      if @props.state is "unofficial final"
-        <div className='start-halftime-section row margin-xs'>
-          <div className="col-xs-12 start-halftime-section">
-            <button className="bt-btn" onClick={@startOfficialFinal}>START OFFICIAL FINAL</button>
-          </div>
-        </div>
-    homeTeamOfficialReviewCS =
     homeTeamTimeoutClasses = [
       cx
         'official-review': true
@@ -390,18 +385,17 @@ module.exports = React.createClass
           />
         </div>
         <div className="col-md-8 col-xs-8">
-          <JamAndPeriodNumbers
+          <PeriodSummary
             period={@props.period}
             jamNumber={@props.jamNumber}
-            clickJamEdit={@clickJamEdit}
-            clickPeriodEdit={@clickPeriodEdit}/>
-          <JTClocks
-            jamLabel={@props.state.replace(/_/g, ' ')}
-            jamClock={@props.jamClock.display()}
-            periodClock={@props.periodClock.display()}
-            jamClockClickHandler={@clickJamClockEdit}
-            periodClockClickHandler={@clickPeriodClockEdit}
-            ref="clocks"/>
+            clickJam={@clickJamEdit}
+            clickPeriod={@clickPeriodEdit}
+            clickClock={@clickPeriodClockEdit}
+            clock={@props.periodClock} />
+          <JamSummary
+            state={@props.state}
+            clickClock={@clickJamClockEdit}
+            clock={@props.jamClock} />
         </div>
         <div className="col-md-2 col-xs-2">
           <TimeoutBars
@@ -413,16 +407,14 @@ module.exports = React.createClass
           />
         </div>
       </div>
-      {timeoutSectionCS}
-      {timeoutExplanationSectionCS}
-      {startClockSectionCS}
-      {stopClockSectionCS}
-      {startJamSectionCS}
-      {stopJamSectionCS}
-      {startLineupSectionCS}
-      {startHalftimeSectionCS}
-      {startUnofficialFinalSectionCS}
-      {startOfficialFinalSectionCS}
+      {timeoutExplanation}
+      {buttons.map (button) ->
+        <div key={button.props.children} className='row margin-xs'>
+          <div className='col-xs-12'>
+            {button}
+          </div>
+        </div>
+      , this}
       <div className="modal" ref="modal">
         <div className="modal-dialog">
           <div className="modal-content">

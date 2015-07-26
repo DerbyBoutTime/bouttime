@@ -1,9 +1,9 @@
 constants = require './constants'
 module.exports =
   #Creates a pseudo unique Id
-  uniqueId: (length=8) ->
+  uniqueId: (length=8, rng=Math.random) ->
     id = ""
-    id += Math.random().toString(36).substr(2) while id.length < length
+    id += rng().toString(36).substr(2) while id.length < length
     id.substr 0, length
   #Pads a number
   pad: (num, digits) ->
