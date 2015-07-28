@@ -72,7 +72,7 @@ describe 'Team', () ->
         team.then (team) ->
           expect(team.penaltyBoxStates.length).toBe(1)
           boxState = team.penaltyBoxStates[0]
-          expect(boxState.skater).toBe('skater 1')
+          expect(boxState.skater.id).toBe('skater 1')
       pit "sets the skater of an existing box", () ->
         team.then (team) ->
           callback
@@ -83,7 +83,7 @@ describe 'Team', () ->
         .then (team) ->
           expect(team.penaltyBoxStates.length).toBe(1)
           boxState = team.penaltyBoxStates[0]
-          expect(boxState.skater).toBe('skater 2')
+          expect(boxState.skater.id).toBe('skater 2')
       pit "toggles left early", () ->
         team.then (team) ->
           callback
