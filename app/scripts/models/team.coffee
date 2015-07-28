@@ -60,9 +60,9 @@ class Team extends Store
     @hasOfficialReview = options.hasOfficialReview ? true
     @timeouts = options.timeouts ? 3
     @jamSequence = seedrandom(@id, state: options.jamSequenceState ? true)
-    @jams = options.jams ? [id: functions.uniqueId(8, @jamSequence)]
+    @jams = (options.jams ? [id: functions.uniqueId(8, @jamSequence)]).map (jam) -> new Jam(jam)
     @jamSequenceState = @jamSequence.state()
-    @skaters = options.skaters ? []
+    @skaters = (options.skaters ? []).map (skater) -> new Skater(skater)
     @penaltyBoxStates = options.penaltyBoxStates ? []
     @clockManager = new ClockManager()
     for boxState in @penaltyBoxStates
