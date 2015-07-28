@@ -159,9 +159,9 @@ class GameState extends Store
           game.redo()
           game.save()
       when ActionTypes.SAVE_GAME
-        @new(action.gameState).then (game) ->
-          game.syncClocks(action.gameState)
-          game.save(true)
+        game = new this(action.gameState)
+        game.syncClocks(action.gameState)
+        game.save(true)
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -177,8 +177,8 @@ class GameState extends Store
     @jamClock = @clockManager.getOrAddClock "jamClock-#{@id}", options.jamClock ? PREGAME_CLOCK_SETTINGS
     @periodClock = @clockManager.getOrAddClock "periodClock-#{@id}", options.periodClock ? PERIOD_CLOCK_SETTINGS
     @timeout = options.timeout ? null
-    @home = options.home
-    @away = options.away
+    @home = new Team(options.home)
+    @away = new Team(options.away)
     @penalties = [
       {code: "A", name: "High Block"},
       {code: "N", name: "Insubordination"},
