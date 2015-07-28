@@ -1,42 +1,5 @@
-.margin-xs {
-  @include margin-xs;
-}
-@keyframes active-animation {
-  0%   { background-color: $inactive-color; }
-  50% { background-color: $alert-color; }
-  100%   { background-color: $inactive-color; }
-}
 .jam-timer {
   margin-bottom: 15px;
-  .period-clock {
-    @extend .well-sm;
-    @extend .well;
-    @extend .clock;
-    background-color: $white;
-    font-weight: lighter;
-    margin-bottom: 10px;
-  }
-  .jam-clock {
-    @extend .well-sm;
-    @extend .well;
-    @extend .clock;
-    border: none;
-    font-weight: bold;
-    background-color: $light-gray;
-    color: $near-black;
-    margin-bottom: 0px;
-    @media (min-width: $screen-tablet){
-      margin-bottom: 10px;
-    }
-  }
-  .away .bar, .away .btn {
-    color: $away-team-text-color;
-    background-color: $away-team-bg-color;
-  }
-  .home .bar, .home .btn {
-    color: $home-team-text-color;
-    background-color: $home-team-bg-color;
-  }
   .jt-label {
     text-transform: capitalize;
     font-size: 1.15em;
@@ -66,7 +29,7 @@
         border-radius: 20px;
       }
       &.inactive {
-        background-color: $inactive-color;
+        background-color: $inactive-color !important;
       }
       &.active{
         animation: active-animation $animation-duration infinite;
@@ -77,7 +40,5 @@
       font-weight: bold;
       height: 19px;
     }
-  }
-  .official-timeout {
   }
 }
