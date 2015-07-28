@@ -102,15 +102,6 @@ describe 'Team', () ->
         .then (team) ->
           boxState = team.penaltyBoxStates[0]
           expect(boxState.served).toBe(true)
-      pit "adds penalty time", () ->
-        team.then (team) ->
-          callback
-            type: ActionTypes.ADD_PENALTY_TIME
-            teamId: team.id
-            boxIndex: 0
-        .then (team) ->
-          boxState = team.penaltyBoxStates[0]
-          expect(boxState.penaltyCount).toBe(2)
       pit "toggles the penalty timer", () ->
         team.then (team) ->
           callback

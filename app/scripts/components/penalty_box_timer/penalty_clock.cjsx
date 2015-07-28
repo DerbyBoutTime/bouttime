@@ -32,12 +32,6 @@ module.exports = React.createClass
       boxIndexOrPosition: @props.boxIndex ? @props.boxState.position
       skaterId: skaterId
       clockId: functions.uniqueId()
-  addPenaltyTime: () ->
-    return if not @props.boxIndex?
-    AppDispatcher.dispatchAndEmit
-      type: ActionTypes.ADD_PENALTY_TIME
-      teamId: @props.team.id
-      boxIndex: @props.boxIndex
   togglePenaltyTimer: () ->
     return if not @props.boxIndex?
     AppDispatcher.dispatchAndEmit
@@ -47,8 +41,8 @@ module.exports = React.createClass
   render: () ->
     teamStyle = @props.team.colorBarStyle
     placeholder = switch @props.boxState.position
-      when 'jammer' then "J"
-      when 'blocker' then "B"
+      when 'jammer' then "Jammer"
+      when 'blocker' then "Blocker"
     containerClass = cx
       'penalty-clock': true
       'hidden': @props.hidden
@@ -62,10 +56,7 @@ module.exports = React.createClass
       <div className="row gutters-xs top-buffer">
         <div className="col-xs-6">
           <div className="row gutters-xs">
-            <div className="col-xs-6">
-              <button className="bt-btn" onClick={@addPenaltyTime}>+30</button>
-            </div>
-            <div className="col-xs-6">
+            <div className="col-xs-12">
               <SkaterSelector
                 skater={@props.boxState.skater}
                 style={teamStyle}
@@ -89,7 +80,6 @@ module.exports = React.createClass
           </div>
         </div>
         <div className="col-xs-6">
-          <div className="penalty-count bt-box box-primary">{@props.boxState.penaltyCount}</div>
           <button className="bt-btn btn-default clock" id={@clockId} onClick={@togglePenaltyTimer}>{@props.boxState.clock.display()}</button>
         </div>
       </div>
