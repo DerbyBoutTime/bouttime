@@ -28,6 +28,7 @@ class Skater extends Store
     @penalties.push
       penalty: penalty
       jamNumber: jamNumber
+      sat: false
   clearPenalty: (skaterPenaltyIndex) ->
     @penalties.splice(skaterPenaltyIndex, 1)
   updatePenalty: (skaterPenaltyIndex, opts={}) ->

@@ -16,8 +16,6 @@ module.exports = React.createClass
   clearPenalty: () ->
     @closePanel()
     @props.clearPenalty()
-  closePanel: () ->
-    $(@getDOMNode()).collapse('hide')
   componentDidMount: () ->
     $dom = $(@getDOMNode())
     $dom.on 'show.bs.collapse', (evt) =>
@@ -31,6 +29,9 @@ module.exports = React.createClass
       'edit-penalty collapse': true
     classArgs["penalty-#{@props.penaltyNumber % 7}"] = true
     containerClass = cx classArgs
+    satClass = cx
+      'bt-btn': true
+      'btn-primary': @props.skaterPenalty.sat
     <div className={containerClass} id={@props.id}>
       <div className='row gutters-xs'>
         <div className='col-xs-1'>
@@ -58,8 +59,8 @@ module.exports = React.createClass
           </div>
         </div>
         <div className='col-xs-1'>
-          <button className='bt-btn btn-primary' onClick={@closePanel}>
-            <span className='glyphicon glyphicon-remove'></span>
+          <button className={satClass} onClick={@props.toggleSat}>
+            <span>&middot;</span>
           </button>
         </div>
       </div>

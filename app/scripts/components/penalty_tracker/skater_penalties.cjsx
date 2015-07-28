@@ -32,6 +32,13 @@ module.exports = React.createClass
       type: ActionTypes.CLEAR_PENALTY
       skaterId: @props.skater.id
       skaterPenaltyIndex: skaterPenaltyIndex
+  toggleSat: (skaterPenaltyIndex) ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.UPDATE_PENALTY
+      skaterId: @props.skater.id
+      skaterPenaltyIndex: skaterPenaltyIndex
+      opts:
+        sat: not @props.skater.penalties[skaterPenaltyIndex].sat
   getPenaltyId: (penaltyIndex) ->
     "edit-penalty-#{@props.skater.id}-#{penaltyIndex}"
   render: () ->
@@ -78,6 +85,7 @@ module.exports = React.createClass
               incrementJamNumber={@incrementJamNumber.bind(this, penaltyIndex)}
               decrementJamNumber={@decrementJamNumber.bind(this, penaltyIndex)}
               clearPenalty={@clearPenalty.bind(this, penaltyIndex)}
+              toggleSat={@toggleSat.bind(this, penaltyIndex)}
               onOpen={@props.editHandler.bind(null, penaltyIndex)}
               onClose={@props.editHandler.bind(null, null)}/>
           , this}
@@ -107,6 +115,7 @@ module.exports = React.createClass
               incrementJamNumber={@incrementJamNumber.bind(this, penaltyIndex + 7)}
               decrementJamNumber={@decrementJamNumber.bind(this, penaltyIndex + 7)}
               clearPenalty={@clearPenalty.bind(this, penaltyIndex + 7)}
+              toggleSat={@toggleSat.bind(this, penaltyIndex + 7)}
               onOpen={@props.editHandler.bind(null, penaltyIndex + 7)}
               onClose={@props.editHandler.bind(null, null)}/>
           , this}
