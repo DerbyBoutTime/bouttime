@@ -31,24 +31,8 @@
   margin-bottom: 10px;
   border-radius: 0;
 }
-<<<<<<< HEAD
-.boxed-good {
-  border: 1px solid $gray;
-  border-radius: 2px;
-  font-size: 1.1em;
-  line-height: $minimum-touch-target;
-  min-height: $minimum-touch-target;
-}
-.btn-boxed{
-  @extend .boxed-good;
-  padding: 0;
-  border-color: transparent;
-  background-color: $light-gray;
-  color: $near-black;
-=======
 .btn-selected {
   @include button-variant($btn-selected-color, $btn-selected-bg, $btn-selected-border);
->>>>>>> master
 }
 .bt-btn {
   @extend .btn;
@@ -56,11 +40,13 @@
   @extend .btn-default;
   padding: 9px 2px;
   font-weight: bold;
+  min-height: $minimum-touch-target;
 }
 .bt-box {
   @include box-variant($near-black, $white, $gray);
   padding: 9px 2px;
   font-weight: bold;
+  min-height: $minimum-touch-target;
   &.box-default {
     @include box-variant($btn-default-color, $btn-default-bg, $btn-default-border);
   }

@@ -51,6 +51,34 @@ class Team extends Store
         .then (team) =>
           team.renumberJams()
           team.save()
+      when ActionTypes.SET_PENALTY
+        AppDispatcher.waitFor [Skater.dispatchToken]
+        .spread (skater) =>
+          @find(skater.teamId)
+      when ActionTypes.CLEAR_PENALTY
+        AppDispatcher.waitFor [Skater.dispatchToken]
+        .spread (skater) =>
+          @find(skater.teamId)
+      when ActionTypes.UPDATE_PENALTY
+        AppDispatcher.waitFor [Skater.dispatchToken]
+        .spread (skater) =>
+          @find(skater.teamId)
+      when ActionTypes.TOGGLE_LEAD
+        AppDispatcher.waitFor [Jam.dispatchToken]
+        .spread (jam) =>
+          @find jam.teamId
+      when ActionTypes.TOGGLE_LOST_LEAD
+        AppDispatcher.waitFor [Jam.dispatchToken]
+        .spread (jam) =>
+          @find jam.teamId
+      when ActionTypes.TOGGLE_CALLOFF
+        AppDispatcher.waitFor [Jam.dispatchToken]
+        .spread (jam) =>
+          @find jam.teamId
+      when ActionTypes.SET_POINTS
+        AppDispatcher.waitFor [Jam.dispatchToken]
+        .spread (jam) =>
+          @find jam.teamId
   constructor: (options={}) ->
     super options
     @name = options.name

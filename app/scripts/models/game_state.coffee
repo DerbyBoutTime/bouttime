@@ -7,6 +7,9 @@ AppDispatcher = require '../dispatcher/app_dispatcher'
 Store = require './store'
 {ClockManager} = require '../clock'
 Team = require './team'
+Pass = require './pass'
+Jam = require './jam'
+Skater = require './skater'
 GameMetadata = require './game_metadata'
 {ActionTypes} = require '../constants'
 constants = require '../constants'
@@ -162,6 +165,51 @@ class GameState extends Store
         @new(action.gameState).then (game) ->
           game.syncClocks(action.gameState)
           game.save(true)
+      when ActionTypes.SET_PENALTY
+        dispatch = AppDispatcher.waitFor [Team.dispatchToken, Skater.dispatchToken]
+        game = dispatch.spread (team, skater) =>
+          @findBy $or: [{'away.id': team.id}, {'home.id': team.id}]
+        .get(0)
+        Promise.join game, dispatch, (game, dispatch) ->
+          [team, skater] = dispatch
+          game.pushFeed type: 'penalty', penalty: action.penalty, skater: skater, style: team.colorBarStyle
+          game.save()
+      when ActionTypes.TOGGLE_LEAD
+        dispatch = AppDispatcher.waitFor [Team.dispatchToken, Pass.dispatchToken]
+        game = dispatch.spread (team) =>
+          @findBy $or: [{'away.id': team.id}, {'home.id': team.id}]
+        .get(0)
+        Promise.join game, dispatch, (game, dispatch) ->
+          [team, pass] = dispatch
+          game.pushFeed type: 'lead', skater:pass.jammer, style: team.colorBarStyle
+          game.save()
+      when ActionTypes.TOGGLE_LOST_LEAD
+        dispatch = AppDispatcher.waitFor [Team.dispatchToken, Pass.dispatchToken]
+        game = dispatch.spread (team) =>
+          @findBy $or: [{'away.id': team.id}, {'home.id': team.id}]
+        .get(0)
+        Promise.join game, dispatch, (game, dispatch) ->
+          [team, pass] = dispatch
+          game.pushFeed type: 'lost lead', skater:pass.jammer, style: team.colorBarStyle
+          game.save()
+      when ActionTypes.TOGGLE_CALLOFF
+        dispatch = AppDispatcher.waitFor [Team.dispatchToken, Pass.dispatchToken]
+        game = dispatch.spread (team) =>
+          @findBy $or: [{'away.id': team.id}, {'home.id': team.id}]
+        .get(0)
+        Promise.join game, dispatch, (game, dispatch) ->
+          [team, pass] = dispatch
+          game.pushFeed type: 'calloff', skater: pass.jammer, style: team.colorBarStyle
+          game.save()
+      when ActionTypes.SET_POINTS
+        dispatch = AppDispatcher.waitFor [Team.dispatchToken, Jam.dispatchToken, Pass.dispatchToken]
+        game = dispatch.spread (team, pass) =>
+          @findBy $or: [{'away.id': team.id}, {'home.id': team.id}]
+        .get(0)
+        Promise.join game, dispatch, (game, dispatch) ->
+          [team, jam, pass] = dispatch
+          game.pushFeed type: 'points', jam: jam, pass: pass, style: team.colorBarStyle
+          game.save()
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -198,13 +246,14 @@ class GameState extends Store
       {code: "I", name: "Illegal Procedure"},
       {code: "G", name: "Gross Misconduct"}
     ]
+    @feed = options.feed ? []
     @_undoStack = options._undoStack ? []
     @_redoStack = options._redoStack ? []
   load: (options={}) ->
     home = Team.findOrCreate(@home).then (home) =>
       @home = home
     away = Team.findOrCreate(@away).then (away) =>
-      @away = away    
+      @away = away
     Promise.join(home, away).return(this)
   save: (cascade=false) ->
     promise = super()
@@ -248,6 +297,7 @@ class GameState extends Store
     @advancePeriod()
     @state = "jam"
     @jamNumber = @jamNumber + 1
+    @pushFeed type: 'jam start', jamNumber: @jamNumber
     home = @home.createJamsThrough(@jamNumber)
     away = @away.createJamsThrough(@jamNumber)
     Promise.join home, away
@@ -289,6 +339,7 @@ class GameState extends Store
     @jamClock.reset(TIMEOUT_CLOCK_SETTINGS)
     @state = "timeout"
     @timeout = null
+    @pushFeed type: 'timeout', body: 'Timeout'
   setTimeoutAsOfficialTimeout: () ->
     if @_inTimeout() == false
       @startTimeout()
@@ -296,6 +347,7 @@ class GameState extends Store
     @_clearUndo()
     @timeout = "official_timeout"
     @inOfficialTimeout = true
+    @modifyFeed type: 'timeout', body: 'Official Timeout', style: null
   setTimeoutAsHomeTeamTimeout: () ->
     if @_inTimeout() == false
       @startTimeout()
@@ -303,6 +355,7 @@ class GameState extends Store
     @_clearUndo()
     @timeout = "home_team_timeout"
     @home.startTimeout()
+    @modifyFeed type: 'timeout', body: 'Timeout', style: @home.colorBarStyle
   setTimeoutAsHomeTeamOfficialReview: () ->
     if @_inTimeout() == false
       @startTimeout()
@@ -311,6 +364,7 @@ class GameState extends Store
     @home.hasOfficialReview = false
     @home.isTakingOfficialReview = true
     @timeout = "home_team_official_review"
+    @modifyFeed type: 'timeout', body: 'Official Review', style: @home.colorBarStyle
   setTimeoutAsAwayTeamTimeout: () ->
     if @_inTimeout() == false
       @startTimeout()
@@ -319,6 +373,7 @@ class GameState extends Store
     @state = "timeout"
     @timeout = "away_team_timeout"
     @away.startTimeout()
+    @modifyFeed type: 'timeout', body: 'Timeout', style: @away.colorBarStyle
   setTimeoutAsAwayTeamOfficialReview: () ->
     if @_inTimeout() == false
       @startTimeout()
@@ -328,6 +383,7 @@ class GameState extends Store
     @away.isTakingOfficialReview = true
     @state = "timeout"
     @timeout = "away_team_official_review"
+    @modifyFeed type: 'timeout', body: 'Official Review', style: @away.colorBarStyle
   handleClockExpiration: () ->
     if @state == "jam"
       #Mark as jam ended by time
@@ -380,6 +436,14 @@ class GameState extends Store
     @_undoStack.length > 0 and @jamClock.isUndoable() and @periodClock.isUndoable()
   isRedoable: () ->
     @_redoStack.length > 0 and @jamClock.isRedoable() and @periodClock.isRedoable()
+  pushFeed: (opts={}) ->
+    entry = id: functions.uniqueId()
+    @feed.unshift _.extend entry, opts
+  modifyFeed: (opts) ->
+    matches = @feed.filter (e) -> e.type is opts.type
+    match = matches[0]
+    if match?
+      _.extend(match, opts)
   _inTimeout: ()->
       @state == "timeout"
   _clearAlerts: () ->
