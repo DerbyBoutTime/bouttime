@@ -71,7 +71,7 @@ describe 'Pass', () ->
           passId: pass.id
           skaterId: 'skater 1'
       .then (pass) ->
-        expect(pass.jammer).toBe('skater 1')
+        expect(pass.jammer.id).toBe('skater 1')
     pit "removes a pass", () ->
       pass.then (pass) ->
         callback

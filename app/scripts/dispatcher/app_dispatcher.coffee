@@ -78,4 +78,12 @@ class AppDispatcher
   dispatchAndEmit: (payload) ->
     @dispatch(payload)
     @emit(payload)
+  isConnected: () ->
+    @_socket.connected
+  addConnectionListener: (listener) ->
+    for evt in ['connect', 'disconnect', 'reconnect']
+      @_socket.on evt, listener
+  removeConnectionListener: (listenr) ->
+    for evt in ['connect', 'disconnect', 'reconnect']
+      @_socket.removeListener evt, listener
 module.exports = new AppDispatcher()

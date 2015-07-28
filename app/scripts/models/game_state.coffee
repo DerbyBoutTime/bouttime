@@ -240,8 +240,7 @@ class GameState extends Store
       @period = "period 2"
       @periodClock.reset(PERIOD_CLOCK_SETTINGS)
     else
-      #Dummy reset
-      @periodClock.reset()
+      @periodClock.start()
   startJam: () ->
     @_clearTimeouts()
     @_pushUndo()
