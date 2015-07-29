@@ -162,9 +162,9 @@ class GameState extends Store
           game.redo()
           game.save()
       when ActionTypes.SAVE_GAME
-        @new(action.gameState).then (game) ->
-          game.syncClocks(action.gameState)
-          game.save(true)
+        game = new this(action.gameState)
+        game.syncClocks(action.gameState)
+        game.save(true)
       when ActionTypes.SET_PENALTY
         dispatch = AppDispatcher.waitFor [Team.dispatchToken, Skater.dispatchToken]
         game = dispatch.spread (team, skater) =>
@@ -225,8 +225,8 @@ class GameState extends Store
     @jamClock = @clockManager.getOrAddClock "jamClock-#{@id}", options.jamClock ? PREGAME_CLOCK_SETTINGS
     @periodClock = @clockManager.getOrAddClock "periodClock-#{@id}", options.periodClock ? PERIOD_CLOCK_SETTINGS
     @timeout = options.timeout ? null
-    @home = options.home
-    @away = options.away
+    @home = new Team(options.home)
+    @away = new Team(options.away)
     @penalties = [
       {code: "A", name: "High Block"},
       {code: "N", name: "Insubordination"},
@@ -338,14 +338,14 @@ class GameState extends Store
     @periodClock.stop()
     @jamClock.reset(TIMEOUT_CLOCK_SETTINGS)
     @state = "timeout"
-    @timeout = null
+    @timeout = "timeout"
     @pushFeed type: 'timeout', body: 'Timeout'
   setTimeoutAsOfficialTimeout: () ->
     if @_inTimeout() == false
       @startTimeout()
     @_clearTimeouts()
     @_clearUndo()
-    @timeout = "official_timeout"
+    @timeout = "official timeout"
     @inOfficialTimeout = true
     @modifyFeed type: 'timeout', body: 'Official Timeout', style: null
   setTimeoutAsHomeTeamTimeout: () ->
@@ -353,7 +353,7 @@ class GameState extends Store
       @startTimeout()
     @_clearTimeouts()
     @_clearUndo()
-    @timeout = "home_team_timeout"
+    @timeout = "timeout"
     @home.startTimeout()
     @modifyFeed type: 'timeout', body: 'Timeout', style: @home.colorBarStyle
   setTimeoutAsHomeTeamOfficialReview: () ->
@@ -363,15 +363,14 @@ class GameState extends Store
     @_clearUndo()
     @home.hasOfficialReview = false
     @home.isTakingOfficialReview = true
-    @timeout = "home_team_official_review"
+    @timeout = "official review"
     @modifyFeed type: 'timeout', body: 'Official Review', style: @home.colorBarStyle
   setTimeoutAsAwayTeamTimeout: () ->
     if @_inTimeout() == false
       @startTimeout()
     @_clearTimeouts()
     @_clearUndo()
-    @state = "timeout"
-    @timeout = "away_team_timeout"
+    @timeout = "timeout"
     @away.startTimeout()
     @modifyFeed type: 'timeout', body: 'Timeout', style: @away.colorBarStyle
   setTimeoutAsAwayTeamOfficialReview: () ->
@@ -382,7 +381,7 @@ class GameState extends Store
     @away.hasOfficialReview = false
     @away.isTakingOfficialReview = true
     @state = "timeout"
-    @timeout = "away_team_official_review"
+    @timeout = "official review"
     @modifyFeed type: 'timeout', body: 'Official Review', style: @away.colorBarStyle
   handleClockExpiration: () ->
     if @state == "jam"

@@ -78,6 +78,7 @@ module.exports = React.createClass
           timeouts: @state.gameState.home.timeouts
           initials: @state.gameState.home.initials
           isTakingTimeout: @state.gameState.home.isTakingTimeout
+          colorBarStyle: @state.gameState.home.colorBarStyle
         away =
           officialReviewsRetained: @state.gameState.away.officialReviewsRetained
           hasOfficialReview: @state.gameState.away.hasOfficialReview
@@ -85,6 +86,7 @@ module.exports = React.createClass
           timeouts: @state.gameState.away.timeouts
           initials: @state.gameState.away.initials
           isTakingTimeout: @state.gameState.away.isTakingTimeout
+          colorBarStyle: @state.gameState.away.colorBarStyle
         <JamTimer
           periodClock={@state.gameState.periodClock}
           jamClock={@state.gameState.jamClock}

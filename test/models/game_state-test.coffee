@@ -165,7 +165,7 @@ describe 'GameState', () ->
           gameId: gameState.id
       .then (gameState) ->
         expect(gameState.state).toBe('timeout')
-        expect(gameState.timeout).toBe('official_timeout')
+        expect(gameState.timeout).toBe('official timeout')
         expect(gameState.inOfficialTimeout).toBe(true)
     pit "sets a timeout as a home team timeout", () ->
       gameState.then (gameState) ->
@@ -174,7 +174,7 @@ describe 'GameState', () ->
           gameId: gameState.id
       .then (gameState) ->
         expect(gameState.state).toBe('timeout')
-        expect(gameState.timeout).toBe('home_team_timeout')
+        expect(gameState.timeout).toBe('timeout')
         expect(gameState.home.startTimeout).toBeCalled()
     pit "sets a timeout as a home team official review", () ->
       gameState.then (gameState) ->
@@ -183,7 +183,7 @@ describe 'GameState', () ->
           gameId: gameState.id
       .then (gameState) ->
         expect(gameState.state).toBe('timeout')
-        expect(gameState.timeout).toBe('home_team_official_review')
+        expect(gameState.timeout).toBe('official review')
         expect(gameState.home.isTakingOfficialReview).toBe(true)
         expect(gameState.home.hasOfficialReview).toBe(false)
     pit "sets a timeout as an away team timeout", () ->
@@ -193,7 +193,7 @@ describe 'GameState', () ->
           gameId: gameState.id
       .then (gameState) ->
         expect(gameState.state).toBe('timeout')
-        expect(gameState.timeout).toBe('away_team_timeout')
+        expect(gameState.timeout).toBe('timeout')
         expect(gameState.away.startTimeout).toBeCalled()
     pit "sets a timeout as an away team official review", () ->
       gameState.then (gameState) ->
@@ -202,7 +202,7 @@ describe 'GameState', () ->
           gameId: gameState.id
       .then (gameState) ->
         expect(gameState.state).toBe('timeout')
-        expect(gameState.timeout).toBe('away_team_official_review')
+        expect(gameState.timeout).toBe('official review')
         expect(gameState.away.isTakingOfficialReview).toBe(true)
         expect(gameState.away.hasOfficialReview).toBe(false)
     pit "sets the jam clock", () ->

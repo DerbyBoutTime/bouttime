@@ -48,7 +48,7 @@ class Pass extends Store
     @jamId = options.jamId
     @passNumber = options.passNumber ? 1
     @points = options.points ? 0
-    @jammer = options.jammer
+    @jammer = new Skater(options.jammer) if options.jammer?
     @injury = options.injury ? false
     @lead = options.lead ? false
     @lostLead = options.lostLead ? false

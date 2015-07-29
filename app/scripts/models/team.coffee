@@ -9,8 +9,8 @@ Store = require './store'
 Jam = require './jam'
 Skater = require './skater'
 PENALTY_CLOCK_SETTINGS =
-  time: constants.PENALTY_DURATION_IN_MS
-  warningTime: constants.PENALTY_WARNING_IN_MS
+  time: 0
+  tickUp: true
 class Team extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
@@ -31,10 +31,6 @@ class Team extends Store
         @find(action.teamId).tap (team) =>
           team.setPenaltyBoxSkater(action.boxIndexOrPosition, action.clockId, action.skaterId)
         .then (team) ->
-          team.save()
-      when ActionTypes.ADD_PENALTY_TIME
-        @find(action.teamId).then (team) =>
-          team.addPenaltyTime(action.boxIndex)
           team.save()
       when ActionTypes.TOGGLE_PENALTY_TIMER
         @find(action.teamId).then (team) =>
@@ -92,9 +88,9 @@ class Team extends Store
     @hasOfficialReview = options.hasOfficialReview ? true
     @timeouts = options.timeouts ? 3
     @jamSequence = seedrandom(@id, state: options.jamSequenceState ? true)
-    @jams = options.jams ? [id: functions.uniqueId(8, @jamSequence)]
+    @jams = (options.jams ? [id: functions.uniqueId(8, @jamSequence)]).map (jam) -> new Jam(jam)
     @jamSequenceState = @jamSequence.state()
-    @skaters = options.skaters ? []
+    @skaters = (options.skaters ? []).map (skater) -> new Skater(skater)
     @penaltyBoxStates = options.penaltyBoxStates ? []
     @clockManager = new ClockManager()
     for boxState in @penaltyBoxStates
@@ -152,11 +148,6 @@ class Team extends Store
     if box?
       box.served = !box.served
       box.leftEarly = false
-  addPenaltyTime: (boxIndex)->
-    box = @penaltyBoxStates[boxIndex]
-    if box?
-      box.penaltyCount += 1
-      box.clock.time += constants.PENALTY_DURATION_IN_MS
   togglePenaltyTimer: (boxIndex) ->
     box = @penaltyBoxStates[boxIndex]
     if box?
@@ -175,7 +166,6 @@ class Team extends Store
       box.skater = skater
   newPenaltyBoxState: (position, clockId) ->
     position: position
-    penaltyCount: 1
     clock: @clockManager.addClock(clockId ? functions.uniqueId(), PENALTY_CLOCK_SETTINGS)
   getOrCreatePenaltyBoxState: (boxIndexOrPosition, clockId) ->
     switch typeof boxIndexOrPosition
@@ -198,4 +188,6 @@ class Team extends Store
     for jam, i in @jams
       jam.jamNumber = i + 1
       jam.save()
+  isTakingTimeoutOrOfficialReview: () ->
+    @isTakingTimeout or @isTakingOfficialReview
 module.exports = Team
