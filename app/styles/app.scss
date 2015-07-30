@@ -15,6 +15,7 @@
 @import "scorekeeper";
 @import "penalty-box-timer";
 @import "game-setup";
+@import "announcers-feed";
 @import "item-row";
 @import "skater-selector";
 @import "period-summary";
@@ -39,11 +40,13 @@
   @extend .btn-default;
   padding: 9px 2px;
   font-weight: bold;
+  min-height: $minimum-touch-target;
 }
 .bt-box {
   @include box-variant($near-black, $white, $gray);
   padding: 9px 2px;
   font-weight: bold;
+  min-height: $minimum-touch-target;
   &.box-default {
     @include box-variant($btn-default-color, $btn-default-bg, $btn-default-border);
   }
