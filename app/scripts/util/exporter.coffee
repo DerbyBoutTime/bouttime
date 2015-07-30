@@ -25,7 +25,7 @@ class Exporter
     abbreviation: team.initials
     persons: team.skaters.map (skater) =>
       @exportSkater(skater)
-    date: Date.now().toJSON()
+    date: (new Date).toJSON()
     color: team.colorBarStyle
     logos: [
             url: team.logo
@@ -38,7 +38,7 @@ class Exporter
     name: 'officials'
     persons: game.officials.map (official) =>
       @exportOfficial official
-    date: Date.now().toJSON()
+    date: (new Date).toJSON()
   exportOfficial: (official) ->
     name: official
   exportPeriod: (game, periodNumber) ->
