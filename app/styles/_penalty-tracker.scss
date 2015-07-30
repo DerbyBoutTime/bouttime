@@ -1,7 +1,14 @@
 .penalty-tracker, .penalty-whiteboard {
   .penalty-indicator {
+    position: relative;
     white-space: nowrap;
     color: $gray;
+    .dot {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+    }
   }
   .penalty-alert {
     @extend .penalty-indicator;

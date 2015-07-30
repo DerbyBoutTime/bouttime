@@ -18,4 +18,5 @@ module.exports = React.createClass
       'box-danger': @props.skaterPenalty? and @props.penaltyNumber >= 7
     <div className={containerClass} style={@props.teamStyle if @props.skaterPenalty? and @props.penaltyNumber < 6}>
       <strong>{@displayContent()}</strong>
+      {<span className='dot'>&middot;</span> if @props.skaterPenalty?.sat}
     </div>
