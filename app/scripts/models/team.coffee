@@ -1,16 +1,12 @@
-functions = require '../functions'
-constants = require '../constants'
-seedrandom = require 'seedrandom'
 Promise = require 'bluebird'
+seedrandom = require 'seedrandom'
+functions = require '../functions'
 AppDispatcher = require '../dispatcher/app_dispatcher'
-ActionTypes = constants.ActionTypes
-{ClockManager} = require '../clock'
+{ActionTypes} = require '../constants'
 Store = require './store'
 Jam = require './jam'
 Skater = require './skater'
-PENALTY_CLOCK_SETTINGS =
-  time: 0
-  tickUp: true
+BoxEntry = require './box_entry'
 class Team extends Store
   @dispatchToken: AppDispatcher.register (action) =>
     switch action.type
@@ -18,23 +14,6 @@ class Team extends Store
         @find(action.teamId).tap (team) ->
           team.createJamsThrough(action.jamNumber)
         .then (team) ->
-          team.save()
-      when ActionTypes.TOGGLE_LEFT_EARLY
-        @find(action.teamId).then (team) =>
-          team.toggleLeftEarly(action.boxIndex)
-          team.save()
-      when ActionTypes.TOGGLE_PENALTY_SERVED
-        @find(action.teamId).then (team) =>
-          team.toggleServed(action.boxIndex)
-          team.save()
-      when ActionTypes.SET_PENALTY_BOX_SKATER
-        @find(action.teamId).tap (team) =>
-          team.setPenaltyBoxSkater(action.boxIndexOrPosition, action.clockId, action.skaterId)
-        .then (team) ->
-          team.save()
-      when ActionTypes.TOGGLE_PENALTY_TIMER
-        @find(action.teamId).then (team) =>
-          team.togglePenaltyTimer(action.boxIndex)
           team.save()
       when ActionTypes.TOGGLE_ALL_PENALTY_TIMERS
         @find(action.teamId).then (team) =>
@@ -75,6 +54,31 @@ class Team extends Store
         AppDispatcher.waitFor [Jam.dispatchToken]
         .spread (jam) =>
           @find jam.teamId
+      when ActionTypes.TOGGLE_LEFT_EARLY
+        AppDispatcher.waitFor [BoxEntry.dispatchToken]
+        .spread (box) =>
+          if box.touch and box.position is 'blocker'
+            @copyBox(box)
+      when ActionTypes.TOGGLE_PENALTY_SERVED
+        AppDispatcher.waitFor [BoxEntry.dispatchToken]
+        .spread (box) =>
+          if box.position is 'jammer' or (box.position is 'blocker' and box.touch)
+            @copyBox(box)
+      when ActionTypes.SET_PENALTY_BOX_SKATER
+        AppDispatcher.waitFor [BoxEntry.dispatchToken]
+        .spread (box) =>
+          if box.touch and box.position is 'blocker'
+            @copyBox(box)
+      when ActionTypes.TOGGLE_PENALTY_TIMER
+        AppDispatcher.waitFor [BoxEntry.dispatchToken]
+        .spread (box) =>
+          if box.touch and box.position is 'blocker'
+            @copyBox(box)
+  @copyBox: (box) ->
+    @find box.teamId
+    .tap (team) ->
+      team.createBox(box.position, box.sort + 1)
+    .tap @save
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -90,19 +94,24 @@ class Team extends Store
     @jamSequence = seedrandom(@id, state: options.jamSequenceState ? true)
     @jams = (options.jams ? [id: functions.uniqueId(8, @jamSequence)]).map (jam) -> new Jam(jam)
     @jamSequenceState = @jamSequence.state()
+    @seatSequence = seedrandom(@id, state: options.seatSequenceState ? true)
+    @seats = (options.seats ? [
+      {id: functions.uniqueId(8, @seatSequence), position: 'jammer'},
+      {id: functions.uniqueId(8, @seatSequence), position: 'blocker'}
+    ])
+    @seats = @seats.map (seat) -> new BoxEntry(seat)
+    @seatSequenceState = @seatSequence.state()
     @skaters = (options.skaters ? []).map (skater) -> new Skater(skater)
-    @penaltyBoxStates = options.penaltyBoxStates ? []
-    @clockManager = new ClockManager()
-    for boxState in @penaltyBoxStates
-      boxState.clock = @clockManager.getOrAddClock(boxState.clock.alias, boxState.clock)
   save: (cascade=false) ->
     @jamSequenceState = @jamSequence.state()
+    @seatSequenceState = @seatSequence.state()
     promise = super()
     if cascade
       jams = @jams.map (jam) -> jam.save(true)
       skaters = @skaters.map (skater) -> skater.save(true)
+      seats = @seats.map (seat) -> seat.save(true)
       promise = promise.then () ->
-        Promise.join(skaters, jams)
+        Promise.join(skaters, jams, seats)
       .return this
     promise
   load: () ->
@@ -112,7 +121,13 @@ class Team extends Store
     .then (jams) =>
       @jams = jams.sort (a, b) ->
         a.jamNumber > b.jamNumber
-    Promise.join(skaters, jams).return(this)
+    seats = BoxEntry.findByOrCreate(teamId: @id, served: false, @seats)
+    .then (seats) =>
+      @seats = seats.sort (a, b) ->
+        a.sort > b.sort
+      @seats = seats.sort (a, b) ->
+        a.position < b.position
+    Promise.join(skaters, jams, seats).return(this)
   addSkater: (skater) ->
     skater.teamId = @id
     @skaters.push skater
@@ -138,43 +153,14 @@ class Team extends Store
     jamNumbers = (i for i in [@jams.length+1 .. jamNumber] by 1)
     Promise.each (jamNumbers), @createNextJam.bind(this)
     .return this
-  toggleLeftEarly: (boxIndex) ->
-    box = @penaltyBoxStates[boxIndex]
-    if box?
-      box.leftEarly = !box.leftEarly
-      box.served = false
-  toggleServed: (boxIndex) ->
-    box = @penaltyBoxStates[boxIndex]
-    if box?
-      box.served = !box.served
-      box.leftEarly = false
-  togglePenaltyTimer: (boxIndex) ->
-    box = @penaltyBoxStates[boxIndex]
-    if box?
-      if box.clock.isRunning then box.clock.stop() else box.clock.start()
   anyPenaltyTimerRunning: () ->
-    @penaltyBoxStates.some (boxState) ->
-      boxState.clock.isRunning
+    @seats.some (seat) ->
+      seat.clock.isRunning
   toggleAllPenaltyTimers: () ->
     if @anyPenaltyTimerRunning()
-      boxState.clock.stop() for boxState in @penaltyBoxStates
+      seat.clock.stop() for seat in @seats
     else
-      boxState.clock.start() for boxState in @penaltyBoxStates
-  setPenaltyBoxSkater: (boxIndexOrPosition, clockId, skaterId) ->
-    box = @getOrCreatePenaltyBoxState(boxIndexOrPosition, clockId)
-    Skater.find(skaterId).then (skater) ->
-      box.skater = skater
-  newPenaltyBoxState: (position, clockId) ->
-    position: position
-    clock: @clockManager.addClock(clockId ? functions.uniqueId(), PENALTY_CLOCK_SETTINGS)
-  getOrCreatePenaltyBoxState: (boxIndexOrPosition, clockId) ->
-    switch typeof boxIndexOrPosition
-      when 'number'
-        @penaltyBoxStates[boxIndexOrPosition]
-      when 'string'
-        box = @newPenaltyBoxState(boxIndexOrPosition, clockId)
-        @penaltyBoxStates.push(box)
-        box
+      seat.clock.start() for seat in @seats
   startTimeout: () ->
     @timeouts -= 1
     @isTakingTimeout = true
@@ -190,4 +176,7 @@ class Team extends Store
       jam.save()
   isTakingTimeoutOrOfficialReview: () ->
     @isTakingTimeout or @isTakingOfficialReview
+  createBox: (position, sort) ->
+    newBox = new BoxEntry(id: functions.uniqueId(8, @seatSequence), teamId: @id, position: position, sort: sort)
+    newBox.save()
 module.exports = Team

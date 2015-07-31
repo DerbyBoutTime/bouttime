@@ -10,37 +10,35 @@ module.exports = React.createClass
   propTypes:
     team: React.PropTypes.object.isRequired
     setSelectorContext: React.PropTypes.func.isRequired
-    boxState: React.PropTypes.object.isRequired
-    boxIndex: React.PropTypes.number
-    hidden: React.PropTypes.bool
+    entry: React.PropTypes.object.isRequired
+  componentWillMount: () ->
+    @clockManager = new ClockManager()
+  componentDidMount: () ->
+    @clockManager.addTickListener @onTick
+  componentWillUnmount: () ->
+    @clockManager.removeTickListener @onTick
+  onTick: () ->
+    @forceUpdate()
   toggleLeftEarly: () ->
-    return if not @props.boxIndex?
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_LEFT_EARLY
-      teamId: @props.team.id
-      boxIndex: @props.boxIndex
+      boxId: @props.entry.id
   toggleServed: () ->
-    return if not @props.boxIndex?
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_PENALTY_SERVED
-      teamId: @props.team.id
-      boxIndex: @props.boxIndex
+      boxId: @props.entry.id
   setSkater: (skaterId) ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.SET_PENALTY_BOX_SKATER
-      teamId: @props.team.id
-      boxIndexOrPosition: @props.boxIndex ? @props.boxState.position
+      boxId: @props.entry.id
       skaterId: skaterId
-      clockId: functions.uniqueId()
   togglePenaltyTimer: () ->
-    return if not @props.boxIndex?
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.TOGGLE_PENALTY_TIMER
-      teamId: @props.team.id
-      boxIndex: @props.boxIndex 
+      boxId: @props.entry.id
   render: () ->
     teamStyle = @props.team.colorBarStyle
-    placeholder = switch @props.boxState.position
+    placeholder = switch @props.entry.position
       when 'jammer' then "Jammer"
       when 'blocker' then "Blocker"
     containerClass = cx
@@ -48,17 +46,17 @@ module.exports = React.createClass
       'hidden': @props.hidden
     leftEarlyButtonClass = cx
       'bt-btn': true
-      'btn-warning': @props.boxState.leftEarly
+      'btn-warning': @props.entry.leftEarly
     servedButtonClass = cx
       'bt-btn': true
-      'btn-success': @props.boxState.served
+      'btn-success': @props.entry.served
     <div className={containerClass}>
       <div className="row gutters-xs top-buffer">
         <div className="col-xs-6">
           <div className="row gutters-xs">
             <div className="col-xs-12">
               <SkaterSelector
-                skater={@props.boxState.skater}
+                skater={@props.entry.skater}
                 style={teamStyle}
                 setSelectorContext={@props.setSelectorContext}
                 selectHandler={@setSkater}
@@ -80,7 +78,7 @@ module.exports = React.createClass
           </div>
         </div>
         <div className="col-xs-6">
-          <button className="bt-btn btn-default clock" id={@clockId} onClick={@togglePenaltyTimer}>{@props.boxState.clock.display()}</button>
+          <button className="bt-btn btn-default clock" id={@clockId} onClick={@togglePenaltyTimer}>{@props.entry.clock.display()}</button>
         </div>
       </div>
     </div>
