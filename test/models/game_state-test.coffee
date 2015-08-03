@@ -1,4 +1,7 @@
 jest.mock '../../app/scripts/models/team'
+jest.mock '../../app/scripts/models/jam'
+jest.mock '../../app/scripts/models/pass'
+jest.mock '../../app/scripts/models/skater'
 jest.mock '../../app/scripts/models/game_metadata'
 _ = require 'underscore'
 constants = require '../../app/scripts/constants'

@@ -58,6 +58,22 @@ class Jam extends Store
       when ActionTypes.REMOVE_JAM
         @find(action.jamId).then (jam) =>
           jam.destroy()
+      when ActionTypes.TOGGLE_LEAD
+        AppDispatcher.waitFor [Pass.dispatchToken]
+        .spread (pass) =>
+          @find pass.jamId
+      when ActionTypes.TOGGLE_LOST_LEAD
+        AppDispatcher.waitFor [Pass.dispatchToken]
+        .spread (pass) =>
+          @find pass.jamId
+      when ActionTypes.TOGGLE_CALLOFF
+        AppDispatcher.waitFor [Pass.dispatchToken]
+        .spread (pass) =>
+          @find pass.jamId
+      when ActionTypes.SET_POINTS
+        AppDispatcher.waitFor [Pass.dispatchToken]
+        .spread (pass) =>
+          @find pass.jamId
   constructor: (options={}) ->
     super options
     @teamId = options.teamId
