@@ -54,31 +54,13 @@ class Team extends Store
         AppDispatcher.waitFor [Jam.dispatchToken]
         .spread (jam) =>
           @find jam.teamId
-      when ActionTypes.TOGGLE_LEFT_EARLY
-        AppDispatcher.waitFor [BoxEntry.dispatchToken]
-        .spread (box) =>
-          if box.touch and box.position is 'blocker'
-            @copyBox(box)
       when ActionTypes.TOGGLE_PENALTY_SERVED
         AppDispatcher.waitFor [BoxEntry.dispatchToken]
         .spread (box) =>
-          if box.position is 'jammer' or (box.position is 'blocker' and box.touch)
-            @copyBox(box)
-      when ActionTypes.SET_PENALTY_BOX_SKATER
-        AppDispatcher.waitFor [BoxEntry.dispatchToken]
-        .spread (box) =>
-          if box.touch and box.position is 'blocker'
-            @copyBox(box)
-      when ActionTypes.TOGGLE_PENALTY_TIMER
-        AppDispatcher.waitFor [BoxEntry.dispatchToken]
-        .spread (box) =>
-          if box.touch and box.position is 'blocker'
-            @copyBox(box)
-  @copyBox: (box) ->
-    @find box.teamId
-    .tap (team) ->
-      team.createBox(box.position, box.sort + 1)
-    .tap @save
+          @find box.teamId
+          .tap (team) ->
+            team.createBox(box.position, box.sort + 1)
+          .tap @save
   constructor: (options={}) ->
     super options
     @name = options.name
@@ -97,6 +79,8 @@ class Team extends Store
     @seatSequence = seedrandom(@id, state: options.seatSequenceState ? true)
     @seats = (options.seats ? [
       {id: functions.uniqueId(8, @seatSequence), position: 'jammer'},
+      {id: functions.uniqueId(8, @seatSequence), position: 'blocker'},
+      {id: functions.uniqueId(8, @seatSequence), position: 'blocker'},
       {id: functions.uniqueId(8, @seatSequence), position: 'blocker'}
     ])
     @seats = @seats.map (seat) -> new BoxEntry(seat)
