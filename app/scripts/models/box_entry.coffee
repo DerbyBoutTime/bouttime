@@ -40,7 +40,6 @@ class BoxEntry extends Store
   @handleDirty: (box) ->
     if not box.dirty
       box.dirty = true
-      box.touch = true
   constructor: (options={}) ->
     super options
     @_clockManager = new ClockManager()

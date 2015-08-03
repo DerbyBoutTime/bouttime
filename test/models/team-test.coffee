@@ -67,6 +67,11 @@ describe 'Team', () ->
           teamId: team.id
       .then (team) ->
         for seat in team.seats
+          expect(seat.startPenaltyTimer).not.toBeCalled()
+          seat.dirty = true
+          seat.startPenaltyTimer.mockClear()
+        team.toggleAllPenaltyTimers()
+        for seat in team.seats
           expect(seat.startPenaltyTimer).toBeCalled()
         team.seats[0].penaltyTimerIsRunning.mockReturnValueOnce true
         team.toggleAllPenaltyTimers()

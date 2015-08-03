@@ -140,9 +140,9 @@ class Team extends Store
       seat.penaltyTimerIsRunning()
   toggleAllPenaltyTimers: () ->
     if @anyPenaltyTimerRunning()
-      seat.stopPenaltyTimer() for seat in @seats
+      seat.stopPenaltyTimer() for seat in @seats when seat.dirty
     else
-      seat.startPenaltyTimer() for seat in @seats
+      seat.startPenaltyTimer() for seat in @seats when seat.dirty
   startTimeout: () ->
     @timeouts -= 1
     @isTakingTimeout = true
