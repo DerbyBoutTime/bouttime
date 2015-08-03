@@ -16,8 +16,6 @@ module.exports = React.createClass
       skater.number in @getLineup().map (s) -> s.number
     else
       false
-  isInjured: (skater) ->
-    false
   buttonClass: (skater) ->
     cx
       'selector-injury' : @isInjured(skater)
