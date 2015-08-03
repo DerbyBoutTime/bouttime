@@ -28,7 +28,7 @@ class BoxEntry extends Store
       when ActionTypes.SET_PENALTY_BOX_SKATER
         @find(action.boxId)
         .tap (box) =>
-          box.setPenaltyBoxSkater(action.skaterId)
+          box.setSkater(action.skaterId)
         .tap @handleDirty
         .tap @save
       when ActionTypes.TOGGLE_PENALTY_TIMER
@@ -57,8 +57,14 @@ class BoxEntry extends Store
   toggleServed: () ->
     @served = not @served
   togglePenaltyTimer: () ->
-    if @clock.isRunning then @clock.stop() else @clock.start()
-  setPenaltyBoxSkater: (skaterId) ->
+    @clock.toggle()
+  startPenaltyTimer: () ->
+    @clock.start()
+  stopPenaltyTimer: () ->
+    @clock.stop()
+  penaltyTimerIsRunning: () ->
+    @clock.isRunning
+  setSkater: (skaterId) ->
     Skater.find(skaterId).then (skater) =>
       @skater = skater
 module.exports = BoxEntry

@@ -1,5 +1,6 @@
 jest.mock '../../app/scripts/models/jam'
 jest.mock '../../app/scripts/models/skater'
+jest.mock '../../app/scripts/models/box_entry'
 _ = require 'underscore'
 constants = require '../../app/scripts/constants'
 ActionTypes = constants.ActionTypes
@@ -59,76 +60,16 @@ describe 'Team', () ->
         expect(AppDispatcher.waitFor).toBeCalled()
         expect(team.jams[0].jamNumber).toBe(1)
         expect(team.jams[0].save).toBeCalled()
-    describe "penalty box timers", () ->
-      beforeEach () ->
-        team = team.then (team) ->
-          callback
-            type: ActionTypes.SET_PENALTY_BOX_SKATER
-            teamId: team.id
-            boxIndexOrPosition: 'jammer'
-            clockId: 'clock 1'
-            skaterId: 'skater 1'
-      pit "creates a penalty box state", () ->
-        team.then (team) ->
-          expect(team.penaltyBoxStates.length).toBe(1)
-          boxState = team.penaltyBoxStates[0]
-          expect(boxState.skater.id).toBe('skater 1')
-      pit "sets the skater of an existing box", () ->
-        team.then (team) ->
-          callback
-            type: ActionTypes.SET_PENALTY_BOX_SKATER
-            teamId: team.id
-            boxIndexOrPosition: 0
-            skaterId: 'skater 2'
-        .then (team) ->
-          expect(team.penaltyBoxStates.length).toBe(1)
-          boxState = team.penaltyBoxStates[0]
-          expect(boxState.skater.id).toBe('skater 2')
-      pit "toggles left early", () ->
-        team.then (team) ->
-          callback
-            type: ActionTypes.TOGGLE_LEFT_EARLY
-            teamId: team.id
-            boxIndex: 0
-        .then (team) ->
-          boxState = team.penaltyBoxStates[0]
-          expect(boxState.leftEarly).toBe(true)
-      pit "toggles served", () ->
-        team.then (team) ->
-          callback
-            type: ActionTypes.TOGGLE_PENALTY_SERVED
-            teamId: team.id
-            boxIndex: 0
-        .then (team) ->
-          boxState = team.penaltyBoxStates[0]
-          expect(boxState.served).toBe(true)
-      pit "toggles the penalty timer", () ->
-        team.then (team) ->
-          callback
-            type: ActionTypes.TOGGLE_PENALTY_TIMER
-            teamId: team.id
-            boxIndex: 0
-        .then (team) ->
-          boxState = team.penaltyBoxStates[0]
-          expect(boxState.clock.start).toBeCalled()
-          boxState.clock.isRunning = true
-          team.togglePenaltyTimer(0)
-          expect(boxState.clock.stop).toBeCalled()
-      pit "toggles all penalty timers", () ->
-        team.tap (team) ->
-          team.setPenaltyBoxSkater('blocker', 'clock 2', 'skater 2')
-        .tap Team.save
-        .then (team) ->
-          callback
-            type: ActionTypes.TOGGLE_ALL_PENALTY_TIMERS
-            teamId: team.id
-        .then (team) ->
-          expect(team.penaltyBoxStates[0].clock.start).toBeCalled()
-          expect(team.penaltyBoxStates[1].clock.start).toBeCalled()
-          team.penaltyBoxStates[0].clock.isRunning = true
-          team.penaltyBoxStates[1].clock.isRunning = false
-          team.penaltyBoxStates[1].clock.start.mockClear()
-          team.toggleAllPenaltyTimers()
-          expect(team.penaltyBoxStates[0].clock.stop).toBeCalled()
-          expect(team.penaltyBoxStates[1].clock.start).not.toBeCalled()
+    pit "toggles all penalty timers", () ->
+      team.then (team) ->
+        callback
+          type: ActionTypes.TOGGLE_ALL_PENALTY_TIMERS
+          teamId: team.id
+      .then (team) ->
+        for seat in team.seats
+          expect(seat.startPenaltyTimer).toBeCalled()
+        team.seats[0].penaltyTimerIsRunning.mockReturnValueOnce true
+        team.toggleAllPenaltyTimers()
+        for seat in team.seats
+          expect(seat.stopPenaltyTimer).toBeCalled()
 

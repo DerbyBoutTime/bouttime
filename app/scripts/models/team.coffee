@@ -59,7 +59,7 @@ class Team extends Store
         .spread (box) =>
           @find box.teamId
           .tap (team) ->
-            team.createBox(box.position, box.sort + 1)
+            team.createBox(box.position, box.sort)
           .tap @save
   constructor: (options={}) ->
     super options
@@ -78,10 +78,10 @@ class Team extends Store
     @jamSequenceState = @jamSequence.state()
     @seatSequence = seedrandom(@id, state: options.seatSequenceState ? true)
     @seats = (options.seats ? [
-      {id: functions.uniqueId(8, @seatSequence), position: 'jammer'},
-      {id: functions.uniqueId(8, @seatSequence), position: 'blocker'},
-      {id: functions.uniqueId(8, @seatSequence), position: 'blocker'},
-      {id: functions.uniqueId(8, @seatSequence), position: 'blocker'}
+      {id: functions.uniqueId(8, @seatSequence), position: 'jammer', sort: 0},
+      {id: functions.uniqueId(8, @seatSequence), position: 'blocker', sort: 1},
+      {id: functions.uniqueId(8, @seatSequence), position: 'blocker', sort: 2},
+      {id: functions.uniqueId(8, @seatSequence), position: 'blocker', sort: 3}
     ])
     @seats = @seats.map (seat) -> new BoxEntry(seat)
     @seatSequenceState = @seatSequence.state()
@@ -109,8 +109,6 @@ class Team extends Store
     .then (seats) =>
       @seats = seats.sort (a, b) ->
         a.sort > b.sort
-      @seats = seats.sort (a, b) ->
-        a.position < b.position
     Promise.join(skaters, jams, seats).return(this)
   addSkater: (skater) ->
     skater.teamId = @id
@@ -139,12 +137,12 @@ class Team extends Store
     .return this
   anyPenaltyTimerRunning: () ->
     @seats.some (seat) ->
-      seat.clock.isRunning
+      seat.penaltyTimerIsRunning()
   toggleAllPenaltyTimers: () ->
     if @anyPenaltyTimerRunning()
-      seat.clock.stop() for seat in @seats
+      seat.stopPenaltyTimer() for seat in @seats
     else
-      seat.clock.start() for seat in @seats
+      seat.startPenaltyTimer() for seat in @seats
   startTimeout: () ->
     @timeouts -= 1
     @isTakingTimeout = true
