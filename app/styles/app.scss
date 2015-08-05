@@ -31,9 +31,7 @@
   margin-bottom: 10px;
   border-radius: 0;
 }
-.btn-selected {
-  @include button-variant($btn-selected-color, $btn-selected-bg, $btn-selected-border);
-}
+
 .bt-btn {
   @extend .btn;
   @extend .btn-block;
@@ -41,6 +39,15 @@
   padding: 9px 2px;
   font-weight: bold;
   min-height: $minimum-touch-target;
+  &.btn-selected {
+    @include button-variant($btn-selected-color, $btn-selected-bg, $btn-selected-border);
+  }
+  &.btn-injury {
+    @include button-variant($pink, $white, $pink);
+    border-width: 5px;
+    border-radius: 10px;
+    padding: 5px 2px;
+  }
 }
 .bt-box {
   @include box-variant($near-black, $white, $gray);

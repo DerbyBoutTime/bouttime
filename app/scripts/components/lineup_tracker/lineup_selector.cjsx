@@ -14,6 +14,7 @@ module.exports = React.createClass
   btnClass: (skater) -> cx
     'bt-btn': true
     'btn-danger': skater.fouledOut() or skater.expelled()
+    'btn-injury': @props.team.skaterIsInjured(skater.id, @props.jam.jamNumber)
   render: () ->
     <div className="modal" id="lineup-selector-modal">
       <div className="modal-dialog lineup-selector-dialog">

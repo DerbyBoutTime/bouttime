@@ -190,4 +190,7 @@ class Team extends Store
       jam.save()
   isTakingTimeoutOrOfficialReview: () ->
     @isTakingTimeout or @isTakingOfficialReview
+  skaterIsInjured: (skaterId, jamNumber) ->
+    @jams[Math.max(jamNumber-4, 0)...jamNumber].some (jam) ->
+      jam.skaterIsInjured(skaterId)
 module.exports = Team

@@ -21,9 +21,9 @@ module.exports = React.createClass
     style = @props.style if @props.skater and not @props.injured and not @props.skater.fouledOut() and not @props.skater.expelled()
     buttonClass = cx
       'bt-btn': true
-      'btn-selector': not @props.skater?.fouledOut() and not @props.skater?.expelled()
+      'btn-selector': not @props.skater?.fouledOut() and not @props.skater?.expelled() and not @props.injured
       'btn-danger': @props.skater?.fouledOut() or @props.skater?.expelled()
-      'injury': @props.injured
+      'btn-injury': @props.injured
       'selected': @props.skater?
     <button
       className={buttonClass}
