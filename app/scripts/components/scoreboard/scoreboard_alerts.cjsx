@@ -20,7 +20,6 @@ module.exports = React.createClass
       'col-sm-12': not teamType?
       'col-sm-6': teamType?
       'col-sm-offset-6': teamType is 'away'
-      'hidden': not text?
     <div className="row alerts">
       <div className={columnClass}>
         <div className='scoreboard-alert' style={style}>{text}</div>

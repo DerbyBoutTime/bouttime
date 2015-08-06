@@ -4,6 +4,7 @@ Jam = require '../models/jam.coffee'
 ScoreboardClocks = require './scoreboard/scoreboard_clocks'
 ScoreboardTeam = require './scoreboard/scoreboard_team'
 ScoreboardAlerts = require './scoreboard/scoreboard_alerts'
+ScoreboardAds = require './scoreboard/scoreboard_ads'
 cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'Scoreboard'
@@ -29,6 +30,10 @@ module.exports = React.createClass
         <ScoreboardTeam team={@props.gameState.away} jam={awayJam}/>
       </div>
       <div className="col-xs-12">
-        <ScoreboardAlerts {...@props} />
+        {if @props.gameState.state in ['timeout', 'official final', 'unofficial final']
+          <ScoreboardAlerts {...@props} />
+        else
+          <ScoreboardAds {...@props} />
+        }
       </div>
     </div>
