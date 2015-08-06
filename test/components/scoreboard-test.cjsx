@@ -81,10 +81,3 @@ describe 'Scoreboard', () ->
         expect(homeLead.getDOMNode().firstChild.className).not.toContain('hidden')
         expect(awayName.getDOMNode().textContent).toEqual("00 Ana Bollocks")
         expect(awayLead.getDOMNode().firstChild.className).toContain('hidden')
-  describe 'alerts', () ->
-    alerts = null
-    beforeEach () ->
-      alerts = scoreboard.then (scoreboard) -> TestUtils.findRenderedDOMComponentWithClass(scoreboard, 'alerts')
-    pit "displays an alert", () ->
-      alerts.then (alerts) ->
-        TestUtils.findRenderedDOMComponentWithClass(alerts, 'scoreboard-alert')
