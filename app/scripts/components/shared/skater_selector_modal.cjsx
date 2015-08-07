@@ -17,11 +17,11 @@ module.exports = React.createClass
     else
       false
   isInjured: (skater) ->
-    false
+    @props.team.skaterIsInjured(skater.id, @props.jam.jamNumber)
   buttonClass: (skater) ->
     cx
-      'selector-injury' : @isInjured(skater)
       'bt-btn skater-selector-dialog-btn': true
+      'btn-injury': @isInjured(skater)
   render: () ->
     <div className="modal" id="skater-selector-modal">
       <div className="modal-dialog skater-selector-dialog">

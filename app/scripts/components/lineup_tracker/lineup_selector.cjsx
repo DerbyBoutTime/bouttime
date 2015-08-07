@@ -1,4 +1,5 @@
 React = require 'react/addons'
+cx = React.addons.classSet
 module.exports = React.createClass
   displayName: 'LineupSelector'
   propTypes:
@@ -7,6 +8,13 @@ module.exports = React.createClass
     selectHandler: React.PropTypes.func
   isSelected: (position, skater) ->
     @props?.jam?[position]?.id is skater.id
+  getStyle: (position, skater) ->
+    if @isSelected(position, skater)
+      @props.team.colorBarStyle
+  btnClass: (skater) -> cx
+    'bt-btn': true
+    'btn-danger': skater.fouledOut() or skater.expelled()
+    'btn-injury': @props.team.skaterIsInjured(skater.id, @props.jam.jamNumber)
   render: () ->
     <div className="modal" id="lineup-selector-modal">
       <div className="modal-dialog lineup-selector-dialog">
@@ -38,8 +46,8 @@ module.exports = React.createClass
                 <div key={position} className='col-xs-5-cols'>
                   {@props.team?.skaters?.map (skater, skaterIndex) ->
                     <button key={skaterIndex}
-                      className='bt-btn lineup-selector-dialog-btn': true
-                      style={if @isSelected(position, skater) then @props.team.colorBarStyle}
+                      className={@btnClass(skater)}
+                      style={@getStyle(position, skater)}
                       onClick={@props.selectHandler.bind(null, position, skater.id)}>
                         <strong className="skater-number">{skater.number}</strong>
                     </button>

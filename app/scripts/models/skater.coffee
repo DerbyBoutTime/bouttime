@@ -34,4 +34,11 @@ class Skater extends Store
   updatePenalty: (skaterPenaltyIndex, opts={}) ->
     skaterPenalty = @penalties[skaterPenaltyIndex]
     _.extend(skaterPenalty, opts)
+  expelled: () ->
+    @penalties.some (skaterPenalty) ->
+      skaterPenalty.penalty.name is 'Gross Misconduct'
+  fouledOut: () ->
+    @penalties.length >= 7
+  leftEarly: () ->
+    false
 module.exports = Skater
