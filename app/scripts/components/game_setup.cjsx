@@ -19,6 +19,12 @@ module.exports = React.createClass
       removeOfficial: (gameState, officialIndex) =>
         gameState.officials.splice officialIndex, 1
         @setState @state
+      addAd: (gameState, ad) =>
+        gameState.ads.push ad
+        @setState @state
+      removeAd: (gameState, adIndex) =>
+        gameState.ads.splice adIndex, 1
+        @setState @state
       updateTeam: (team, newTeam) =>
         team = $.extend(team, newTeam)
         @setState(@state)

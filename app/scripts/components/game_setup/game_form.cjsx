@@ -26,6 +26,12 @@ module.exports = React.createClass
     @props.actions.updateGame time: evt.target.value
   handleOfficialChange: (idx, evt) ->
     @props.actions.updateOfficial idx, evt.target.value
+  handleAdChange: (evt) ->
+    file = evt.target.files[0]
+    reader = new FileReader()
+    reader.onload = (fEvt) =>
+      @props.actions.addAd @props.gameState, fEvt.target.result
+    reader.readAsDataURL file
   handleSubmit: (evt) ->
     evt.preventDefault()
     @props.actions.saveGame()
@@ -58,6 +64,16 @@ module.exports = React.createClass
             <span className="glyphicon glyphicon-time"></span>
           </span>
         </div>
+      </div>
+      {@props.gameState.ads.map (ad, idx) ->
+        <div key={idx}>
+          <button type="button" className="close" onClick={@props.actions.removeAd.bind(null, @props.gameState, idx)}><span className="glyphicon glyphicon-remove"></span></button>
+          <img className="ad" src={ad} />
+        </div>
+      , this}
+      <div className='form-group'>
+        <label htmlFor="game-ads">Scoreboard Ads</label>
+        <input type="file" accept="image/*" className="form-control" id="game-ads" onChange={@handleAdChange} />
       </div>
       <h3>Officials</h3>
       {@props.gameState.officials.map (official, idx) ->
