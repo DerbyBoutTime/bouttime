@@ -1,6 +1,3 @@
-
-AppDispatcher = require './dispatcher/app_dispatcher'
-{ActionTypes} = require './constants'
 module.exports =
   init: () ->
     GameState = require './models/game_state'

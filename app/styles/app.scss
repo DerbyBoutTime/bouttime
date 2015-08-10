@@ -80,6 +80,29 @@
     }
   }
 }
+.bt-select {
+  @extend .bt-box;
+  display:block;
+  &:after {
+    content: '\e114';
+    font-family: 'Glyphicons Halflings';
+    position:absolute;
+    top:16px;
+    right:12px;
+    z-index: 5;
+  }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    width:100%;
+    z-index:10;
+    cursor:pointer;
+    background-color: transparent;
+    position: relative;
+  }
+}
 .top-buffer {
   margin-top: 4px;
 }
@@ -148,21 +171,6 @@
   $width: 100%/7.0;
   float:left;
   width: $width;
-}
-.fancy-btn {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  margin-left: 1em;
-}
-.fancy-select {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 0;
-  font-size: 1.4em;
-  margin-top: 0;
-  width: 50%;
 }
 .row.gutters-xs {
   @include gutters-xs;

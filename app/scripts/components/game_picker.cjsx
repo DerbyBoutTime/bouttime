@@ -1,5 +1,4 @@
 React = require 'react/addons'
-DemoData = require '../demo_data'
 AppDispatcher = require '../dispatcher/app_dispatcher'
 GameState = require '../models/game_state'
 GameMetadata = require '../models/game_metadata'
@@ -17,10 +16,18 @@ module.exports = React.createClass
     qs.parse(window?.location?.hash?.substring(1)).id
   selectGame: (gameId) ->
     @setState(selectedGame: gameId)
-  fillDemoGame: () ->
+  handleImport: (evt) ->
+    file = evt.target.files[0]
+    reader = new FileReader()
+    reader.onload = (fEvt) =>
+      args = JSON.parse(fEvt.target.result)
+      @importGame(args)
+    reader.readAsText file
+  importGame: (game) ->
     @refs.gameSetup.reloadState()
-    DemoData.init().then (game) =>
-      @setState(newGame: game)
+    GameState.new(game)
+    .then (gs) =>
+      @setState(newGame: gs)
   onChange: () ->
     GameMetadata.all().then (games) =>
       @setState(games: games)
@@ -42,17 +49,22 @@ module.exports = React.createClass
     <div className='game-picker'>
       <div className={hideIfSelected}>
         <h2>Game Select</h2>
-        <div style={height: "100px"}>
-          <select className="fancy-select" ref="gameSelect" style={height: "33px"}>
-            {@state.games.map (game) ->
-              <option key={game.id} value={game.id}>{game.display}</option>
-            , this}
-          </select>
-          <button className='btn fancy-btn' onClick={@openGame}>Open Game</button>
-          <button className='btn fancy-btn' onClick={@fillDemoGame}>
-            Fill Demo
-          </button>
+        <div className='row gutters-xs'>
+          <div className='col-xs-12 col-sm-6'>
+            <div className='bt-select top-buffer'>
+              <select ref="gameSelect">
+                {@state.games.map (game) ->
+                  <option key={game.id} value={game.id}>{game.display}</option>
+                , this}
+              </select>
+            </div>
+          </div>
+          <div className='col-xs-12 col-sm-6'>
+            <button className='bt-btn top-buffer' onClick={@openGame}>Open Game</button>
+          </div>
         </div>
+        <h2>Game Import</h2>
+        <input type='file' accept="application/json" onChange={@handleImport}/>
         {if @state.newGame? 
           <GameSetup ref='gameSetup' gameState={@state.newGame} onSave={@selectGame.bind(this, @state.newGame.id)}/>
         }
