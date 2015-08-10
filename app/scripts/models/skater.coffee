@@ -28,9 +28,17 @@ class Skater extends Store
     @penalties.push
       penalty: penalty
       jamNumber: jamNumber
+      sat: false
   clearPenalty: (skaterPenaltyIndex) ->
     @penalties.splice(skaterPenaltyIndex, 1)
   updatePenalty: (skaterPenaltyIndex, opts={}) ->
     skaterPenalty = @penalties[skaterPenaltyIndex]
     _.extend(skaterPenalty, opts)
+  expelled: () ->
+    @penalties.some (skaterPenalty) ->
+      skaterPenalty.penalty.name is 'Gross Misconduct'
+  fouledOut: () ->
+    @penalties.length >= 7
+  leftEarly: () ->
+    false
 module.exports = Skater

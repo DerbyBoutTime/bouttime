@@ -182,6 +182,9 @@ class Jam extends Store
   isInjured: (position) ->
     @lineupStatuses? and @lineupStatuses.some (status) ->
       status[position] is 'injured'
+  skaterIsInjured: (skaterId) ->
+    ['jammer', 'pivot', 'blocker1', 'blocker2', 'blocker3'].some (position) =>
+      @[position]?.id is skaterId and @isInjured(position)
   getLineup: () ->
     [@pivot, @blocker1, @blocker2, @blocker3, @jammer].filter (position) ->
       position?

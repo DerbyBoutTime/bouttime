@@ -4,22 +4,15 @@ module.exports = React.createClass
   displayName: 'PenaltyAlert'
   propTypes:
     skater: React.PropTypes.object.isRequired
-  expelled: () ->
-    @props.skater.penalties.some (skaterPenalty) ->
-      skaterPenalty.penalty.name is 'Gross Misconduct'
-  fouledOut: () ->
-    @props.skater.penalties.length >= 7
-  leftEarly: () ->
-    false
   render: () ->
     containerClass = cx
       'penalty-alert text-center text-uppercase bt-box': true
-      'box-warning': @leftEarly()
-      'box-danger': @fouledOut() or @expelled()
+      'box-warning': @props.skater.leftEarly()
+      'box-danger': @props.skater.fouledOut() or @props.skater.expelled()
     displayContent = switch
-      when @expelled() then 'Expelled'
-      when @fouledOut() then 'Foul Out'
-      when @leftEarly() then 'Left Early'
+      when @props.skater.expelled() then 'Expelled'
+      when @props.skater.fouledOut() then 'Foul Out'
+      when @props.skater.leftEarly() then 'Left Early'
       else 'Alert'
     <div className={containerClass}>
       <strong>{displayContent}</strong>

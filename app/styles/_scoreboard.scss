@@ -221,6 +221,23 @@
     background-color: $alert-color;
     color: $near-black;
   }
+  .ads {
+    margin-top: 15px;
+    overflow: hidden;
+    position:relative;
+    height: 90px;
+  }
+  .scoreboard-ad {
+    position:absolute;
+    top:0;
+    width: 100%;
+    img {
+      display: block;
+      margin: 0 auto 0;
+      max-height: 90px;
+      max-width: 100%;
+    }
+  }
   .reversed {
     .reversible {
       flex-direction: row-reverse;
@@ -238,5 +255,19 @@
     .clocks {
       border:none;
     }
+  }
+  .carousel-enter {
+    transform: translateX(-100%)
+  }
+  .carousel-enter.carousel-enter-active {
+    transform: translateX(0);
+    transition: transform .5s linear;
+  }
+  .carousel-leave {
+    transform: translateX(0)
+  }
+  .carousel-leave.carousel-leave-active {
+    transform: translateX(100%);
+    transition: transform .5s linear;
   }
 }

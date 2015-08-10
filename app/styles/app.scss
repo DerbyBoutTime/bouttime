@@ -31,9 +31,7 @@
   margin-bottom: 10px;
   border-radius: 0;
 }
-.btn-selected {
-  @include button-variant($btn-selected-color, $btn-selected-bg, $btn-selected-border);
-}
+
 .bt-btn {
   @extend .btn;
   @extend .btn-block;
@@ -41,6 +39,15 @@
   padding: 9px 2px;
   font-weight: bold;
   min-height: $minimum-touch-target;
+  &.btn-selected {
+    @include button-variant($btn-selected-color, $btn-selected-bg, $btn-selected-border);
+  }
+  &.btn-injury {
+    @include button-variant($pink, $white, $pink);
+    border-width: 5px;
+    border-radius: 10px;
+    padding: 5px 2px;
+  }
 }
 .bt-box {
   @include box-variant($near-black, $white, $gray);
@@ -71,6 +78,29 @@
     @media (min-width: $screen-md-min) {
       font-size: 4.8em;
     }
+  }
+}
+.bt-select {
+  @extend .bt-box;
+  display:block;
+  &:after {
+    content: '\e114';
+    font-family: 'Glyphicons Halflings';
+    position:absolute;
+    top:16px;
+    right:12px;
+    z-index: 5;
+  }
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    width:100%;
+    z-index:10;
+    cursor:pointer;
+    background-color: transparent;
+    position: relative;
   }
 }
 .top-buffer {
@@ -141,21 +171,6 @@
   $width: 100%/7.0;
   float:left;
   width: $width;
-}
-.fancy-btn {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  margin-left: 1em;
-}
-.fancy-select {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
-  border: 0;
-  font-size: 1.4em;
-  margin-top: 0;
-  width: 50%;
 }
 .row.gutters-xs {
   @include gutters-xs;

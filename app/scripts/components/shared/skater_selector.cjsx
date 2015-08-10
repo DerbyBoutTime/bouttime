@@ -18,14 +18,17 @@ module.exports = React.createClass
     else
       <strong>{@props.placeholder}<span className="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></strong>
   render: () ->
+    style = @props.style if @props.skater and not @props.injured and not @props.skater.fouledOut() and not @props.skater.expelled()
     buttonClass = cx
-      'bt-btn btn-selector': true
-      'injury': @props.injured
+      'bt-btn': true
+      'btn-selector': not @props.skater?.fouledOut() and not @props.skater?.expelled() and not @props.injured
+      'btn-danger': @props.skater?.fouledOut() or @props.skater?.expelled()
+      'btn-injury': @props.injured
       'selected': @props.skater?
     <button
       className={buttonClass}
       data-toggle="modal"
-      style={if @props.skater and not @props.injured then @props.style else {}}
+      style={style}
       data-target={@props.target}
       onClick={@props.setSelectorContext.bind(this, @props.selectHandler)}>
       <strong>{@buttonContent()}</strong>

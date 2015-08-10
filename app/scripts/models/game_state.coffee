@@ -247,6 +247,7 @@ class GameState extends Store
       {code: "G", name: "Gross Misconduct"}
     ]
     @feed = options.feed ? []
+    @ads = options.ads ? []
     @_undoStack = options._undoStack ? []
     @_redoStack = options._redoStack ? []
   load: (options={}) ->

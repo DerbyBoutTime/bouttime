@@ -161,4 +161,7 @@ class Team extends Store
   createBox: (position, sort) ->
     newBox = new BoxEntry(id: functions.uniqueId(8, @seatSequence), teamId: @id, position: position, sort: sort)
     newBox.save()
+  skaterIsInjured: (skaterId, jamNumber) ->
+    @jams[Math.max(jamNumber-4, 0)...jamNumber].some (jam) ->
+      jam.skaterIsInjured(skaterId)
 module.exports = Team
