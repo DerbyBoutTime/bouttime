@@ -68,6 +68,11 @@ module.exports =
       @clearRedo()
       @_pushUndo()
       @isRunning = false
+    toggle: () =>
+      if @isRunning
+        @stop()
+      else
+        @start()
     sync: (options={}) ->
       @isRunning = options.isRunning ? false
       @warningIssued = options.warningIssued ? false
