@@ -284,7 +284,7 @@ module.exports = React.createClass
       buttons.push <ShortcutButton className="bt-btn" onClick={@startJam} shortcut='j'>START JAM</ShortcutButton>
     if @props.state is "jam"
       buttons.push <ShortcutButton className="bt-btn" onClick={@stopJam} shortcut='J'>STOP JAM</ShortcutButton>
-    if @props.state in ["pregame", "halftime"]
+    if @props.state in ["pregame", "halftime", "timeout"]
       buttons.push <ShortcutButton className="bt-btn" onClick={@startLineup} shortcut='l'>START LINEUP</ShortcutButton>
     if @props.state is "lineup" and @props.period is "period 1" and @props.periodClock.time is 0
       buttons.push <ShortcutButton className="bt-btn" onClick={@startHalftime} shortcut='h'>START HALFTIME</ShortcutButton>
