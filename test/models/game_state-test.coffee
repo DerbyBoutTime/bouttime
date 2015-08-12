@@ -166,7 +166,6 @@ describe 'GameState', () ->
       .then (gameState) ->
         expect(gameState.state).toBe('timeout')
         expect(gameState.timeout).toBe('official timeout')
-        expect(gameState.inOfficialTimeout).toBe(true)
     pit "sets a timeout as a home team timeout", () ->
       gameState.then (gameState) ->
         callback

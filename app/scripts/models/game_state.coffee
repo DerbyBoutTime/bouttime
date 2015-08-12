@@ -347,7 +347,6 @@ class GameState extends Store
     @_clearTimeouts()
     @_clearUndo()
     @timeout = "official timeout"
-    @inOfficialTimeout = true
     @modifyFeed type: 'timeout', body: 'Official Timeout', style: null
   setTimeoutAsHomeTeamTimeout: () ->
     if @_inTimeout() == false
