@@ -20,7 +20,7 @@ module.exports = React.createClass
       </div>
       <div className="row gutters-xs">
         <div className="col-xs-12">
-          <div className="bt-box box-lg text-center box-default" onClick={@props.clickClock}>
+          <div className="bt-box box-lg text-center box-default clickable" onClick={@props.clickClock}>
             {@props.clock.display()}
           </div>
         </div>

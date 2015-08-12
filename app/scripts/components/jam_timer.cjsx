@@ -341,18 +341,22 @@ module.exports = React.createClass
       cx
         'official-review': true
         'bar': true
+        'clickable': true
         'active': @props.home.isTakingOfficialReview
         'inactive': @props.home.hasOfficialReview == false
       cx
         'bar': true
+        'clickable': true
         'active': @props.home.isTakingTimeout && @props.home.timeouts == 2
         'inactive': @props.home.timeouts < 3
       cx
         'bar': true
+        'clickable': true
         'active': @props.home.isTakingTimeout && @props.home.timeouts == 1
         'inactive': @props.home.timeouts < 2
       cx
         'bar': true
+        'clickable': true
         'active': @props.home.isTakingTimeout && @props.home.timeouts == 0
         'inactive': @props.home.timeouts < 1
     ]
@@ -360,18 +364,22 @@ module.exports = React.createClass
       cx
         'official-review': true
         'bar': true
+        'clickable': true
         'active': @props.away.isTakingOfficialReview
         'inactive': @props.away.hasOfficialReview == false
       cx
         'bar': true
+        'clickable': true
         'active': @props.away.isTakingTimeout && @props.away.timeouts == 2
         'inactive': @props.away.timeouts < 3
       cx
         'bar': true
+        'clickable': true
         'active': @props.away.isTakingTimeout && @props.away.timeouts == 1
         'inactive': @props.away.timeouts < 2
       cx
         'bar': true
+        'clickable': true
         'active': @props.away.isTakingTimeout && @props.away.timeouts == 0
         'inactive': @props.away.timeouts < 1
     ]
