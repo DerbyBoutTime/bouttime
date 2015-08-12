@@ -1,6 +1,6 @@
 {
   "name": "wftda-bouttime",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "WFTDA BoutTime App",
   "preferGlobal": true,
   "main": "dist/server.js",
