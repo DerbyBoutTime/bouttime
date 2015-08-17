@@ -11,6 +11,8 @@ module.exports = React.createClass
     incrementJamNumber: React.PropTypes.func.isRequired
     decrementJamNumber: React.PropTypes.func.isRequired
     clearPenalty: React.PropTypes.func.isRequired
+    toggleSat: React.PropTypes.func.isRequired
+    toggleSeverity: React.PropTypes.func.isRequired
     onOpen: React.PropTypes.func.isRequired
     onClose: React.PropTypes.func.isRequired
   clearPenalty: () ->
@@ -32,6 +34,9 @@ module.exports = React.createClass
     satClass = cx
       'bt-btn': true
       'btn-primary': @props.skaterPenalty.sat
+    severityClass = cx
+      'bt-btn': true
+      'btn-primary': @props.skaterPenalty.penalty.egregious
     <div className={containerClass} id={@props.id}>
       <div className='row gutters-xs'>
         <div className='col-xs-1'>
@@ -39,7 +44,7 @@ module.exports = React.createClass
             <span className='glyphicon glyphicon-trash'></span>
           </button>
         </div>
-        <div className='col-xs-10'>
+        <div className='col-xs-9'>
           <div className='bt-box'>
             <div className='row gutters-xs'>
               <div className="col-xs-1">
@@ -61,6 +66,11 @@ module.exports = React.createClass
         <div className='col-xs-1'>
           <button className={satClass} onClick={@props.toggleSat}>
             <span>&middot;</span>
+          </button>
+        </div>
+        <div className='col-xs-1'>
+          <button className={severityClass} onClick={@props.toggleSeverity}>
+            <span className='glyphicon glyphicon-warning-sign'></span>
           </button>
         </div>
       </div>

@@ -244,7 +244,7 @@ class GameState extends Store
       {code: "P", name: "Out of Play"},
       {code: "M", name: "Multi-Player Block"},
       {code: "I", name: "Illegal Procedure"},
-      {code: "G", name: "Gross Misconduct"}
+      {code: "G", name: "Gross Misconduct", egregious: true}
     ]
     @feed = options.feed ? []
     @ads = options.ads ? []
