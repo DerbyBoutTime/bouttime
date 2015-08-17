@@ -8,7 +8,7 @@ class AppDispatcher
     @_lastId = 1
     @_callbacks = {}
     @_promises = {}
-    @_dispatch = null
+    @_dispatch = Promise.resolve()
     @_timing = {}
     @_delays = []
     @_delay = 0
@@ -60,12 +60,8 @@ class AppDispatcher
         id)
       @_promises[id]
   dispatch: (payload) ->
-    invariant(
-      not @_isDispatching,
-      'Dispatcher.dispatch(...): Cannot dispatched in the middle of a dispatch.')
     console.log payload
-    @_dispatch = Promise.resolve(payload)
-    .then (payload) =>
+    @_dispatch = @_dispatch.then =>
       @_promises = {}
       for id, callback of @_callbacks
         @_promises[id] = callback(payload)
