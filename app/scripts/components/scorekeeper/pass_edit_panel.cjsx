@@ -47,6 +47,8 @@ module.exports = React.createClass
       skaterId: skaterId
   isFirstPass: () ->
     @props.pass.passNumber == 1
+  isOvertime: () ->
+    @props.jam.overtime
   render: () ->
     leadColumnClass = cx
       'col-xs-3': true
@@ -56,10 +58,10 @@ module.exports = React.createClass
       'hidden': @isFirstPass()
     firstPassScoreRowClass = cx
       'row gutters-xs top-buffer': true
-      'hidden': not @isFirstPass()
+      'hidden': not @isFirstPass() or @isOvertime()
     scoreRowClass = cx
       'row gutters-xs top-buffer': true
-      'hidden': @isFirstPass()
+      'hidden': @isFirstPass() and not @isOvertime()
     injuryClass = cx
       'bt-btn': true
       'btn-primary': @props.pass.injury

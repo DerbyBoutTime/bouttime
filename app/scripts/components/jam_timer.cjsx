@@ -20,7 +20,7 @@ module.exports = React.createClass
     jamClock: React.PropTypes.instanceOf(Clocks.Clock)
     jamNumber: React.PropTypes.number
     gameStateId: React.PropTypes.string
-    state: React.PropTypes.oneOf ["jam", "lineup", "timeout", "pregame", "halftime", "unofficial final", "official final"]
+    state: React.PropTypes.oneOf ["jam", "lineup", "timeout", "pregame", "halftime", "unofficial final", "official final", "overtime"]
     period: React.PropTypes.oneOf ["pregame", "period 1", "period 2", "halftime", "unofficial final", "official final"]
     home: React.PropTypes.shape
       hasOfficialReview: React.PropTypes.bool
@@ -179,6 +179,13 @@ module.exports = React.createClass
       jamClock: @props.jamClock
       periodClock: @props.periodClock
       sourceDelay: AppDispatcher.delay
+  startOvertime: () ->
+    AppDispatcher.dispatchAndEmit
+      type: ActionTypes.START_OVERTIME
+      gameId: @props.gameStateId
+      jamClock: @props.jamClock
+      periodClock: @props.periodClock
+      sourceDelay: AppDispatcher.delay
   startTimeout: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.START_TIMEOUT
@@ -274,13 +281,13 @@ module.exports = React.createClass
       'hidden': @state.modalInput isnt ref
   render: () ->
     buttons = []
-    if @props.state in ["jam", "lineup", "unofficial final"]
+    if @props.state in ["jam", "lineup", "unofficial final", "overtime"]
       buttons.push <ShortcutButton className='bt-btn' onClick={@startTimeout} shortcut='t'>TIMEOUT</ShortcutButton>
     if @props.state in ["pregame", "halftime", "unofficial final", "official final"]
       buttons.push <ShortcutButton className='bt-btn' onClick={@startClock} shortcut='c'>START CLOCK</ShortcutButton>
     if @props.state in ["pregame", "halftime", "unofficial final", "official final"]
       buttons.push <ShortcutButton className="bt-btn" onClick={@stopClock} shortcut='C'>STOP CLOCK</ShortcutButton>
-    if @props.state in ["pregame", "halftime", "lineup", "timeout"]
+    if @props.state in ["pregame", "halftime", "lineup", "timeout", "overtime"]
       buttons.push <ShortcutButton className="bt-btn" onClick={@startJam} shortcut='j'>START JAM</ShortcutButton>
     if @props.state is "jam"
       buttons.push <ShortcutButton className="bt-btn" onClick={@stopJam} shortcut='J'>STOP JAM</ShortcutButton>
@@ -288,8 +295,9 @@ module.exports = React.createClass
       buttons.push <ShortcutButton className="bt-btn" onClick={@startLineup} shortcut='l'>START LINEUP</ShortcutButton>
     if @props.state is "lineup" and @props.period is "period 1" and @props.periodClock.time is 0
       buttons.push <ShortcutButton className="bt-btn" onClick={@startHalftime} shortcut='h'>START HALFTIME</ShortcutButton>
-    if @props.state is "lineup" and @props.period is "period 2" and @props.periodClock.time is 0
+    if @props.state in ["lineup", "overtime"] and @props.period is "period 2" and @props.periodClock.time is 0
       buttons.push <ShortcutButton className="bt-btn" onClick={@startUnofficialFinal} shortcut='u'>START UNOFFICIAL FINAL</ShortcutButton>
+      buttons.push <ShortcutButton className="bt-btn" onClick={@startOvertime} shortcut='o'>START OVERTIME</ShortcutButton>
     if @props.state is "unofficial final"
       buttons.push <ShortcutButton className="bt-btn" onClick={@startOfficialFinal} shortcut='o'>START OFFICIAL FINAL</ShortcutButton>
     if @props.isUndoable
