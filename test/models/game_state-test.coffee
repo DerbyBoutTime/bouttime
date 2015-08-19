@@ -89,8 +89,8 @@ describe 'GameState', () ->
           expect(gameState.state).toBe('jam')
       pit "creates new jams", () ->
         gameState.then (gameState) ->
-          expect(gameState.home.createJamsThrough).toBeCalledWith(1)
-          expect(gameState.away.createJamsThrough).toBeCalledWith(1)
+          expect(gameState.home.createJamsThrough).toBeCalledWith(1, false)
+          expect(gameState.away.createJamsThrough).toBeCalledWith(1, false)
     pit "stops the current jam", () ->
       gameState.then (gameState) ->
         callback

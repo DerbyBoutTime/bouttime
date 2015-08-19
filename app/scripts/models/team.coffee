@@ -118,10 +118,10 @@ class Team extends Store
     skater.destroy()
   getPoints: () ->
     @jams.reduce ((sum, jam) -> sum += jam.getPoints()), 0
-  createNextJam: () ->
+  createNextJam: (overtime=false) ->
     lastJam = @jams[@jams.length - 1]
     jamId = functions.uniqueId(8, @jamSequence)
-    args = id: jamId, jamNumber: @jams.length + 1, teamId: @id
+    args = id: jamId, jamNumber: @jams.length + 1, teamId: @id, overtime: overtime
     #Transfer positions in box to next jam
     positionsInBox = lastJam.getPositionsInBox()
     if positionsInBox.length > 0
@@ -141,9 +141,10 @@ class Team extends Store
     Jam.findOrCreate(args).then (newJam) =>
       @jams.push newJam
       newJam.save(true)
-  createJamsThrough: (jamNumber) ->
+  createJamsThrough: (jamNumber, isOvertime=false) ->
     jamNumbers = (i for i in [@jams.length+1 .. jamNumber] by 1)
-    Promise.each (jamNumbers), @createNextJam.bind(this)
+    Promise.each (jamNumbers), (i) =>
+      @createNextJam(i is jamNumber and isOvertime)
     .return this
   anyPenaltyTimerRunning: () ->
     @seats.some (seat) ->

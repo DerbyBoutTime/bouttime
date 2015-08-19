@@ -78,6 +78,7 @@ class Jam extends Store
     super options
     @teamId = options.teamId
     @jamNumber = options.jamNumber ? 1
+    @overtime = options.overtime ? false
     @noPivot = options.noPivot ? false
     @starPass = options.starPass ? false
     @starPassNumber = options.starPassNumber ? 0
