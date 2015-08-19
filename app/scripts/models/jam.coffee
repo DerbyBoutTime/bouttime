@@ -138,7 +138,7 @@ class Jam extends Store
     if @noPivot
       ['J', 'B1', 'B2', 'B3', 'B4']
     else
-      ['J', 'Pivot', 'B1', 'B2', 'B3']
+      ['J', 'P', 'B1', 'B2', 'B3']
   toggleNoPivot: () ->
     @noPivot = not @noPivot
   toggleStarPass: () ->
