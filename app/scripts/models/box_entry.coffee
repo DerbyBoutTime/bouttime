@@ -51,6 +51,11 @@ class BoxEntry extends Store
     @clock = @_clockManager.getOrAddClock(@id, options.clock ? PENALTY_CLOCK_SETTINGS)
     @dirty = options.dirty ? false
     @sort = options.sort ? 0
+  load: () ->
+    if @skater
+      Skater.new(@skater).then (skater) =>
+        @skater = skater
+      .return(this)
   toggleLeftEarly: () ->
     @leftEarly = not @leftEarly
   toggleServed: () ->
