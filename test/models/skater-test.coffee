@@ -45,13 +45,16 @@ describe 'Skater', () ->
               jamNumber: 2
               penalty:
                 foo: 'baz'
+                egregious: true
               sat: true
         .then (skater) ->
           expect(skater.penalties[0]).toEqual
             jamNumber: 2
             penalty:
               foo: 'baz'
+              egregious: true
             sat: true
+          expect(skater.expelled()).toBe(true)
       pit "clears a penalty", () ->
         skater.then (skater) ->
           callback

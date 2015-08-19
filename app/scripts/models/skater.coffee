@@ -36,7 +36,7 @@ class Skater extends Store
     _.extend(skaterPenalty, opts)
   expelled: () ->
     @penalties.some (skaterPenalty) ->
-      skaterPenalty.penalty.name is 'Gross Misconduct'
+      skaterPenalty.penalty.egregious
   fouledOut: () ->
     @penalties.length >= 7
   leftEarly: () ->
