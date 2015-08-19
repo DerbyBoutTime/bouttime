@@ -27,6 +27,9 @@ JAM_CLOCK_SETTINGS =
 LINEUP_CLOCK_SETTINGS =
   time: constants.LINEUP_DURATION_IN_MS
   isRunning: true
+OVERTIME_CLOCK_SETTINGS =
+  time: constants.OVERTIME_DURATION_IN_MS
+  isRunning: true
 TIMEOUT_CLOCK_SETTINGS =
   time: 0
   tickUp: true
@@ -79,6 +82,11 @@ class GameState extends Store
         @find(action.gameId).then (game) ->
           game.syncClocks(action)
           game.startOfficialFinal()
+          game.save()
+      when ActionTypes.START_OVERTIME
+        @find(action.gameId).then (game) ->
+          game.syncClocks(action)
+          game.startOvertime()
           game.save()
       when ActionTypes.START_TIMEOUT
         @find(action.gameId).then (game) ->
@@ -296,11 +304,12 @@ class GameState extends Store
     @_pushUndo()
     @jamClock.reset(JAM_CLOCK_SETTINGS)
     @advancePeriod()
+    isOvertime = @state is 'overtime'
     @state = "jam"
     @jamNumber = @jamNumber + 1
     @pushFeed type: 'jam start', jamNumber: @jamNumber
-    home = @home.createJamsThrough(@jamNumber)
-    away = @away.createJamsThrough(@jamNumber)
+    home = @home.createJamsThrough(@jamNumber, isOvertime)
+    away = @away.createJamsThrough(@jamNumber, isOvertime)
     Promise.join home, away
   stopJam: () =>
     @startLineup()
@@ -334,6 +343,11 @@ class GameState extends Store
     @jamClock.reset() #Dummy reset
     @state = "official final"
     @period = "official final"
+  startOvertime: () ->
+    @_pushUndo()
+    @periodClock.reset()
+    @jamClock.reset(OVERTIME_CLOCK_SETTINGS)
+    @state = "overtime"
   startTimeout: () ->
     @_pushUndo()
     @periodClock.stop()
