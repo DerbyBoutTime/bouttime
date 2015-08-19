@@ -72,7 +72,6 @@ module.exports = React.createClass
     tab = switch @state.tab
       when "jam_timer"
         home =
-          officialReviewsRetained: @state.gameState.home.officialReviewsRetained
           hasOfficialReview: @state.gameState.home.hasOfficialReview
           isTakingOfficialReview: @state.gameState.home.isTakingOfficialReview
           timeouts: @state.gameState.home.timeouts
@@ -80,7 +79,6 @@ module.exports = React.createClass
           isTakingTimeout: @state.gameState.home.isTakingTimeout
           colorBarStyle: @state.gameState.home.colorBarStyle
         away =
-          officialReviewsRetained: @state.gameState.away.officialReviewsRetained
           hasOfficialReview: @state.gameState.away.hasOfficialReview
           isTakingOfficialReview: @state.gameState.away.isTakingOfficialReview
           timeouts: @state.gameState.away.timeouts

@@ -68,7 +68,6 @@ class Team extends Store
     @colorBarStyle = options.colorBarStyle ? { backgroundColor: '', color: '' }
     @colorBarStyle.borderColor = @colorBarStyle.backgroundColor
     @logo = options.logo
-    @officialReviewsRetained = options.officialReviewsRetained ? 0
     @isTakingOfficialReview = options.isTakingOfficialReview ? false
     @isTakingTimeout = options.isTakingTimeout ? false
     @hasOfficialReview = options.hasOfficialReview ? true
@@ -149,10 +148,8 @@ class Team extends Store
     @isTakingTimeout = true
   removeOfficialReview: () ->
     @hasOfficialReview = false
-    @officialReviewsRetained -= 1
   restoreOfficialReview: () ->
     @hasOfficialReview = true
-    @officialReviewsRetained += 1
   renumberJams: () ->
     for jam, i in @jams
       jam.jamNumber = i + 1
