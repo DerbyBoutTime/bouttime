@@ -24,7 +24,6 @@ module.exports = React.createClass
     period: React.PropTypes.oneOf ["pregame", "period 1", "period 2", "halftime", "unofficial final", "official final"]
     home: React.PropTypes.shape
       hasOfficialReview: React.PropTypes.bool
-      officialReviewsRetained: React.PropTypes.number
       isTakingOfficialReview: React.PropTypes.bool
       isTakingTimeout: React.PropTypes.bool
       timeouts: React.PropTypes.number
@@ -32,7 +31,6 @@ module.exports = React.createClass
       colorBarStyle: React.PropTypes.object
     away: React.PropTypes.shape
       hasOfficialReview: React.PropTypes.bool
-      officialReviewsRetained: React.PropTypes.number
       isTakingOfficialReview: React.PropTypes.bool
       isTakingTimeout: React.PropTypes.bool
       timeouts: React.PropTypes.number
@@ -56,7 +54,6 @@ module.exports = React.createClass
     if $target.hasClass "official-review"
       if $target.hasClass "inactive"
         #Set has official review to true
-        #Increment official reviews retained
         if $parent.hasClass "home"
           @restoreHomeTeamOfficialReview()
         else
@@ -391,7 +388,6 @@ module.exports = React.createClass
             initials={@props.home.initials}
             classSets={homeTeamTimeoutClasses}
             style={@props.home.colorBarStyle}
-            reviewsRetained={@props.home.officialReviewsRetained}
             handleToggleTimeoutBar={@handleToggleTimeoutBar}
           />
         </div>
@@ -414,7 +410,6 @@ module.exports = React.createClass
             initials={@props.away.initials}
             classSets=awayTeamTimeoutClasses
             style={@props.away.colorBarStyle}
-            reviewsRetained={@props.away.officialReviewsRetained}
             handleToggleTimeoutBar={@handleToggleTimeoutBar}
           />
         </div>
