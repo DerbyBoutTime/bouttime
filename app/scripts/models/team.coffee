@@ -121,12 +121,22 @@ class Team extends Store
     lastJam = @jams[@jams.length - 1]
     jamId = functions.uniqueId(8, @jamSequence)
     args = id: jamId, jamNumber: @jams.length + 1, teamId: @id, overtime: overtime
+    #Transfer positions in box to next jam
     positionsInBox = lastJam.getPositionsInBox()
     if positionsInBox.length > 0
-      args.lineupStatuses[0] = {}
+      args.lineupStatuses = [{}]
       for position in positionsInBox
         args[position] = lastJam[position]
         args.lineupStatuses[0][position] = 'sat_in_box'
+    #Handle no pivot situation
+    if lastJam.noPivot and args['pivot']
+      position = ['blocker1', 'blocker2', 'blocker3'].filter (pos) ->
+        not args[pos]
+      position = position[0]
+      args[position] = args['pivot']
+      delete args['pivot']
+      args.lineupStatuses[0][position] = args.lineupStatuses[0]['pivot']
+      delete args.lineupStatuses[0]['pivot']
     Jam.findOrCreate(args).then (newJam) =>
       @jams.push newJam
       newJam.save(true)

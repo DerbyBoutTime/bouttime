@@ -25,24 +25,14 @@ module.exports = React.createClass
           </div>
           <div className="modal-body">
             <div className="row gutters-xs">
-              <div className="col-xs-5-cols text-center">
-                <strong>J</strong>
-              </div>
-              <div className="col-xs-5-cols text-center">
-                <strong>P</strong>
-              </div>
-              <div className="col-xs-5-cols text-center">
-                <strong>B1</strong>
-              </div>
-              <div className="col-xs-5-cols text-center">
-                <strong>B2</strong>
-              </div>
-              <div className="col-xs-5-cols text-center">
-                <strong>B3</strong>
-              </div>
+              {@props.jam?.listPositionLabels()?.map (pos) ->
+                <div key={pos} className="col-xs-5-cols text-center">
+                  <strong>{pos}</strong>
+                </div>
+              , this}
             </div>
             <div className="row gutters-xs">
-              {['jammer', 'pivot', 'blocker1', 'blocker2', 'blocker3'].map (position) ->
+              {@props.jam?.listPositions()?.map (position) ->
                 <div key={position} className='col-xs-5-cols'>
                   {@props.team?.skaters?.map (skater, skaterIndex) ->
                     <button key={skaterIndex}

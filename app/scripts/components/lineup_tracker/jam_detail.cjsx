@@ -64,99 +64,38 @@ module.exports = React.createClass
       'row': true
       'gutters-xs': true
       'actions': true
-    pivotHeaderClass = cx
-      'col-xs-5-cols text-center': true
-      'hidden': @props.jam.noPivot
-    blocker4HeaderClass = cx
-      'col-xs-5-cols text-center': true
-      'hidden': not @props.jam.noPivot
-    pivotColumnClass = cx
-      'col-xs-5-cols': true
-      'hidden': @props.jam.noPivot
-    blocker4ColumnClass = cx
-      'col-xs-5-cols': true
-      'hidden': not @props.jam.noPivot
     <div>
       <div className="row gutters-xs top-buffer">
-        <div className="col-xs-5-cols text-center">
-          <strong>J</strong>
-        </div>
-        <div className={pivotHeaderClass}>
-          <strong>Pivot</strong>
-        </div>
-        <div className="col-xs-5-cols text-center">
-          <strong>B1</strong>
-        </div>
-        <div className="col-xs-5-cols text-center">
-          <strong>B2</strong>
-        </div>
-        <div className="col-xs-5-cols text-center">
-          <strong>B3</strong>
-        </div>
-        <div className={blocker4HeaderClass}>
-          <strong>B4</strong>
-        </div>
+        {@props.jam.listPositionLabels().map (pos) ->
+          <div key={pos} className="col-xs-5-cols text-center">
+            <strong>{pos}</strong>
+          </div>
+        , this}
       </div>
       <div className="row gutters-xs top-buffer">
-        <div className="col-xs-5-cols">
-          <SkaterSelector
-            skater={@props.jam.jammer}
-            injured={@props.jam.isInjured('jammer')}
-            style={@props.team.colorBarStyle}
-            setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition}
-            target="#lineup-selector-modal" />
-        </div>
-        <div className={pivotColumnClass}>
-          <SkaterSelector
-            skater={@props.jam.pivot}
-            injured={@props.jam.isInjured('pivot')}
-            style={@props.team.colorBarStyle}
-            setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition}
-            target="#lineup-selector-modal" />
-        </div>
-        <div className="col-xs-5-cols">
-          <SkaterSelector
-            skater={@props.jam.blocker1}
-            injured={@props.jam.isInjured('blocker1')}
-            style={@props.team.colorBarStyle}
-            setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition}
-            target="#lineup-selector-modal" />
-        </div>
-        <div className="col-xs-5-cols">
-          <SkaterSelector
-            skater={@props.jam.blocker2}
-            injured={@props.jam.isInjured('blocker2')}
-            style={@props.team.colorBarStyle}
-            setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition}
-            target="#lineup-selector-modal" />
-        </div>
-        <div className="col-xs-5-cols">
-          <SkaterSelector
-            skater={@props.jam.blocker3}
-            injured={@props.jam.isInjured('blocker3')}
-            style={@props.team.colorBarStyle}
-            setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition}
-            target="#lineup-selector-modal" />
-        </div>
-        <div className={blocker4ColumnClass}>
-          <SkaterSelector
-            skater={@props.jam.pivot}
-            injured={@props.jam.isInjured('pivot')}
-            style={@props.team.colorBarStyle}
-            setSelectorContext={@props.setSelectorContextHandler}
-            selectHandler={@setSkaterPosition}
-            target="#lineup-selector-modal" />
-        </div>
+        {@props.jam.listPositions().map (pos) ->
+          <div key={pos} className='col-xs-5-cols'>
+            <SkaterSelector
+              skater={@props.jam[pos]}
+              injured={@props.jam.isInjured(pos)}
+              style={@props.team.colorBarStyle}
+              setSelectorContext={@props.setSelectorContextHandler}
+              selectHandler={@setSkaterPosition}
+              target="#lineup-selector-modal" /> 
+          </div>         
+        , this}
       </div>
       {@props.jam.lineupStatuses.map (lineupStatus, statusIndex) ->
-        <LineupBoxRow key={statusIndex} lineupStatus={lineupStatus} cycleLineupStatus={@cycleLineupStatus.bind(this, statusIndex)} />
+        <LineupBoxRow
+          key={statusIndex}
+          lineupStatus={lineupStatus}
+          cycleLineupStatus={@cycleLineupStatus.bind(this, statusIndex)}
+          positions={@props.jam.listPositions()} />
       , this }
-      <LineupBoxRow key={@props.jam.lineupStatuses.length} cycleLineupStatus={@cycleLineupStatus.bind(this, @props.jam.lineupStatuses.length)} />
+      <LineupBoxRow
+        key={@props.jam.lineupStatuses.length}
+        cycleLineupStatus={@cycleLineupStatus.bind(this, @props.jam.lineupStatuses.length)}
+        positions={@props.jam.listPositions()} />
     </div>
   render: () ->
     <div className='jam-detail'>

@@ -6,6 +6,7 @@ module.exports = React.createClass
   propTypes:
     lineupStatus: React.PropTypes.object
     cycleLineupStatus: React.PropTypes.func
+    positions: React.PropTypes.array
   getDefaultProps: () ->
     lineupStatus:
       pivot: 'clear'
@@ -15,19 +16,9 @@ module.exports = React.createClass
       jammer: 'clear'
   render: () ->
     <div className="row gutters-xs top-buffer">
-      <div className="col-xs-5-cols">
-        <LineupBox status={@props.lineupStatus.jammer} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'jammer')} />
-      </div>
-      <div className="col-xs-5-cols">
-        <LineupBox status={@props.lineupStatus.pivot} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'pivot')} />
-      </div>
-      <div className="col-xs-5-cols">
-        <LineupBox status={@props.lineupStatus.blocker1} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker1')} />
-      </div>
-      <div className="col-xs-5-cols">
-        <LineupBox status={@props.lineupStatus.blocker2} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker2')} />
-      </div>
-      <div className="col-xs-5-cols">
-        <LineupBox status={@props.lineupStatus.blocker3} cycleLineupStatus={@props.cycleLineupStatus.bind(null, 'blocker3')} />
-      </div>
+      {@props.positions.map (pos) ->
+        <div className="col-xs-5-cols">
+          <LineupBox status={@props.lineupStatus[pos]} cycleLineupStatus={@props.cycleLineupStatus.bind(null, pos)} />
+        </div>
+      , this}
     </div>

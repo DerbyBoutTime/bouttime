@@ -130,6 +130,16 @@ class Jam extends Store
     , {}
     Object.keys(flags).filter (key) ->
       flags[key]
+  listPositions: () ->
+    if @noPivot
+      ['jammer', 'blocker1', 'blocker2', 'blocker3', 'pivot']
+    else
+      ['jammer', 'pivot', 'blocker1', 'blocker2', 'blocker3']
+  listPositionLabels: () ->
+    if @noPivot
+      ['J', 'B1', 'B2', 'B3', 'B4']
+    else
+      ['J', 'P', 'B1', 'B2', 'B3']
   toggleNoPivot: () ->
     @noPivot = not @noPivot
   toggleStarPass: () ->
