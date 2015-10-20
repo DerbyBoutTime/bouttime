@@ -14,6 +14,7 @@ module.exports = React.createClass
           key={jam.id}
           team={@props.team}
           jam={jam}
+          ref="jamDetail"
           setSelectorContextHandler={@props.setSelectorContextHandler.bind(this, jam)} />
       , this }
       <LineupTrackerActions {...@props} />

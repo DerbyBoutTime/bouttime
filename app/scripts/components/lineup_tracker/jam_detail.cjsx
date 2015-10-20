@@ -49,7 +49,7 @@ module.exports = React.createClass
         </div>
       </div>
       <div className="col-xs-3">
-        <button className={noPivotButtonClass} onClick={@toggleNoPivot}>
+        <button className={noPivotButtonClass} onClick={@toggleNoPivot} >
           <strong>No Pivot</strong>
         </button>
       </div>
@@ -73,16 +73,17 @@ module.exports = React.createClass
         , this}
       </div>
       <div className="row gutters-xs top-buffer">
-        {@props.jam.listPositions().map (pos) ->
+        {@props.jam.listPositions().map (pos, index) ->
           <div key={pos} className='col-xs-5-cols'>
             <SkaterSelector
+              ref={"skaterSelector"+index}
               skater={@props.jam[pos]}
               injured={@props.jam.isInjured(pos)}
               style={@props.team.colorBarStyle}
               setSelectorContext={@props.setSelectorContextHandler}
               selectHandler={@setSkaterPosition}
-              target="#lineup-selector-modal" /> 
-          </div>         
+              target="#lineup-selector-modal" />
+          </div>
         , this}
       </div>
       {@props.jam.lineupStatuses.map (lineupStatus, statusIndex) ->

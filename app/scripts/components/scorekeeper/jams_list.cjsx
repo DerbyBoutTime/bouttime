@@ -73,6 +73,17 @@ module.exports = React.createClass
         </div>
       </div>
       <div className={jamsContainerClass}>
+        {@props.team.jams.map (jam, jamIndex) ->
+          item = <JamItem
+            jam={jam}
+            setSelectorContext={@props.setSelectorContext.bind(this, jam)}
+            style={@props.team.colorBarStyle}
+            selectionHandler={@handleJamSelection.bind(this, jamIndex)} />
+          <ItemRow
+            key={jam.id}
+            item={item}
+            removeHandler={@removeJam.bind(this, jam.id)}/>
+        , this}
         <div className="row gutters-xs top-buffer">
           <div className="col-xs-2 text-center">
             <strong>Jam</strong>
@@ -87,17 +98,6 @@ module.exports = React.createClass
             <strong>Points</strong>
           </div>
         </div>
-        {@props.team.jams.map (jam, jamIndex) ->
-          item = <JamItem
-            jam={jam}
-            setSelectorContext={@props.setSelectorContext.bind(this, jam)}
-            style={@props.team.colorBarStyle}
-            selectionHandler={@handleJamSelection.bind(this, jamIndex)} />
-          <ItemRow
-            key={jam.id}
-            item={item}
-            removeHandler={@removeJam.bind(this, jam.id)}/>
-        , this}
         <div className="row gutters-xs top-buffer">
           <div className="col-xs-12">
             <button className="bt-btn btn-primary text-uppercase" onClick={@createNextJam}>Next Jam</button>

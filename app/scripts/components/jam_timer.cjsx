@@ -10,6 +10,7 @@ ShortcutButton = require './shared/shortcut_button'
 Clocks = require '../clock.coffee'
 TimeoutBars = require './jam_timer/timeout_bars.cjsx'
 shallowEqual = require '../shallowEqual.js'
+Mousetrap = require 'mousetrap'
 _ = require 'underscore'
 window._ = _
 cx = React.addons.classSet
@@ -44,6 +45,7 @@ module.exports = React.createClass
     @props.jamClock.emitter.addListener "clockExpiration", @jamClockExpired
   componentWillUnmount: () ->
     @props.jamClock.emitter.removeListener "clockExpiration", @jamClockExpired
+    Mousetrap.reset()
   jamClockExpired: () ->
     AppDispatcher.dispatchAndEmit
       type: ActionTypes.HANDLE_CLOCK_EXPIRATION

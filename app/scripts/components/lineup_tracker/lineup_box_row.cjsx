@@ -16,9 +16,9 @@ module.exports = React.createClass
       jammer: 'clear'
   render: () ->
     <div className="row gutters-xs top-buffer">
-      {@props.positions.map (pos) ->
+      {@props.positions.map (pos,index) ->
         <div className="col-xs-5-cols">
-          <LineupBox status={@props.lineupStatus[pos]} cycleLineupStatus={@props.cycleLineupStatus.bind(null, pos)} />
+          <LineupBox ref={"lineupBox"+index} status={@props.lineupStatus[pos]} cycleLineupStatus={@props.cycleLineupStatus.bind(null, pos)} />
         </div>
       , this}
     </div>
