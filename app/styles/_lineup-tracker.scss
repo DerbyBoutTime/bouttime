@@ -5,4 +5,8 @@
       color: $pink;
     }
   }
+  .team-lineup {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }

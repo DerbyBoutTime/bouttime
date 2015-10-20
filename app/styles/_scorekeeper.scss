@@ -12,4 +12,8 @@
       @include button-variant($near-black, $white, $white);
     }
   }
+  .jams {
+    display: flex;
+    flex-direction: column-reverse;
+  }
 }
