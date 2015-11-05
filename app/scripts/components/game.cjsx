@@ -119,7 +119,7 @@ module.exports = React.createClass
     <div ref="game" className="game" data-tab={@state.tab}>
       <header>
         <div className="container-fluid">
-          <Titlebar gameName={@state.gameState.getDisplayName()} tabHandler={@setTab} backHandler={@props.backHandler}/>
+          <Titlebar gameStateId={@state.gameState.id} gameName={@state.gameState.getDisplayName()} tabHandler={@setTab} backHandler={@props.backHandler}/>
           <div className="logo">
             <div className="container">
               <a href="#">
