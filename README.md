@@ -1,4 +1,4 @@
-[![CircleCI](https://circleci.com/gh/WFTDA/bouttime.svg?style=svg)](https://circleci.com/gh/WFTDA/bouttime)
+[![CircleCI](https://circleci.com/gh/WFTDA/bouttime.svg?style=svg&circle-token=9b5d2312f6063d633b844c97c873653c13b26513)](https://circleci.com/gh/WFTDA/bouttime)
 
 [![Code Climate](https://codeclimate.com/repos/559a0472e30ba07010002dbe/badges/9909fa76b2506419a836/gpa.svg)](https://codeclimate.com/repos/559a0472e30ba07010002dbe/feed)
 [![Test Coverage](https://codeclimate.com/repos/559a0472e30ba07010002dbe/badges/9909fa76b2506419a836/coverage.svg)](https://codeclimate.com/repos/559a0472e30ba07010002dbe/coverage)
