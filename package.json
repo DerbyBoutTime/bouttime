@@ -1,8 +1,10 @@
 {
   "name": "wftda-bouttime",
   "version": "0.0.22",
+  "author": "WFTDA",
   "description": "WFTDA BoutTime App",
   "preferGlobal": true,
+  "license": "SEE LICENSE file",
   "main": "dist/server.js",
   "bin": {
     "bouttime-server": "bin/bouttime-server"
@@ -15,7 +17,6 @@
     "type": "git",
     "url": "https://github.com/wftda/bouttime.git"
   },
-  "author": "Wiserstudios",
   "bugs": {
     "url": "https://github.com/wftda/bouttime/issues"
   },
