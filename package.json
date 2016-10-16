@@ -3,7 +3,7 @@
   "version": "0.0.22",
   "author": "WFTDA",
   "description": "WFTDA BoutTime App",
-  "license": "SEE LICENSE in LICENSE",
+  "license": "SEE LICENSE IN LICENSE",
   "main": "dist/server.js",
   "bin": {
     "bouttime-server": "bin/bouttime-server"
