@@ -32,7 +32,7 @@ To install the new version
 Use `setup.sh` (i.e. `./setup.sh`) or follow the steps below to get your
 development environment up and running:
 
-    $ npm install -g bower gulp nodemon
+    $ npm install -g bower gulp
     $ npm install
     $ npm link # Link from your globally installed node modules
 

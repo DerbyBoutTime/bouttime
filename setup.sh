@@ -1,8 +1,9 @@
 #!/bin/bash
-clear
+
+set -e -o pipefail
 
 echo "installing bower and gulp globally"
-npm install -g bower gulp nodemon
+npm install bower gulp
 
 echo "installing NPM dependencies"
 npm install
@@ -10,10 +11,6 @@ npm install
 echo "installing bower dependencies"
 bower install
 
-# echo "installing bower-installer"
-# npm install -g bower-installer
-
-# echo "moving local bower files to deploy directory"
-# bower-installer
-
-# echo "You should now be able to run 'gulp' to build and 'gulp run' to build and start the local server."
+echo "Dependencies have been installed."
+echo "You can now run gulp to build the app and gulp watch to build as you make changes."
+echo "Start the BoutTime server with ./bin/bouttime-server"
