@@ -1,13 +1,19 @@
+# misc
 .DS_Store
 *.rbc
 *.swp
-capybara-*.html
 **.orig
+
 rerun.txt
 pickle-email-*.html
+
+# npm
 node_modules/
 npm-debug.log
 /dist/
-/scratch/
+
+# app
+bower_components/
 .sass-cache/
 *.db
+/scratch/
