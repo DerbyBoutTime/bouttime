@@ -5,7 +5,7 @@
 
 # Prerequisites
 
-BoutTime requires version 0.10 of [node.js](https://nodejs.org/) to run, which
+BoutTime requires version 0.10.x of [node.js](https://nodejs.org/) to run, which
 can be installed from their website. Note this is an older version and we are
 working on bringing the application up to date.
 
@@ -15,13 +15,13 @@ Alternatively, you may install node on OSX via [Homebrew](http://brew.sh/)
 
 # Installation
 
-    $ npm install -g wftda-bouttime
+    $ npm install wftda-bouttime
 
 # Update
 
 To install the new version
 
-    $ npm update -g wftda-bouttime
+    $ npm update wftda-bouttime
 
 # Running a Server
 

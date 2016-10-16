@@ -165,4 +165,4 @@ gulp.task('watch', ['build'], function() {
 });
 
 // Default task
-gulp.task('default', ['clean', 'build'  ]);
+gulp.task('default', ['clean', 'build']);
