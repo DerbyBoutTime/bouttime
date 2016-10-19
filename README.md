@@ -11,24 +11,32 @@ Alternatively, you may install node on OSX via [Homebrew](http://brew.sh/)
 
     $ brew install node010
 
-# Installation
+# Using the Alpha Release
 
-    $ npm install wftda-bouttime
+You can install the current alpha release via NPM (note: this software is not
+ready for production use).
 
-# Update
+    $ npm install -g wftda-bouttime
 
-To install the new version
-
-    $ npm update wftda-bouttime
-
-# Running a Server
+Once it is installed you can run it using the following command:
 
     $ bouttime-server
 
+With the BoutTime server running in the background, open a browser to
+`http://localhost:3000` to use the app.
+
+To update to a newer version, use this command:
+
+    $ npm update -g wftda-bouttime
+
+**Note:** At this present moment, the software is considered alpha so we are
+discouraging regular installations in favor of local development installs.
+Please bear with us as we bring the app up to a releaseable state.
+
 # Development
 
-Use `setup.sh` (i.e. `./setup.sh`) or follow the steps below to get your
-development environment up and running:
+Use `setup.sh` (i.e. `./setup.sh`) to install the necessary dependencies or
+follow the steps below to get your development environment up and running:
 
     $ npm install -g bower gulp
     $ npm install
@@ -43,7 +51,7 @@ listen for changes during development and navigate to `http://localhost:3000`.
 
 ## Publishing
 
-Publish package to the private repository
+Publish package to the NPM repository:
 
     $ #Bump version numbers
     $ gulp package
