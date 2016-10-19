@@ -14,7 +14,7 @@ var destFolder = './dist/scripts';
 var destFileName = 'app.js';
 
 // Styles
-gulp.task('styles', ['sass'  ]);
+gulp.task('styles', ['sass']);
 
 gulp.task('sass', function() {
   return gulp.src(['app/styles/**/*.scss', 'app/styles/**/*.css'])
@@ -23,7 +23,7 @@ gulp.task('sass', function() {
       includePaths: [
         'app/bower_components/bootstrap-sass/assets/stylesheets',
         'app/bower_components/jquery-minicolors'
-        ]
+      ]
     }))
     .pipe($.autoprefixer('last 1 version'))
     .pipe(gulp.dest('dist/styles'))
@@ -61,7 +61,7 @@ function watchBundle() {
 }
 
 gulp.task('coffee', function() {
-    gulp.src('./app/**/*.coffee')
+  gulp.src('./app/**/*.coffee')
     .pipe($.coffee({bare: true}).on('error', $.util.log))
     .pipe(gulp.dest('./dist/'));
 });
@@ -86,8 +86,8 @@ gulp.task('images', function() {
 // Fonts
 gulp.task('fonts', function() {
   return gulp.src(mainBowerFiles({
-      filter: '**/*.{eot,svg,ttf,woff,woff2}'
-    }).concat('app/fonts/**/*'))
+    filter: '**/*.{eot,svg,ttf,woff,woff2}'
+  }).concat('app/fonts/**/*'))
     .pipe(gulp.dest('dist/fonts'));
 });
 
@@ -113,16 +113,16 @@ gulp.task('bower', function() {
     'app/bower_components/**/*.map',
     'app/bower_components/**/*.css'
   ], {
-      base: 'app/bower_components'
-    })
+    base: 'app/bower_components'
+  })
     .pipe(gulp.dest('dist/bower_components/'));
 
 });
 
 gulp.task('json', function() {
   gulp.src('app/scripts/json/**/*.json', {
-      base: 'app/scripts'
-    })
+    base: 'app/scripts'
+  })
     .pipe(gulp.dest('dist/scripts/'));
 });
 
@@ -136,7 +136,7 @@ gulp.task('extras', function() {
 // Uglify
 gulp.task('uglify', ['scripts'], function() {
   gulp.src('dist/scripts/app.js')
-    .pipe($.uglify({mangle:false}))
+    .pipe($.uglify({mangle: false}))
     .pipe($.stripDebug())
     .pipe(gulp.dest('dist/scripts'));
 });
@@ -145,7 +145,7 @@ gulp.task('uglify', ['scripts'], function() {
 gulp.task('build', ['html', 'bundle', 'images', 'fonts', 'extras']);
 
 // Package
-gulp.task('package', ['clean', 'build', 'uglify'])
+gulp.task('package', ['clean', 'build', 'uglify']);
 
 // Watch
 gulp.task('watch', ['build'], function() {
@@ -161,8 +161,8 @@ gulp.task('watch', ['build'], function() {
 
   gulp.watch(['app/*.txt', 'app/*.ico'], ['extras']);
 
-  watchBundle()
+  watchBundle();
 });
 
 // Default task
-gulp.task('default', ['clean', 'build'  ]);
+gulp.task('default', ['clean', 'build']);
