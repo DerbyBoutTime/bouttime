@@ -13,8 +13,16 @@ Alternatively, you may install node on OSX via [Homebrew](http://brew.sh/)
 
 # Using the Alpha Release
 
-You can install the current alpha release via NPM (note: this software is not
-ready for production use).
+You can install the current alpha release via NPM
+
+---
+### WARNING!
+
+Installing via NPM is not currently recommended.
+We recommend [installing for local development](#development)
+
+---
+
 
     $ npm install -g wftda-bouttime
 
@@ -59,4 +67,3 @@ Publish package to the NPM repository:
     $ git tag alpha.x.y.z #where alpha.x.y.z is the major,minor,version
     $ git push origin master --tags
     $ npm publish
-
