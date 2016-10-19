@@ -1,0 +1,13 @@
+In order to be the most helpful please check that you have the following information before proceeding:
+
+- [ ] Describe the environment you are encountering the issue in
+    - Operating System
+    - Browsers Used
+    - BoutTime Version `bouttime-server --version` or `./bin/bouttime-server --version`
+    - Node Version `node --version`
+
+- [ ] Please provide detailed steps necessary to reproduce your issue
+
+- [ ] Please include any screenshots as needed
+
+And as always, **please** check to see if your issue has already been reported!
