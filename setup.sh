@@ -3,7 +3,7 @@
 set -e -o pipefail
 
 echo "installing bower and gulp globally"
-npm install bower gulp
+npm install -g bower gulp
 
 echo "installing NPM dependencies"
 npm install
