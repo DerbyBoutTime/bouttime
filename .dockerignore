@@ -1,0 +1,8 @@
+*
+!Dockerfile
+!package.json
+!bower.json
+!bin/*
+!app/*
+!gulpfile.js
+!.bowerrc
