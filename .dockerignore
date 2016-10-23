@@ -1,6 +1,7 @@
 *
 !Dockerfile
 !package.json
+!npm-shrinkwrap.json
 !bower.json
 !bin/*
 !app/*

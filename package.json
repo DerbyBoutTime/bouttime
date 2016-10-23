@@ -10,11 +10,9 @@
   },
   "scripts": {
     "build": "bower install && gulp",
-    "start-dev": "nodemon --watch dist/ --delay 5 bin/bouttime-server",
     "start": "gulp && bin/bouttime-server",
     "test": "jest",
-    "watch": "gulp watch",
-    "watch-dev": "npm-run-all --parallel watch start-dev"
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",
@@ -71,8 +69,6 @@
     "gulp-webserver": "0.9.1",
     "jest-cli": "0.4.19",
     "main-bower-files": "2.9.0",
-    "nodemon": "^1.11.0",
-    "npm-run-all": "^3.1.1",
     "react-tools": "0.13.1",
     "require-dir": "0.3.0",
     "strip-debug": "1.1.1",

@@ -1,6 +1,7 @@
 'use strict';
 var gulp = require('gulp');
 var del = require('del');
+var spawn = require('child_process').spawn;
 
 // Load plugins
 var $ = require('gulp-load-plugins')();
@@ -12,6 +13,7 @@ var mainBowerFiles = require('main-bower-files');
 var sourceFile = './app/scripts/app.cjsx';
 var destFolder = './dist/scripts';
 var destFileName = 'app.js';
+var server;
 
 // Styles
 gulp.task('styles', ['sass']);
@@ -148,20 +150,41 @@ gulp.task('build', ['html', 'bundle', 'images', 'fonts', 'extras']);
 gulp.task('package', ['clean', 'build', 'uglify']);
 
 // Watch
-gulp.task('watch', ['build'], function() {
-  gulp.watch('app/*.html', ['html']);
+gulp.task('watch', ['build', 'server'], function() {
+  gulp.watch('app/*.html', ['html', 'server']);
 
-  gulp.watch(['app/styles/**/*.scss', 'app/styles/**/*.css'], ['styles']);
+  gulp.watch(['app/styles/**/*.scss', 'app/styles/**/*.css'], ['styles', 'server']);
 
-  gulp.watch(['app/**/*.coffee'], ['coffee']);
+  gulp.watch(['app/**/*.coffee'], ['coffee', 'server']);
 
-  gulp.watch('app/images/**/*', ['images']);
+  gulp.watch('app/images/**/*', ['images', 'server']);
 
-  gulp.watch('app/fonts/**/*', ['fonts']);
+  gulp.watch('app/fonts/**/*', ['fonts', 'server']);
 
-  gulp.watch(['app/*.txt', 'app/*.ico'], ['extras']);
+  gulp.watch(['app/*.txt', 'app/*.ico'], ['extras', 'server']);
 
   watchBundle();
+});
+
+// Dev server stop and restart
+gulp.task('server', function() {
+  if (server) {
+    server.kill();
+  }
+  server = spawn('node', ['./bin/bouttime-server'], {
+    stdio: 'inherit'
+  });
+  server.on('close', function(code) {
+    if (code === 8) {
+      gulp.log('Error detected, waiting for changes...');
+    }
+  });
+});
+
+process.on('exit', function() {
+  if (server) {
+    server.kill();
+  }
 });
 
 // Default task

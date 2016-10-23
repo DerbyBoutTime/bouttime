@@ -6,5 +6,5 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./app/:/usr/src/app/app/
-    command: npm run watch-dev
+      - ./app/:/opt/wftda/bouttime/app/
+    command: npm run watch
