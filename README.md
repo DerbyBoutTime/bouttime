@@ -23,19 +23,8 @@ We recommend [installing for local development](#development)
 
 ---
 
-
-    $ npm install -g wftda-bouttime
-
-Once it is installed you can run it using the following command:
-
-    $ bouttime-server
-
 With the BoutTime server running in the background, open a browser to
 `http://localhost:3000` to use the app.
-
-To update to a newer version, use this command:
-
-    $ npm update -g wftda-bouttime
 
 **Note:** At this present moment, the software is considered alpha so we are
 discouraging regular installations in favor of local development installs.
