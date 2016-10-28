@@ -63,7 +63,7 @@ function watchBundle() {
 }
 
 gulp.task('coffee', function() {
-  gulp.src('./app/**/*.coffee')
+  return gulp.src('./app/**/*.coffee')
     .pipe($.coffee({bare: true}).on('error', $.util.log))
     .pipe(gulp.dest('./dist/'));
 });
@@ -94,9 +94,9 @@ gulp.task('fonts', function() {
 });
 
 // Clean
-gulp.task('clean', function() {
+gulp.task('clean', function(done) {
   $.cache.clearAll();
-  del.sync(['dist/*']);
+  del.sync(['dist/*'], done);
 });
 
 // Bundle
@@ -110,7 +110,7 @@ gulp.task('bundle', ['styles', 'scripts', 'bower'], function() {
 
 // Bower helper
 gulp.task('bower', function() {
-  gulp.src([
+  return gulp.src([
     'app/bower_components/**/*.js',
     'app/bower_components/**/*.map',
     'app/bower_components/**/*.css'
@@ -118,13 +118,12 @@ gulp.task('bower', function() {
     base: 'app/bower_components'
   })
     .pipe(gulp.dest('dist/bower_components/'));
-
 });
 
 gulp.task('json', function() {
-  gulp.src('app/scripts/json/**/*.json', {
-    base: 'app/scripts'
-  })
+  return gulp.src('app/scripts/json/**/*.json', {
+      base: 'app/scripts'
+    })
     .pipe(gulp.dest('dist/scripts/'));
 });
 
@@ -137,7 +136,7 @@ gulp.task('extras', function() {
 
 // Uglify
 gulp.task('uglify', ['scripts'], function() {
-  gulp.src('dist/scripts/app.js')
+  return gulp.src('dist/scripts/app.js')
     .pipe($.uglify({mangle: false}))
     .pipe($.stripDebug())
     .pipe(gulp.dest('dist/scripts'));
@@ -150,24 +149,27 @@ gulp.task('build', ['html', 'bundle', 'images', 'fonts', 'extras']);
 gulp.task('package', ['clean', 'build', 'uglify']);
 
 // Watch
-gulp.task('watch', ['build', 'server'], function() {
-  gulp.watch('app/*.html', ['html', 'server']);
+gulp.task('watch', ['build'], function() {
+  var startServer = gulp.start.bind(this, 'server');
+  startServer();
 
-  gulp.watch(['app/styles/**/*.scss', 'app/styles/**/*.css'], ['styles', 'server']);
+  gulp.watch('app/*.html', ['html'], startServer);
 
-  gulp.watch(['app/**/*.coffee'], ['coffee', 'server']);
+  gulp.watch(['app/styles/**/*.scss', 'app/styles/**/*.css'], ['styles'], startServer);
 
-  gulp.watch('app/images/**/*', ['images', 'server']);
+  gulp.watch(['app/**/*.coffee'], ['coffee'], startServer);
 
-  gulp.watch('app/fonts/**/*', ['fonts', 'server']);
+  gulp.watch('app/images/**/*', ['images'], startServer);
 
-  gulp.watch(['app/*.txt', 'app/*.ico'], ['extras', 'server']);
+  gulp.watch('app/fonts/**/*', ['fonts'], startServer);
+
+  gulp.watch(['app/*.txt', 'app/*.ico'], ['extras'], startServer);
 
   watchBundle();
 });
 
 // Dev server stop and restart
-gulp.task('server', function() {
+gulp.task('server', function(done) {
   if (server) {
     server.kill();
   }
@@ -179,6 +181,7 @@ gulp.task('server', function() {
       gulp.log('Error detected, waiting for changes...');
     }
   });
+  done();
 });
 
 process.on('exit', function() {
