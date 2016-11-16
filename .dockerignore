@@ -1,0 +1,16 @@
+*
+!Dockerfile
+!package.json
+!npm-shrinkwrap.json
+!bower.json
+!bin/*
+!app/*
+!gulpfile.js
+!.bowerrc
+!.csslintrc
+!.eslintignore
+!.eslintrc
+!.npmignore
+!README.md
+!LICENSE
+!preprocessor.js

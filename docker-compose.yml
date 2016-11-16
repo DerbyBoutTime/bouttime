@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  bouttime:
+    build: ./
+    ports:
+      - 3000:3000
+    volumes:
+      - ./app/:/opt/wftda/bouttime/app/
+    command: npm run watch

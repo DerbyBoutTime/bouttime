@@ -9,8 +9,10 @@
     "bouttime-server": "bin/bouttime-server"
   },
   "scripts": {
+    "build": "bower install && gulp",
     "start": "gulp && bin/bouttime-server",
-    "test": "jest"
+    "test": "jest",
+    "watch": "bower install && gulp watch"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
   },
   "homepage": "https://github.com/wftda/bouttime",
   "dependencies": {
+    "bluebird": "2.9.30",
     "commander": "2.9.0",
     "express": "4.13.3",
     "invariant": "2.1.2",
@@ -39,6 +42,7 @@
     "underscore": "1.8.3"
   },
   "devDependencies": {
+    "bower": "1.7.9",
     "browserify": "9.0.8",
     "browserify-shim": "3.8.11",
     "coffee-react-transform": "3.1.0",
