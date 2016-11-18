@@ -1,5 +1,5 @@
 [![CircleCI](https://circleci.com/gh/WFTDA/bouttime.svg?style=svg&circle-token=9b5d2312f6063d633b844c97c873653c13b26513)](https://circleci.com/gh/WFTDA/bouttime)
-[![Code Climate](https://codeclimate.com/repos/55a800846956803db000be62/badges/e17304ef5725e2dbdf69/gpa.svg)](https://codeclimate.com/repos/55a800846956803db000be62/feed)
+[![Code Climate](https://codeclimate.com/github/WFTDA/bouttime/badges/gpa.svg)](https://codeclimate.com/github/WFTDA/bouttime)
 
 # Prerequisites
 
