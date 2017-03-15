@@ -3,13 +3,24 @@
 
 # Prerequisites
 
-BoutTime requires version 0.10.x of [node.js](https://nodejs.org/) to run, which
+## Native
+
+BoutTime requires version 4.x of [node.js](https://nodejs.org/) to run, which
 can be installed from their website. Note this is an older version and we are
 working on bringing the application up to date.
 
 Alternatively, you may install node on OSX via [Homebrew](http://brew.sh/)
 
-    $ brew install node010
+    $ brew install node@4
+
+## Docker
+
+You may use [Docker](https://www.docker.com/) with [Docker Compose](https://docs.docker.com/compose/) to run the stack, as this will install all the correct versions into an isolated environment.
+
+    $ docker-compose up
+
+NOTE: This is progress, with the goal to be simplified commmand set to interact with the Docker stack via `make`.
+
 
 # Using the Alpha Release
 

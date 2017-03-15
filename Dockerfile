@@ -1,4 +1,4 @@
-FROM node:0.10
+FROM node:4
 
 RUN mkdir -p /opt/wftda/bouttime
 WORKDIR /opt/wftda/bouttime
