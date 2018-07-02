@@ -1,7 +1,7 @@
 FROM node:0.10
 
-RUN mkdir -p /opt/wftda/bouttime
-WORKDIR /opt/wftda/bouttime
+RUN mkdir -p /opt/bouttime
+WORKDIR /opt/bouttime
 
 RUN echo '{ "allow_root": true }' > /root/.bowerrc
 ADD package.json npm-shrinkwrap.json ./
@@ -14,7 +14,7 @@ COPY ./bin/ ./bin/
 
 RUN npm run build
 
-VOLUME /opt/wftda/bouttime/
+VOLUME /opt/bouttime/
 EXPOSE 3000
 
 CMD ["./bin/bouttime-server"]
