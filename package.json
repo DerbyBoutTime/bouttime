@@ -1,9 +1,9 @@
 {
   "name": "wftda-bouttime",
   "version": "0.0.23",
-  "author": "WFTDA",
-  "description": "WFTDA BoutTime App",
-  "license": "SEE LICENSE IN LICENSE",
+  "author": "Derby BoutTime",
+  "description": "BoutTime App",
+  "license": "Apache 2.0",
   "main": "dist/server.js",
   "bin": {
     "bouttime-server": "bin/bouttime-server"
@@ -16,12 +16,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/wftda/bouttime.git"
+    "url": "https://github.com/DerbyBoutTime/bouttime.git"
   },
   "bugs": {
-    "url": "https://github.com/wftda/bouttime/issues"
+    "url": "https://github.com/DerbyBoutTime/bouttime/issues"
   },
-  "homepage": "https://github.com/wftda/bouttime",
+  "homepage": "https://github.com/DerbyBoutTime/bouttime",
   "dependencies": {
     "bluebird": "2.9.30",
     "commander": "2.9.0",
