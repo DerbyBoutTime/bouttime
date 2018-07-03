@@ -53,7 +53,7 @@ listen for changes during development and navigate to `http://localhost:3000`.
 
 Publish package to the NPM repository:
 
-    $ #Bump version numbers
+    $ # Bump version numbers
     $ gulp package
     $ git commit -am "Version bump"
     $ git tag alpha.x.y.z #where alpha.x.y.z is the major,minor,version
