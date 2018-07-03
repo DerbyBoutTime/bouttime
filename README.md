@@ -9,7 +9,10 @@ working on bringing the application up to date.
 
 Alternatively, you may install node on OSX via [Homebrew](http://brew.sh/)
 
-    $ brew install node010
+    $ brew install nvm
+    $ export NVM_DIR="$HOME/.nvm"
+    $. "/usr/local/opt/nvm/nvm.sh"
+    $ nvm install 0.10.48
 
 # Using the Alpha Release
 
